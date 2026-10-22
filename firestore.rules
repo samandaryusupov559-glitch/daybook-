@@ -1,7 +1,7 @@
 rules_version = '2';
 
 // Daybook security rules.
-// Replace teacher@example.com with the teacher's email (the same as TEACHER_EMAIL in config.js).
+// Replace samandaryusupov559@gmail.com with the teacher's email (the same as TEACHER_EMAIL in config.js).
 // Each student can read and write only their own journal; only the teacher reads every journal
 // and only the teacher writes feedback.
 
@@ -14,7 +14,7 @@ service cloud.firestore {
     function isTeacher() {
       return signedIn()
         && request.auth.token.email_verified == true
-        && request.auth.token.email.lower() == 'teacher@example.com';
+        && request.auth.token.email.lower() == 'samandaryusupov559@gmail.com';
     }
     function isMe(uid) {
       return signedIn() && request.auth.uid == uid;
