@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daybook Writing Journal</title>
+<meta name="description" content="A private English journal. Students write about their days; the teacher marks their grammar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2316245F%22/%3E%3Cpath d=%22M16 6l6 10-6 10-6-10z%22 fill=%22none%22 stroke=%22%23F4F2EA%22 stroke-width=%222%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%221.8%22 fill=%22%23D11F3B%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Shantell+Sans:wght@400;500;600&family=Kalam:wght@400;700&display=swap">
+<style>
+/* Layout: a dotted ink-blue desk; exercise-book sheets with a red margin and punched holes; student writes in royal-blue handwriting, teacher marks in red pen and grades with a rubber stamp. */
+:root{
+  --desk:#E7ECF5; --dot:#C6CFE2; --sheet:#FFFDF7; --sheet-2:#F4F5FA; --sheet-3:#ECEFF7;
+  --ink:#121A33; --ink-2:#465071; --ink-3:#7882A2;
+  --line:#D8DEEB; --rule:#C9D7F2; --margin:#F0A2AA;
+  --pen:#D11F3B; --pen-soft:#FCE4E8; --blue:#2240BA; --blue-soft:#E2E8FB;
+  --hero:#16245F; --hero-2:#22358A; --on-hero:#F4F2EA;
+  --sticky:#FFE07A; --sticky-ink:#3B2F05; --tape:rgba(255,255,255,.55);
+  --ok:#1C8752; --ok-soft:#DCF2E6; --warn:#9E6500; --warn-soft:#FBEED2;
+  --shadow:rgba(18,26,51,.30); --focus:#2240BA;
+  --c-gr:#C8233F; --c-t:#D35400; --c-art:#A07800; --c-prep:#0E8A7E; --c-ww:#6B4BD8; --c-sp:#B5179E;
+  --c-p:#3A6EA5; --c-wo:#8C5A3C; --c-agr:#5F7F14; --c-st:#5C6B8A; --c-good:#1E9A5A;
+  --f-display:"Young Serif", "Iowan Old Style", Georgia, serif;
+  --f-ui:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-write:"Shantell Sans", "Comic Neue", "Segoe Print", system-ui, sans-serif;
+  --f-hand:"Kalam", "Segoe Print", "Bradley Hand", cursive;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#0B0E1B; --dot:#1E2440; --sheet:#151A2C; --sheet-2:#1B2136; --sheet-3:#222943;
+  --ink:#ECEEF7; --ink-2:#AAB2CE; --ink-3:#7882A4;
+  --line:#283050; --rule:#25304F; --margin:#62303B;
+  --pen:#FF6479; --pen-soft:#3B1B27; --blue:#93A6FF; --blue-soft:#212B52;
+  --hero:#1A2462; --hero-2:#26348A; --on-hero:#F4F2EA;
+  --sticky:#4A3D12; --sticky-ink:#FFE9A8; --tape:rgba(255,255,255,.12);
+  --ok:#4FD293; --ok-soft:#14321F; --warn:#F2B64B; --warn-soft:#3A2C10;
+  --shadow:rgba(0,0,0,.65); --focus:#93A6FF;
+  --c-gr:#FF6B83; --c-t:#FF9A52; --c-art:#E6C14A; --c-prep:#3FD0BF; --c-ww:#A890FF; --c-sp:#F06AD6;
+  --c-p:#7FB0EA; --c-wo:#D19E7D; --c-agr:#A8CF4E; --c-st:#A4B0CC; --c-good:#4FD293;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --desk:#0B0E1B; --dot:#1E2440; --sheet:#151A2C; --sheet-2:#1B2136; --sheet-3:#222943;
+  --ink:#ECEEF7; --ink-2:#AAB2CE; --ink-3:#7882A4;
+  --line:#283050; --rule:#25304F; --margin:#62303B;
+  --pen:#FF6479; --pen-soft:#3B1B27; --blue:#93A6FF; --blue-soft:#212B52;
+  --hero:#1A2462; --hero-2:#26348A; --on-hero:#F4F2EA;
+  --sticky:#4A3D12; --sticky-ink:#FFE9A8; --tape:rgba(255,255,255,.12);
+  --ok:#4FD293; --ok-soft:#14321F; --warn:#F2B64B; --warn-soft:#3A2C10;
+  --shadow:rgba(0,0,0,.65); --focus:#93A6FF;
+  --c-gr:#FF6B83; --c-t:#FF9A52; --c-art:#E6C14A; --c-prep:#3FD0BF; --c-ww:#A890FF; --c-sp:#F06AD6;
+  --c-p:#7FB0EA; --c-wo:#D19E7D; --c-agr:#A8CF4E; --c-st:#A4B0CC; --c-good:#4FD293;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0}
+.layout.solo{grid-template-columns:minmax(0,1fr)}
+.login-h{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,7vw,58px);line-height:.98;letter-spacing:-.03em;margin-top:10px}
+.login-h em{font-style:normal;color:var(--pen)}
+html{background:var(--desk)}
+body{background:var(--desk);background-image:radial-gradient(var(--dot) 1.1px,transparent 1.3px);background-size:22px 22px;background-attachment:fixed;color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;font-optical-sizing:auto}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--desk)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:5px}
+::selection{background:color-mix(in srgb,var(--pen) 22%,transparent)}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.muted{color:var(--ink-2)} .faint{color:var(--ink-3)} .small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+.label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-3)}
+
+/* motion */
+@keyframes rise{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes draw{from{background-size:0 2px,100% 100%}to{background-size:100% 2px,100% 100%}}
+@keyframes thump{0%{opacity:.001;transform:rotate(-14deg) scale(1.6)}60%{opacity:1;transform:rotate(-14deg) scale(.94)}100%{opacity:1;transform:rotate(-14deg) scale(1)}}
+@keyframes wiggle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(-1deg) translateY(-2px)}}
+main > *{animation:rise .5s var(--ease) both}
+main > *:nth-child(2){animation-delay:.05s} main > *:nth-child(3){animation-delay:.1s} main > *:nth-child(4){animation-delay:.15s} main > *:nth-child(5){animation-delay:.2s} main > *:nth-child(n+6){animation-delay:.25s}
+
+/* shell */
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--desk) 82%,transparent);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);border-bottom:1px solid var(--line)}
+.top-in{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand .mark{width:38px;height:38px;border-radius:11px;background:var(--hero);color:var(--on-hero);display:grid;place-items:center;transform:rotate(-6deg);box-shadow:3px 3px 0 var(--pen)}
+.brand .mark svg{width:22px;height:22px}
+.brand .logo{font-family:var(--f-display);font-size:30px;letter-spacing:-.02em;line-height:1}
+.brand .logo i{font-style:normal;color:var(--pen)}
+.brand .sub{font-family:var(--f-hand);font-size:17px;color:var(--pen);transform:rotate(-3deg) translateY(4px);display:inline-block}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-2);line-height:1.3}
+.av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;flex:none;box-shadow:0 0 0 2px var(--sheet),0 0 0 3px var(--line)}
+.demo-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 8px 6px 14px;border-radius:12px;background:var(--sticky);color:var(--sticky-ink);font-size:13px;font-weight:600;box-shadow:0 6px 16px -10px var(--shadow)}
+.seg{display:inline-flex;background:var(--sheet);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:5px 13px;border-radius:999px;font-size:13px;color:var(--ink-2);font-weight:600;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.layout{display:grid;grid-template-columns:216px minmax(0,1fr);gap:36px;margin-top:30px}
+
+/* nav: notebook index tabs */
+.nav{display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 88px);align-self:start}
+.nav button{position:relative;display:flex;align-items:center;gap:11px;border:1px solid transparent;background:none;text-align:left;padding:10px 12px 10px 14px;border-radius:10px;font-weight:600;color:var(--ink-2);font-size:15px;transition:transform .25s var(--ease),background .2s,color .2s}
+.nav button::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--tab,var(--line));transition:width .25s var(--ease)}
+.nav button:nth-of-type(1){--tab:var(--pen)} .nav button:nth-of-type(2){--tab:var(--blue)} .nav button:nth-of-type(3){--tab:var(--c-prep)} .nav button:nth-of-type(4){--tab:var(--c-art)} .nav button:nth-of-type(5){--tab:var(--c-ww)}
+.nav button:hover{background:color-mix(in srgb,var(--sheet) 70%,transparent);transform:translateX(3px)}
+.nav button[aria-current="page"]{background:var(--sheet);color:var(--ink);border-color:var(--line);box-shadow:0 8px 18px -14px var(--shadow);transform:translateX(6px)}
+.nav button[aria-current="page"]::before{width:6px}
+.nav .cnt{margin-left:auto;font-size:12px;min-width:22px;text-align:center;padding:1px 7px;border-radius:999px;background:var(--pen);color:#fff;font-variant-numeric:tabular-nums}
+.nav .cnt.dim{background:var(--sheet-3);color:var(--ink-2)}
+.nav svg{width:19px;height:19px;flex:none}
+.nav-foot{margin-top:22px;padding:14px 14px 14px 16px;border-radius:4px;background:var(--sticky);color:var(--sticky-ink);font-size:13px;line-height:1.45;transform:rotate(-1.5deg);box-shadow:0 10px 18px -12px var(--shadow);position:relative}
+.nav-foot::before{content:"";position:absolute;top:-9px;left:50%;width:70px;height:20px;margin-left:-35px;background:var(--tape);transform:rotate(3deg);border:1px solid color-mix(in srgb,var(--sticky-ink) 8%,transparent)}
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:14px}
+  .nav{position:static;flex-direction:row;overflow-x:auto;gap:6px;padding:2px 2px 6px;scrollbar-width:none}
+  .nav button{white-space:nowrap;padding:8px 13px;border:1px solid var(--line);background:var(--sheet)}
+  .nav button::before{left:10px;right:10px;top:auto;bottom:-1px;width:auto;height:3px;border-radius:3px 3px 0 0;opacity:0}
+  .nav button[aria-current="page"]{transform:none}
+  .nav button[aria-current="page"]::before{opacity:1;width:auto}
+  .nav button:hover{transform:none}
+  .nav-foot{display:none}
+}
+main{min-width:0}
+
+/* generic */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.page-head h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,4.8vw,54px);line-height:1;letter-spacing:-.025em;position:relative;display:inline-block;padding-bottom:12px}
+.page-head h1::after{content:"";position:absolute;left:0;bottom:0;width:min(150px,70%);height:12px;background:var(--pen);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 12'%3E%3Cpath d='M2 8c18-6 34-6 50-1s30 5 46-1 32-6 50 0' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 12'%3E%3Cpath d='M2 8c18-6 34-6 50-1s30 5 46-1 32-6 50 0' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%}
+.page-head p{margin-top:10px;color:var(--ink-2);font-size:16px;max-width:60ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:9px 15px;font-weight:600;font-size:14px;color:var(--ink);transition:transform .15s var(--ease),box-shadow .2s,border-color .2s}
+.btn:hover{border-color:var(--ink-3);transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--sheet);box-shadow:0 3px 0 color-mix(in srgb,var(--ink) 55%,var(--pen))}
+.btn.primary:hover{box-shadow:0 5px 0 color-mix(in srgb,var(--ink) 55%,var(--pen))}
+.btn.pen{background:var(--pen);border-color:var(--pen);color:#fff;box-shadow:0 3px 0 color-mix(in srgb,var(--pen) 60%,#000)}
+.btn.ghost{background:none;border-color:transparent;color:var(--ink-2);box-shadow:none}
+.btn.ghost:hover{background:var(--sheet)}
+.btn.sm{padding:5px 11px;font-size:13px;border-radius:8px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn svg{width:16px;height:16px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.stack{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 30px -26px var(--shadow)}
+.section{margin-top:34px}
+.section > h2{font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:-.01em;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.section > h2::after{content:"";flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 10px)}
+.empty{padding:44px 24px;text-align:center;border:2px dashed var(--line);border-radius:18px;color:var(--ink-2);background:color-mix(in srgb,var(--sheet) 55%,transparent)}
+.empty h3{font-family:var(--f-display);font-weight:400;font-size:28px;color:var(--ink);margin-bottom:8px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field > span{font-size:12.5px;font-weight:700;color:var(--ink-2);letter-spacing:.01em}
+.inp{width:100%;border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:9px 12px;font-size:14.5px;min-width:0;transition:border-color .2s,box-shadow .2s}
+.inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent)}
+textarea.inp{resize:vertical;line-height:1.5}
+
+/* status pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;letter-spacing:.01em}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-submitted{background:var(--blue-soft);color:var(--blue)}
+.st-inreview{background:var(--warn-soft);color:var(--warn)}
+.st-reviewed{background:var(--ok-soft);color:var(--ok)}
+.st-revise{background:var(--pen-soft);color:var(--pen)}
+.st-new{background:var(--pen);color:#fff}
+.st-new::before{background:#fff}
+
+/* entry cards: torn-off notebook slips */
+.list{display:flex;flex-direction:column;gap:12px}
+.ecard{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 18px 14px 16px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;text-align:left;width:100%;box-shadow:0 10px 24px -22px var(--shadow);transition:transform .25s var(--ease),box-shadow .25s,border-color .2s}
+.ecard:hover{transform:translateY(-2px) rotate(-.25deg);border-color:color-mix(in srgb,var(--blue) 35%,var(--line));box-shadow:0 18px 30px -22px var(--shadow)}
+.ecard .t{font-weight:700;font-size:16px;letter-spacing:-.005em}
+.ecard .pv{font-family:var(--f-write);color:var(--ink-2);font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+.ecard .meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-3);margin-top:5px}
+.ecard .side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.datechip{display:flex;flex-direction:column-reverse;width:54px;text-align:center;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:var(--sheet);line-height:1.1;box-shadow:0 3px 0 var(--sheet-3)}
+.datechip b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px;padding:4px 0 5px}
+.datechip span{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#fff;background:var(--pen);font-weight:700;padding:3px 0}
+@media (max-width:560px){ .ecard{grid-template-columns:minmax(0,1fr) auto} .ecard .datechip,.ecard .avwrap{display:none} }
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat{position:relative;padding:16px 18px 14px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stat::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--sc,var(--blue));opacity:.8}
+.stat:nth-child(2){--sc:var(--c-prep)} .stat:nth-child(3){--sc:var(--c-art)} .stat:nth-child(4){--sc:var(--pen)}
+.stat b{display:block;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-2);font-weight:500}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* paper */
+.paper{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:6px 16px 16px 6px;box-shadow:0 1px 0 var(--line),6px 6px 0 -1px var(--sheet-2),6px 6px 0 0 var(--line),0 30px 50px -34px var(--shadow);padding:28px 30px 34px 70px}
+.paper::before{content:"";position:absolute;left:50px;top:0;bottom:0;width:0;border-left:1.5px solid var(--margin);box-shadow:3px 0 0 -1.5px var(--margin)}
+.paper::after{content:"";position:absolute;left:15px;top:34px;bottom:34px;width:16px;background:radial-gradient(circle at 8px 8px,var(--desk) 6px,color-mix(in srgb,var(--line) 70%,transparent) 6.5px,transparent 7.5px) 0 0/16px 72px repeat-y}
+@media (max-width:560px){.paper{padding:22px 16px 26px 42px}.paper::before{left:30px}.paper::after{left:6px;width:14px;background-size:14px 72px}}
+.paper-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;padding-bottom:14px}
+.paper-title{font-family:var(--f-write);font-weight:600;font-size:clamp(24px,3vw,31px);line-height:1.2;color:var(--blue);letter-spacing:-.01em}
+.paper-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--ink-3);margin-top:6px;align-items:center}
+.ruled{--lh:2.7em;font-family:var(--f-write);font-size:1.12rem;line-height:var(--lh);color:var(--blue);white-space:pre-wrap;word-wrap:break-word;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(1.93em - 1px),var(--rule) calc(1.93em - 1px),var(--rule) 1.93em,transparent 1.93em,transparent var(--lh));background-origin:content-box;padding-top:.25em}
+.ruled.teacher{user-select:text}
+textarea.ruled{display:block;width:100%;border:0;resize:none;outline:none;background-color:transparent;background-attachment:local;min-height:calc(2.7em * 9);overflow:hidden;padding:0;caret-color:var(--pen)}
+textarea.ruled::placeholder{color:var(--ink-3)}
+.metrics{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);border-top:1px dashed var(--line);padding-top:12px;margin-top:16px}
+.metrics b{color:var(--ink);font-variant-numeric:tabular-nums;font-family:var(--f-display);font-weight:400;font-size:15px}
+
+/* rubber stamp */
+.stamp{position:absolute;right:22px;top:18px;width:104px;height:104px;border-radius:50%;border:3px double var(--pen);color:var(--pen);display:grid;place-items:center;text-align:center;transform:rotate(-14deg);animation:thump .55s var(--ease) both .2s;background:color-mix(in srgb,var(--sheet) 85%,transparent);pointer-events:none;mix-blend-mode:multiply}
+:root[data-theme="dark"] .stamp{mix-blend-mode:normal}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stamp{mix-blend-mode:normal}}
+.stamp b{display:block;font-family:var(--f-display);font-weight:400;font-size:34px;line-height:.9}
+.stamp span{display:block;font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.stamp.revise{width:auto;height:auto;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+@media (max-width:560px){.stamp{width:78px;height:78px;right:10px;top:10px}.stamp b{font-size:26px}}
+.has-stamp .paper-head{padding-right:110px}
+@media (max-width:560px){.has-stamp .paper-head{padding-right:80px}}
+
+/* marks */
+.mk{--tc:var(--c-gr);position:relative;color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;background:linear-gradient(var(--tc),var(--tc)) left bottom/100% 2px no-repeat,linear-gradient(color-mix(in srgb,var(--tc) 13%,transparent),color-mix(in srgb,var(--tc) 13%,transparent));animation:draw .6s var(--ease) both}
+.mk:hover{background:linear-gradient(var(--tc),var(--tc)) left bottom/100% 2px no-repeat,linear-gradient(color-mix(in srgb,var(--tc) 24%,transparent),color-mix(in srgb,var(--tc) 24%,transparent))}
+.mk[data-fix]:not(.t-good){text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--pen) 80%,transparent);text-decoration-thickness:1.6px}
+.mk[data-fix]::after{content:attr(data-fix);position:absolute;left:-2px;bottom:calc(100% - .3em);font-family:var(--f-hand);font-weight:700;font-size:.82em;line-height:1;color:var(--pen);white-space:nowrap;transform:rotate(-2deg);transform-origin:left bottom;pointer-events:none;text-decoration:none}
+.mk.t-good{--tc:var(--c-good)}
+.mk.t-good::after{color:var(--c-good)}
+.mk.sug{background:none;border-bottom:2px dashed var(--tc);text-decoration:none;animation:none}
+.mk.sug::after{opacity:.6}
+.mk.sel{outline:2px solid var(--tc);outline-offset:2px}
+.t-gr{--tc:var(--c-gr)}.t-t{--tc:var(--c-t)}.t-art{--tc:var(--c-art)}.t-prep{--tc:var(--c-prep)}.t-ww{--tc:var(--c-ww)}.t-sp{--tc:var(--c-sp)}.t-p{--tc:var(--c-p)}.t-wo{--tc:var(--c-wo)}.t-agr{--tc:var(--c-agr)}.t-st{--tc:var(--c-st)}.t-good{--tc:var(--c-good)}
+.fixed-ins{color:var(--ok);background:var(--ok-soft);border-radius:4px;padding:0 3px}
+.tchip{--tc:var(--c-gr);display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--tc) 40%,var(--line));background:color-mix(in srgb,var(--tc) 9%,var(--sheet));color:var(--ink);padding:3px 10px 3px 4px;border-radius:999px;font-size:12.5px;font-weight:600;transition:transform .15s}
+button.tchip:hover{transform:translateY(-1px)}
+.tchip .code{display:inline-grid;place-items:center;min-width:24px;height:20px;padding:0 5px;border-radius:999px;background:var(--tc);color:#fff;font-size:11px;font-weight:800}
+.tchip[aria-pressed="true"]{outline:2px solid var(--tc);outline-offset:1px}
+.tchip .n{font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+/* review */
+.review-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:28px;align-items:start}
+@media (max-width:1100px){.review-grid{grid-template-columns:minmax(0,1fr)}}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.hint{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+kbd{font-family:var(--f-ui);font-size:11px;font-weight:700;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--sheet);color:var(--ink-2)}
+.panel{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
+@media (max-width:1100px){.panel{position:static}}
+.pbox{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:0 12px 26px -24px var(--shadow)}
+.pbox h3{font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.ann-list{display:flex;flex-direction:column;gap:4px;max-height:320px;overflow:auto;margin:0 -6px;padding:0 6px}
+.ann{--tc:var(--c-gr);display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;padding:8px;border-radius:10px;border:1px solid transparent;text-align:left;background:none;width:100%;transition:background .15s}
+.ann:hover{background:var(--sheet-2);border-color:var(--line)}
+.ann .code{display:inline-grid;place-items:center;min-width:30px;height:21px;padding:0 4px;border-radius:6px;background:var(--tc);color:#fff;font-size:11px;font-weight:800}
+.ann .q{font-family:var(--f-write);font-size:14px}
+.ann .q s{color:var(--ink-3)}
+.ann .q em{font-style:normal;font-family:var(--f-hand);font-weight:700;color:var(--pen);font-size:15.5px}
+.ann .nt{font-size:12.5px;color:var(--ink-2)}
+.band-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 0}
+.band-row + .band-row{border-top:1px dashed var(--line)}
+.band-row .nm{font-size:14px;font-weight:700}
+.band-row .ds{font-size:11.5px;color:var(--ink-3)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--sheet)}
+.stepper button{border:0;background:var(--sheet-2);width:32px;height:32px;font-size:17px;font-weight:700;color:var(--ink-2);transition:background .15s,color .15s}
+.stepper button:hover{background:var(--pen-soft);color:var(--pen)}
+.stepper output{min-width:46px;text-align:center;font-family:var(--f-display);font-size:19px;font-variant-numeric:tabular-nums}
+.overall{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:2px solid var(--ink)}
+.overall b{display:grid;place-items:center;width:68px;height:68px;border-radius:50%;border:3px double var(--pen);font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1;color:var(--pen);transform:rotate(-10deg)}
+.hand{font-family:var(--f-hand);color:var(--pen);font-size:18px;line-height:1.45}
+textarea.hand{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--sheet);background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 25px,var(--rule) 25px,var(--rule) 26px);background-attachment:local;line-height:26px;padding:6px 12px;resize:vertical;min-height:110px}
+textarea.hand:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px color-mix(in srgb,var(--pen) 15%,transparent)}
+.bank-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.bank-chips button{border:1px solid var(--line);background:var(--sheet-2);border-radius:999px;padding:4px 11px;font-size:12px;color:var(--ink-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .15s,border-color .15s}
+.bank-chips button:hover{color:var(--pen);border-color:var(--pen)}
+.vocab{display:flex;flex-direction:column;gap:6px}
+.vocab .v{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:start;padding:8px 10px;border-radius:10px;background:var(--sheet-2);border-left:3px solid var(--c-prep)}
+.vocab .v b{font-family:var(--f-write);font-size:15.5px;font-weight:600}
+.save-state{font-size:12.5px;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.save-state::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.save-state.busy::before{background:var(--warn);box-shadow:0 0 0 3px var(--warn-soft)}
+.sug-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;border-radius:12px;background:var(--blue-soft);color:var(--blue);font-size:13.5px;font-weight:600;margin-bottom:14px}
+.sug-bar svg{width:18px;height:18px}
+
+/* popover: an index card */
+.pop{position:fixed;z-index:50;width:min(370px,calc(100vw - 24px));background:var(--sheet);border:1px solid var(--line);border-top:4px solid var(--pen);border-radius:6px 6px 14px 14px;box-shadow:0 24px 60px -16px var(--shadow);padding:14px 16px 16px;display:flex;flex-direction:column;gap:11px;animation:rise .2s var(--ease) both}
+.pop .types{display:flex;flex-wrap:wrap;gap:5px}
+.pop .types .tchip{padding:2px 8px 2px 3px;font-size:12px}
+.pop .quote{font-family:var(--f-write);font-size:15.5px;padding:7px 11px;border-left:3px solid var(--blue);background:var(--sheet-2);border-radius:0 8px 8px 0;color:var(--blue)}
+.pop .fix{font-family:var(--f-hand);font-weight:700;color:var(--pen);font-size:19px}
+.pop .inp.fix{font-size:18px}
+.pop-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--sheet);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 14px 34px -12px var(--shadow);max-width:calc(100vw - 32px);animation:rise .25s var(--ease) both}
+
+/* student home */
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:stretch}
+@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}}
+.today{position:relative;overflow:hidden;padding:26px 28px 28px;border-radius:20px;background:var(--hero);background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 33px,rgba(255,255,255,.07) 33px,rgba(255,255,255,.07) 34px),radial-gradient(120% 90% at 100% 0,var(--hero-2),transparent 60%);color:var(--on-hero);box-shadow:0 26px 50px -30px var(--shadow)}
+.today .label{color:var(--on-hero);opacity:.7}
+.today .d{font-family:var(--f-display);font-size:clamp(40px,6vw,66px);line-height:.95;letter-spacing:-.03em;margin-top:6px}
+.today p{color:color-mix(in srgb,var(--on-hero) 80%,transparent);margin-top:12px;max-width:40ch;font-size:16px}
+.today .btn{margin-top:20px;background:var(--on-hero);color:var(--hero);border-color:var(--on-hero);box-shadow:0 3px 0 var(--pen);font-weight:700}
+.today svg.nib{position:absolute;right:-18px;bottom:-26px;width:190px;height:190px;opacity:.16;color:var(--on-hero);animation:wiggle 6s ease-in-out infinite}
+.prompt-card{position:relative;padding:28px 24px 22px;border-radius:4px;background:var(--sticky);color:var(--sticky-ink);display:flex;flex-direction:column;gap:10px;transform:rotate(1.6deg);box-shadow:0 22px 30px -22px var(--shadow),inset 0 -30px 40px -40px rgba(0,0,0,.25);margin:8px 6px 0}
+.prompt-card::before{content:"";position:absolute;top:-11px;left:50%;width:96px;height:24px;margin-left:-48px;background:var(--tape);transform:rotate(-4deg);border:1px solid color-mix(in srgb,var(--sticky-ink) 8%,transparent)}
+.prompt-card .label{color:color-mix(in srgb,var(--sticky-ink) 65%,transparent)}
+.prompt-card q{font-family:var(--f-hand);font-size:23px;line-height:1.3;quotes:"“" "”";font-weight:700}
+.prompt-card p{font-family:var(--f-hand);font-size:19px}
+.prompt-card .btn{background:var(--sticky-ink);color:var(--sticky);border-color:var(--sticky-ink)}
+.moods{display:flex;gap:7px;flex-wrap:wrap}
+.mood{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--sheet);border-radius:999px;padding:6px 13px 6px 8px;font-size:13px;font-weight:600;color:var(--ink-2);transition:transform .15s,background .2s,color .2s,border-color .2s}
+.mood:hover{transform:translateY(-1px)}
+.mood svg{width:19px;height:19px}
+.mood[aria-pressed="true"]{background:var(--blue);color:var(--sheet);border-color:var(--blue)}
+.goal{height:8px;border-radius:999px;background:var(--sheet-3);overflow:hidden;flex:1;min-width:80px}
+.goal i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),color-mix(in srgb,var(--blue) 60%,var(--c-prep)));border-radius:999px;transition:width .3s var(--ease)}
+.goal.done i{background:var(--ok)}
+.write-head{display:grid;grid-template-columns:170px minmax(0,1fr);gap:14px;margin-bottom:16px}
+@media (max-width:560px){.write-head{grid-template-columns:minmax(0,1fr)}}
+.title-inp{font-family:var(--f-write);font-size:25px;font-weight:600;color:var(--blue);border:0;border-bottom:2px solid var(--line);background:none;padding:4px 0;width:100%;outline:none;transition:border-color .2s}
+.title-inp:focus{border-bottom-color:var(--blue)}
+.title-inp::placeholder{color:var(--ink-3);font-weight:500}
+.write-foot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+.fb-box{padding:17px 19px;border-radius:14px;background:var(--sheet);border:1px solid var(--line);box-shadow:0 12px 26px -24px var(--shadow)}
+.bands-mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.bands-mini div{padding:10px 6px;border-radius:10px;background:var(--sheet-2);text-align:center}
+.bands-mini b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
+.bands-mini span{font-size:11px;color:var(--ink-3);font-weight:600}
+@media (max-width:480px){.bands-mini{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* bars & charts */
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar{display:grid;grid-template-columns:128px minmax(0,1fr) 34px;gap:10px;align-items:center;font-size:13px}
+.bar .track{height:12px;border-radius:999px;background:var(--sheet-2);overflow:hidden;border:1px solid var(--line)}
+.bar .track i{display:block;height:100%;background:var(--tc);border-radius:999px;animation:grow .8s var(--ease) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:none}}
+.bar .track i{transform-origin:left}
+.bar .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2);font-weight:700}
+.chart svg{width:100%;height:auto;display:block}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:820px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.grid2 > .card{padding:18px 20px;min-width:0}
+.card h3{font-family:var(--f-display);font-weight:400;font-size:19px;margin-bottom:14px}
+.scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.scard{position:relative;padding:18px;text-align:left;background:var(--sheet);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;gap:12px;width:100%;box-shadow:0 12px 26px -24px var(--shadow);transition:transform .25s var(--ease),box-shadow .25s}
+.scard::before{content:"";position:absolute;top:-1px;right:22px;width:28px;height:14px;border-radius:0 0 6px 6px;background:var(--pen);opacity:.85}
+.scard:hover{transform:translateY(-3px);box-shadow:0 22px 34px -24px var(--shadow)}
+.scard .top-r{display:flex;align-items:center;gap:11px}
+.scard .nm{font-weight:700;font-size:16.5px}
+.scard .kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding-top:10px;border-top:1px dashed var(--line)}
+.scard .kv div{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.scard .kv b{display:block;font-family:var(--f-display);font-weight:400;font-size:23px;color:var(--ink);font-variant-numeric:tabular-nums}
+.lvl{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;border:1.5px solid var(--blue);color:var(--blue);letter-spacing:.04em}
+.mist{display:flex;flex-direction:column;gap:9px}
+.mist .m{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:12px 14px;border-radius:12px;background:var(--sheet);border:1px solid var(--line);box-shadow:0 10px 22px -22px var(--shadow)}
+.mist .m .q{font-family:var(--f-write);font-size:15.5px;color:var(--blue)}
+.mist .m .q s{color:var(--ink-3);text-decoration-color:var(--pen);text-decoration-thickness:1.6px}
+.mist .m .q em{font-style:normal;font-family:var(--f-hand);font-weight:700;color:var(--pen);font-size:18px}
+.loading{padding:70px 0;text-align:center;color:var(--ink-3);font-family:var(--f-hand);font-size:22px}
+.notice{padding:13px 16px;border-radius:12px;background:var(--pen-soft);color:var(--pen);font-size:14px;font-weight:600;margin-bottom:16px}
+.notice.info{background:var(--blue-soft);color:var(--blue)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="top-in" id="top"></div></div>
+<div class="wrap">
+  <div class="layout">
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <main id="main"><div class="loading">Opening your notebook…</div></main>
+  </div>
+</div>
+<div id="pop"></div>
+<div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
+<script type="module">
+/* ---------------- constants ---------------- */
+const TYPES = [
+  {k:'gr',  code:'Gr',   name:'Grammar'},
+  {k:'t',   code:'T',    name:'Tense'},
+  {k:'art', code:'Art',  name:'Article'},
+  {k:'prep',code:'Prep', name:'Preposition'},
+  {k:'ww',  code:'WW',   name:'Word choice'},
+  {k:'sp',  code:'Sp',   name:'Spelling'},
+  {k:'p',   code:'P',    name:'Punctuation'},
+  {k:'wo',  code:'WO',   name:'Word order'},
+  {k:'agr', code:'Agr',  name:'Agreement'},
+  {k:'st',  code:'St',   name:'Style'},
+  {k:'good',code:'★',    name:'Well done'},
+];
+const TYPE = Object.fromEntries(TYPES.map(t=>[t.k,t]));
+const CRIT = [
+  {k:'grammar',  n:'Grammar',    d:'Range and accuracy'},
+  {k:'vocab',    n:'Vocabulary', d:'Range and word choice'},
+  {k:'coherence',n:'Coherence',  d:'Linking and flow'},
+  {k:'content',  n:'Ideas',      d:'Detail and interest'},
+];
+const LEVELS = ['A1','A2','B1','B2','C1','C2'];
+const GOAL = {A1:60,A2:80,B1:120,B2:170,C1:220,C2:250};
+const MOODS = [
+  {k:'sunny', n:'Sunny',  svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>'},
+  {k:'breezy',n:'Breezy', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3M3 19h7"/></svg>'},
+  {k:'cloudy',n:'Cloudy', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 18h10.5a3.5 3.5 0 0 0 .4-7 5.5 5.5 0 0 0-10.6-1.2A4.1 4.1 0 0 0 7 18z"/></svg>'},
+  {k:'rainy', n:'Rainy',  svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10.5a3.5 3.5 0 0 0 .4-7 5.5 5.5 0 0 0-10.6-1.2A4.1 4.1 0 0 0 7 14z"/><path d="M8 17.5l-1 2.5M12.5 17.5l-1 2.5M17 17.5l-1 2.5"/></svg>'},
+  {k:'stormy',n:'Stormy', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10.5a3.5 3.5 0 0 0 .4-7 5.5 5.5 0 0 0-10.6-1.2A4.1 4.1 0 0 0 7 14z"/><path d="M12.5 15l-2 3.5h3l-2 3.5"/></svg>'},
+];
+const MOOD = Object.fromEntries(MOODS.map(m=>[m.k,m]));
+const DEFAULT_BANK = [
+  'Use the past simple for finished actions: yesterday, last week, ago.',
+  'Check subject–verb agreement: he/she/it + verb-s.',
+  'Use "a/an" before a singular countable noun mentioned for the first time.',
+  'Two full sentences need a full stop or a linking word, not just a comma.',
+  'Great use of descriptive detail!',
+  'Try a linking word here: however, because, so, although.',
+  'Read this sentence aloud. Does it sound natural?',
+];
+const PROMPT_IDEAS = [
+  'Describe a small moment from this week that made you smile.',
+  'Write about a meal you ate recently. Where were you, and who was with you?',
+  'What is something new you learned this week? How did you learn it?',
+  'Describe your route to university or work. What do you notice on the way?',
+  'Write about a problem you solved recently. What did you do first?',
+  'If you could spend tomorrow anywhere in Uzbekistan, where would you go and why?',
+];
+const I = {
+  inbox:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 13l2.5-7.5h13L21 13v5.5H3z"/><path d="M3 13h5l1.5 2.5h5L16 13h5"/></svg>',
+  people:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.8-3.3 3.2-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.6c2.3.2 3.8 1.8 4.5 4.4"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>',
+  bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5h16v10H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>',
+  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 20l1.2-4.8L15.6 4.8a2 2 0 0 1 2.8 0l.8.8a2 2 0 0 1 0 2.8L8.8 18.8z"/><path d="M13.5 7l3.5 3.5"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>',
+  nib:'<svg class="nib" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M50 8l22 36-22 48-22-48z"/><circle cx="50" cy="52" r="5"/><path d="M50 57v35"/></svg>',
+};
+
+/* ---------------- helpers ---------------- */
+const $ = (s,el=document)=>el.querySelector(s);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = o => o==null ? o : JSON.parse(JSON.stringify(o));
+const newId = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const pad = n => String(n).padStart(2,'0');
+const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+const parseDate = s => { const [y,m,d]=(s||todayStr()).split('-').map(Number); return new Date(y,m-1,d); };
+const fmtDate = (s,o={weekday:'short',day:'numeric',month:'short'}) => parseDate(s).toLocaleDateString('en-GB',o);
+const LS = {
+  get(k,d){ try{ const v=localStorage.getItem('daybook:'+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem('daybook:'+k,JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem('daybook:'+k);}catch(e){} }
+};
+function ago(ms){ if(!ms) return ''; const s=(Date.now()-ms)/1000; if(s<60) return 'just now'; if(s<3600) return Math.floor(s/60)+' min ago'; if(s<86400) return Math.floor(s/3600)+' h ago'; const d=Math.floor(s/86400); return d===1?'yesterday':d+' days ago'; }
+function hue(str){ let h=0; for(const c of String(str)) h=(h*31+c.charCodeAt(0))%360; return h; }
+function avatar(name,id){ const n=(name||'?').trim(); const ini=n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(); return `<span class="av" style="background:hsl(${hue(id||n)} 45% 42%)">${esc(ini)}</span>`; }
+const WORD_RE = /[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu;
+function metrics(text){
+  const words = (text.match(WORD_RE)||[]);
+  const sentences = text.split(/[.!?]+(?:\s|$)/).filter(s=>s.trim().match(WORD_RE)).length || (words.length?1:0);
+  const uniq = new Set(words.map(w=>w.toLowerCase())).size;
+  return { words:words.length, sentences, avg: sentences? (words.length/sentences):0, variety: words.length? Math.round(uniq/words.length*100):0 };
+}
+const wc = t => (t.match(WORD_RE)||[]).length;
+function overallBand(b){ const v=CRIT.map(c=>b?.[c.k]).filter(x=>typeof x==='number'); if(v.length<CRIT.length) return null; return Math.round(v.reduce((a,c)=>a+c,0)/v.length*2)/2; }
+const fmtBand = v => v==null ? '–' : (Number.isInteger(v)? v.toFixed(1) : String(v));
+function countErrors(anns){ const c={}; for(const a of anns||[]) c[a.type]=(c[a.type]||0)+1; return c; }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,3200); }
+function dbErr(e, what){
+  const c = e && e.code;
+  if(c==='permission-denied') return toast(`Couldn't ${what}: you don't have permission. Sign out and sign in again.`);
+  if(c==='invalid_argument') return toast(`Couldn't ${what}: this account can't save here. Ask your teacher for Contributor access.`);
+  if(c==='quota_exceeded') return toast(`Couldn't ${what}: the journal's storage is full.`);
+  if(c==='resource_exhausted') return toast(`Couldn't ${what}: too many saves at once. Try again in a moment.`);
+  toast(`Couldn't ${what}. Check your connection and try again.`);
+}
+
+/* ---------------- in-memory store for the example class ---------------- */
+class MemDB{
+  constructor(){ this.m=new Map(); this.L=new Set(); }
+  doc(p){ return new MemDoc(this,p); }
+  collection(p){ return new MemCol(this,p); }
+  snap(p){ const v=this.m.get(p); return {id:p.split('/').pop(), exists:v!==undefined, data:()=>clone(v), metadata:{}}; }
+  colSnap(p){ const docs=[]; for(const k of this.m.keys()){ if(k.slice(0,k.lastIndexOf('/'))===p) docs.push(this.snap(k)); } return {docs,size:docs.length,empty:!docs.length,docChanges:()=>[],metadata:{}}; }
+  notify(p){ const parent=p.slice(0,p.lastIndexOf('/')); for(const l of this.L){ if(l.doc && l.p===p) l.next(this.snap(p)); if(!l.doc && l.p===parent) l.next(this.colSnap(parent)); } }
+  listen(l){ this.L.add(l); setTimeout(()=>{ if(this.L.has(l)) l.next(l.doc?this.snap(l.p):this.colSnap(l.p)); },0); return ()=>this.L.delete(l); }
+}
+function deepMerge(a,b){ const o=clone(a)||{}; for(const [k,v] of Object.entries(b)){ o[k] = (v && typeof v==='object' && !Array.isArray(v) && o[k] && typeof o[k]==='object' && !Array.isArray(o[k])) ? deepMerge(o[k],v) : clone(v); } return o; }
+class MemDoc{
+  constructor(db,p){ this.db=db; this.path=p; this.id=p.split('/').pop(); }
+  async get(){ return this.db.snap(this.path); }
+  async set(d){ this.db.m.set(this.path,clone(d)); this.db.notify(this.path); }
+  async update(d){ if(!this.db.m.has(this.path)) throw {code:'invalid_argument'}; this.db.m.set(this.path,deepMerge(this.db.m.get(this.path),d)); this.db.notify(this.path); }
+  async delete(){ this.db.m.delete(this.path); this.db.notify(this.path); }
+  onSnapshot(next){ return this.db.listen({doc:true,p:this.path,next}); }
+  collection(s){ return new MemCol(this.db,this.path+'/'+s); }
+}
+class MemCol{
+  constructor(db,p){ this.db=db; this.path=p; }
+  doc(id){ return new MemDoc(this.db,this.path+'/'+(id||newId())); }
+  async get(){ return this.db.colSnap(this.path); }
+  onSnapshot(next){ return this.db.listen({doc:false,p:this.path,next}); }
+}
+
+/* ---------------- example class ---------------- */
+function mkAnn(body, quote, type, correction, note){
+  const start = body.indexOf(quote); return {id:newId(), start, end:start+quote.length, quote, type, correction:correction||'', note:note||''};
+}
+function seedDemo(db){
+  const day = n => { const d=new Date(); d.setDate(d.getDate()-n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+  const ts = n => Date.now()-n*86400000;
+  const students = [
+    {id:'ex-aziza', name:'Aziza (example)', level:'B1'},
+    {id:'ex-timur', name:'Timur (example)', level:'A2'},
+    {id:'ex-madina',name:'Madina (example)',level:'B2'},
+  ];
+  const E = {
+    'ex-aziza':[
+      {id:'a1', date:day(9), mood:'cloudy', title:'My first week of exams',
+       body:'This week was very hard for me. I have three exams and I was sleep only five hours every night. My friend help me with statistics and we studied in library together. On friday I finished all exams and I felt like a bird.'},
+      {id:'a2', date:day(3), mood:'sunny', title:'A day at Chorsu bazaar',
+       body:'Yesterday I go to the Chorsu bazaar with my mother. It was very crowded because of many people was buying fruits for the holiday. I bought a melon and some grapes, they was very sweet. After that we drunk tea in a small chaikhana near the dome. I enjoyed this day very much, because I spend time with my family.'},
+      {id:'a3', date:day(0), mood:'breezy', title:'Learning to cook plov',
+       body:'Today my grandmother taught me how to cook plov. First we cut the carrots in a long thin pieces. She told that the secret is the zira and patience. I was very nervous but the plov was delicious and everybody asked second plate.'},
+    ],
+    'ex-timur':[
+      {id:'t1', date:day(1), mood:'rainy', title:'Rainy exam day',
+       body:'Today was rainy day. I woke up in 7 o\'clock and I was very tired. In the university we had a exam of mathematics. I think I make many mistakes but my friend said me it is normal. In the evening I watched a football match, Pakhtakor win 2-1!'},
+    ],
+    'ex-madina':[
+      {id:'m1', date:day(2), mood:'sunny', title:'The Savitsky Museum at last',
+       body:'This weekend I finally visited the Savitsky Museum in Nukus, which I have wanted to see for years. The collection is consisted of thousands of paintings that were forbidden in the Soviet time. I was impressed by how much the artists risked to keep painting. The train journey was long, but it worth every hour.'},
+    ],
+  };
+  for(const s of students){
+    const index = {};
+    for(const e of E[s.id]){
+      const m = wc(e.body);
+      const at = ts(Math.max(0,(Date.now()-parseDate(e.date).getTime())/86400000));
+      db.m.set(`journals/${s.id}/entries/${e.id}`, {title:e.title, body:e.body, mood:e.mood, date:e.date, words:m, createdAt:at, updatedAt:at});
+      index[e.id] = {title:e.title, date:e.date, words:m, mood:e.mood, preview:e.body.slice(0,150), submittedAt:at};
+    }
+    db.m.set(`journals/${s.id}`, {name:s.name, level:s.level, joinedAt:ts(20), updatedAt:Date.now(), index});
+  }
+  // reviews for Aziza
+  const b1 = E['ex-aziza'][0].body, b2 = E['ex-aziza'][1].body;
+  const r1 = {annotations:[
+      mkAnn(b1,'have','t','had','The week is finished, so use the past.'),
+      mkAnn(b1,'was sleep','gr','slept','"Was" + base verb is not a tense. Use past simple.'),
+      mkAnn(b1,'help','t','helped',''),
+      mkAnn(b1,'in library','art','in the library','We use "the" for a specific, known place.'),
+      mkAnn(b1,'friday','sp','Friday','Days of the week always start with a capital letter.'),
+      mkAnn(b1,'I felt like a bird','good','','Lovely image!'),
+    ], comment:'A clear and honest entry, Aziza. Watch your past tenses: the whole story happened last week.', bands:{grammar:5,vocab:5.5,coherence:6,content:6}, vocab:[{w:'exhausted',m:'very, very tired',ex:'After three exams I was exhausted.'}], status:'reviewed'};
+  const r2 = {annotations:[
+      mkAnn(b2,'go','t','went','"Yesterday" means the past simple.'),
+      mkAnn(b2,'because of many people was','gr','because many people were','"Because of" + noun; "because" + clause.'),
+      mkAnn(b2,'they was','agr','and they were','Plural subject → "were". Also join the two sentences properly.'),
+      mkAnn(b2,'drunk','t','drank','drink – drank – drunk'),
+      mkAnn(b2,'small chaikhana near the dome','good','','Great local detail!'),
+      mkAnn(b2,'spend','t','spent',''),
+    ], comment:'Much more detail this time and a lovely atmosphere. Your tenses are the main thing to fix: read your text once only to check the verbs.', bands:{grammar:5.5,vocab:6,coherence:6,content:7}, vocab:[{w:'bustling',m:'busy and full of people',ex:'Chorsu bazaar is always bustling before a holiday.'}], status:'reviewed'};
+  [['a1',r1,8],['a2',r2,2]].forEach(([eid,r,n])=>{ r.reviewedAt=ts(n); r.updatedAt=ts(n); r.errorCounts=countErrors(r.annotations); db.m.set(`feedback/ex-aziza/reviews/${eid}`, r); });
+  const sum = rv => ({status:rv.status, overall:overallBand(rv.bands), bands:rv.bands, errorCounts:rv.errorCounts, reviewedAt:rv.reviewedAt, updatedAt:rv.updatedAt});
+  db.m.set('feedback/ex-aziza', {reviews:{a1:sum(r1), a2:sum(r2)}, vocab:[...r1.vocab.map(v=>({...v,eid:'a1'})), ...r2.vocab.map(v=>({...v,eid:'a2'}))]});
+  db.m.set('settings/prompt', {text:'Describe a small moment from this week that made you smile.', setAt:ts(3)});
+}
+
+/* ---------------- state ---------------- */
+const S = {
+  mode:'teacher', demo:false, realOwner:false, db:null, realDb:null, uid:null, me:null, sample:null, canWrite:null,
+  unsubs:[], profiles:{}, feedback:{}, prompt:null, prefs:null, loaded:{},
+  view:{name:'inbox'}, review:null, pop:null,
+  myProfile:undefined, myEntries:{}, myFeedback:null, myReviews:{}, edit:null,
+};
+const EDIT_VIEWS = new Set(['review','write','prompt','bank','setup','login']);
+function teardown(){ S.unsubs.forEach(u=>{try{u()}catch(e){}}); S.unsubs=[]; closePop(); }
+function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name)) renderMain(); }
+function go(name, extra={}){ closePop(); S.view={name,...extra}; renderNav(); renderMain(); window.scrollTo({top:0}); }
+
+/* ---------------- boot ---------------- */
+/* ---------------- Firebase adapter (same API as the in-memory store) ---------------- */
+const FB_VER = '10.12.2';
+function wrapSnap(x){ return {id:x.id, exists:x.exists(), data:()=>x.data(), metadata:x.metadata}; }
+class FireDB{ constructor(fs,api){ this.fs=fs; this.api=api; } doc(p){ return new FireDoc(this,p); } collection(p){ return new FireCol(this,p); } }
+class FireDoc{
+  constructor(db,p){ this.db=db; this.path=p; this.id=p.split('/').pop(); this.ref=db.api.doc(db.fs,p); }
+  async get(){ return wrapSnap(await this.db.api.getDoc(this.ref)); }
+  set(d){ return this.db.api.setDoc(this.ref,d); }
+  update(d){ return this.db.api.updateDoc(this.ref,d); }
+  delete(){ return this.db.api.deleteDoc(this.ref); }
+  onSnapshot(next,err){ return this.db.api.onSnapshot(this.ref, x=>next(wrapSnap(x)), err); }
+  collection(sub){ return new FireCol(this.db,this.path+'/'+sub); }
+}
+class FireCol{
+  constructor(db,p){ this.db=db; this.path=p; this.ref=db.api.collection(db.fs,p); }
+  doc(id){ return new FireDoc(this.db,this.path+'/'+(id||newId())); }
+  async get(){ const q=await this.db.api.getDocs(this.ref); return {docs:q.docs.map(wrapSnap)}; }
+  onSnapshot(next,err){ return this.db.api.onSnapshot(this.ref, q=>next({docs:q.docs.map(wrapSnap)}), err); }
+}
+
+/* ---------------- boot + sign-in ---------------- */
+async function boot(){
+  let cfg=null;
+  try{ cfg = await import('./config.js'); }catch(e){}
+  const fc = cfg && cfg.firebaseConfig;
+  if(!fc || !fc.apiKey || /PASTE/i.test(fc.apiKey) || !cfg.TEACHER_EMAIL || /PASTE/i.test(cfg.TEACHER_EMAIL)){ S.setupMissing=true; startDemo('teacher'); return; }
+  let fa,au,fs;
+  try{ [fa,au,fs] = await Promise.all([
+    import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`),
+    import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-auth.js`),
+    import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore.js`)]); }
+  catch(e){ toast('Could not load Firebase. Check your internet connection and reload.'); S.setupMissing=true; startDemo('teacher'); return; }
+  const app = fa.initializeApp(fc);
+  S.auth = au.getAuth(app); S.au = au;
+  S.realDb = new FireDB(fs.initializeFirestore(app,{ignoreUndefinedProperties:true}), fs);
+  S.teacherEmail = String(cfg.TEACHER_EMAIL).trim().toLowerCase();
+  if(au.isSignInWithEmailLink(S.auth, location.href)){
+    const email = LS.get('signin-email', null);
+    if(email) await completeSignIn(email); else S.pendingLink = true;
+  }
+  au.onAuthStateChanged(S.auth, user => { if(user) startSignedIn(user); else showLogin(); });
+}
+function authMsg(e){
+  const c = (e && e.code) || '';
+  if(c.includes('invalid-email')) return "That email address doesn't look right.";
+  if(c.includes('unauthorized-continue-uri') || c.includes('unauthorized-domain')) return "This website address isn't allowed in Firebase yet. Add it under Authentication → Settings → Authorized domains.";
+  if(c.includes('operation-not-allowed')) return 'Email-link sign-in is switched off in Firebase. Turn it on under Authentication → Sign-in method.';
+  if(c.includes('invalid-action-code') || c.includes('expired')) return 'This sign-in link has expired or was already used. Ask for a new one.';
+  if(c.includes('quota-exceeded')) return 'Too many sign-in emails were sent today. Try again tomorrow.';
+  if(c.includes('network')) return 'No internet connection. Try again.';
+  if(c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found') || c.includes('invalid-login')) return 'Wrong email or password. New here? Create an account first.';
+  if(c.includes('email-already-in-use')) return 'An account with this email already exists. Sign in instead.';
+  if(c.includes('weak-password')) return 'Choose a longer password (at least 6 characters).';
+  if(c.includes('too-many-requests')) return 'Too many attempts. Wait a few minutes and try again.';
+  return "Couldn't sign in. Try again.";
+}
+async function completeSignIn(email){
+  try{
+    await S.au.signInWithEmailLink(S.auth, email, location.href);
+    LS.del('signin-email'); S.pendingLink=false;
+    history.replaceState(null, '', location.pathname);
+  }catch(e){ toast(authMsg(e)); S.pendingLink=false; history.replaceState(null,'',location.pathname); showLogin(); }
+}
+function showLogin(){
+  teardown(); S.demo=false; S.user=null; S.realOwner=false; S.mode='student';
+  S.view={name:'login', step: S.pendingLink ? 'confirm' : 'signin', email: LS.get('signin-email','')||LS.get('last-email','')||''};
+  renderTop(); renderNav(); renderMain();
+}
+function startSignedIn(user){
+  teardown(); S.demo=false; S.user=user; S.db=S.realDb; S.uid=user.uid; S.realUid=user.uid;
+  S.me = {name: user.displayName || '', email: user.email || ''};
+  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.seenWaiting=null;
+  const teacherEmail = !!user.email && user.email.toLowerCase()===S.teacherEmail;
+  S.realOwner = teacherEmail && user.emailVerified;
+  if(teacherEmail && !user.emailVerified) setTimeout(()=>toast('To open the teacher desk, sign out and use “Teacher sign-in”.'),400);
+  S.realOwner ? startTeacher() : startStudent();
+}
+function startDemo(role){
+  teardown(); S.demo=true; S.db=new MemDB(); seedDemo(S.db);
+  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.loaded={}; S.seenWaiting=null;
+  if(role==='teacher'){ S.uid='ex-teacher'; startTeacher(); }
+  else { S.uid='ex-aziza'; S.canWrite=true; startStudent(); }
+}
+function leaveDemo(){
+  teardown(); S.demo=false;
+  if(S.user) startSignedIn(S.user); else if(S.realDb) showLogin(); else startDemo('teacher');
+}
+function checkNewEntries(){
+  if(!(S.loaded.p && S.loaded.f)) return;
+  const now = new Set(allEntries().filter(e=>e.status==='submitted').map(e=>e.sid+'/'+e.eid));
+  if(S.seenWaiting && !S.demo){
+    const fresh=[...now].filter(k=>!S.seenWaiting.has(k));
+    if(fresh.length){ const [sid]=fresh[0].split('/'); const nm=S.profiles[sid]?.name||'a student';
+      toast(fresh.length===1 ? `New entry from ${nm}` : `${fresh.length} new entries arrived`); }
+  }
+  S.seenWaiting = now;
+}
+function startTeacher(){
+  S.mode='teacher'; S.view={name:'inbox'}; S.loaded={};
+  const onErr = e => { if(e && e.code!=='revoked') toast('Live updates paused. Reload the page to reconnect.'); };
+  S.unsubs.push(S.db.collection('journals').onSnapshot(s=>{ const p={}; s.docs.forEach(d=>{ if(d.exists) p[d.id]=d.data(); }); S.profiles=p; S.loaded.p=true; checkNewEntries(); refresh(); }, onErr));
+  S.unsubs.push(S.db.collection('feedback').onSnapshot(s=>{ const f={}; s.docs.forEach(d=>{ if(d.exists) f[d.id]=d.data(); }); S.feedback=f; S.loaded.f=true; checkNewEntries(); refresh(); }, onErr));
+  S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refresh(); }, onErr));
+  S.db.doc('teacher/prefs').get().then(s=>{ S.prefs = s.exists? s.data(): {bank:DEFAULT_BANK.slice()}; }).catch(()=>{ S.prefs={bank:DEFAULT_BANK.slice()}; });
+  refresh(); renderMain();
+}
+function startStudent(){
+  S.mode='student'; S.view={name:'home'}; S.loaded={};
+  const u=S.uid, onErr = e => { if(e && e.code!=='revoked') toast('Live updates paused. Reload the page to reconnect.'); };
+  S.unsubs.push(S.db.doc(`journals/${u}`).onSnapshot(s=>{ S.myProfile = s.exists? s.data(): null; if(S.myProfile===null && S.view.name!=='setup') S.view={name:'setup'}; else if(S.myProfile && S.view.name==='setup') S.view={name:'home'}; refreshStudent(); }, onErr));
+  S.unsubs.push(S.db.collection(`journals/${u}/entries`).onSnapshot(s=>{ const e={}; s.docs.forEach(d=>{ if(d.exists) e[d.id]=d.data(); }); S.myEntries=e; refreshStudent(); }, onErr));
+  S.unsubs.push(S.db.doc(`feedback/${u}`).onSnapshot(s=>{ S.myFeedback = s.exists? s.data(): null; refreshStudent(); }, onErr));
+  S.unsubs.push(S.db.collection(`feedback/${u}/reviews`).onSnapshot(s=>{ const r={}; s.docs.forEach(d=>{ if(d.exists) r[d.id]=d.data(); }); S.myReviews=r; refreshStudent(); }, onErr));
+  S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refreshStudent(); }, onErr));
+  refresh(); renderMain();
+}
+function refreshStudent(){
+  renderTop(); renderNav();
+  if(S.view.name==='setup' && S.myProfile===null && $('#setup-name')) return;
+  if(!EDIT_VIEWS.has(S.view.name) || (S.view.name==='setup')) renderMain();
+}
+
+/* ---------------- top + nav ---------------- */
+function renderTop(){
+  let right='';
+  if(S.demo){
+    let back='';
+    if(S.user) back=`<button class="btn sm" data-act="leave-demo">${S.realOwner?'Back to my class':'Back to my journal'}</button>`;
+    else if(S.realDb) back='<button class="btn sm" data-act="leave-demo">Sign in</button>';
+    right = `<div class="demo-bar">${S.setupMissing?'Firebase is not connected yet, so you are seeing an example class.':'Example class: nothing you do here is saved.'}
+      <div class="seg" role="group" aria-label="View as">
+        <button data-act="demo-role" data-role="teacher" aria-pressed="${S.mode==='teacher'}">Teacher</button>
+        <button data-act="demo-role" data-role="student" aria-pressed="${S.mode==='student'}">Student</button>
+      </div>${back}</div>`;
+  } else if(S.user){
+    const nm = S.mode==='student' ? (S.myProfile?.name || S.me?.email || 'Student') : (S.me?.name || 'Teacher');
+    right = `<div class="who">${avatar(nm,S.uid)}<span><b style="color:var(--ink)">${esc(nm)}</b><br><span class="faint small">${S.mode==='teacher'?'Teacher · sees every journal':'Only you and your teacher can read this'}</span></span></div><button class="btn sm ghost" data-act="sign-out">Sign out</button>`;
+  }
+  $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Day<i>book</i></span><span class="sub">${S.view.name==='login'?'english journal':S.mode==='teacher'?'marking desk':'my English journal'}</span></div>${right}`;
+}
+function navBtn(name,label,icon,count,dim){ const cur = S.view.name===name || (name==='students' && S.view.name==='student') || (name==='inbox' && S.view.name==='review') || (name==='home' && S.view.name==='entry');
+  return `<button data-act="go" data-v="${name}" ${cur?'aria-current="page"':''}>${I[icon]}<span>${label}</span>${count?`<span class="cnt ${dim?'dim':''}">${count}</span>`:''}</button>`; }
+function renderNav(){
+  const n=$('#nav');
+  const solo = S.view.name==='login'; n.hidden=solo; $('.layout').classList.toggle('solo',solo);
+  if(solo){ n.innerHTML=''; document.title='Daybook'; return; }
+  if(S.mode==='teacher'){
+    const waiting = allEntries().filter(e=>e.status==='submitted').length;
+    document.title = (waiting?`(${waiting}) `:'')+'Daybook · Marking desk';
+    n.innerHTML = navBtn('inbox','Inbox','inbox',waiting) + navBtn('students','Students','people',Object.keys(S.profiles).length,true) + navBtn('insights','Class insights','chart') + navBtn('prompt','Writing prompt','bulb') + navBtn('bank','Comment bank','bank') +
+      `<div class="nav-foot">Each student sees only their own journal. Your marks stay hidden until you press <b>Return</b>.</div>`;
+  } else {
+    const unseen = studentEntries().filter(e=>e.isNew).length;
+    document.title = (unseen?`(${unseen}) `:'')+'Daybook · My journal';
+    n.innerHTML = navBtn('home','My journal','home',unseen) + navBtn('write','Write','pen') + navBtn('mistakes','My mistakes','flag') + navBtn('words','Words to learn','book',(S.myFeedback?.vocab||[]).length,true);
+  }
+}
+
+/* ---------------- teacher data ---------------- */
+function allEntries(){
+  const out=[];
+  for(const [sid,p] of Object.entries(S.profiles)) for(const [eid,ix] of Object.entries(p.index||{})){
+    const rv = S.feedback[sid]?.reviews?.[eid];
+    out.push({sid,eid,...ix,name:p.name,level:p.level,status:rv?.status||'submitted',rv});
+  }
+  return out;
+}
+const TLABEL = {submitted:'New', inreview:'In progress', reviewed:'Returned', revise:'Revision asked'};
+const SLABEL = {submitted:'Sent', inreview:'Being checked', reviewed:'Checked', revise:'Please revise'};
+const pill = (st, map) => `<span class="pill st-${st}">${map[st]}</span>`;
+
+/* ---------------- main router ---------------- */
+function renderMain(){
+  const m=$('#main'); const v=S.view.name;
+  if(v==='login'){ m.innerHTML=vLogin(); setTimeout(()=>$('#login-email')?.focus(),50); return; }
+  if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML='<div class="loading">Gathering notebooks…</div>'; return; }
+  if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML='<div class="loading">Opening your notebook…</div>'; return; }
+  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview,
+              home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup}[v];
+  m.innerHTML = fn ? fn() : '';
+  after[v] && after[v]();
+}
+const after = {};
+
+/* ---------------- teacher: inbox ---------------- */
+function entryCard(e, teacher=true){
+  const d=parseDate(e.date);
+  const status = teacher ? pill(e.status,TLABEL) : (e.isNew? '<span class="pill st-new">New feedback</span>' : pill(e.status,SLABEL));
+  const band = e.rv?.overall ?? e.overall;
+  return `<button class="ecard" data-act="${teacher?'open-review':'open-entry'}" data-sid="${esc(e.sid||'')}" data-eid="${esc(e.eid)}">
+    ${teacher? `<span class="avwrap">${avatar(e.name,e.sid)}</span>` : `<span class="datechip"><b>${d.getDate()}</b><span>${d.toLocaleDateString('en-GB',{month:'short'})}</span></span>`}
+    <span style="min-width:0">
+      <span class="t">${teacher? esc(e.name)+' · ':''}${esc(e.title||'Untitled')}</span>
+      <span class="pv" style="display:block">${esc(e.preview||'')}</span>
+      <span class="meta"><span>${fmtDate(e.date)}</span><span class="num">${e.words||0} words</span>${e.mood&&MOOD[e.mood]?`<span>${MOOD[e.mood].n}</span>`:''}${teacher&&e.status==='submitted'?`<span>sent ${ago(e.submittedAt)}</span>`:''}${e.revisionOf?'<span>revision</span>':''}</span>
+    </span>
+    <span class="side">${status}${band!=null && (e.status==='reviewed'||e.status==='revise')?`<span class="small num faint">Band <b style="color:var(--ink)">${fmtBand(band)}</b></span>`:''}</span>
+  </button>`;
+}
+function vInbox(){
+  const all = allEntries();
+  const waiting = all.filter(e=>e.status==='submitted').sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0));
+  const prog = all.filter(e=>e.status==='inreview').sort((a,b)=>(b.rv?.updatedAt||0)-(a.rv?.updatedAt||0));
+  const done = all.filter(e=>e.status==='reviewed'||e.status==='revise').sort((a,b)=>(b.rv?.reviewedAt||0)-(a.rv?.reviewedAt||0)).slice(0,8);
+  if(!all.length) return `<div class="page-head"><div><h1>Inbox</h1><p>New journal entries land here, oldest first.</p></div></div>
+    <div class="empty"><h3>No entries yet</h3><p>Share this page with your students and give them <b>Contributor</b> access so they can write.<br>Each student sees only their own journal; you see everyone's.</p>
+    ${S.demo?'':'<p style="margin-top:16px"><button class="btn primary" data-act="demo">Explore with an example class</button></p>'}</div>`;
+  return `<div class="page-head"><div><h1>Inbox</h1><p>${waiting.length? `${waiting.length} ${waiting.length===1?'entry is':'entries are'} waiting to be marked.`:'All caught up. Nice work.'}</p></div>
+    ${waiting.length?`<button class="btn pen" data-act="open-review" data-sid="${esc(waiting[0].sid)}" data-eid="${esc(waiting[0].eid)}">${I.pen} Start marking</button>`:''}</div>
+    ${waiting.length?`<div class="list">${waiting.map(e=>entryCard(e)).join('')}</div>`:''}
+    ${prog.length?`<div class="section"><h2>In progress</h2><div class="list">${prog.map(e=>entryCard(e)).join('')}</div></div>`:''}
+    ${done.length?`<div class="section"><h2>Recently returned</h2><div class="list">${done.map(e=>entryCard(e)).join('')}</div></div>`:''}`;
+}
+
+/* ---------------- teacher: students ---------------- */
+function studentStats(sid){
+  const p=S.profiles[sid]||{}, fb=S.feedback[sid]||{};
+  const idx = Object.entries(p.index||{});
+  const reviews = Object.entries(fb.reviews||{}).filter(([,r])=>r.status==='reviewed'||r.status==='revise');
+  const pts = reviews.map(([eid,r])=>({eid, v:r.overall, date:p.index?.[eid]?.date || '', at:r.reviewedAt})).filter(x=>x.v!=null).sort((a,b)=>(a.date>b.date?1:-1));
+  const errs={}; reviews.forEach(([,r])=>{ for(const [k,n] of Object.entries(r.errorCounts||{})) if(k!=='good') errs[k]=(errs[k]||0)+n; });
+  const words = idx.reduce((a,[,e])=>a+(e.words||0),0);
+  const waiting = idx.filter(([eid])=>!fb.reviews?.[eid] || fb.reviews[eid].status==='submitted').length;
+  const last = idx.map(([,e])=>e.date).sort().pop();
+  return {entries:idx.length, words, pts, errs, waiting, last, latest: pts.length? pts[pts.length-1].v : null};
+}
+function topErr(errs){ const e=Object.entries(errs).sort((a,b)=>b[1]-a[1])[0]; return e? TYPE[e[0]] : null; }
+function vStudents(){
+  const ids = Object.keys(S.profiles).sort((a,b)=>(S.profiles[a].name||'').localeCompare(S.profiles[b].name||''));
+  if(!ids.length) return `<div class="page-head"><div><h1>Students</h1></div></div><div class="empty"><h3>No students yet</h3><p>When a student opens this page for the first time, they type their name and their notebook appears here.</p></div>`;
+  return `<div class="page-head"><div><h1>Students</h1><p>${ids.length} ${ids.length===1?'notebook':'notebooks'} · tap one to see progress and recurring mistakes.</p></div>
+    <input class="inp" id="stu-q" placeholder="Search by name" style="max-width:240px" value="${esc(S.view.q||'')}" aria-label="Search students"></div>
+    <div class="scards" id="scards">${ids.map(sid=>{ const p=S.profiles[sid], st=studentStats(sid), te=topErr(st.errs);
+      return `<button class="scard" data-act="open-student" data-sid="${esc(sid)}" data-name="${esc((p.name||'').toLowerCase())}">
+        <span class="top-r">${avatar(p.name,sid)}<span style="min-width:0"><span class="nm">${esc(p.name||'Unnamed')}</span><br><span class="small faint">${st.last?'last wrote '+fmtDate(st.last):'no entries yet'}</span></span><span class="lvl" style="margin-left:auto">${esc(p.level||'–')}</span></span>
+        <span class="kv"><div><b>${st.entries}</b>entries</div><div><b>${fmtBand(st.latest)}</b>latest band</div><div><b style="${st.waiting?'color:var(--pen)':''}">${st.waiting}</b>to mark</div></span>
+        ${te?`<span class="small muted">Most frequent: <span class="tchip t-${te.k}" style="padding:1px 8px 1px 3px"><span class="code">${te.code}</span>${te.name}</span></span>`:'<span class="small faint">No marked entries yet</span>'}
+      </button>`; }).join('')}</div>`;
+}
+after.students = () => { const q=$('#stu-q'); if(!q) return; const f=()=>{ const v=q.value.toLowerCase().trim(); S.view.q=q.value; document.querySelectorAll('#scards .scard').forEach(c=>c.hidden = v && !c.dataset.name.includes(v)); }; q.addEventListener('input',f); f(); };
+
+function errorBars(errs){
+  const list = TYPES.filter(t=>t.k!=='good' && errs[t.k]).map(t=>({t,n:errs[t.k]})).sort((a,b)=>b.n-a.n);
+  if(!list.length) return '<p class="small faint">Error patterns appear once entries are marked.</p>';
+  const max = list[0].n;
+  return `<div class="bars">${list.map(({t,n})=>`<div class="bar t-${t.k}"><span class="tchip t-${t.k}" style="padding:1px 8px 1px 3px;justify-self:start"><span class="code">${t.code}</span>${t.name}</span><span class="track"><i style="width:${Math.max(4,n/max*100)}%"></i></span><span class="n">${n}</span></div>`).join('')}</div>`;
+}
+function bandChart(pts){
+  if(pts.length<2) return `<p class="small faint">The band trend appears after two marked entries${pts.length?` (current: ${fmtBand(pts[0].v)})`:''}.</p>`;
+  const W=420,H=150,pl=28,pr=14,pt=14,pb=26, lo=0, hi=9;
+  const x=i=>pl+(W-pl-pr)*(pts.length===1?0.5:i/(pts.length-1)), y=v=>pt+(H-pt-pb)*(1-(v-lo)/(hi-lo));
+  const line = pts.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('');
+  const area = line+`L${x(pts.length-1).toFixed(1)},${y(lo)}L${x(0).toFixed(1)},${y(lo)}Z`;
+  const ticks=[0,3,6,9].map(v=>`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${pl-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="Figtree,sans-serif">${v}</text>`).join('');
+  const labs = pts.map((p,i)=> (i===0||i===pts.length-1||pts.length<=6)?`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)" font-family="Figtree,sans-serif">${p.date?fmtDate(p.date,{day:'numeric',month:'short'}):''}</text>`:'').join('');
+  const dots = pts.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.v)}" r="${i===pts.length-1?5:3}" fill="${i===pts.length-1?'var(--pen)':'var(--sheet)'}" stroke="var(--pen)" stroke-width="2"/>`).join('');
+  const last=pts[pts.length-1];
+  return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Band score trend">${ticks}<path d="${area}" fill="var(--pen)" opacity=".08"/><path d="${line}" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/>${dots}<text x="${x(pts.length-1)-8}" y="${y(last.v)-10}" text-anchor="end" font-size="13" font-weight="700" fill="var(--pen)" font-family="Figtree,sans-serif">${fmtBand(last.v)}</text>${labs}</svg></div>`;
+}
+function vStudent(){
+  const sid=S.view.sid, p=S.profiles[sid]; if(!p) return `<div class="empty"><h3>Student not found</h3><button class="btn" data-act="go" data-v="students">Back to students</button></div>`;
+  const st=studentStats(sid), fb=S.feedback[sid]||{};
+  const entries = Object.entries(p.index||{}).map(([eid,ix])=>{ const rv=fb.reviews?.[eid]; return {sid,eid,...ix,name:p.name,status:rv?.status||'submitted',rv}; }).sort((a,b)=>a.date<b.date?1:-1);
+  const vocab = fb.vocab||[];
+  return `<button class="btn ghost sm" data-act="go" data-v="students">${I.back} Students</button>
+    <div class="page-head" style="margin-top:10px"><div class="row">${avatar(p.name,sid)}<div><h1>${esc(p.name)}</h1><p>Level ${esc(p.level||'–')} · joined ${p.joinedAt? new Date(p.joinedAt).toLocaleDateString('en-GB',{day:'numeric',month:'long'}):'–'}</p></div></div></div>
+    <div class="stats"><div class="stat"><b>${st.entries}</b><span>entries</span></div><div class="stat"><b>${st.words.toLocaleString()}</b><span>words written</span></div><div class="stat"><b>${fmtBand(st.latest)}</b><span>latest band</span></div><div class="stat"><b>${st.waiting}</b><span>waiting for you</span></div></div>
+    <div class="grid2 section"><div class="card"><h3>Band trend</h3>${bandChart(st.pts)}</div><div class="card"><h3>Recurring mistakes</h3>${errorBars(st.errs)}</div></div>
+    <div class="section"><h2>Entries</h2><div class="list">${entries.map(e=>entryCard(e)).join('') || '<p class="faint">No entries yet.</p>'}</div></div>
+    <div class="section"><h2>Words you've given ${esc((p.name||'').split(' ')[0])}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:'<p class="small faint">Add words to learn while marking an entry.</p>'}</div>`;
+}
+
+/* ---------------- teacher: insights ---------------- */
+function vInsights(){
+  const all=allEntries(); const errs={}; const crit={grammar:[],vocab:[],coherence:[],content:[]};
+  for(const fb of Object.values(S.feedback)) for(const r of Object.values(fb.reviews||{})){ if(r.status!=='reviewed'&&r.status!=='revise') continue; for(const [k,n] of Object.entries(r.errorCounts||{})) if(k!=='good') errs[k]=(errs[k]||0)+n; CRIT.forEach(c=>{ if(typeof r.bands?.[c.k]==='number') crit[c.k].push(r.bands[c.k]); }); }
+  // weekly counts, last 8 weeks
+  const weeks=[]; const now=new Date(); const mon=new Date(now); mon.setHours(0,0,0,0); mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  for(let i=7;i>=0;i--){ const s=new Date(mon); s.setDate(s.getDate()-i*7); const e=new Date(s); e.setDate(e.getDate()+7); weeks.push({s, n: all.filter(x=>{ const d=parseDate(x.date); return d>=s && d<e; }).length}); }
+  const max=Math.max(1,...weeks.map(w=>w.n));
+  const W=420,H=150,pl=24,pb=24,pt=12, bw=(W-pl-10)/weeks.length;
+  const ymax = Math.max(2, Math.ceil(max/2)*2);
+  const bars = weeks.map((w,i)=>{ const h=(H-pt-pb)*w.n/ymax; const x=pl+i*bw+bw*.18; return `<rect x="${x}" y="${H-pb-h}" width="${bw*.64}" height="${Math.max(h,0)}" rx="3" fill="${i===weeks.length-1?'var(--pen)':'var(--blue)'}" opacity="${i===weeks.length-1?1:.75}"/>${w.n?`<text x="${x+bw*.32}" y="${H-pb-h-5}" text-anchor="middle" font-size="11" fill="var(--ink-2)" font-family="Figtree,sans-serif">${w.n}</text>`:''}<text x="${x+bw*.32}" y="${H-7}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)" font-family="Figtree,sans-serif">${w.s.getDate()}/${w.s.getMonth()+1}</text>`; }).join('');
+  const grid=[0,ymax/2,ymax].map(v=>{ const y=H-pb-(H-pt-pb)*v/ymax; return `<line x1="${pl}" x2="${W-10}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl-6}" y="${y+4}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" font-family="Figtree,sans-serif">${v}</text>`; }).join('');
+  const avg = a => a.length? Math.round(a.reduce((x,y)=>x+y,0)/a.length*10)/10 : null;
+  const marked = all.filter(e=>e.status==='reviewed'||e.status==='revise').length;
+  const totalWords = all.reduce((a,e)=>a+(e.words||0),0);
+  return `<div class="page-head"><div><h1>Class insights</h1><p>What your whole class is writing, and where they slip.</p></div></div>
+    <div class="stats"><div class="stat"><b>${Object.keys(S.profiles).length}</b><span>students</span></div><div class="stat"><b>${all.length}</b><span>entries</span></div><div class="stat"><b>${marked}</b><span>marked</span></div><div class="stat"><b>${totalWords.toLocaleString()}</b><span>words written</span></div></div>
+    <div class="grid2 section">
+      <div class="card"><h3>Entries per week</h3><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Entries per week">${grid}${bars}</svg></div><p class="small faint" style="margin-top:6px">Weeks start on Monday. This week is in red.</p></div>
+      <div class="card"><h3>Class mistakes by type</h3>${errorBars(errs)}</div>
+    </div>
+    <div class="section card" style="padding:16px 18px"><h3>Average band by criterion</h3>
+      <div class="bands-mini">${CRIT.map(c=>`<div><b>${avg(crit[c.k])==null?'–':avg(crit[c.k]).toFixed(1)}</b><span>${c.n}</span></div>`).join('')}</div></div>`;
+}
+
+/* ---------------- teacher: prompt + bank ---------------- */
+function vPrompt(){
+  return `<div class="page-head"><div><h1>Writing prompt</h1><p>Students see this on their journal page as an idea for today's entry.</p></div></div>
+    <div class="card" style="padding:18px 20px;max-width:720px">
+      <label class="field"><span>Prompt of the week</span><textarea class="inp" id="prompt-txt" rows="3" style="font-family:var(--f-write);font-size:18px">${esc(S.prompt?.text||'')}</textarea></label>
+      <div class="row" style="margin-top:12px"><button class="btn primary" data-act="save-prompt">Publish prompt</button><button class="btn ghost" data-act="clear-prompt">Remove prompt</button>${S.prompt?.setAt?`<span class="small faint">Last set ${ago(S.prompt.setAt)}</span>`:''}</div>
+    </div>
+    <div class="section"><h2>Ideas</h2><div class="list">${PROMPT_IDEAS.map(p=>`<button class="ecard" style="grid-template-columns:minmax(0,1fr) auto" data-act="use-idea" data-t="${esc(p)}"><span class="pv" style="white-space:normal;color:var(--ink)">${esc(p)}</span><span class="small faint">Use</span></button>`).join('')}</div></div>`;
+}
+function vBank(){
+  const bank = S.prefs?.bank || DEFAULT_BANK;
+  return `<div class="page-head"><div><h1>Comment bank</h1><p>Notes you write again and again. They appear as one-tap chips while you mark. Only you can see this list.</p></div></div>
+    <div class="card" style="padding:16px 18px;max-width:760px">
+      <div class="row" style="flex-wrap:nowrap"><input class="inp" id="bank-new" placeholder="e.g. Use 'since' with a point in time: since Monday."><button class="btn primary" data-act="bank-add">Add</button></div>
+      <div class="list" style="margin-top:14px">${bank.map((b,i)=>`<div class="row" style="flex-wrap:nowrap;justify-content:space-between;padding:8px 10px;border-radius:8px;background:var(--sheet-2)"><span class="hand" style="font-size:16px">${esc(b)}</span><button class="btn ghost sm" data-act="bank-del" data-i="${i}" aria-label="Delete comment">Delete</button></div>`).join('')}</div>
+    </div>`;
+}
+async function savePrefs(){ if(!S.prefs) S.prefs={bank:DEFAULT_BANK.slice()}; try{ await S.db.doc('teacher/prefs').set(S.prefs); }catch(e){ dbErr(e,'save your comment bank'); } }
+
+/* ---------------- teacher: review ---------------- */
+function blankReview(){ return {annotations:[], comment:'', bands:{grammar:null,vocab:null,coherence:null,content:null}, vocab:[], status:'submitted'}; }
+async function openReview(sid,eid){
+  if(saveT && S.review){ saveReview(); } S.view={name:'review',sid,eid}; S.review=null; renderNav();
+  $('#main').innerHTML='<div class="loading">Fetching the page…</div>'; window.scrollTo({top:0});
+  try{
+    const [e,r] = await Promise.all([S.db.doc(`journals/${sid}/entries/${eid}`).get(), S.db.doc(`feedback/${sid}/reviews/${eid}`).get()]);
+    if(!e.exists){ $('#main').innerHTML=`<div class="empty"><h3>This entry was deleted</h3><button class="btn" data-act="go" data-v="inbox">Back to inbox</button></div>`; return; }
+    const data = r.exists? Object.assign(blankReview(), r.data()) : blankReview();
+    S.review = {sid,eid,entry:e.data(),data,sugs:[],view:'marked',saved:true,lastType:'gr'};
+    renderMain();
+  }catch(err){ dbErr(err,'open the entry'); }
+}
+function markedHTML(body, anns, sugs=[], selId){
+  const items=[...anns.map(a=>({...a,kind:'ann'})),...sugs.map(s=>({...s,kind:'sug'}))].filter(a=>a.start>=0&&a.end<=body.length).sort((a,b)=>a.start-b.start);
+  let out='',i=0;
+  for(const a of items){ if(a.start<i) continue; out+=esc(body.slice(i,a.start));
+    const fix = a.type!=='good' ? a.correction : (a.note? '★' : '');
+    out+=`<mark class="mk ${a.kind==='sug'?'sug':''} t-${esc(a.type)} ${a.id===selId?'sel':''}" data-id="${esc(a.id)}" data-kind="${a.kind}"${fix?` data-fix="${esc(fix)}"`:''} tabindex="0">${esc(body.slice(a.start,a.end))}</mark>`; i=a.end; }
+  return out+esc(body.slice(i));
+}
+function correctedHTML(body, anns){
+  const items=anns.filter(a=>a.type!=='good'&&a.correction).sort((a,b)=>a.start-b.start); let out='',i=0;
+  for(const a of items){ if(a.start<i) continue; out+=esc(body.slice(i,a.start))+`<span class="fixed-ins">${esc(a.correction)}</span>`; i=a.end; }
+  return out+esc(body.slice(i));
+}
+function correctedText(body, anns){ const items=anns.filter(a=>a.type!=='good'&&a.correction).sort((a,b)=>a.start-b.start); let out='',i=0; for(const a of items){ if(a.start<i) continue; out+=body.slice(i,a.start)+a.correction; i=a.end; } return out+body.slice(i); }
+function fixOffsets(body, anns){ // keep annotations aligned if offsets drift
+  return anns.map(a=>{ if(body.slice(a.start,a.end)===a.quote) return a; const j=body.indexOf(a.quote); return j>=0? {...a,start:j,end:j+a.quote.length} : {...a,start:-1,end:-1}; });
+}
+function stampHTML(status, bands){
+  if(status==='revise') return '<div class="stamp revise">Please revise</div>';
+  if(status!=='reviewed') return '';
+  const ob=overallBand(bands);
+  return ob==null ? '<div class="stamp"><span>Teacher</span><b>✓</b><span>Checked</span></div>' : `<div class="stamp"><span>Band</span><b>${fmtBand(ob)}</b><span>Checked</span></div>`;
+}
+function vReview(){
+  const R=S.review; if(!R) return '<div class="loading">Fetching the page…</div>';
+  const p=S.profiles[R.sid]||{}, e=R.entry, d=R.data, mt=metrics(e.body);
+  d.annotations = fixOffsets(e.body, d.annotations);
+  const queue = allEntries().filter(x=>x.status==='submitted' && !(x.sid===R.sid&&x.eid===R.eid));
+  return `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="go" data-v="inbox">${I.back} Inbox</button><span class="save-state ${R.saved?'':'busy'}" id="save-state">${R.saved?'All changes saved':'Saving…'}</span></div>
+  <div class="review-grid" style="margin-top:10px">
+    <div style="min-width:0">
+      <div id="rv-tools"></div>
+      <article class="paper ${d.status==='reviewed'||d.status==='revise'?'has-stamp':''}">${stampHTML(d.status,d.bands)}
+        <div class="paper-head"><div style="min-width:0"><div class="row" style="gap:8px">${avatar(p.name,R.sid)}<span><b>${esc(p.name||'Student')}</b> <span class="lvl">${esc(p.level||'–')}</span></span></div>
+          <h2 class="paper-title" style="margin-top:10px">${esc(e.title||'Untitled')}</h2>
+          <div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${e.revisionOf?'<span class="pill st-submitted">Revision</span>':''}</div></div></div>
+        <div class="ruled teacher" id="paper-text"></div>
+        <div class="metrics"><span><b>${mt.words}</b> words</span><span><b>${mt.sentences}</b> sentences</span><span><b>${mt.avg.toFixed(1)}</b> words per sentence</span><span><b>${mt.variety}%</b> different words</span><span>goal for ${esc(p.level||'B1')}: <b>${GOAL[p.level]||120}</b></span></div>
+      </article>
+    </div>
+    <aside class="panel">
+      <div class="pbox"><h3><span>Marks <span class="faint num" id="ann-count"></span></span></h3><div id="ann-sum" class="row" style="gap:5px;margin-bottom:8px"></div><div class="ann-list" id="ann-list"></div></div>
+      <div class="pbox"><h3>Band scores <span class="small faint" style="font-weight:500">0–9</span></h3>
+        ${CRIT.map(c=>`<div class="band-row"><div><div class="nm">${c.n}</div><div class="ds">${c.d}</div></div><div class="stepper"><button data-act="band" data-k="${c.k}" data-d="-0.5" aria-label="Lower ${c.n}">−</button><output id="band-${c.k}">${fmtBand(d.bands?.[c.k])}</output><button data-act="band" data-k="${c.k}" data-d="0.5" aria-label="Raise ${c.n}">+</button></div></div>`).join('')}
+        <div class="overall"><span class="label">Overall band</span><b id="band-overall">${fmtBand(overallBand(d.bands))}</b></div></div>
+      <div class="pbox"><h3>Comment for the student</h3><textarea class="hand" id="rv-comment" placeholder="What went well, and one thing to work on next…">${esc(d.comment||'')}</textarea>
+        <div class="bank-chips">${(S.prefs?.bank||DEFAULT_BANK).map((b,i)=>`<button data-act="bank-ins" data-i="${i}" title="${esc(b)}">${esc(b)}</button>`).join('')}</div></div>
+      <div class="pbox"><h3>Words to learn</h3>
+        <div class="vocab" id="vocab-list"></div>
+        <div class="stack" style="gap:6px;margin-top:8px"><input class="inp" id="vw" placeholder="Word or phrase"><input class="inp" id="vm" placeholder="Meaning"><input class="inp" id="vx" placeholder="Example sentence (optional)"><button class="btn sm" data-act="vocab-add">Add word</button></div></div>
+      <div class="pbox stack" style="gap:8px">
+        <button class="btn pen" data-act="finish" data-st="reviewed">Return to student</button>
+        <button class="btn" data-act="finish" data-st="revise">Ask for a revision</button>
+        <span class="small faint">The student sees your marks only after you return the entry.${queue.length?` ${queue.length} more waiting.`:''}</span>
+      </div>
+    </aside>
+  </div>`;
+}
+after.review = () => { if(!S.review) return; renderPaper(); renderAnnList(); renderVocab(); renderReviewTools();
+  const c=$('#rv-comment'); c.addEventListener('input',()=>{ S.review.data.comment=c.value; scheduleSave(); });
+  const pt=$('#paper-text');
+  const check=()=>setTimeout(()=>onSelect(pt),10);
+  pt.addEventListener('mouseup',check); pt.addEventListener('touchend',check); pt.addEventListener('keyup',ev=>{ if(ev.shiftKey) check(); });
+};
+function renderReviewTools(){
+  const R=S.review, el=$('#rv-tools'); if(!R||!el) return;
+  const sug = R.sugs.length? `<div class="sug-bar">${I.spark} ${R.sugs.length} suggestion${R.sugs.length>1?'s':''} from Claude, shown with dashed lines. Tap one to accept or edit.<span class="row" style="margin-left:auto;gap:6px"><button class="btn sm" data-act="sug-all">Accept all</button><button class="btn sm ghost" data-act="sug-none">Dismiss</button></span></div>`:'';
+  el.innerHTML = `<div class="toolbar"><div class="seg" role="group" aria-label="Paper view"><button data-act="rv-view" data-v="marked" aria-pressed="${R.view==='marked'}">Marked</button><button data-act="rv-view" data-v="corrected" aria-pressed="${R.view==='corrected'}">Corrected</button></div>
+    ${S.sample||S.demo?`<button class="btn sm" data-act="ai" ${R.aiBusy?'disabled':''}>${I.spark} ${R.aiBusy?'Reading the entry…':'Suggest corrections'}</button>`:''}
+    <button class="btn sm ghost" data-act="copy-fixed">${I.copy} Copy corrected text</button>
+    <span class="hint">Select words to mark them · <kbd>Alt</kbd>+<kbd>1</kbd>–<kbd>9</kbd> picks a type</span></div>${sug}`;
+}
+function renderPaper(){
+  const R=S.review, el=$('#paper-text'); if(!R||!el) return;
+  el.innerHTML = R.view==='corrected' ? correctedHTML(R.entry.body,R.data.annotations) : markedHTML(R.entry.body,R.data.annotations,R.sugs,R.selId);
+}
+function renderAnnList(){
+  const R=S.review, el=$('#ann-list'); if(!R||!el) return;
+  const anns=[...R.data.annotations].filter(a=>a.start>=0).sort((a,b)=>a.start-b.start);
+  $('#ann-count').textContent = anns.length? `· ${anns.length}`:'';
+  const c=countErrors(anns);
+  $('#ann-sum').innerHTML = TYPES.filter(t=>c[t.k]).map(t=>`<span class="tchip t-${t.k}"><span class="code">${t.code}</span><span class="n">${c[t.k]}</span></span>`).join('');
+  el.innerHTML = anns.length ? anns.map(a=>{ const t=TYPE[a.type]||TYPE.gr; return `<button class="ann t-${a.type}" data-act="ann-open" data-id="${esc(a.id)}"><span class="code">${t.code}</span><span style="min-width:0"><span class="q">${a.type==='good'?`“${esc(a.quote)}”`:`<s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}`}</span>${a.note?`<br><span class="nt">${esc(a.note)}</span>`:''}</span></button>`; }).join('')
+    : '<p class="small faint">Select any words in the entry to add your first mark.</p>';
+}
+function renderVocab(){
+  const R=S.review, el=$('#vocab-list'); if(!R||!el) return;
+  el.innerHTML = (R.data.vocab||[]).map((v,i)=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span><button class="btn ghost sm" data-act="vocab-del" data-i="${i}" aria-label="Remove word">✕</button></div>`).join('');
+}
+function onSelect(container){
+  const R=S.review; if(!R || R.view!=='marked') return;
+  const sel=getSelection(); if(!sel.rangeCount || sel.isCollapsed) return;
+  const r=sel.getRangeAt(0); if(!container.contains(r.commonAncestorContainer)) return;
+  const pre=document.createRange(); pre.selectNodeContents(container); pre.setEnd(r.startContainer,r.startOffset);
+  let start=pre.toString().length, end=start+r.toString().length; const body=R.entry.body;
+  while(start<end && /\s/.test(body[start])) start++; while(end>start && /\s/.test(body[end-1])) end--;
+  if(end<=start) return;
+  if(R.data.annotations.some(a=>a.start<end && a.end>start)){ toast('Part of that text already has a mark. Tap the mark to change it.'); return; }
+  R.sugs = R.sugs.filter(s=>!(s.start<end && s.end>start));
+  const rect=r.getBoundingClientRect();
+  openAnnPop({start,end,quote:body.slice(start,end),type:R.lastType||'gr',correction:'',note:''}, rect, true);
+}
+function placePop(el, rect){
+  const w=el.offsetWidth, h=el.offsetHeight; let left=Math.min(Math.max(12,rect.left), innerWidth-w-12); let top=rect.bottom+10;
+  if(top+h>innerHeight-12) top=Math.max(12, rect.top-h-10);
+  el.style.left=left+'px'; el.style.top=top+'px';
+}
+function closePop(){ const p=$('#pop'); if(p) p.innerHTML=''; S.pop=null; if(S.review && S.review.selId){ S.review.selId=null; renderPaper(); } }
+function openAnnPop(a, rect, isNew){
+  const R=S.review; S.pop={a:clone(a), isNew};
+  const bank=S.prefs?.bank||DEFAULT_BANK;
+  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="Mark this text">
+    <div class="types">${TYPES.map((t,i)=>`<button class="tchip t-${t.k}" data-act="pop-type" data-k="${t.k}" aria-pressed="${t.k===a.type}" title="${t.name}${i<9?' (Alt+'+(i+1)+')':''}"><span class="code">${t.code}</span>${t.name}</button>`).join('')}</div>
+    <div class="quote">${esc(a.quote)}</div>
+    <label class="field" id="pf-fix-wrap" ${a.type==='good'?'hidden':''}><span>Correction</span><input class="inp fix" id="pf-fix" value="${esc(a.correction)}" placeholder="Write the correct version" autocomplete="off"></label>
+    <label class="field"><span>${a.type==='good'?'Praise':'Note for the student'} <span class="faint">(optional)</span></span><input class="inp" id="pf-note" value="${esc(a.note)}" list="bank-dl" placeholder="${a.type==='good'?'What makes this good?':'Why is it wrong?'}" autocomplete="off"><datalist id="bank-dl">${bank.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
+    <div class="pop-acts">${isNew?'':'<button class="btn sm ghost" data-act="pop-del" style="color:var(--pen);margin-right:auto">Delete</button>'}<button class="btn sm ghost" data-act="pop-close">Cancel</button><button class="btn sm primary" data-act="pop-save">${isNew?'Add mark':'Save'}</button></div></div>`;
+  const el=$('#pop .pop'); placePop(el, rect);
+  const f = a.type==='good'? $('#pf-note') : $('#pf-fix'); if(isNew && !a.correction){ f.value = a.type==='good'?'':a.quote; } setTimeout(()=>{ f.focus(); f.select(); },20);
+}
+function popSave(){
+  const R=S.review, P=S.pop; if(!R||!P) return;
+  const a=P.a; a.correction = a.type==='good' ? '' : ($('#pf-fix')?.value||'').trim(); a.note=($('#pf-note')?.value||'').trim();
+  if(a.type!=='good' && a.correction===a.quote && !a.note){ toast('Write a correction or a note first.'); return; }
+  if(P.isNew){ a.id=newId(); R.data.annotations.push(a); R.lastType=a.type; }
+  else { const i=R.data.annotations.findIndex(x=>x.id===a.id); if(i>=0) R.data.annotations[i]=a; }
+  getSelection().removeAllRanges(); closePop(); renderPaper(); renderAnnList(); scheduleSave();
+}
+function openSugPop(s, rect){
+  const t=TYPE[s.type]||TYPE.gr;
+  S.pop={sug:s};
+  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="Suggestion">
+    <div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span><span class="small faint">Suggested by Claude</span></div>
+    <div class="quote">${esc(s.quote)}${s.correction?` → <span class="fix">${esc(s.correction)}</span>`:''}</div>${s.note?`<p class="small muted">${esc(s.note)}</p>`:''}
+    <div class="pop-acts"><button class="btn sm ghost" data-act="sug-dismiss" style="margin-right:auto">Dismiss</button><button class="btn sm" data-act="sug-edit">Edit</button><button class="btn sm primary" data-act="sug-accept">Accept</button></div></div>`;
+  placePop($('#pop .pop'), rect);
+}
+let saveT=null, saveChain=Promise.resolve();
+function setSaved(ok){ const R=S.review; if(!R) return; R.saved=ok; const el=$('#save-state'); if(el){ el.textContent= ok?'All changes saved':'Saving…'; el.classList.toggle('busy',!ok); } }
+function scheduleSave(){ setSaved(false); clearTimeout(saveT); saveT=setTimeout(()=>saveReview(), 1200); }
+function saveReview(status){
+  clearTimeout(saveT);
+  const R=S.review; if(!R) return Promise.resolve();
+  const {sid,eid}=R; const d=clone(R.data);
+  d.annotations=d.annotations.filter(a=>a.start>=0);
+  d.updatedAt=Date.now(); d.errorCounts=countErrors(d.annotations); d.entryWords=wc(R.entry.body);
+  if(status){ d.status=status; d.reviewedAt=Date.now(); R.data.status=status; R.data.reviewedAt=d.reviewedAt; }
+  else if(!d.status || d.status==='submitted'){ d.status='inreview'; R.data.status='inreview'; }
+  saveChain = saveChain.then(async()=>{
+    await S.db.doc(`feedback/${sid}/reviews/${eid}`).set(d);
+    const fb = clone(S.feedback[sid]) || {reviews:{},vocab:[]}; fb.reviews=fb.reviews||{};
+    fb.reviews[eid] = {status:d.status, overall:overallBand(d.bands), bands:d.bands, errorCounts:d.errorCounts, reviewedAt:d.reviewedAt||null, updatedAt:d.updatedAt};
+    fb.vocab = (fb.vocab||[]).filter(v=>v.eid!==eid).concat((d.vocab||[]).map(v=>({...v,eid})));
+    S.feedback[sid]=fb;
+    await S.db.doc(`feedback/${sid}`).set(fb);
+    if(S.review===R) setSaved(true);
+  }).catch(e=>{ dbErr(e,'save your marks'); });
+  return saveChain;
+}
+async function aiSuggest(){
+  const R=S.review; if(!R) return;
+  if(S.demo && !S.sample){ R.sugs = demoSuggestions(R.entry.body, R.data.annotations); renderReviewTools(); renderPaper(); if(!R.sugs.length) toast('No new suggestions for this entry.'); return; }
+  R.aiBusy=true; renderReviewTools();
+  const lvl=S.profiles[R.sid]?.level||'B1';
+  const prompt = `You help an English teacher mark a learner's diary entry. Learner level: ${lvl} (CEFR).
+Find the language errors. Return ONLY JSON in this shape:
+{"suggestions":[{"quote":"exact text copied from the entry","correction":"the corrected text","type":"gr","note":"short learner-friendly explanation, max 14 words"}]}
+type is one of: gr (grammar), t (tense), art (article), prep (preposition), ww (word choice), sp (spelling), p (punctuation), wo (word order), agr (agreement), st (style), good (something done well).
+Rules: "quote" must be copied exactly, character for character, from the entry and be as short as possible (the wrong word or short phrase). Do not overlap quotes. List up to 25 errors, most important first, then at most 2 "good" items with an empty correction. Do not mark British vs American spelling differences.
+Entry title: ${R.entry.title||''}
+Entry:
+"""
+${R.entry.body}
+"""`;
+  try{
+    const res = await S.sample.json(prompt,{modelTier:'default'});
+    R.sugs = locateSuggestions(R.entry.body, R.data.annotations, (res&&res.suggestions)||[]);
+    if(!R.sugs.length) toast('Claude found nothing new to suggest.');
+  }catch(e){
+    if(e&&e.code==='not_granted'){ S.sample=null; toast('Claude suggestions were not allowed for this page.'); }
+    else if(e&&e.code==='rate_limited') toast('Too many requests just now. Try again in a minute.');
+    else toast('Could not get suggestions. Try again.');
+  }
+  R.aiBusy=false; if(S.review===R){ renderReviewTools(); renderPaper(); }
+}
+function locateSuggestions(body, anns, list){
+  const taken=anns.filter(a=>a.start>=0).map(a=>[a.start,a.end]); const out=[];
+  for(const s of list){ if(!s||typeof s.quote!=='string'||!s.quote.trim()) continue; const type=TYPE[s.type]?s.type:'gr';
+    let from=0, pos=-1; while((pos=body.indexOf(s.quote,from))>=0){ const e=pos+s.quote.length; if(!taken.some(([a,b])=>a<e&&b>pos)) break; from=pos+1; }
+    if(pos<0) continue; const end=pos+s.quote.length; taken.push([pos,end]);
+    out.push({id:newId(),start:pos,end,quote:s.quote,type,correction:type==='good'?'':String(s.correction||''),note:String(s.note||'')}); }
+  return out;
+}
+function demoSuggestions(body, anns){
+  const ideas=[['woke up in','gr','woke up at','Use "at" with clock times.'],['in 7','prep','at 7','Use "at" with clock times.'],['a exam','art','an exam','"An" before a vowel sound.'],['I make','t','I made','The exam is finished: past simple.'],['said me','gr','told me','"Tell" takes a person; "say" does not.'],['win','t','won','Past simple: win – won.'],['was rainy day','art','was a rainy day','Singular countable noun needs "a".'],['is consisted of','gr','consists of','"Consist of" is not used in the passive.'],['it worth','gr','it was worth','"Worth" needs the verb "be".'],['in a long thin pieces','art','into long, thin pieces','No "a" with plurals; "cut into".'],['told that','gr','said that','"Tell" needs a person; use "said".'],['asked second plate','art','asked for a second plate','"Ask for" + a/an.'],['Pakhtakor win 2-1!','good','','Nice, lively ending!']];
+  return locateSuggestions(body, anns, ideas.filter(([q])=>body.includes(q)).map(([quote,type,correction,note])=>({quote,type,correction,note})));
+}
+
+function vLogin(){
+  const st=S.view.step||'signin', em=esc(S.view.email||'');
+  const emailF = (label='Email') => `<label class="field"><span>${label}</span><input class="inp" id="login-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" value="${em}"></label>`;
+  const passF = (nw) => `<label class="field"><span>${nw?'Choose a password (6+ characters)':'Password'}</span><input class="inp" id="login-pass" type="password" autocomplete="${nw?'new-password':'current-password'}" minlength="6"></label>`;
+  let form='';
+  if(st==='signin') form = `${emailF()}${passF(false)}<button class="btn primary" data-act="pw-signin">Sign in</button>
+      <div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="login-step" data-s="signup">New here? Create an account</button><button class="btn ghost sm" data-act="login-step" data-s="reset">Forgot password?</button></div>`;
+  else if(st==='signup') form = `${emailF()}${passF(true)}<button class="btn primary" data-act="pw-signup">Create my journal</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">I already have an account</button>`;
+  else if(st==='reset') form = `${emailF()}<button class="btn primary" data-act="pw-reset">Email me a reset link</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back to sign in</button>`;
+  else if(st==='teacher') form = `<div class="notice info" style="margin:0">Teachers sign in with a one-time link sent to the teacher email.</div>${emailF('Teacher email')}<button class="btn primary" data-act="send-link">Email me a sign-in link</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back to student sign-in</button>`;
+  else if(st==='confirm') form = `${emailF('Type your email again to finish signing in')}<button class="btn primary" data-act="confirm-link">Finish signing in</button>`;
+  else if(st==='sent') form = `<div class="notice info" style="margin:0">We sent a sign-in link to <b>${em}</b>. Open it on this device. If you can't find it, check your spam folder.</div>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back</button>`;
+  return `<article class="paper" style="max-width:600px;margin:24px auto 0">
+    <span class="label">My English journal</span>
+    <h1 class="login-h">Write a little<br>about <em>every day.</em></h1>
+    <p class="muted" style="margin-top:14px;font-size:16px;max-width:44ch">Your teacher reads each entry and marks your English. Nobody else can see your journal.</p>
+    <div class="stack" style="margin-top:24px">${form}</div>
+    <div class="row" style="margin-top:22px;justify-content:space-between;border-top:1px dashed var(--line);padding-top:14px">
+      ${st==='teacher'?'<span></span>':'<button class="btn ghost sm" data-act="login-step" data-s="teacher">Teacher sign-in</button>'}
+      <button class="btn ghost sm" data-act="explore">See an example class</button></div>
+  </article>`;
+}
+
+/* ---------------- student ---------------- */
+function studentEntries(){
+  const seen=new Set(LS.get('seen:'+S.uid,[]));
+  return Object.entries(S.myEntries).map(([eid,e])=>{ const rv=S.myFeedback?.reviews?.[eid]; const status=rv?.status||'submitted';
+    return {eid,...e,preview:(e.body||'').slice(0,150),status,overall:rv?.overall,isNew:(status==='reviewed'||status==='revise')&&!seen.has(eid)}; }).sort((a,b)=> a.date===b.date ? (b.createdAt||0)-(a.createdAt||0) : (a.date<b.date?1:-1));
+}
+function streak(){
+  const dates=new Set(Object.values(S.myEntries).map(e=>e.date)); let n=0; const d=new Date();
+  const key=x=>x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate());
+  if(!dates.has(key(d))) d.setDate(d.getDate()-1);
+  while(dates.has(key(d))){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function vSetup(){
+  return `<div style="max-width:520px;margin:20px auto 0" class="paper">
+    <h1 style="font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.1">Welcome to your English journal</h1>
+    <p class="muted" style="margin-top:10px">Write a little about your days. Your teacher reads each entry and marks your English. Nobody else can see your journal.</p>
+    <div class="stack" style="margin-top:20px">
+      <label class="field"><span>Your name</span><input class="inp" id="setup-name" value="${esc(S.me?.name||'')}" placeholder="First and last name"></label>
+      <label class="field"><span>Your English level</span><select class="inp" id="setup-level">${LEVELS.map(l=>`<option ${l==='B1'?'selected':''}>${l}</option>`).join('')}</select></label>
+      <button class="btn primary" data-act="setup-save">Open my journal</button>
+      ${S.canWrite===false?'<div class="notice">Your access to this page is view-only, so your journal can\'t be saved. Ask your teacher to give you Contributor access.</div>':''}
+    </div></div>`;
+}
+function vHome(){
+  const ents=studentEntries(); const p=S.myProfile||{};
+  const words=ents.reduce((a,e)=>a+(e.words||0),0);
+  const pts=ents.filter(e=>e.overall!=null&&(e.status==='reviewed'||e.status==='revise')).map(e=>({v:e.overall,date:e.date})).reverse();
+  const first=(p.name||'').split(' ')[0];
+  const wroteToday = ents.some(e=>e.date===todayStr());
+  const fresh = ents.filter(e=>e.isNew);
+  const months={}; ents.forEach(e=>{ const k=parseDate(e.date).toLocaleDateString('en-GB',{month:'long',year:'numeric'}); (months[k]=months[k]||[]).push(e); });
+  return `${S.canWrite===false?'<div class="notice">Your access is view-only, so new entries can\'t be saved. Ask your teacher for Contributor access.</div>':''}
+  <div class="hero">
+    <div class="today">${I.nib}<div class="label" style="color:inherit;opacity:.7">${new Date().toLocaleDateString('en-GB',{weekday:'long'})}</div>
+      <div class="d">${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long'})}</div>
+      <p>${wroteToday?`You've written today, ${esc(first)}. Want to add more?`:`Hi ${esc(first)}. What happened today? Even five sentences count.`}</p>
+      <button class="btn" data-act="new-entry">${I.pen} ${wroteToday?'Write another entry':"Write today's entry"}</button></div>
+    <div class="prompt-card"><span class="label">Prompt from your teacher</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">Write about this</button>`:'<p class="muted">No prompt this week. Write about anything that happened to you.</p>'}</div>
+  </div>
+  ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>Your teacher checked ${fresh.length===1?'an entry':fresh.length+' entries'}. See the corrections:</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||'Untitled')}</button>`).join('')}</div>`:''}
+  <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>entries</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>words written</span></div><div class="stat"><b>${streak()}</b><span>day streak</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>latest band</span></div></div>
+  ${pts.length?`<div class="card section" style="padding:16px 18px"><h3>Your band over time</h3>${bandChart(pts)}</div>`:''}
+  <div class="section">${ents.length? Object.entries(months).map(([m,list])=>`<h2 style="font-family:var(--f-display);font-weight:400;font-size:23px;margin:22px 0 12px">${m}</h2><div class="list">${list.map(e=>entryCard(e,false)).join('')}</div>`).join('')
+    : `<div class="empty"><h3>Your first page is waiting</h3><p>Write about your day: what you did, who you saw, how you felt.</p><p style="margin-top:14px"><button class="btn primary" data-act="new-entry">Start writing</button></p></div>`}</div>`;
+}
+function draftKey(){ return 'draft:'+S.uid; }
+function startEdit(opts={}){
+  if(opts.eid){ const e=S.myEntries[opts.eid]; S.edit={eid:opts.eid,title:e.title,body:e.body,mood:e.mood,date:e.date}; }
+  else if(opts.revisionOf){ const e=S.myEntries[opts.revisionOf]; S.edit={eid:null,revisionOf:opts.revisionOf,title:(e.title||'')+' (revised)',body:e.body,mood:e.mood,date:todayStr()}; }
+  else { const d=LS.get(draftKey(),null); S.edit = d && !opts.fresh ? d : {eid:null,title:opts.prompt?(S.prompt?.text||''):'',body:'',mood:null,date:todayStr()}; if(opts.prompt && d) S.edit.title = S.edit.title || S.prompt?.text || ''; }
+  go('write');
+}
+function vWrite(){
+  if(!S.edit) S.edit = LS.get(draftKey(),null) || {eid:null,title:'',body:'',mood:null,date:todayStr()};
+  const E=S.edit, lvl=S.myProfile?.level||'B1', goal=GOAL[lvl]||120;
+  const rv = E.revisionOf ? S.myReviews[E.revisionOf] : null;
+  return `<div class="page-head"><div><h1>${E.eid?'Edit entry':E.revisionOf?'Revise your entry':'New entry'}</h1><p>${E.revisionOf?'Fix the marked mistakes, then send it again.':'Write in English about your day. Your teacher will check it.'}</p></div></div>
+  ${rv?`<div class="fb-box" style="margin-bottom:16px"><span class="label">Your teacher's marks</span><div class="mist" style="margin-top:8px">${(rv.annotations||[]).filter(a=>a.type!=='good').map(a=>`<div class="m"><span class="q"><s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}${a.note?`<br><span class="small muted">${esc(a.note)}</span>`:''}</span><span class="tchip t-${a.type}" style="align-self:start;padding:1px 8px 1px 3px"><span class="code">${(TYPE[a.type]||TYPE.gr).code}</span></span></div>`).join('')}</div></div>`:''}
+  <article class="paper">
+    <div class="write-head"><label class="field"><span>Date</span><input type="date" class="inp" id="w-date" value="${esc(E.date)}" max="${todayStr()}"></label>
+      <label class="field"><span>Title</span><input class="title-inp" id="w-title" value="${esc(E.title)}" placeholder="Give your day a title" maxlength="120"></label></div>
+    <div class="field" style="margin-bottom:12px"><span>Today felt…</span><div class="moods">${MOODS.map(m=>`<button class="mood" data-act="mood" data-k="${m.k}" aria-pressed="${E.mood===m.k}">${m.svg}${m.n}</button>`).join('')}</div></div>
+    <textarea class="ruled" id="w-body" placeholder="Today I…" aria-label="Your entry" spellcheck="false">${esc(E.body)}</textarea>
+    <div class="write-foot"><span class="small num" id="w-count"></span><span class="goal" id="w-goal"><i></i></span><span class="small faint">Goal for ${lvl}: ${goal} words</span></div>
+  </article>
+  <div class="row" style="margin-top:16px;justify-content:space-between"><span class="small faint" id="w-saved">${E.eid?'Changes are saved when you press the button.':'Your draft is kept on this device until you send it.'}</span>
+    <span class="row"><button class="btn ghost" data-act="cancel-write">Cancel</button>${E.eid?'<button class="btn ghost" data-act="del-entry" style="color:var(--pen)">Delete</button>':''}<button class="btn primary" data-act="submit-entry" ${S.canWrite===false?'disabled':''}>${E.eid?'Save changes':'Send to teacher'}</button></span></div>
+  <div id="del-confirm"></div>
+  <p class="small faint" style="margin-top:10px">Spell-check is switched off so that you practise. You can edit an entry until your teacher starts checking it.</p>`;
+}
+after.write = () => {
+  const ta=$('#w-body'), E=S.edit, goal=GOAL[S.myProfile?.level||'B1']||120;
+  const grow=()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; };
+  const upd=()=>{ const n=wc(ta.value); $('#w-count').innerHTML=`<b>${n}</b> words`; const g=$('#w-goal'); g.firstElementChild.style.width=Math.min(100,n/goal*100)+'%'; g.classList.toggle('done',n>=goal); };
+  const persist=()=>{ E.body=ta.value; E.title=$('#w-title').value; E.date=$('#w-date').value||todayStr(); if(!E.eid && !E.revisionOf) LS.set(draftKey(),E); };
+  ta.addEventListener('input',()=>{ grow(); upd(); persist(); }); $('#w-title').addEventListener('input',persist); $('#w-date').addEventListener('change',persist);
+  grow(); upd(); if(!E.body) ta.focus();
+};
+async function submitEntry(){
+  const E=S.edit; E.body=$('#w-body').value; E.title=$('#w-title').value.trim(); E.date=$('#w-date').value||todayStr();
+  const n=wc(E.body); if(n<10){ toast('Write at least 10 words before sending.'); return; }
+  const eid=E.eid||newId(); const now=Date.now(); const prev=E.eid?S.myEntries[E.eid]:null;
+  const data={title:E.title||'Untitled', body:E.body, mood:E.mood||null, date:E.date, words:n, createdAt:prev?.createdAt||now, updatedAt:now}; if(E.revisionOf) data.revisionOf=E.revisionOf;
+  const prof=clone(S.myProfile)||{}; prof.index=prof.index||{}; prof.index[eid]={title:data.title,date:data.date,words:n,mood:data.mood,preview:E.body.slice(0,150),submittedAt:prev?(prof.index[eid]?.submittedAt||now):now}; if(E.revisionOf) prof.index[eid].revisionOf=E.revisionOf; prof.updatedAt=now;
+  const btn=$('[data-act="submit-entry"]'); if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
+  try{ await S.db.doc(`journals/${S.uid}/entries/${eid}`).set(data); await S.db.doc(`journals/${S.uid}`).set(prof);
+    if(!E.eid && !E.revisionOf) LS.del(draftKey()); S.edit=null; toast(E.eid?'Changes saved.':'Sent to your teacher.'); go('home');
+  }catch(e){ dbErr(e,'send your entry'); if(btn){ btn.disabled=false; btn.textContent='Try again'; } }
+}
+async function deleteEntry(eid){
+  const prof=clone(S.myProfile)||{}; if(prof.index) delete prof.index[eid];
+  try{ await S.db.doc(`journals/${S.uid}/entries/${eid}`).delete(); await S.db.doc(`journals/${S.uid}`).set(prof); S.edit=null; toast('Entry deleted.'); go('home'); }catch(e){ dbErr(e,'delete the entry'); }
+}
+function vEntry(){
+  const eid=S.view.eid, e=S.myEntries[eid]; if(!e) return `<div class="empty"><h3>Entry not found</h3><button class="btn" data-act="go" data-v="home">Back</button></div>`;
+  const st=S.myFeedback?.reviews?.[eid]?.status||'submitted'; const rv=S.myReviews[eid];
+  const shown = (st==='reviewed'||st==='revise') && rv; const anns = shown? fixOffsets(e.body, rv.annotations||[]) : [];
+  const mode=S.view.mode||'marked'; const mt=metrics(e.body);
+  const editable = st==='submitted';
+  return `<button class="btn ghost sm" data-act="go" data-v="home">${I.back} My journal</button>
+  <div class="review-grid" style="margin-top:10px">
+    <div style="min-width:0">
+      ${shown?`<div class="toolbar"><div class="seg" role="group" aria-label="Paper view"><button data-act="entry-view" data-v="marked" aria-pressed="${mode==='marked'}">With marks</button><button data-act="entry-view" data-v="corrected" aria-pressed="${mode==='corrected'}">Corrected</button></div><span class="hint">Tap a mark to see why</span></div>`:''}
+      <article class="paper ${shown?'has-stamp':''}">${shown?stampHTML(st,rv.bands):''}<div class="paper-head"><div><h2 class="paper-title">${esc(e.title||'Untitled')}</h2><div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${pill(st,SLABEL)}</div></div>${editable?`<button class="btn sm" data-act="edit-entry" data-eid="${esc(eid)}">Edit</button>`:''}</div>
+        <div class="ruled" id="entry-text">${shown ? (mode==='corrected'?correctedHTML(e.body,anns):markedHTML(e.body,anns)) : esc(e.body)}</div>
+        <div class="metrics"><span><b>${mt.words}</b> words</span><span><b>${mt.sentences}</b> sentences</span><span><b>${mt.variety}%</b> different words</span></div></article>
+    </div>
+    <aside class="panel">${shown? `
+      <div class="fb-box"><span class="label">Your teacher says</span>${rv.comment?`<p class="hand" style="margin-top:6px">${esc(rv.comment)}</p>`:''}
+        ${overallBand(rv.bands)!=null?`<div class="overall"><span class="label">Overall band</span><b>${fmtBand(overallBand(rv.bands))}</b></div><div class="bands-mini">${CRIT.map(c=>`<div><b>${fmtBand(rv.bands?.[c.k])}</b><span>${c.n}</span></div>`).join('')}</div>`:''}</div>
+      ${st==='revise'?`<div class="fb-box" style="border-color:var(--pen)"><b>Your teacher asked for a revision.</b><p class="small muted" style="margin:4px 0 10px">Rewrite the entry with the corrections. It will be sent as a new page.</p><button class="btn pen" data-act="revise" data-eid="${esc(eid)}">Write the revision</button></div>`:''}
+      <div class="fb-box"><span class="label">Marks</span><div class="row" style="gap:5px;margin-top:8px">${(()=>{ const c=countErrors(anns); return TYPES.filter(t=>c[t.k]).map(t=>`<span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></span>`).join('') || '<span class="small faint">No marks. Well done!</span>'; })()}</div></div>
+      ${(rv.vocab||[]).length?`<div class="fb-box"><span class="label">Words to learn</span><div class="vocab" style="margin-top:8px">${rv.vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div></div>`:''}`
+    : `<div class="fb-box"><span class="label">Status</span><p style="margin-top:6px">${st==='inreview'?'Your teacher is checking this entry now.':'Sent. Your teacher will check it soon. You can still edit it until then.'}</p></div>`}
+    </aside></div>`;
+}
+after.entry = () => {
+  const eid=S.view.eid; const st=S.myFeedback?.reviews?.[eid]?.status;
+  if(st==='reviewed'||st==='revise'){ const seen=new Set(LS.get('seen:'+S.uid,[])); if(!seen.has(eid)){ seen.add(eid); LS.set('seen:'+S.uid,[...seen]); renderNav(); } }
+};
+function vMistakes(){
+  const items=[]; for(const [eid,rv] of Object.entries(S.myReviews)){ const st=S.myFeedback?.reviews?.[eid]?.status; if(st!=='reviewed'&&st!=='revise') continue; const e=S.myEntries[eid]; for(const a of rv.annotations||[]) items.push({...a,date:e?.date||'',eid}); }
+  const bad=items.filter(a=>a.type!=='good'), good=items.filter(a=>a.type==='good');
+  const filt=S.view.f||'all'; const c=countErrors(bad);
+  const shown = bad.filter(a=>filt==='all'||a.type===filt).sort((a,b)=>a.date<b.date?1:-1);
+  return `<div class="page-head"><div><h1>My mistakes</h1><p>Every correction from your teacher, grouped by type. Read them before you write.</p></div></div>
+  ${bad.length?`<div class="row" style="gap:6px;margin-bottom:16px"><button class="tchip t-st" data-act="mist-f" data-k="all" aria-pressed="${filt==='all'}"><span class="code">All</span><span class="n">${bad.length}</span></button>${TYPES.filter(t=>c[t.k]).sort((a,b)=>c[b.k]-c[a.k]).map(t=>`<button class="tchip t-${t.k}" data-act="mist-f" data-k="${t.k}" aria-pressed="${filt===t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></button>`).join('')}</div>
+  <div class="mist">${shown.map(a=>`<div class="m"><span class="q"><s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}${a.note?`<br><span class="small muted">${esc(a.note)}</span>`:''}</span><span class="small faint">${a.date?fmtDate(a.date,{day:'numeric',month:'short'}):''}</span></div>`).join('')}</div>`
+  : `<div class="empty"><h3>Nothing here yet</h3><p>When your teacher checks your entries, the corrections collect here.</p></div>`}
+  ${good.length?`<div class="section"><h2>What you did well</h2><div class="mist">${good.map(a=>`<div class="m"><span class="q">“${esc(a.quote)}”${a.note?`<br><span class="small" style="color:var(--ok)">${esc(a.note)}</span>`:''}</span><span class="small faint">${a.date?fmtDate(a.date,{day:'numeric',month:'short'}):''}</span></div>`).join('')}</div></div>`:''}`;
+}
+function vWords(){
+  const list=S.myFeedback?.vocab||[]; const learned=new Set(LS.get('learned:'+S.uid,[]));
+  return `<div class="page-head"><div><h1>Words to learn</h1><p>New words from your teacher. Tick a word when you can use it in your own sentence.</p></div>${list.length?`<span class="small muted num">${list.filter(v=>learned.has(v.w)).length} of ${list.length} learned</span>`:''}</div>
+  ${list.length?`<div class="list">${list.map((v,i)=>`<label class="ecard" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" id="lw-${i}" data-act="learn" data-w="${esc(v.w)}" ${learned.has(v.w)?'checked':''} style="width:20px;height:20px;accent-color:var(--ok)"><span><span style="font-family:var(--f-write);font-size:20px;${learned.has(v.w)?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(v.w)}</span> <span class="muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="hand" style="font-size:15px;color:var(--ink-2)">${esc(v.ex)}</span>`:''}</span></label>`).join('')}</div>`
+  : `<div class="empty"><h3>No words yet</h3><p>Your teacher adds useful words while checking your entries.</p></div>`}`;
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-act]');
+  const popEl = $('#pop .pop');
+  if(popEl && !popEl.contains(ev.target) && !(b && (b.dataset.act==='ann-open'))){
+    if(!ev.target.closest('.mk')) closePop();
+  }
+  // marks inside papers
+  const mk = ev.target.closest('.mk');
+  if(mk && !b){
+    const R=S.review;
+    if(S.mode==='teacher' && R && S.view.name==='review'){
+      if(!getSelection().isCollapsed) return;
+      const id=mk.dataset.id, rect=mk.getBoundingClientRect();
+      if(mk.dataset.kind==='sug'){ const s=R.sugs.find(x=>x.id===id); if(s) openSugPop(s,rect); }
+      else { const a=R.data.annotations.find(x=>x.id===id); if(a){ R.selId=id; renderPaper(); openAnnPop(a,rect,false); } }
+    } else if(S.mode==='student' && S.view.name==='entry'){
+      const rv=S.myReviews[S.view.eid]; const a=(rv?.annotations||[]).find(x=>x.id===mk.dataset.id); if(!a) return; const t=TYPE[a.type]||TYPE.gr;
+      $('#pop').innerHTML=`<div class="pop" role="dialog" aria-label="Correction"><div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span></div>
+        ${a.type==='good'?`<div class="quote">“${esc(a.quote)}”</div>`:`<div><span class="label">You wrote</span><div class="quote" style="margin-top:4px">${esc(a.quote)}</div></div>${a.correction?`<div><span class="label">Better</span><div class="fix" style="margin-top:2px">${esc(a.correction)}</div></div>`:''}`}
+        ${a.note?`<p class="small" style="color:var(--ink-2)">${esc(a.note)}</p>`:''}<div class="pop-acts"><button class="btn sm" data-act="pop-close">Got it</button></div></div>`;
+      placePop($('#pop .pop'), mk.getBoundingClientRect());
+    }
+    return;
+  }
+  if(!b) return;
+  const act=b.dataset.act, R=S.review;
+  switch(act){
+    case 'go': if(b.dataset.v==='write'){ startEdit(); } else go(b.dataset.v); break;
+    case 'demo': startDemo('teacher'); break;
+    case 'explore': startDemo('teacher'); break;
+    case 'sign-out': if(S.au) S.au.signOut(S.auth); break;
+    case 'login-step': S.view={name:'login',step:b.dataset.s,email:($('#login-email')?.value||S.view.email||'').trim()}; renderMain(); break;
+    case 'pw-signin': case 'pw-signup': { const email=($('#login-email')?.value||'').trim(), pass=$('#login-pass')?.value||'';
+      if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; } if(pass.length<6){ toast('The password needs at least 6 characters.'); break; }
+      b.disabled=true; LS.set('last-email',email);
+      try{ act==='pw-signup' ? await S.au.createUserWithEmailAndPassword(S.auth,email,pass) : await S.au.signInWithEmailAndPassword(S.auth,email,pass); }
+      catch(e){ toast(authMsg(e)); b.disabled=false; } break; }
+    case 'pw-reset': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; }
+      b.disabled=true; try{ await S.au.sendPasswordResetEmail(S.auth,email); toast('Check your email for a link to set a new password.'); S.view={name:'login',step:'signin',email}; renderMain(); }catch(e){ toast(authMsg(e)); b.disabled=false; } break; }
+    case 'send-link': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; }
+      b.disabled=true; b.textContent='Sending…';
+      try{ await S.au.sendSignInLinkToEmail(S.auth, email, {url: location.origin+location.pathname, handleCodeInApp:true}); LS.set('signin-email',email); S.view={name:'login',step:'sent',email}; renderMain(); }
+      catch(e){ toast(authMsg(e)); b.disabled=false; b.textContent='Email me a sign-in link'; } break; }
+    case 'confirm-link': { const email=($('#login-email')?.value||'').trim(); if(!email){ toast('Type your email.'); break; } b.disabled=true; await completeSignIn(email); break; }
+    case 'demo-role': startDemo(b.dataset.role); break;
+    case 'leave-demo': leaveDemo(); break;
+    case 'open-review': openReview(b.dataset.sid,b.dataset.eid); break;
+    case 'open-student': go('student',{sid:b.dataset.sid}); break;
+    case 'open-entry': go('entry',{eid:b.dataset.eid}); break;
+    case 'rv-view': R.view=b.dataset.v; closePop(); renderReviewTools(); renderPaper(); break;
+    case 'ai': aiSuggest(); break;
+    case 'copy-fixed': { const txt=correctedText(R.entry.body,R.data.annotations); try{ await navigator.clipboard.writeText(txt); toast('Corrected text copied.'); }catch(e){ R.view='corrected'; renderReviewTools(); renderPaper(); const r=document.createRange(); r.selectNodeContents($('#paper-text')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast('Text selected. Press Ctrl+C to copy.'); } break; }
+    case 'pop-type': { const P=S.pop; if(!P||!P.a) break; P.a.type=b.dataset.k; document.querySelectorAll('#pop .types .tchip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===P.a.type)); const w=$('#pf-fix-wrap'); if(w) w.hidden = P.a.type==='good'; (P.a.type==='good'?$('#pf-note'):$('#pf-fix')).focus(); break; }
+    case 'pop-save': popSave(); break;
+    case 'pop-close': closePop(); getSelection().removeAllRanges(); break;
+    case 'pop-del': { const id=S.pop?.a?.id; R.data.annotations=R.data.annotations.filter(a=>a.id!==id); closePop(); renderPaper(); renderAnnList(); scheduleSave(); break; }
+    case 'ann-open': { const a=R.data.annotations.find(x=>x.id===b.dataset.id); if(!a) break; R.view='marked'; R.selId=a.id; renderReviewTools(); renderPaper(); const el=$(`#paper-text .mk[data-id="${CSS.escape(a.id)}"]`); if(el){ el.scrollIntoView({block:'center',behavior:'smooth'}); setTimeout(()=>openAnnPop(a,el.getBoundingClientRect(),false),260);} break; }
+    case 'sug-accept': case 'sug-edit': case 'sug-dismiss': { const s=S.pop?.sug; if(!s) break; R.sugs=R.sugs.filter(x=>x.id!==s.id); closePop();
+      if(act==='sug-accept'){ R.data.annotations.push({...s,id:newId()}); scheduleSave(); }
+      if(act==='sug-edit'){ renderPaper(); renderReviewTools(); const a={...s}; openAnnPop({...a,id:undefined}, $('#paper-text').getBoundingClientRect(), true); S.pop.a=a; delete S.pop.a.id; break; }
+      renderReviewTools(); renderPaper(); renderAnnList(); break; }
+    case 'sug-all': R.data.annotations.push(...R.sugs.map(s=>({...s,id:newId()}))); R.sugs=[]; renderReviewTools(); renderPaper(); renderAnnList(); scheduleSave(); toast('Suggestions added. Check them before returning.'); break;
+    case 'sug-none': R.sugs=[]; renderReviewTools(); renderPaper(); break;
+    case 'band': { const k=b.dataset.k; let v=R.data.bands[k]; v = v==null ? 5 : Math.min(9,Math.max(0,v+Number(b.dataset.d))); R.data.bands[k]=v; $('#band-'+k).textContent=fmtBand(v); $('#band-overall').textContent=fmtBand(overallBand(R.data.bands)); scheduleSave(); break; }
+    case 'bank-ins': { const t=(S.prefs?.bank||DEFAULT_BANK)[+b.dataset.i]; const c=$('#rv-comment'); c.value = (c.value.trim()? c.value.trim()+' ':'')+t; R.data.comment=c.value; scheduleSave(); c.focus(); break; }
+    case 'vocab-add': { const w=$('#vw').value.trim(), m=$('#vm').value.trim(), x=$('#vx').value.trim(); if(!w||!m){ toast('Add the word and its meaning.'); break; } R.data.vocab=R.data.vocab||[]; R.data.vocab.push({w,m,ex:x}); $('#vw').value=$('#vm').value=$('#vx').value=''; renderVocab(); scheduleSave(); $('#vw').focus(); break; }
+    case 'vocab-del': R.data.vocab.splice(+b.dataset.i,1); renderVocab(); scheduleSave(); break;
+    case 'finish': { const st=b.dataset.st; if(overallBand(R.data.bands)==null && st==='reviewed' && !b.dataset.ok){ b.dataset.ok='1'; b.textContent='Return without full band scores?'; break; }
+      document.querySelectorAll('[data-act="finish"]').forEach(x=>x.disabled=true);
+      await saveReview(st); toast(st==='reviewed'?'Returned to the student.':'Revision requested.');
+      const next=allEntries().filter(x=>x.status==='submitted'&&!(x.sid===R.sid&&x.eid===R.eid)).sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0))[0];
+      if(next) openReview(next.sid,next.eid); else go('inbox'); break; }
+    case 'save-prompt': { const t=$('#prompt-txt').value.trim(); if(!t){ toast('Write a prompt first.'); break; } try{ await S.db.doc('settings/prompt').set({text:t,setAt:Date.now()}); toast('Prompt published to all students.'); }catch(e){ dbErr(e,'publish the prompt'); } break; }
+    case 'clear-prompt': try{ await S.db.doc('settings/prompt').delete(); $('#prompt-txt').value=''; toast('Prompt removed.'); }catch(e){ dbErr(e,'remove the prompt'); } break;
+    case 'use-idea': $('#prompt-txt').value=b.dataset.t; $('#prompt-txt').focus(); break;
+    case 'bank-add': { const v=$('#bank-new').value.trim(); if(!v) break; S.prefs=S.prefs||{bank:DEFAULT_BANK.slice()}; S.prefs.bank.unshift(v); await savePrefs(); renderMain(); break; }
+    case 'bank-del': S.prefs=S.prefs||{bank:DEFAULT_BANK.slice()}; S.prefs.bank.splice(+b.dataset.i,1); await savePrefs(); renderMain(); break;
+    // student
+    case 'setup-save': { const name=$('#setup-name').value.trim(); if(!name){ toast('Type your name.'); break; } const prof={name,level:$('#setup-level').value,joinedAt:Date.now(),updatedAt:Date.now(),index:{}}; b.disabled=true; try{ await S.db.doc(`journals/${S.uid}`).set(prof); }catch(e){ b.disabled=false; dbErr(e,'create your journal'); } break; }
+    case 'new-entry': startEdit({prompt:!!b.dataset.prompt}); break;
+    case 'mood': S.edit.mood = S.edit.mood===b.dataset.k? null : b.dataset.k; document.querySelectorAll('.mood').forEach(m=>m.setAttribute('aria-pressed', m.dataset.k===S.edit.mood)); if(!S.edit.eid&&!S.edit.revisionOf) LS.set(draftKey(),S.edit); break;
+    case 'submit-entry': submitEntry(); break;
+    case 'cancel-write': { const wasEdit=S.edit?.eid; S.edit=null; wasEdit? go('entry',{eid:wasEdit}) : go('home'); break; }
+    case 'del-entry': $('#del-confirm').innerHTML=`<div class="notice" style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">Delete this entry for good? <button class="btn sm pen" data-act="del-yes">Delete</button><button class="btn sm" data-act="del-no">Keep it</button></div>`; break;
+    case 'del-yes': deleteEntry(S.edit.eid); break;
+    case 'del-no': $('#del-confirm').innerHTML=''; break;
+    case 'edit-entry': startEdit({eid:b.dataset.eid}); break;
+    case 'revise': startEdit({revisionOf:b.dataset.eid}); break;
+    case 'entry-view': S.view.mode=b.dataset.v; renderMain(); break;
+    case 'mist-f': S.view.f=b.dataset.k; renderMain(); break;
+  }
+});
+document.addEventListener('change', ev=>{
+  const t=ev.target; if(t.dataset && t.dataset.act==='learn'){ const s=new Set(LS.get('learned:'+S.uid,[])); t.checked? s.add(t.dataset.w): s.delete(t.dataset.w); LS.set('learned:'+S.uid,[...s]); renderMain(); }
+});
+document.addEventListener('keydown', ev=>{
+  if(S.pop && S.pop.a){
+    if(ev.key==='Escape'){ closePop(); return; }
+    if(ev.key==='Enter' && ev.target.closest('#pop') && ev.target.tagName==='INPUT'){ ev.preventDefault(); popSave(); return; }
+    if(ev.altKey && /^[1-9]$/.test(ev.key)){ ev.preventDefault(); const t=TYPES[+ev.key-1]; S.pop.a.type=t.k; document.querySelectorAll('#pop .types .tchip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===t.k)); const w=$('#pf-fix-wrap'); if(w) w.hidden=t.k==='good'; }
+  } else if(ev.key==='Escape') closePop();
+  if(ev.key==='Enter' && (ev.target.id==='login-email'||ev.target.id==='login-pass')){ $('#main .paper .btn.primary')?.click(); }
+  if(ev.key==='Enter' && ev.target.id==='bank-new'){ $('[data-act="bank-add"]').click(); }
+  if((ev.key==='Enter'||ev.key===' ') && ev.target.classList?.contains('mk')){ ev.preventDefault(); ev.target.click(); }
+});
+window.addEventListener('resize', ()=>{ if(S.pop) closePop(); });
+document.addEventListener('scroll', ()=>{ if(S.pop && !$('#pop .pop')?.contains(document.activeElement)) closePop(); }, {passive:true});
+
+renderTop(); boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// Daybook security rules.
+// Replace teacher@example.com with the teacher's email (the same as TEACHER_EMAIL in config.js).
+// Each student can read and write only their own journal; only the teacher reads every journal
+// and only the teacher writes feedback.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isTeacher() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() == 'teacher@example.com';
+    }
+    function isMe(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // A student's journal: profile document + entries.
+    match /journals/{uid} {
+      allow read, write: if isMe(uid) || isTeacher();
+      match /entries/{eid} {
+        allow read, write: if isMe(uid) || isTeacher();
+      }
+    }
+
+    // Teacher's feedback: the student may read their own, only the teacher writes.
+    match /feedback/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+      match /reviews/{eid} {
+        allow read: if isMe(uid) || isTeacher();
+        allow write: if isTeacher();
+      }
+    }
+
+    // Prompt of the week: every signed-in student reads it, only the teacher sets it.
+    match /settings/{doc} {
+      allow read: if signedIn();
+      allow write: if isTeacher();
+    }
+
+    // Teacher's private comment bank.
+    match /teacher/{doc} {
+      allow read, write: if isTeacher();
+    }
+  }
+}
