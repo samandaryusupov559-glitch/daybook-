@@ -62,21 +62,17 @@ Bu qoidalar har bir talabaning yozuvini boshqalardan himoya qiladi.
 
 ---
 
-## Yangilash: To'lovlar uchun xavfsizlik qoidalari
+## Yangilash: xavfsizlik qoidalari
 
-To'lovlar bo'limi ishlashi uchun Firebase qoidalarini bir marta yangilash kerak:
+Yangi bo'limlar (to'lovlar, e'lonlar, vazifalar, band qilish) ishlashi uchun Firebase qoidalarini yangilash kerak. Har safar `firestore.rules` o'zgarsa, shuni takrorlang:
 
 1. **Firestore Database → Rules** bo'limini oching.
 2. Yangi `firestore.rules` faylidagi hamma matnni u yerga qo'ying (eski matnni o'chirib).
 3. **Publish** ni bosing.
 
-Qoidalar yangilanmaguncha To'lovlar sahifasida shu haqda ogohlantirish chiqadi.
+Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 
-### Eski Tuition Ledger yozuvlarini ko'chirish
-
-1. Eski Tuition Ledger sahifasini claude.ai'da oching va **Export CSV** ni bosing.
-2. Daybook'da **To'lovlar → CSV import qilish** ni bosing va shu faylni tanlang.
-3. Talabalar va to'lovlar qo'shiladi. Bir xil ismli talaba ikki marta qo'shilmaydi.
+**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (29 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
 
 ## Foydalanish
 
@@ -85,6 +81,9 @@ Qoidalar yangilanmaguncha To'lovlar sahifasida shu haqda ogohlantirish chiqadi.
 3. Parolini unutgan talaba **Forgot password?** tugmasini bosadi.
 4. Yozuvlar **Inbox**'ga keladi. So'zlarni belgilab xato qo'ying, band ball bering va **Return to student** ni bosing.
 5. Talaba sahifasida "Your teacher checked…" xabari chiqadi. U xatolarini ko'radi yoki **Please revise** bo'lsa qayta yozadi.
+6. **E'lonlar taxtasi:** e'lon yozing (muhimini tepaga mahkamlang), maslahat, so'z yoki idioma postlarini joylang. Shu yerda **butun sinfga vazifa** ham berasiz.
+7. **Vazifalar:** talaba sahifasida unga alohida vazifa yoki o'rganadigan narsa qo'shing, muddat qo'yish mumkin. "Yozma vazifa" belgilansa, talaba **Yozish** tugmasi bilan darhol jurnalga yozadi. Talaba bajarganini belgilaydi, siz ko'rasiz.
+8. **Xizmatlar va bo'sh vaqtlar:** qo'shimcha dars, kitob o'qish, kino klubi kabi xizmatlarni narxi bilan qo'shing va bo'sh vaqtlaringizni kiriting. Talabalar band qiladi, siz **Band qilishlar** sahifasida tasdiqlaysiz yoki rad etasiz.
 
 ## Fayllar
 
@@ -94,5 +93,6 @@ Qoidalar yangilanmaguncha To'lovlar sahifasida shu haqda ogohlantirish chiqadi.
 | `config.js` | Firebase kalitlari va o'qituvchi emaili |
 | `i18n.js` | Ingliz, o'zbek va rus tilidagi barcha matnlar |
 | `firestore.rules` | Kim nimani ko'rishi mumkinligi (Firebase'ga qo'yiladi) |
+| `tests/rules.test.mjs` | Qoidalarni buzishga urinib tekshiruvchi test |
 
 Firebase'ning bepul tarifi kuniga 50 000 o'qish va 20 000 yozishgacha ruxsat beradi. Bu bir necha o'nlab talabaga bemalol yetadi.

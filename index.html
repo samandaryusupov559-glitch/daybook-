@@ -438,6 +438,81 @@ dialog.dlg::backdrop{background:rgba(11,14,27,.55);backdrop-filter:blur(2px)}
 @media (max-width:560px){.paycard{grid-template-columns:auto minmax(0,1fr)}.pc-side{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center}}
 .lg-row{grid-template-columns:auto minmax(0,1fr) auto}
 .lg-amt-big{font-family:var(--f-display);font-weight:400;font-size:20px;white-space:nowrap}
+/* noticeboard, learn, plans, extra lessons */
+.nav button:nth-of-type(7){--tab:var(--c-sp)} .nav button:nth-of-type(8){--tab:var(--c-p)}
+.bd-card{padding:18px 20px}
+.bd-card h3{display:flex;align-items:center;gap:8px}
+.bd-card h3 svg{width:18px;height:18px;color:var(--pen)}
+.ann-item{padding:12px 14px;border-radius:12px;background:var(--sheet-2);border-left:3px solid var(--line)}
+.ann-item.pin{background:color-mix(in srgb,var(--sticky) 45%,var(--sheet));border-left-color:var(--warn)}
+.ann-item p{white-space:pre-wrap}
+.pin-tag{color:var(--warn)}
+.posts{columns:2 300px;column-gap:16px}
+.post{break-inside:avoid;margin-bottom:16px;display:flex;flex-direction:column;gap:8px;padding:16px 18px 18px;background:var(--sheet);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 26px -24px var(--shadow);position:relative;overflow:hidden}
+.post::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--kc,var(--blue))}
+.post.k-tip{--kc:var(--c-prep)} .post.k-vocab{--kc:var(--blue)} .post.k-idiom{--kc:var(--c-ww)}
+.post h3{font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.15;letter-spacing:-.01em}
+.post p{color:var(--ink-2);white-space:pre-wrap}
+.post-ex{display:flex;flex-direction:column;gap:2px;padding:9px 12px;border-radius:10px;background:var(--sheet-2);border-left:3px solid var(--kc,var(--blue))}
+.post-ex span:last-child{font-family:var(--f-write);color:var(--blue);font-size:15.5px}
+.kpill{display:inline-flex;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:999px;color:var(--kc,var(--blue));background:color-mix(in srgb,var(--kc,var(--blue)) 12%,var(--sheet))}
+.kpill.k-tip{--kc:var(--c-prep)} .kpill.k-vocab{--kc:var(--blue)} .kpill.k-idiom{--kc:var(--c-ww)}
+.home-board{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:20px}
+.home-board.two{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+@media (max-width:820px){.home-board.two{grid-template-columns:minmax(0,1fr)}}
+.ann-board{display:flex;flex-direction:column;gap:10px}
+.ann-board > .label{display:flex;align-items:center;gap:6px}
+.ann-board > .label svg{width:14px;height:14px;color:var(--pen)}
+.ann-note{position:relative;padding:14px 16px 12px;border-radius:4px 14px 14px 4px;background:var(--sheet);border:1px solid var(--line);border-left:4px solid var(--pen);box-shadow:0 10px 22px -20px var(--shadow)}
+.ann-note.pin{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;border-left-color:var(--warn);transform:rotate(-.4deg)}
+.ann-note.pin .faint{color:color-mix(in srgb,var(--sticky-ink) 60%,transparent)}
+.ann-note p{font-size:15.5px;white-space:pre-wrap;margin-bottom:4px}
+.plan-card{padding:16px 18px}
+.plan-list{display:flex;flex-direction:column;gap:4px}
+.task-form{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:10px;align-items:end}
+.task-form > .inp{grid-column:1/-1}
+.task-form .task-w{align-self:center}
+.task-form .btn{grid-column:2}
+@media (max-width:560px){.task-form{grid-template-columns:minmax(0,1fr)}.task-form .btn{grid-column:auto}}
+.due{display:inline-flex;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--blue-soft);color:var(--blue);margin-left:4px;white-space:nowrap}
+.due.late{background:var(--pen-soft);color:var(--pen)}
+.plan-it svg{width:14px;height:14px;vertical-align:-2px;margin-right:5px;color:var(--pen)}
+.plan-it .btn svg{color:inherit;margin:0}
+.plan-it{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .15s}
+label.plan-it:hover{background:var(--sheet-2)}
+.plan-it input{width:19px;height:19px;accent-color:var(--ok);margin:0}
+.plan-it.done > span:nth-child(2){text-decoration:line-through;color:var(--ink-3)}
+.plan-it .tick{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);color:var(--ok);font-weight:800;font-size:13px}
+.plan-it.done .tick{border-color:var(--ok);background:var(--ok-soft)}
+div.plan-it{cursor:default;background:var(--sheet-2)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.svc{position:relative;display:flex;flex-direction:column;gap:8px;padding:18px;background:var(--sheet);border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 28px -24px var(--shadow);overflow:hidden}
+.svc.k-lesson{--kc:var(--blue)} .svc.k-reading{--kc:var(--c-prep)} .svc.k-movie{--kc:var(--pen)} .svc.k-other{--kc:var(--c-art)}
+.svc::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:color-mix(in srgb,var(--kc) 10%,transparent)}
+.svc-top{display:flex;align-items:center;gap:10px}
+.svc-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--kc,var(--blue)) 14%,var(--sheet));color:var(--kc,var(--blue));flex:none}
+.svc-ic svg{width:21px;height:21px}
+.svc-ic.sm{width:34px;height:34px;border-radius:10px;--kc:var(--blue)}
+.svc h3{font-family:var(--f-display);font-weight:400;font-size:23px;line-height:1.15}
+.svc p{font-size:14px}
+.svc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
+.svc-foot b{font-family:var(--f-display);font-weight:400;font-size:20px}
+.slots,.slot-pick{display:flex;flex-wrap:wrap;gap:8px}
+.slot{display:inline-flex;align-items:center;gap:10px;padding:7px 8px 7px 14px;border-radius:12px;background:var(--sheet);border:1px solid var(--line);font-weight:600;font-size:14px}
+.slot.free{padding-right:14px;border-color:color-mix(in srgb,var(--ok) 40%,var(--line));background:color-mix(in srgb,var(--ok-soft) 60%,var(--sheet))}
+.slot.past{opacity:.55}
+.slot.pickable{cursor:pointer;padding-right:14px}
+.slot.pickable input{accent-color:var(--pen);margin:0}
+.slot.pickable:has(input:checked){border-color:var(--pen);background:var(--pen-soft)}
+.slot-add{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end;padding:14px 16px}
+@media (max-width:640px){.slot-add{grid-template-columns:1fr 1fr}.slot-add .field:first-child{grid-column:1/-1}.slot-add .btn{grid-column:1/-1}}
+.req{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 16px 13px 18px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.req::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--blue)}
+.req.ok::before{background:var(--ok)} .req.no::before{background:var(--line)} .req.no{opacity:.7}
+.req-note{font-family:var(--f-hand);font-size:16px;color:var(--ink-2);margin-top:2px}
+.req-act{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+@media (max-width:560px){.req{grid-template-columns:auto minmax(0,1fr)}.req-act{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center}}
+.pill.bk-wait{background:var(--blue-soft);color:var(--blue)} .pill.bk-ok{background:var(--ok-soft);color:var(--ok)} .pill.bk-no{background:var(--sheet-3);color:var(--ink-3)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -676,6 +751,24 @@ function seedDemo(db){
   const payRows = pays.map(([studentId,month,amount,method],i)=>({id:'p'+i, studentId, month, amount, method, date:month+'-0'+(3+i%5), note:'', createdAt:new Date(ts(10)).toISOString()}));
   payRows.forEach(({id,...p})=>db.m.set('ledger/main/payments/'+id, p));
   const ex = {students:lst, payments:payRows};
+  const d0 = n => { const d=new Date(); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+  db.m.set('board/main', {ann:[
+      {id:'a1', text:'No lesson on Friday. We meet on Saturday at 10:00 instead. Bring your journals!', pin:true, at:ts(1)},
+      {id:'a2', text:'Great work this week, everyone. The movie session is open for booking.', pin:false, at:ts(3)}],
+    posts:[
+      {id:'p1', kind:'idiom', title:'Break the ice', body:'To make people feel relaxed when they meet for the first time.', ex:'Our teacher told a funny story to break the ice.', at:ts(2)},
+      {id:'p2', kind:'tip', title:'Read your text aloud', body:'Before you send an entry, read it aloud once. Your ear finds mistakes your eyes miss.', ex:'', at:ts(4)},
+      {id:'p3', kind:'vocab', title:'Exhausted', body:'Very, very tired. Stronger than “tired”.', ex:'After three exams I was exhausted.', at:ts(5)}]});
+  db.m.set('board/services', {services:[
+      {id:'s1', kind:'lesson', title:'Extra lesson (1-to-1)', desc:'A private lesson on any topic you choose: grammar, speaking or exam practice.', price:100000, minutes:60},
+      {id:'s2', kind:'reading', title:'Reading club', desc:'We read a short story together and learn new vocabulary and grammar from it.', price:50000, minutes:90},
+      {id:'s3', kind:'movie', title:'Movie session', desc:'We watch an English film with subtitles and learn idioms, vocabulary and grammar from the scenes.', price:60000, minutes:120}],
+    slots:[{id:'t1', date:d0(1), from:'16:00', to:'17:30'},{id:'t2', date:d0(3), from:'18:00', to:'20:00'},{id:'t3', date:d0(5), from:'10:00', to:'11:00'}]});
+  db.m.set('plans/ex-aziza', {items:[{id:'i1', text:'Past simple: regular and irregular verbs'},{id:'i2', text:'Articles a / an / the'},{id:'i3', text:'10 words about food and cooking'},{id:'i4', text:'Linking words: however, because, although'},{id:'i5', text:'Write about your weekend (at least 80 words)', due:d0(2), write:true}], done:{i1:true,i2:false}});
+  db.m.set('plans/ex-timur', {items:[{id:'j1', text:'Prepositions of time: in / on / at'}], done:{}});
+  db.m.set('bookings/ex-timur', {name:'Timur (example)', items:[{id:'b1', serviceId:'s3', slotId:'t2', note:'Can my brother come too?', at:ts(0)}]});
+  db.m.set('bookings/ex-aziza', {name:'Aziza (example)', items:[{id:'b2', serviceId:'s2', slotId:'t1', note:'', at:ts(1)}]});
+  db.m.set('bookingStatus/ex-aziza', {b2:'ok'});
   lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
 }
 
@@ -797,7 +890,7 @@ function startTeacher(){
   S.unsubs.push(S.db.collection('feedback').onSnapshot(s=>{ const f={}; s.docs.forEach(d=>{ if(d.exists) f[d.id]=d.data(); }); S.feedback=f; S.loaded.f=true; checkNewEntries(); refresh(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refresh(); }, onErr));
   S.db.doc('teacher/prefs').get().then(s=>{ S.prefs = s.exists? s.data(): {bank:DEFAULT_BANK.slice()}; }).catch(()=>{ S.prefs={bank:DEFAULT_BANK.slice()}; });
-  startLedger();
+  startLedger(); startBoard('teacher');
   refresh(); renderMain();
 }
 function startStudent(){
@@ -809,6 +902,7 @@ function startStudent(){
   S.unsubs.push(S.db.doc(`feedback/${u}`).onSnapshot(s=>{ S.myFeedback = s.exists? s.data(): null; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.collection(`feedback/${u}/reviews`).onSnapshot(s=>{ const r={}; s.docs.forEach(d=>{ if(d.exists) r[d.id]=d.data(); }); S.myReviews=r; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refreshStudent(); }, onErr));
+  startBoard('student');
   refresh(); renderMain();
 }
 function refreshStudent(){
@@ -845,13 +939,13 @@ function renderNav(){
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
     document.title = (waiting?`(${waiting}) `:'')+'Daybook · '+tr('title.teacher');
-    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',lgOwing(),true) + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',lgOwing(),true) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
     document.title = (unseen?`(${unseen}) `:'')+'Daybook · '+tr('title.student');
     const owe = S.myBalance && S.myBalance.left>0;
-    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
+    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
   }
 }
 
@@ -874,7 +968,7 @@ function renderMain(){
   if(v==='login'){ m.innerHTML=vLogin(); setTimeout(()=>$('#login-email')?.focus(),50); return; }
   if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML=`<div class="loading">${tr('load.teacher')}</div>`; return; }
   if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML=`<div class="loading">${tr('load.student')}</div>`; return; }
-  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger,
+  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, learn:vLearn, book:vBook,
               home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay}[v];
   m.innerHTML = fn ? fn() : '';
   after[v] && after[v]();
@@ -967,6 +1061,7 @@ function vStudent(){
     ${lgs?`<button class="btn sm" data-act="lg-open" data-id="${esc(lgs.id)}">${I.coin} <span class="pill lg-${lgL.status}">${tr('lg.st.'+lgL.status)}</span>${lgL.left>0?`<span class="num">${tr('lg.left')} ${money(lgL.left)}</span>`:''}</button>`:''}</div>
     <div class="stats"><div class="stat"><b>${st.entries}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${st.words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${fmtBand(st.latest)}</b><span>${tr('k.latest')}</span></div><div class="stat"><b>${st.waiting}</b><span>${tr('k.waiting')}</span></div></div>
     <div class="grid2 section"><div class="card"><h3>${tr('stu.trend')}</h3>${bandChart(st.pts)}</div><div class="card"><h3>${tr('stu.recur')}</h3>${errorBars(st.errs)}</div></div>
+    ${planEditor(sid)}
     <div class="section"><h2>${tr('stu.entries')}</h2><div class="list">${entries.map(e=>entryCard(e)).join('') || `<p class="faint">${tr('stu.noEntries')}</p>`}</div></div>
     <div class="section"><h2>${tr('stu.given',{name:esc((p.name||'').split(' ')[0])})}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:`<p class="small faint">${tr('stu.addWords')}</p>`}</div>`;
 }
@@ -1332,6 +1427,189 @@ function vPay(){
     <div class="section"><h2>${tr('pay.history')}</h2>${(B.history||[]).length?`<div class="list">${B.history.map(p=>`<div class="lg-st paid lg-row"><span class="datechip"><b>${parseDate(p.date).getDate()}</b><span>${dloc(parseDate(p.date),{month:'short'})}</span></span><span style="min-width:0"><b>${tr('lg.forM',{m:esc(ymText(p.month))})}</b><br><span class="small faint">${esc(methodName(p.method))}</span></span><b class="num lg-amt-big">${som(p.amount)}</b></div>`).join('')}</div>`:`<p class="faint">${tr('lg.noPays')}</p>`}</div>`;
 }
 
+/* ---------------- noticeboard, learn, plans, extra lessons ---------------- */
+const KINDS = ['tip','vocab','idiom'];
+const SVC_KINDS = ['lesson','reading','movie','other'];
+const SVC_IC = {lesson:'pen', reading:'book', movie:'spark', other:'bulb'};
+const nowTs = () => Date.now();
+function startBoard(role){
+  S.board={ann:[],posts:[]}; S.svc={services:[],slots:[]}; S.permErr=false;
+  S.plans={}; S.bookings={}; S.bstat={}; S.myPlan=null; S.myBook=null; S.myBStat={};
+  const perm = e => { if(e && e.code==='permission-denied'){ S.permErr=true; refreshAny(); } };
+  S.unsubs.push(S.db.doc('board/main').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.board={ann:d.ann||[], posts:d.posts||[]}; refreshAny(); }, perm));
+  S.unsubs.push(S.db.doc('board/services').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.svc={services:d.services||[], slots:d.slots||[]}; refreshAny(); }, perm));
+  if(role==='teacher'){
+    S.unsubs.push(S.db.collection('plans').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.plans=o; refreshAny(); }, perm));
+    S.unsubs.push(S.db.collection('bookings').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.bookings=o; refreshAny(); }, perm));
+    S.unsubs.push(S.db.collection('bookingStatus').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.bstat=o; refreshAny(); }, perm));
+  } else {
+    const u=S.uid;
+    S.unsubs.push(S.db.doc(`plans/${u}`).onSnapshot(s=>{ S.myPlan=s.exists?s.data():null; refreshAny(); }, ()=>{}));
+    S.unsubs.push(S.db.doc(`bookings/${u}`).onSnapshot(s=>{ S.myBook=s.exists?s.data():null; refreshAny(); }, ()=>{}));
+    S.unsubs.push(S.db.doc(`bookingStatus/${u}`).onSnapshot(s=>{ S.myBStat=s.exists?s.data():{}; refreshAny(); }, ()=>{}));
+  }
+}
+function refreshAny(){ S.mode==='teacher' ? refresh() : refreshStudent(); }
+const rulesNote = () => S.permErr ? `<div class="notice">${tr('rules.old')}</div>` : '';
+const upcoming = () => S.svc.slots.filter(x=>x.date>=todayStr()).sort((a,b)=>(a.date+a.from).localeCompare(b.date+b.from));
+const slotText = x => x ? `${cap(dloc(parseDate(x.date),{weekday:'short',day:'numeric',month:'short'}))}, ${esc(x.from)}–${esc(x.to)}` : '–';
+const priceText = v => +v>0 ? som(v) : tr('bk.free');
+const kindPill = k => `<span class="kpill k-${k}">${tr('kind.'+k)}</span>`;
+function allRequests(){
+  const out=[];
+  for(const [uid,b] of Object.entries(S.bookings)) for(const it of (b.items||[])) out.push({...it, uid, name:S.profiles[uid]?.name||b.name||'?', st:S.bstat[uid]?.[it.id]||'wait'});
+  return out.sort((a,b)=>(a.st==='wait'?0:1)-(b.st==='wait'?0:1) || (b.at||0)-(a.at||0));
+}
+const pendingRequests = () => allRequests().filter(r=>r.st==='wait').length;
+
+/* teacher: noticeboard */
+function vBoard(){
+  const B=S.board, ann=[...B.ann].sort((a,b)=>(b.pin?1:0)-(a.pin?1:0) || b.at-a.at), posts=[...B.posts].sort((a,b)=>b.at-a.at);
+  return `<div class="page-head"><div><h1>${tr('bd.h')}</h1><p>${tr('bd.p')}</p></div></div>${rulesNote()}
+  <div class="grid2">
+    <div class="card bd-card"><h3>${I.flag} ${tr('bd.annH')}</h3>
+      <textarea class="inp" id="ann-txt" rows="3" placeholder="${tr('bd.annPh')}"></textarea>
+      <div class="row" style="margin-top:10px;justify-content:space-between"><label class="small row" style="gap:6px;cursor:pointer"><input type="checkbox" id="ann-pin"> ${tr('bd.pin')}</label><button class="btn primary sm" data-act="ann-add">${tr('bd.publish')}</button></div>
+      <div class="stack" style="margin-top:16px;gap:8px">${ann.length?ann.map(a=>`<div class="ann-item ${a.pin?'pin':''}"><p>${esc(a.text)}</p><div class="row small faint" style="justify-content:space-between;margin-top:6px"><span>${a.pin?`<b class="pin-tag">${tr('bd.pinned')}</b> · `:''}${ago(a.at)}</span><span class="row" style="gap:2px"><button class="btn ghost sm" data-act="ann-pin" data-id="${esc(a.id)}">${a.pin?tr('bd.unpin'):tr('bd.pin')}</button><button class="btn ghost sm" data-act="ann-del" data-id="${esc(a.id)}" style="color:var(--pen)">${tr('delete')}</button></span></div></div>`).join(''):`<p class="small faint">${tr('bd.noAnn')}</p>`}</div>
+    </div>
+    <div class="card bd-card"><h3>${I.bulb} ${tr('bd.postsH')}</h3><p class="small muted" style="margin:-6px 0 12px">${tr('bd.postsP')}</p>
+      <div class="field"><span>${tr('bd.kind')}</span><div class="seg" id="post-kind">${KINDS.map((k,i)=>`<button data-act="post-kind" data-k="${k}" aria-pressed="${i===0}">${tr('kind.'+k)}</button>`).join('')}</div></div>
+      <div class="stack" style="gap:10px;margin-top:10px">
+        <label class="field"><span>${tr('bd.title')}</span><input class="inp" id="post-title" placeholder="${tr('bd.titlePh')}" maxlength="120"></label>
+        <label class="field"><span>${tr('bd.body')}</span><textarea class="inp" id="post-body" rows="3" placeholder="${tr('bd.bodyPh')}"></textarea></label>
+        <label class="field"><span>${tr('bd.ex')}</span><input class="inp" id="post-ex" placeholder="${tr('bd.exPh')}" lang="en"></label>
+        <button class="btn primary sm" style="align-self:flex-end" data-act="post-add">${tr('bd.addPost')}</button>
+      </div>
+    </div>
+  </div>
+  <div class="section card bd-card"><h3>${I.pen} ${tr('task.all')}</h3><p class="small muted" style="margin:-6px 0 12px">${tr('task.allP')}</p>${taskForm('task-new','task-all')}</div>
+  <div class="section"><h2>${tr('bd.postsH')}</h2>${posts.length?`<div class="posts">${posts.map(p=>postCard(p,true)).join('')}</div>`:`<p class="faint">${tr('bd.noPosts')}</p>`}</div>`;
+}
+function postCard(p, teacher){
+  return `<article class="post k-${esc(p.kind)}"><div class="row" style="justify-content:space-between">${kindPill(p.kind)}<span class="small faint">${ago(p.at)}</span></div>
+    <h3 lang="en">${esc(p.title)}</h3><p>${esc(p.body)}</p>${p.ex?`<p class="post-ex"><span class="label">${tr('learn.ex')}</span><span lang="en">${esc(p.ex)}</span></p>`:''}
+    ${teacher?`<button class="btn ghost sm" data-act="post-del" data-id="${esc(p.id)}" style="color:var(--pen);align-self:flex-end">${tr('delete')}</button>`:''}</article>`;
+}
+async function saveBoard(mut, okMsg){
+  const next = clone(S.board); mut(next);
+  try{ await S.db.doc('board/main').set(next); if(okMsg) toast(okMsg); return true; }catch(e){ dbErr(e,'board'); return false; }
+}
+
+/* student: learn */
+function vLearn(){
+  const f=S.view.f||'all', posts=[...S.board.posts].sort((a,b)=>b.at-a.at), shown=posts.filter(p=>f==='all'||p.kind===f);
+  const c={}; posts.forEach(p=>c[p.kind]=(c[p.kind]||0)+1);
+  return `<div class="page-head"><div><h1>${tr('learn.h')}</h1><p>${tr('learn.p')}</p></div></div>
+  ${posts.length?`<div class="seg" style="margin-bottom:18px">${['all',...KINDS].map(k=>`<button data-act="learn-f" data-k="${k}" aria-pressed="${f===k}">${k==='all'?tr('learn.all'):tr('kind.'+k)} <span class="cnt-s num">${k==='all'?posts.length:(c[k]||0)}</span></button>`).join('')}</div>
+  <div class="posts">${shown.map(p=>postCard(p,false)).join('')}</div>`:`<div class="empty"><h3>${tr('learn.empty')}</h3></div>`}`;
+}
+
+/* announcements + plan on the student home */
+function homeBoard(){
+  const ann=[...S.board.ann].sort((a,b)=>(b.pin?1:0)-(a.pin?1:0) || b.at-a.at).slice(0,3);
+  const P=S.myPlan, items=P?.items||[], done=P?.done||{}, n=items.filter(i=>done[i.id]).length;
+  const annHTML = ann.length ? `<div class="ann-board"><span class="label">${I.flag} ${tr('home.ann')}</span>${ann.map(a=>`<div class="ann-note ${a.pin?'pin':''}"><p>${esc(a.text)}</p><span class="small faint">${a.pin?`<b class="pin-tag">${tr('bd.pinned')}</b> · `:''}${ago(a.at)}</span></div>`).join('')}</div>` : '';
+  const planHTML = items.length ? `<div class="card plan-card"><div class="row" style="justify-content:space-between"><h3>${tr('plan.h')}</h3><span class="small muted num">${tr('plan.progress',{a:n,b:items.length})}</span></div>
+    <div class="goal ${n===items.length?'done':''}" style="margin-bottom:10px"><i style="width:${items.length?n/items.length*100:0}%"></i></div>
+    <div class="plan-list">${sortTasks(items,done).map(i=>`<div class="plan-it ${done[i.id]?'done':''}"><input type="checkbox" data-act="plan-tick" data-id="${esc(i.id)}" ${done[i.id]?'checked':''} aria-label="${esc(i.text)}"><span>${esc(i.text)}${dueTag(i,done[i.id])}</span>${i.write&&!done[i.id]?`<button class="btn sm" data-act="task-write" data-t="${esc(i.text)}">${I.pen} ${tr('task.start')}</button>`:'<span></span>'}</div>`).join('')}</div></div>` : '';
+  if(!annHTML && !planHTML) return '';
+  return `<div class="home-board section ${annHTML&&planHTML?'two':''}">${annHTML}${planHTML}</div>`;
+}
+const sortTasks = (items, done) => [...items].sort((a,b)=> (done[a.id]?1:0)-(done[b.id]?1:0) || (a.due||'9999').localeCompare(b.due||'9999'));
+function dueTag(i, isDone){ if(!i.due) return ''; const late = !isDone && i.due < todayStr();
+  return ` <span class="due ${late?'late':''}">${late?tr('task.overdue'):tr('task.dueOn',{d:dloc(parseDate(i.due),{day:'numeric',month:'short'})})}</span>`; }
+const taskForm = (id, act, extra='') => `<div class="task-form"><input class="inp" id="${id}" placeholder="${tr('plan.ph')}" maxlength="160">
+  <label class="field"><span>${tr('task.due')} <span class="faint">${tr('optional')}</span></span><input class="inp" type="date" id="${id}-due" min="${todayStr()}"></label>
+  <label class="small row task-w" style="gap:6px;cursor:pointer"><input type="checkbox" id="${id}-w"> ${tr('task.write')}</label>
+  <button class="btn primary" data-act="${act}" ${extra}>${act==='task-all'?tr('task.give'):tr('plan.add')}</button></div>`;
+const readTask = id => { const text=$('#'+id).value.trim(); if(!text) return null; const t={id:newId(), text}; const due=$('#'+id+'-due').value; if(due) t.due=due; if($('#'+id+'-w').checked) t.write=true; return t; };
+function planEditor(sid){
+  const P=S.plans[sid]||{}, items=P.items||[], done=P.done||{}, first=esc((S.profiles[sid]?.name||'').split(' ')[0]);
+  return `<div class="section card" style="padding:18px 20px"><div class="row" style="justify-content:space-between"><h3>${tr('plan.h')}</h3>${items.length?`<span class="small muted num">${tr('plan.progress',{a:items.filter(i=>done[i.id]).length,b:items.length})}</span>`:''}</div>
+    <p class="small muted" style="margin:-8px 0 12px">${tr('plan.p',{name:first})}</p>
+    ${taskForm('plan-new','plan-add',`data-sid="${esc(sid)}"`)}
+    <div class="plan-list" style="margin-top:12px">${items.length?sortTasks(items,done).map(i=>`<div class="plan-it ${done[i.id]?'done':''}"><span class="tick">${done[i.id]?'✓':''}</span><span>${i.write?I.pen:''}${esc(i.text)}${dueTag(i,done[i.id])}</span><button class="btn ghost sm" data-act="plan-del" data-sid="${esc(sid)}" data-id="${esc(i.id)}" aria-label="${tr('delete')}">✕</button></div>`).join(''):`<p class="small faint">${tr('plan.empty')}</p>`}</div></div>`;
+}
+async function savePlan(sid, mut){
+  const next = clone(S.plans[sid]) || {items:[], done:{}}; next.items=next.items||[]; next.done=next.done||{}; mut(next);
+  try{ await S.db.doc('plans/'+sid).set(next); }catch(e){ dbErr(e,'plan'); }
+}
+
+/* teacher: extra lessons, free times, requests */
+function vBookings(){
+  const reqs=allRequests(), svcById=Object.fromEntries(S.svc.services.map(x=>[x.id,x])), slotById=Object.fromEntries(S.svc.slots.map(x=>[x.id,x]));
+  const slots=[...S.svc.slots].sort((a,b)=>(a.date+a.from).localeCompare(b.date+b.from));
+  const countFor = id => reqs.filter(r=>r.slotId===id && r.st!=='no').length;
+  return `<div class="page-head"><div><h1>${tr('bk.h')}</h1><p>${tr('bk.p')}</p></div></div>${rulesNote()}
+  <div class="section" style="margin-top:0"><h2>${tr('bk.reqH')}</h2>${reqs.length?`<div class="list">${reqs.map(r=>{ const sv=svcById[r.serviceId], sl=slotById[r.slotId];
+    return `<div class="req ${r.st}">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> <span class="faint">·</span> ${sv?esc(sv.title):'–'}<div class="small muted">${slotText(sl)}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${r.st}">${tr('bk.st.'+r.st)}</span>${r.st==='wait'?`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="no">${tr('bk.decline')}</button><button class="btn sm primary" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="ok">${tr('bk.confirm')}</button></span>`:`<button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="wait">↺</button>`}</div></div>`; }).join('')}</div>`:`<p class="faint">${tr('bk.noReq')}</p>`}</div>
+  <div class="section"><h2>${tr('bk.svcH')}</h2>
+    ${S.svc.services.length?`<div class="svc-grid">${S.svc.services.map(x=>svcCard(x,true)).join('')}</div>`:`<p class="faint" style="margin-bottom:12px">${tr('bk.noSvc')}</p>`}
+    <button class="btn primary sm" style="margin-top:14px" data-act="svc-new">+ ${tr('bk.addSvc')}</button></div>
+  <div class="section"><h2>${tr('bk.slotH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('bk.slotP')}</p>
+    <div class="card slot-add"><label class="field"><span>${tr('bk.date')}</span><input class="inp" type="date" id="sl-date" min="${todayStr()}" value="${todayStr()}"></label><label class="field"><span>${tr('bk.from')}</span><input class="inp" type="time" id="sl-from" value="16:00" step="300"></label><label class="field"><span>${tr('bk.to')}</span><input class="inp" type="time" id="sl-to" value="17:30" step="300"></label><button class="btn primary" data-act="slot-add">+ ${tr('bk.addSlot')}</button></div>
+    <div class="slots" style="margin-top:14px">${slots.length?slots.map(x=>{ const n=countFor(x.id), past=x.date<todayStr(); return `<div class="slot ${past?'past':''}"><span>${slotText(x)}</span>${n?`<span class="small num" style="color:var(--blue)">${tr('bk.booked',{n})}</span>`:''}${past?`<span class="small faint">${tr('bk.past')}</span>`:''}<button class="btn ghost sm" data-act="slot-del" data-id="${esc(x.id)}" aria-label="${tr('delete')}">✕</button></div>`; }).join(''):`<p class="faint">${tr('bk.noSlot')}</p>`}</div></div>`;
+}
+function svcCard(x, teacher){
+  const k=SVC_KINDS.includes(x.kind)?x.kind:'other';
+  return `<article class="svc k-${k}"><div class="svc-top"><span class="svc-ic">${I[SVC_IC[k]]}</span><span class="label">${tr('svc.'+k)}</span></div>
+    <h3>${esc(x.title)}</h3>${x.desc?`<p class="muted">${esc(x.desc)}</p>`:''}
+    <div class="svc-foot"><span><b class="num">${priceText(x.price)}</b>${+x.minutes>0?` <span class="faint small">· ${tr('bk.min',{n:x.minutes})}</span>`:''}</span>
+      ${teacher?`<span class="row" style="gap:2px"><button class="btn ghost sm" data-act="svc-edit" data-id="${esc(x.id)}">${tr('edit')}</button><button class="btn ghost sm" data-act="svc-del" data-id="${esc(x.id)}" style="color:var(--pen)">${tr('delete')}</button></span>`
+      :`<button class="btn pen sm" data-act="bk-open" data-id="${esc(x.id)}">${tr('bk.book')}</button>`}</div></article>`;
+}
+async function saveSvc(mut, okMsg){
+  const next=clone(S.svc); mut(next);
+  try{ await S.db.doc('board/services').set(next); if(okMsg) toast(okMsg); return true; }catch(e){ dbErr(e,'svc'); return false; }
+}
+function openSvc(id){
+  const x = id ? S.svc.services.find(s=>s.id===id) : null; if(id && !x) return;
+  showDlg(`<form id="svc-form" novalidate>${dlgHead(x?tr('bk.editSvc'):tr('bk.newSvc'), x?esc(x.title):tr('bk.addSvc'))}
+    <div class="dlg-body">
+      <div class="field"><span>${tr('bd.kind')}</span><select class="inp" id="sv-kind">${SVC_KINDS.map(k=>`<option value="${k}" ${(x?.kind||'lesson')===k?'selected':''}>${tr('svc.'+k)}</option>`).join('')}</select></div>
+      <label class="field"><span>${tr('bk.title')}</span><input class="inp" id="sv-title" value="${esc(x?.title||'')}" maxlength="80"></label>
+      <label class="field"><span>${tr('bk.desc')}</span><textarea class="inp" id="sv-desc" rows="3" placeholder="${tr('bk.descPh')}">${esc(x?.desc||'')}</textarea></label>
+      <div class="lg-2"><label class="field"><span>${tr('bk.price')}</span><input class="inp num" id="sv-price" type="number" min="0" step="10000" inputmode="numeric" value="${esc(x?.price??'')}"></label>
+        <label class="field"><span>${tr('bk.minutes')}</span><input class="inp num" id="sv-min" type="number" min="0" step="5" inputmode="numeric" value="${esc(x?.minutes??60)}"></label></div>
+      <p class="lg-err" id="sv-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary">${tr('save')}</button></div></form>`, {type:'svc', id});
+  $('#svc-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const title=$('#sv-title').value.trim(); if(!title){ $('#sv-err').textContent=tr('bk.needTitle'); return; }
+    const row={id:id||newId(), kind:$('#sv-kind').value, title, desc:$('#sv-desc').value.trim(), price:Math.max(0,Math.round(+$('#sv-price').value||0)), minutes:Math.max(0,Math.round(+$('#sv-min').value||0))};
+    if(await saveSvc(n=>{ const i=n.services.findIndex(s=>s.id===row.id); i>=0? n.services[i]=row : n.services.push(row); }, tr('bk.saved'))) closeDlg();
+  });
+}
+
+/* student: extra lessons */
+function vBook(){
+  const mine=(S.myBook?.items||[]).slice().sort((a,b)=>(b.at||0)-(a.at||0)), svcById=Object.fromEntries(S.svc.services.map(x=>[x.id,x])), slotById=Object.fromEntries(S.svc.slots.map(x=>[x.id,x]));
+  const up=upcoming();
+  return `<div class="page-head"><div><h1>${tr('nav.book')}</h1><p>${tr('bk.stuP')}</p></div></div>
+  ${S.svc.services.length?`<div class="svc-grid">${S.svc.services.map(x=>svcCard(x,false)).join('')}</div>`:`<div class="empty"><h3>${tr('bk.noFree')}</h3></div>`}
+  <div class="section"><h2>${tr('bk.slotH')}</h2>${up.length?`<div class="slots">${up.map(x=>`<div class="slot free"><span>${slotText(x)}</span></div>`).join('')}</div>`:`<p class="faint">${tr('bk.noFree')}</p>`}</div>
+  ${mine.length?`<div class="section"><h2>${tr('bk.mine')}</h2><div class="list">${mine.map(r=>{ const st=S.myBStat?.[r.id]||'wait', sv=svcById[r.serviceId];
+    return `<div class="req ${st}"><span class="svc-ic sm">${I[SVC_IC[sv?.kind]||'bulb']}</span><div style="min-width:0"><b>${sv?esc(sv.title):'–'}</b><div class="small muted">${slotText(slotById[r.slotId])}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${st}">${tr('bk.st.'+st)}</span>${st==='wait'?`<button class="btn sm ghost" data-act="bk-cancel" data-id="${esc(r.id)}">${tr('bk.cancel')}</button>`:''}</div></div>`; }).join('')}</div></div>`:''}`;
+}
+function openBook(serviceId){
+  const sv=S.svc.services.find(x=>x.id===serviceId); if(!sv) return; const up=upcoming();
+  showDlg(`<form id="bk-form" novalidate>${dlgHead(tr('svc.'+(SVC_KINDS.includes(sv.kind)?sv.kind:'other')), esc(sv.title))}
+    <div class="dlg-body">
+      ${sv.desc?`<p class="muted">${esc(sv.desc)}</p>`:''}
+      <div class="row"><b class="num" style="font-family:var(--f-display);font-weight:400;font-size:24px">${priceText(sv.price)}</b>${+sv.minutes>0?`<span class="faint">· ${tr('bk.min',{n:sv.minutes})}</span>`:''}</div>
+      <div class="field"><span>${tr('bk.chooseSlot')}</span>${up.length?`<div class="slot-pick">${up.map((x,i)=>`<label class="slot pickable"><input type="radio" name="bk-slot" value="${esc(x.id)}" ${i===0?'checked':''}><span>${slotText(x)}</span></label>`).join('')}</div>`:`<p class="small faint">${tr('bk.noFree')}</p>`}</div>
+      <label class="field"><span>${tr('bk.note')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="bk-note" maxlength="200"></label>
+      <p class="lg-err" id="bk-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen" ${up.length?'':'disabled'}>${tr('bk.send')}</button></div></form>`, {type:'book', id:serviceId});
+  $('#bk-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const slotId=document.querySelector('input[name="bk-slot"]:checked')?.value; if(!slotId){ $('#bk-err').textContent=tr('bk.anyTime'); return; }
+    const next=clone(S.myBook)||{items:[]}; next.items=next.items||[]; next.name=S.myProfile?.name||'';
+    next.items.push({id:newId(), serviceId, slotId, note:$('#bk-note').value.trim(), at:nowTs()});
+    try{ await S.db.doc('bookings/'+S.uid).set(next); closeDlg(); toast(tr('bk.sent')); }catch(err){ dbErr(err,'book'); }
+  });
+}
+
 /* ---------------- teacher: review ---------------- */
 function blankReview(){ return {annotations:[], comment:'', bands:{grammar:null,vocab:null,coherence:null,content:null}, vocab:[], status:'submitted'}; }
 async function openReview(sid,eid){
@@ -1611,6 +1889,7 @@ function vHome(){
     <div class="prompt-card"><span class="label">${tr('home.prompt')}</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">${tr('home.about')}</button>`:`<p class="muted">${tr('home.noPrompt')}</p>`}</div>
   </div>
   ${payCard()}
+  ${homeBoard()}
   ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>${tr('home.checked',{n:fresh.length})}</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||tr('untitled'))}</button>`).join('')}</div>`:''}
   <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${streak()}</b><span>${tr('k.streak')}</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>${tr('k.latest')}</span></div></div>
   ${pts.length?`<div class="card section" style="padding:16px 18px"><h3>${tr('home.trend')}</h3>${bandChart(pts)}</div>`:''}
@@ -1816,6 +2095,35 @@ document.addEventListener('click', async ev => {
     case 'lg-st-pay': { const id=S.dlg?.id; if(id) openLgPay(id, null, true); break; }
     case 'lg-st-del': lgDeleteStudent(b); break;
     case 'lg-pdel': lgDeletePayment(b); break;
+    // noticeboard
+    case 'ann-add': { const text=$('#ann-txt').value.trim(); if(!text){ toast(tr('bd.needText')); break; } b.disabled=true;
+      if(await saveBoard(n=>n.ann.push({id:newId(), text, pin:$('#ann-pin').checked, at:nowTs()}), tr('bd.annSaved'))) renderMain(); else b.disabled=false; break; }
+    case 'ann-pin': saveBoard(n=>{ const a=n.ann.find(x=>x.id===b.dataset.id); if(a) a.pin=!a.pin; }); break;
+    case 'ann-del': saveBoard(n=>{ n.ann=n.ann.filter(x=>x.id!==b.dataset.id); }, tr('bd.deleted')); break;
+    case 'post-kind': document.querySelectorAll('[data-act="post-kind"]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); break;
+    case 'post-add': { const title=$('#post-title').value.trim(), body=$('#post-body').value.trim(), ex=$('#post-ex').value.trim(); const kind=document.querySelector('[data-act="post-kind"][aria-pressed="true"]')?.dataset.k||'tip';
+      if(!title||!body){ toast(tr('bd.needTitle')); break; } b.disabled=true;
+      if(await saveBoard(n=>n.posts.push({id:newId(), kind, title, body, ex, at:nowTs()}), tr('bd.postSaved'))) renderMain(); else b.disabled=false; break; }
+    case 'post-del': saveBoard(n=>{ n.posts=n.posts.filter(x=>x.id!==b.dataset.id); }, tr('bd.deleted')); break;
+    case 'learn-f': S.view.f=b.dataset.k; renderMain(); break;
+    // plans
+    case 'plan-add': { const t=readTask('plan-new'); if(!t) break; await savePlan(b.dataset.sid, n=>n.items.push(t)); setTimeout(()=>$('#plan-new')?.focus(),50); break; }
+    case 'task-all': { const t=readTask('task-new'); if(!t) break; const ids=Object.keys(S.profiles); if(!ids.length){ toast(tr('task.noStudents')); break; } b.disabled=true;
+      for(const sid of ids) await savePlan(sid, n=>n.items.push({...t, id:newId()}));
+      toast(tr('task.given',{n:ids.length})); renderMain(); break; }
+    case 'task-write': S.edit={eid:null,title:b.dataset.t,body:'',mood:null,date:todayStr()}; go('write'); break;
+    case 'plan-del': savePlan(b.dataset.sid, n=>{ n.items=n.items.filter(x=>x.id!==b.dataset.id); delete n.done[b.dataset.id]; }); break;
+    case 'plan-tick': { const done={...(S.myPlan?.done||{})}; done[b.dataset.id]=b.checked; try{ await S.db.doc('plans/'+S.uid).update({done}); }catch(e){ b.checked=!b.checked; dbErr(e,'plan'); } break; }
+    // extra lessons
+    case 'bk-set': { const uid=b.dataset.uid; try{ await S.db.doc('bookingStatus/'+uid).set({...(S.bstat[uid]||{}), [b.dataset.id]:b.dataset.st}); }catch(e){ dbErr(e,'svc'); } break; }
+    case 'svc-new': openSvc(null); break;
+    case 'svc-edit': openSvc(b.dataset.id); break;
+    case 'svc-del': if(!b.dataset.armed){ b.dataset.armed='1'; b.textContent=tr('lg.confirm'); break; } saveSvc(n=>{ n.services=n.services.filter(x=>x.id!==b.dataset.id); }, tr('bd.deleted')); break;
+    case 'slot-add': { const date=$('#sl-date').value, from=$('#sl-from').value, to=$('#sl-to').value; if(!date||!from||!to||to<=from){ toast(tr('bk.needSlot')); break; }
+      saveSvc(n=>n.slots.push({id:newId(), date, from, to}), tr('bk.saved')); break; }
+    case 'slot-del': saveSvc(n=>{ n.slots=n.slots.filter(x=>x.id!==b.dataset.id); }); break;
+    case 'bk-open': openBook(b.dataset.id); break;
+    case 'bk-cancel': { const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
   }
 });
 document.addEventListener('change', ev=>{
@@ -1829,6 +2137,7 @@ document.addEventListener('keydown', ev=>{
   } else if(ev.key==='Escape') closePop();
   if(ev.key==='Enter' && (ev.target.id==='login-email'||ev.target.id==='login-pass')){ $('#main .paper .btn.primary')?.click(); }
   if(ev.key==='Enter' && ev.target.id==='bank-new'){ $('[data-act="bank-add"]').click(); }
+  if(ev.key==='Enter' && ev.target.id==='plan-new'){ $('[data-act="plan-add"]')?.click(); }
   if((ev.key==='Enter'||ev.key===' ') && ev.target.classList?.contains('mk')){ ev.preventDefault(); ev.target.click(); }
 });
 window.addEventListener('resize', ()=>{ if(S.pop) closePop(); });
