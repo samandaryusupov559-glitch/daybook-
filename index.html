@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Daybook Writing Journal</title>
+<title>Lexora · English with your teacher</title>
 <meta name="description" content="A private English journal. Students write about their days; the teacher marks their grammar.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2316245F%22/%3E%3Cpath d=%22M16 6l6 10-6 10-6-10z%22 fill=%22none%22 stroke=%22%23F4F2EA%22 stroke-width=%222%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%221.8%22 fill=%22%23D11F3B%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1068,22 +1068,22 @@ function renderTop(){
     right = `<div class="who">${avatar(nm,S.uid)}<span><b style="color:var(--ink)">${esc(nm)}</b><br><span class="faint small">${S.mode==='teacher'?tr('top.teacherSees'):tr('top.private')}</span></span></div><button class="btn sm ghost" data-act="sign-out">${tr('top.signOut')}</button>`;
   }
   const langs = `<div class="seg lang" role="group" aria-label="${tr('lang.label')}"><span class="lang-ic" aria-hidden="true">${I.globe}</span>${LANGS.map(l=>`<button data-act="lang" data-l="${l.k}" aria-pressed="${l.k===LANG}" title="${l.full}" lang="${l.k}">${l.n}</button>`).join('')}</div>`;
-  $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Day<i>book</i></span><span class="sub">${S.view.name==='login'?tr('sub.login'):S.mode==='teacher'?tr('sub.teacher'):tr('sub.student')}</span></div>${langs}${right}`;
+  $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Lex<i>ora</i></span><span class="sub">${S.view.name==='login'?tr('sub.login'):S.mode==='teacher'?tr('sub.teacher'):tr('sub.student')}</span></div>${langs}${right}`;
 }
 function navBtn(name,label,icon,count,dim){ const cur = S.view.name===name || (name==='students' && S.view.name==='student') || (name==='inbox' && S.view.name==='review') || (name==='home' && S.view.name==='entry');
   return `<button data-act="go" data-v="${name}" ${cur?'aria-current="page"':''}>${I[icon]}<span>${label}</span>${count?`<span class="cnt ${dim?'dim':''}">${count}</span>`:''}</button>`; }
 function renderNav(){
   const n=$('#nav');
   const solo = S.view.name==='login'; n.hidden=solo; $('.layout').classList.toggle('solo',solo);
-  if(solo){ n.innerHTML=''; document.title='Daybook'; return; }
+  if(solo){ n.innerHTML=''; document.title='Lexora'; return; }
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
-    document.title = (waiting?`(${waiting}) `:'')+'Daybook · '+tr('title.teacher');
+    document.title = (waiting?`(${waiting}) `:'')+'Lexora · '+tr('title.teacher');
     n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
-    document.title = (unseen?`(${unseen}) `:'')+'Daybook · '+tr('title.student');
+    document.title = (unseen?`(${unseen}) `:'')+'Lexora · '+tr('title.student');
     const owe = S.myBalance && S.myBalance.left>0;
     n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + navBtn('market',tr('nav.shop'),'bag') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
   }
