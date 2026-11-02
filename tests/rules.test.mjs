@@ -44,6 +44,15 @@ await t('student confirms own booking', setDoc(doc(A,'bookingStatus/alice'),{b1:
 await t('student posts announcement', setDoc(doc(A,'board/main'),{ann:[{text:'hacked'}],posts:[]}), false);
 await t('student reads board', getDoc(doc(A,'board/main')), true);
 await t('student writes teacher feedback', setDoc(doc(A,'feedback/alice'),{reviews:{}}), false);
+console.log('Student trying to cheat the "I paid" flow');
+await t('student sends own payment report', setDoc(doc(A,'payClaims/alice'),{name:'A',items:[{id:'c1',amount:600000,month:'2026-11'}]}), true);
+await t('student marks own report confirmed', setDoc(doc(A,'payClaimStatus/alice'),{c1:'ok'}), false);
+await t('student adds extra field to report', setDoc(doc(A,'payClaims/alice'),{name:'A',items:[],status:'ok'}), false);
+await t("student writes someone else's report", setDoc(doc(A,'payClaims/bob'),{name:'B',items:[]}), false);
+await t("student reads someone else's report", getDoc(doc(A,'payClaims/bob')), false);
+await t('student changes teacher payment details', setDoc(doc(A,'board/pay'),{methods:[{kind:'card',number:'0000'}]}), false);
+await t('student reads teacher payment details', getDoc(doc(A,'board/pay')), true);
+await t('signed-out visitor reads payment details', getDoc(doc(N,'board/pay')), false);
 console.log('Teacher');
 await t('teacher reads ledger', getDocs(collection(T,'ledger/main/payments')), true);
 await t('teacher writes payment', setDoc(doc(T,'ledger/main/payments/p2'),{amount:1}), true);
@@ -51,5 +60,7 @@ await t('teacher writes balance', setDoc(doc(T,'balances/alice'),{left:0}), true
 await t('teacher writes plan', setDoc(doc(T,'plans/alice'),{items:[],done:{}}), true);
 await t('teacher confirms booking', setDoc(doc(T,'bookingStatus/alice'),{b1:'ok'}), true);
 await t('teacher posts board', setDoc(doc(T,'board/main'),{ann:[],posts:[]}), true);
+await t('teacher confirms payment report', setDoc(doc(T,'payClaimStatus/alice'),{c1:'ok'}), true);
+await t('teacher saves payment details', setDoc(doc(T,'board/pay'),{methods:[]}), true);
 console.log(`\n${pass} passed, ${fail} failed`);
 await env.cleanup(); process.exit(fail?1:0);
