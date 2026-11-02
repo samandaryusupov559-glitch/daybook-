@@ -99,3 +99,10 @@ Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 | `tests/rules.test.mjs` | Qoidalarni buzishga urinib tekshiruvchi test |
 
 Firebase'ning bepul tarifi kuniga 50 000 o'qish va 20 000 yozishgacha ruxsat beradi. Bu bir necha o'nlab talabaga bemalol yetadi.
+
+## Telefonga ilova qilib o'rnatish
+
+- **Android (Chrome):** saytni oching → tepadagi **Ilovani o'rnatish** tugmasi (yoki ⋮ menyu → **Ilovani o'rnatish**). Lexora ilovalar ro'yxatida paydo bo'ladi.
+- **iPhone (Safari):** saytni oching → pastdagi **Ulashish** (strelkali kvadrat) → **Add to Home Screen / На экран «Домой»** → **Add**.
+- **APK fayl kerak bo'lsa:** https://www.pwabuilder.com saytiga sayt manzilini kiriting → **Package for stores** → **Android** → **Download**. Zip ichidagi `.apk` faylni telefonga yuboring. Zip ichidagi `signing.keystore` va parollarni saqlab qo'ying: keyingi yangilanishlar uchun kerak bo'ladi.
+
