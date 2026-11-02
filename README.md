@@ -72,7 +72,7 @@ Yangi bo'limlar (to'lovlar, e'lonlar, vazifalar, band qilish) ishlashi uchun Fir
 
 Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 
-**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (29 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
+**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (39 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
 
 ## Foydalanish
 
@@ -84,6 +84,7 @@ Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 6. **E'lonlar taxtasi:** e'lon yozing (muhimini tepaga mahkamlang), maslahat, so'z yoki idioma postlarini joylang. Shu yerda **butun sinfga vazifa** ham berasiz.
 7. **Vazifalar:** talaba sahifasida unga alohida vazifa yoki o'rganadigan narsa qo'shing, muddat qo'yish mumkin. "Yozma vazifa" belgilansa, talaba **Yozish** tugmasi bilan darhol jurnalga yozadi. Talaba bajarganini belgilaydi, siz ko'rasiz.
 8. **Xizmatlar va bo'sh vaqtlar:** qo'shimcha dars, kitob o'qish, kino klubi kabi xizmatlarni narxi bilan qo'shing va bo'sh vaqtlaringizni kiriting. Talabalar band qiladi, siz **Band qilishlar** sahifasida tasdiqlaysiz yoki rad etasiz.
+9. **Talabalar to'lovi:** **To'lovlar** sahifasining pastida Click, Payme yoki karta raqamingizni qo'shing. Talaba o'z ilovasida to'laydi va **To'ladim** ni bosadi. Xabar **To'lovlar** sahifasining tepasida chiqadi. Pul ilovangizga kelganini tekshiring va **Tasdiqlash** ni bosing: shundagina to'lov hisobga qo'shiladi. Talaba o'zi hech narsani o'zgartira olmaydi.
 
 ## Fayllar
 

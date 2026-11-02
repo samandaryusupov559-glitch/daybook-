@@ -506,6 +506,16 @@ div.plan-it{cursor:default;background:var(--sheet-2)}
 .slot.pickable:has(input:checked){border-color:var(--pen);background:var(--pen-soft)}
 .slot-add{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end;padding:14px 16px}
 @media (max-width:640px){.slot-add{grid-template-columns:1fr 1fr}.slot-add .field:first-child{grid-column:1/-1}.slot-add .btn{grid-column:1/-1}}
+.pm{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 16px;background:var(--sheet);border:1px solid var(--line);border-radius:14px}
+.claims{margin-bottom:26px}
+.pm-badge{font-size:12px;font-weight:700;letter-spacing:.02em;padding:5px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue);white-space:nowrap}
+.pm.k-payme .pm-badge{background:color-mix(in srgb,#21B8C7 18%,var(--sheet));color:#118593}
+.pm.k-card .pm-badge,.pm.k-transfer .pm-badge{background:var(--pen-soft);color:var(--pen)}
+.pm-num{font-size:17px;letter-spacing:.04em;overflow-wrap:anywhere}
+.pm-add{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end;padding:14px 16px}
+.pm-add .lg-err{grid-column:1/-1;margin:0}
+@media (max-width:760px){.pm-add{grid-template-columns:1fr 1fr}.pm-add .btn{grid-column:1/-1}}
+@media (max-width:520px){.pm{grid-template-columns:auto minmax(0,1fr)}.pm>.row{grid-column:1/-1;justify-content:flex-end}}
 .req{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 16px 13px 18px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .req::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--blue)}
 .req.ok::before{background:var(--ok)} .req.no::before{background:var(--line)} .req.no{opacity:.7}
@@ -769,6 +779,8 @@ function seedDemo(db){
   db.m.set('bookings/ex-timur', {name:'Timur (example)', items:[{id:'b1', serviceId:'s3', slotId:'t2', note:'Can my brother come too?', at:ts(0)}]});
   db.m.set('bookings/ex-aziza', {name:'Aziza (example)', items:[{id:'b2', serviceId:'s2', slotId:'t1', note:'', at:ts(1)}]});
   db.m.set('bookingStatus/ex-aziza', {b2:'ok'});
+  db.m.set('board/pay', {methods:[{id:'m1', kind:'click', number:'+998 90 000 00 00', holder:'Teacher (example)', link:''},{id:'m2', kind:'card', number:'8600 0000 0000 0000', holder:'Teacher (example)', link:''}]});
+  db.m.set('payClaims/ex-timur', {name:'Timur (example)', items:[{id:'c1', amount:300000, month:ym, method:'click', ref:'last digits 4821, 14:05', at:ts(0)}]});
   lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
 }
 
@@ -939,7 +951,7 @@ function renderNav(){
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
     document.title = (waiting?`(${waiting}) `:'')+'Daybook · '+tr('title.teacher');
-    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',lgOwing(),true) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
@@ -1180,7 +1192,7 @@ function vLedger(){
     if(G.err) return head + `<div class="notice">${G.err==='permission-denied'?tr('lg.errRules'):tr('lg.errLoad')}</div>`;
     return head + `<div class="loading">${tr('lg.loading')}</div>`;
   }
-  return head + `<div class="stats lg-stats" id="lg-stats"></div>
+  return head + `${claimsSection()}<div class="stats lg-stats" id="lg-stats"></div>
     <div class="lg-grid section">
       <div style="min-width:0">
         <div class="toolbar lg-tools">
@@ -1205,7 +1217,7 @@ function vLedger(){
           <div class="row" style="justify-content:space-between"><span class="small faint" id="lc-note"></span><button class="btn sm primary" data-act="lc-save" id="lc-save">${tr('lg.saveSettings')}</button></div>
         </div>
       </aside>
-    </div>`;
+    </div>${methodsSection()}`;
 }
 after.ledger = () => {
   if(!$('#lg-list')) return;
@@ -1424,7 +1436,117 @@ function vPay(){
       <div class="stat"><div class="label">${tr('pay.paid')}</div><b class="num">${money(B.paidThis)}<small>${tr('lg.som')}</small></b><div class="lg-bar"><i style="width:${pct}%"></i></div></div>
       <div class="stat"><div class="label">${tr('pay.left')}</div><b class="num" ${B.left>0?'style="color:var(--pen)"':''}>${money(Math.max(0,B.left))}<small>${tr('lg.som')}</small></b><span>${B.updatedAt?tr('pay.updated',{ago:ago(B.updatedAt)}):''}</span></div>
     </div>
+    ${rulesNote()}${payHowSection()}
     <div class="section"><h2>${tr('pay.history')}</h2>${(B.history||[]).length?`<div class="list">${B.history.map(p=>`<div class="lg-st paid lg-row"><span class="datechip"><b>${parseDate(p.date).getDate()}</b><span>${dloc(parseDate(p.date),{month:'short'})}</span></span><span style="min-width:0"><b>${tr('lg.forM',{m:esc(ymText(p.month))})}</b><br><span class="small faint">${esc(methodName(p.method))}</span></span><b class="num lg-amt-big">${som(p.amount)}</b></div>`).join('')}</div>`:`<p class="faint">${tr('lg.noPays')}</p>`}</div>`;
+}
+
+/* ---------------- "I paid" flow ----------------
+   Students never touch the ledger. They send a report (payClaims/{uid}); the teacher checks their
+   Click/Payme/bank app and confirms, which writes the real payment into the ledger. */
+const PAY_KINDS = ['click','payme','card','transfer'];
+const safeLink = u => /^https:\/\/[^\s"'<>]+$/i.test(u||'') ? u : '';
+const claimPayId = (uid,id) => `c_${uid}_${id}`;
+function allClaims(){
+  const out=[];
+  for(const [uid,c] of Object.entries(S.claims||{})) for(const it of (c.items||[])) out.push({...it, uid, name:S.profiles[uid]?.name||c.name||'?', st:S.cstat[uid]?.[it.id]||'wait'});
+  return out.sort((a,b)=>(a.st==='wait'?0:1)-(b.st==='wait'?0:1) || (b.at||0)-(a.at||0));
+}
+const pendingClaims = () => allClaims().filter(r=>r.st==='wait').length;
+const methodRow = (m, teacher) => { const k=PAY_KINDS.includes(m.kind)?m.kind:'card', link=safeLink(m.link);
+  return `<div class="pm k-${k}"><span class="pm-badge">${tr('lg.m.'+k)}</span><div style="min-width:0"><b class="num pm-num">${esc(m.number)}</b>${m.holder?`<div class="small muted">${esc(m.holder)}</div>`:''}</div>
+    <span class="row" style="gap:4px">${teacher?`<button class="btn ghost sm" data-act="pm-del" data-id="${esc(m.id)}" style="color:var(--pen)">${tr('delete')}</button>`
+      :`<button class="btn sm" data-act="pm-copy" data-v="${esc(m.number)}">${I.copy} ${tr('pf.copy')}</button>${link?`<a class="btn sm pen" href="${esc(link)}" target="_blank" rel="noopener noreferrer">${tr('pf.open',{app:tr('lg.m.'+k)})}</a>`:''}`}</span></div>`; };
+
+/* teacher, on the Payments page */
+function claimsSection(){
+  const rows=allClaims(); if(!rows.length) return '';
+  const recent=rows.filter(r=>r.st==='wait' || (Date.now()-(r.at||0))<30*864e5);
+  if(!recent.length) return '';
+  const payById=Object.fromEntries(S.lg.payments.map(p=>[p.id,p]));
+  return `<div class="section claims" style="margin-top:0"><h2>${tr('pf.claimsH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('pf.claimsP')}</p><div class="list">${recent.map(r=>{
+    const real=payById[claimPayId(r.uid,r.id)], amt = r.st==='ok'&&real ? real.amount : r.amount;
+    return `<div class="req ${r.st}">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> <span class="faint">·</span> <b class="num">${som(amt)}</b>
+      <div class="small muted">${tr('lg.forM',{m:esc(ymText(r.month))})} · ${esc(methodName(r.method))} · ${esc(ago(r.at))}</div>${r.ref?`<div class="small req-note">${tr('pf.ref2',{ref:esc(r.ref)})}</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${r.st}">${tr('pf.st.'+r.st)}</span>${r.st==='wait'
+        ?`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="pc-no" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">${tr('pf.decline')}</button><button class="btn sm primary" data-act="pc-ok" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">${tr('pf.confirm')}</button></span>`
+        :`<button class="btn sm ghost" data-act="pc-undo" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">↺ ${tr('pf.undo')}</button>`}</div></div>`; }).join('')}</div></div>`;
+}
+function methodsSection(){
+  const ms=S.payInfo.methods||[];
+  return `<div class="section"><h2>${tr('pf.methodsH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('pf.methodsP')}</p>
+    ${ms.length?`<div class="list pm-list">${ms.map(m=>methodRow(m,true)).join('')}</div>`:`<p class="faint">${tr('pf.noMethodsT')}</p>`}
+    <div class="card pm-add" style="margin-top:14px">
+      <label class="field"><span>${tr('pf.kind')}</span><select class="inp" id="pm-kind">${PAY_KINDS.map(k=>`<option value="${k}">${tr('lg.m.'+k)}</option>`).join('')}</select></label>
+      <label class="field"><span>${tr('pf.number')}</span><input class="inp num" id="pm-num" maxlength="40" placeholder="8600 1234 5678 9012"></label>
+      <label class="field"><span>${tr('pf.holder')}</span><input class="inp" id="pm-holder" maxlength="60" placeholder="${tr('pf.holderPh')}"></label>
+      <label class="field"><span>${tr('pf.link')}</span><input class="inp" id="pm-link" maxlength="300" placeholder="https://"></label>
+      <button class="btn primary" data-act="pm-add">+ ${tr('pf.addMethod')}</button>
+      <p class="lg-err" id="pm-err" role="alert"></p></div></div>`;
+}
+async function savePayInfo(mut, okMsg){
+  const next=clone(S.payInfo); next.methods=next.methods||[]; mut(next);
+  try{ await S.db.doc('board/pay').set(next); if(okMsg) toast(okMsg); return true; }catch(e){ dbErr(e,'payset'); return false; }
+}
+async function setClaimStatus(uid, id, st){
+  const cur={...(S.cstat[uid]||{})}; if(st) cur[id]=st; else delete cur[id];
+  await S.db.doc('payClaimStatus/'+uid).set(cur);
+}
+function openClaimConfirm(uid, id){
+  const c=(S.claims[uid]?.items||[]).find(x=>x.id===id); if(!c) return;
+  const name=S.profiles[uid]?.name||S.claims[uid]?.name||'?', st=S.lg.students.find(s=>s.journalId===uid);
+  if(!st){ toast(tr('pf.notLinked',{name})); return; }
+  showDlg(`<form id="pc-form" novalidate>${dlgHead(tr('pf.confK'), esc(st.name))}
+    <div class="dlg-body"><p class="muted">${tr('pf.confP',{sum:`<b class="num">${som(c.amount)}</b>`})}</p>
+      ${c.ref?`<p class="small req-note">${tr('pf.ref2',{ref:esc(c.ref)})}</p>`:''}
+      <label class="field"><span>${tr('lg.amount')}</span><input class="inp num lg-amt" id="pc-amount" type="number" min="1" step="1000" inputmode="numeric" value="${+c.amount||''}"></label>
+      <div class="lg-2"><label class="field"><span>${tr('lg.forMonth')}</span><input class="inp" id="pc-month" type="month" value="${esc(c.month||curYM())}"></label><label class="field"><span>${tr('lg.method')}</span><select class="inp" id="pc-method">${METHODS.map(m=>`<option value="${m}" ${m===c.method?'selected':''}>${tr('lg.m.'+m)}</option>`).join('')}</select></label></div>
+      <p class="lg-err" id="pc-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="pc-save">${tr('pf.confirm')}</button></div></form>`, {type:'claim', id});
+  $('#pc-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const amount=Math.round(+$('#pc-amount').value), month=$('#pc-month').value.trim(), err=$('#pc-err');
+    if(!(amount>0)){ err.textContent=tr('lg.amtErr'); return; }
+    if(!/^\d{4}-\d{2}$/.test(month)){ err.textContent=tr('lg.monthErr'); return; }
+    const btn=$('#pc-save'); btn.disabled=true;
+    try{
+      // fixed id: confirming twice can never add the money twice
+      await S.db.doc('ledger/main/payments/'+claimPayId(uid,id)).set({studentId:st.id, amount, month, date:todayStr(), method:$('#pc-method').value, note:c.ref?tr('pf.ref2',{ref:c.ref}):'', claim:id, createdAt:new Date().toISOString()});
+      await setClaimStatus(uid, id, 'ok'); closeDlg(); toast(tr('pf.confirmed',{sum:som(amount)}));
+    }catch(e2){ err.textContent=lgErrText(e2); btn.disabled=false; }
+  });
+}
+
+/* student, on My payments */
+function payHowSection(){
+  const ms=S.payInfo.methods||[], mine=(S.myClaims?.items||[]).slice().sort((a,b)=>(b.at||0)-(a.at||0));
+  return `<div class="section"><h2>${tr('pf.how')}</h2><p class="muted small" style="margin:-6px 0 12px">${ms.length?tr('pf.howP'):tr('pf.noMethods')}</p>
+    ${ms.length?`<div class="list pm-list">${ms.map(m=>methodRow(m,false)).join('')}</div>`:''}
+    <div class="row" style="margin-top:14px;gap:12px"><button class="btn pen" data-act="pc-open">${I.coin} ${tr('pf.paid')}</button><span class="small faint">${tr('pf.safe')}</span></div></div>
+  ${mine.length?`<div class="section"><h2>${tr('pf.mine')}</h2><div class="list">${mine.map(r=>{ const st=S.myCStat?.[r.id]||'wait';
+    return `<div class="req ${st}"><span class="svc-ic sm">${I.coin}</span><div style="min-width:0"><b class="num">${som(r.amount)}</b> <span class="faint">·</span> ${tr('lg.forM',{m:esc(ymText(r.month))})}<div class="small muted">${esc(methodName(r.method))} · ${esc(ago(r.at))}</div>${r.ref?`<div class="small req-note">${tr('pf.ref2',{ref:esc(r.ref)})}</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${st}">${tr('pf.st.'+st)}</span>${st==='wait'?`<button class="btn sm ghost" data-act="pc-cancel" data-id="${esc(r.id)}">${tr('pf.cancel')}</button>`:''}</div></div>`; }).join('')}</div></div>`:''}`;
+}
+function openClaim(){
+  const B=S.myBalance||{}, ms=S.payInfo.methods||[];
+  const kinds=[...new Set([...ms.map(m=>PAY_KINDS.includes(m.kind)?m.kind:'card'), ...METHODS.filter(m=>m!=='cash')])];
+  showDlg(`<form id="cl-form" novalidate>${dlgHead(tr('pf.dlgK'), tr('pf.dlgH'))}
+    <div class="dlg-body">
+      <label class="field"><span>${tr('pf.amount')}</span><input class="inp num lg-amt" id="cl-amount" type="number" min="1" step="1000" inputmode="numeric" value="${Math.max(0,+B.left||0)||+B.fee||''}"></label>
+      <div class="lg-2"><label class="field"><span>${tr('pf.month')}</span><input class="inp" id="cl-month" type="month" value="${esc(B.month||curYM())}"></label>
+        <label class="field"><span>${tr('pf.method')}</span><select class="inp" id="cl-method">${kinds.map(k=>`<option value="${k}">${tr('lg.m.'+k)}</option>`).join('')}</select></label></div>
+      <label class="field"><span>${tr('pf.ref')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="cl-ref" maxlength="80" placeholder="${tr('pf.refPh')}"></label>
+      <p class="small faint">${tr('pf.safe')}</p>
+      <p class="lg-err" id="cl-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen" id="cl-save">${tr('pf.send')}</button></div></form>`, {type:'claim-new'});
+  setTimeout(()=>$('#cl-amount')?.select(),30);
+  $('#cl-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const amount=Math.round(+$('#cl-amount').value), month=$('#cl-month').value.trim(), err=$('#cl-err');
+    if(!(amount>0 && amount<1e9)){ err.textContent=tr('pf.needAmt'); return; }
+    if(!/^\d{4}-\d{2}$/.test(month)){ err.textContent=tr('pf.needMonth'); return; }
+    const next=clone(S.myClaims)||{items:[]}; next.items=(next.items||[]).slice(-49); next.name=S.myProfile?.name||'';
+    next.items.push({id:newId(), amount, month, method:$('#cl-method').value, ref:$('#cl-ref').value.trim(), at:nowTs()});
+    const btn=$('#cl-save'); btn.disabled=true;
+    try{ await S.db.doc('payClaims/'+S.uid).set(next); closeDlg(); toast(tr('pf.sent')); }catch(e2){ btn.disabled=false; dbErr(e2,'pay'); }
+  });
 }
 
 /* ---------------- noticeboard, learn, plans, extra lessons ---------------- */
@@ -1435,18 +1557,24 @@ const nowTs = () => Date.now();
 function startBoard(role){
   S.board={ann:[],posts:[]}; S.svc={services:[],slots:[]}; S.permErr=false;
   S.plans={}; S.bookings={}; S.bstat={}; S.myPlan=null; S.myBook=null; S.myBStat={};
+  S.payInfo={methods:[]}; S.claims={}; S.cstat={}; S.myClaims=null; S.myCStat={};
   const perm = e => { if(e && e.code==='permission-denied'){ S.permErr=true; refreshAny(); } };
   S.unsubs.push(S.db.doc('board/main').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.board={ann:d.ann||[], posts:d.posts||[]}; refreshAny(); }, perm));
+  S.unsubs.push(S.db.doc('board/pay').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.payInfo={methods:d.methods||[]}; refreshAny(); }, perm));
   S.unsubs.push(S.db.doc('board/services').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.svc={services:d.services||[], slots:d.slots||[]}; refreshAny(); }, perm));
   if(role==='teacher'){
     S.unsubs.push(S.db.collection('plans').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.plans=o; refreshAny(); }, perm));
     S.unsubs.push(S.db.collection('bookings').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.bookings=o; refreshAny(); }, perm));
     S.unsubs.push(S.db.collection('bookingStatus').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.bstat=o; refreshAny(); }, perm));
+    S.unsubs.push(S.db.collection('payClaims').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.claims=o; refreshAny(); }, perm));
+    S.unsubs.push(S.db.collection('payClaimStatus').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.cstat=o; refreshAny(); }, perm));
   } else {
     const u=S.uid;
     S.unsubs.push(S.db.doc(`plans/${u}`).onSnapshot(s=>{ S.myPlan=s.exists?s.data():null; refreshAny(); }, ()=>{}));
     S.unsubs.push(S.db.doc(`bookings/${u}`).onSnapshot(s=>{ S.myBook=s.exists?s.data():null; refreshAny(); }, ()=>{}));
     S.unsubs.push(S.db.doc(`bookingStatus/${u}`).onSnapshot(s=>{ S.myBStat=s.exists?s.data():{}; refreshAny(); }, ()=>{}));
+    S.unsubs.push(S.db.doc(`payClaims/${u}`).onSnapshot(s=>{ S.myClaims=s.exists?s.data():null; refreshAny(); }, ()=>{}));
+    S.unsubs.push(S.db.doc(`payClaimStatus/${u}`).onSnapshot(s=>{ S.myCStat=s.exists?s.data():{}; refreshAny(); }, ()=>{}));
   }
 }
 function refreshAny(){ S.mode==='teacher' ? refresh() : refreshStudent(); }
@@ -2123,6 +2251,16 @@ document.addEventListener('click', async ev => {
       saveSvc(n=>n.slots.push({id:newId(), date, from, to}), tr('bk.saved')); break; }
     case 'slot-del': saveSvc(n=>{ n.slots=n.slots.filter(x=>x.id!==b.dataset.id); }); break;
     case 'bk-open': openBook(b.dataset.id); break;
+    case 'pc-open': openClaim(); break;
+    case 'pc-cancel': { const next=clone(S.myClaims)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('payClaims/'+S.uid).set(next); toast(tr('pf.cancelled')); }catch(e){ dbErr(e,'pay'); } break; }
+    case 'pc-ok': openClaimConfirm(b.dataset.uid, b.dataset.id); break;
+    case 'pc-no': try{ await setClaimStatus(b.dataset.uid, b.dataset.id, 'no'); }catch(e){ dbErr(e,'payset'); } break;
+    case 'pc-undo': { const {uid,id}=b.dataset; try{ if(S.lg.payments.some(p=>p.id===claimPayId(uid,id))) await S.db.doc('ledger/main/payments/'+claimPayId(uid,id)).delete(); await setClaimStatus(uid, id, null); toast(tr('pf.undone')); }catch(e){ dbErr(e,'payset'); } break; }
+    case 'pm-copy': { const v=b.dataset.v; try{ await navigator.clipboard.writeText(v); toast(tr('pf.copied')); }catch(e){ const r=document.createRange(); r.selectNodeContents(b.closest('.pm').querySelector('.pm-num')); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); toast(tr('t.selected')); } break; }
+    case 'pm-del': await savePayInfo(n=>{ n.methods=n.methods.filter(m=>m.id!==b.dataset.id); }, tr('bd.deleted')); break;
+    case 'pm-add': { const err=$('#pm-err'), number=$('#pm-num').value.trim(), link=$('#pm-link').value.trim();
+      if(!number){ err.textContent=tr('pf.needNum'); break; } if(link && !safeLink(link)){ err.textContent=tr('pf.badLink'); break; }
+      if(await savePayInfo(n=>{ n.methods.push({id:newId(), kind:$('#pm-kind').value, number, holder:$('#pm-holder').value.trim(), link}); }, tr('pf.saved'))) refresh(); break; }
     case 'bk-cancel': { const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
   }
 });

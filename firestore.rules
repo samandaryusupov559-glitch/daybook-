@@ -88,6 +88,20 @@ service cloud.firestore {
             && request.resource.data.items is list
             && request.resource.data.items.size() <= 50);
     }
+    // "I paid" reports. A student may write only their own list; it changes nothing by itself.
+    // The teacher checks their Click/Payme/bank app and only then adds the real payment to the ledger.
+    match /payClaims/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher()
+        || (isMe(uid)
+            && request.resource.data.keys().hasOnly(['name', 'items'])
+            && request.resource.data.items is list
+            && request.resource.data.items.size() <= 50);
+    }
+    match /payClaimStatus/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+    }
     match /bookingStatus/{uid} {
       allow read: if isMe(uid) || isTeacher();
       allow write: if isTeacher();
