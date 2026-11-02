@@ -72,7 +72,7 @@ Yangi bo'limlar (to'lovlar, e'lonlar, vazifalar, band qilish) ishlashi uchun Fir
 
 Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 
-**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (49 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
+**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (57 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
 
 ## Foydalanish
 
@@ -86,6 +86,7 @@ Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 8. **Xizmatlar va bo'sh vaqtlar:** qo'shimcha dars, kitob o'qish, kino klubi kabi xizmatlarni narxi bilan qo'shing va bo'sh vaqtlaringizni kiriting. Talabalar band qiladi, siz **Band qilishlar** sahifasida tasdiqlaysiz yoki rad etasiz.
 9. **Talabalar to'lovi:** **To'lovlar** sahifasining pastida Click, Payme yoki karta raqamingizni qo'shing. Talaba o'z ilovasida to'laydi va **To'ladim** ni bosadi. Xabar **To'lovlar** sahifasining tepasida chiqadi. Pul ilovangizga kelganini tekshiring va **Tasdiqlash** ni bosing: shundagina to'lov hisobga qo'shiladi. Talaba o'zi hech narsani o'zgartira olmaydi.
 10. **Do'kon:** **Do'kon** sahifasida kitob, material yoki kurs qo'shing (narxi, tavsifi, xohlasangiz rasm havolasi). Talaba to'laydi va buyurtma yuboradi. Siz pul kelganini tekshirib **To'lov keldi** ni bosasiz va xohlasangiz xabar yozasiz (masalan, PDF havolasi). Keyin **Topshirildi** ni bosasiz. Narxni faqat siz o'zgartira olasiz.
+11. **Talabalarga email:** **E'lonlar taxtasi → Talabalarga email → Emailni sozlash** ni bosing va 4 qadamni bajaring (skriptni nusxalash, script.google.com'ga qo'yish, Web app qilib deploy qilish, URL'ni qo'yish). Shundan keyin e'lonlar, vazifalar, tekshirilgan yozuvlar, to'lov, band qilish va buyurtma tasdiqlari talabalarning Gmail'iga o'z Gmail'ingizdan avtomatik boradi. Talaba emailni bosh sahifasida o'chirib qo'yishi mumkin. Google kuniga taxminan 100 ta oluvchiga ruxsat beradi.
 
 ## Fayllar
 

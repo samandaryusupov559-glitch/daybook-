@@ -62,6 +62,13 @@ await t("student reads someone else's order status", getDoc(doc(A,'orderStatus/b
 await t('student changes shop prices', setDoc(doc(A,'market/main'),{items:[{id:'k1',price:0}]}), false);
 await t('student reads shop', getDoc(doc(A,'market/main')), true);
 await t('signed-out visitor reads shop', getDoc(doc(N,'market/main')), false);
+console.log('Student trying to misuse email');
+await t('student saves own email', setDoc(doc(A,'contacts/alice'),{email:'alice@x.com',lang:'uz',off:false}), true);
+await t("student saves someone else's address as theirs", setDoc(doc(A,'contacts/alice'),{email:'victim@x.com',lang:'en',off:false}), false);
+await t("student writes another student's contact", setDoc(doc(A,'contacts/bob'),{email:'alice@x.com',lang:'en',off:false}), false);
+await t("student reads another student's email", getDoc(doc(A,'contacts/bob')), false);
+await t('student reads the email script secret', getDoc(doc(A,'private/mail')), false);
+await t('student changes the email script link', setDoc(doc(A,'private/mail'),{url:'https://evil'}), false);
 console.log('Teacher');
 await t('teacher reads ledger', getDocs(collection(T,'ledger/main/payments')), true);
 await t('teacher writes payment', setDoc(doc(T,'ledger/main/payments/p2'),{amount:1}), true);
@@ -73,5 +80,7 @@ await t('teacher confirms payment report', setDoc(doc(T,'payClaimStatus/alice'),
 await t('teacher saves payment details', setDoc(doc(T,'board/pay'),{methods:[]}), true);
 await t('teacher confirms order', setDoc(doc(T,'orderStatus/alice'),{o1:{st:'paid',msg:'https://x'}}), true);
 await t('teacher edits shop', setDoc(doc(T,'market/main'),{items:[]}), true);
+await t('teacher reads contacts', getDocs(collection(T,'contacts')), true);
+await t('teacher saves email settings', setDoc(doc(T,'private/mail'),{url:'u',secret:'s',on:{}}), true);
 console.log(`\n${pass} passed, ${fail} failed`);
 await env.cleanup(); process.exit(fail?1:0);
