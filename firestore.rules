@@ -98,6 +98,25 @@ service cloud.firestore {
             && request.resource.data.items is list
             && request.resource.data.items.size() <= 50);
     }
+    // Shop: everyone signed in sees the items; only the teacher changes them.
+    match /market/{doc} {
+      allow read: if signedIn();
+      allow write: if isTeacher();
+    }
+    // A student's own orders. Whether the money arrived (and the teacher's message, e.g. a PDF link)
+    // lives in orderStatus, which only the teacher writes.
+    match /orders/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher()
+        || (isMe(uid)
+            && request.resource.data.keys().hasOnly(['name', 'items'])
+            && request.resource.data.items is list
+            && request.resource.data.items.size() <= 50);
+    }
+    match /orderStatus/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+    }
     match /payClaimStatus/{uid} {
       allow read: if isMe(uid) || isTeacher();
       allow write: if isTeacher();

@@ -53,6 +53,15 @@ await t("student reads someone else's report", getDoc(doc(A,'payClaims/bob')), f
 await t('student changes teacher payment details', setDoc(doc(A,'board/pay'),{methods:[{kind:'card',number:'0000'}]}), false);
 await t('student reads teacher payment details', getDoc(doc(A,'board/pay')), true);
 await t('signed-out visitor reads payment details', getDoc(doc(N,'board/pay')), false);
+console.log('Student trying to cheat the shop');
+await t('student sends own order', setDoc(doc(A,'orders/alice'),{name:'A',items:[{id:'o1',itemId:'k1',qty:1}]}), true);
+await t('student marks own order paid', setDoc(doc(A,'orderStatus/alice'),{o1:{st:'paid'}}), false);
+await t('student adds extra field to order', setDoc(doc(A,'orders/alice'),{name:'A',items:[],paid:true}), false);
+await t("student writes someone else's order", setDoc(doc(A,'orders/bob'),{name:'B',items:[]}), false);
+await t("student reads someone else's order status", getDoc(doc(A,'orderStatus/bob')), false);
+await t('student changes shop prices', setDoc(doc(A,'market/main'),{items:[{id:'k1',price:0}]}), false);
+await t('student reads shop', getDoc(doc(A,'market/main')), true);
+await t('signed-out visitor reads shop', getDoc(doc(N,'market/main')), false);
 console.log('Teacher');
 await t('teacher reads ledger', getDocs(collection(T,'ledger/main/payments')), true);
 await t('teacher writes payment', setDoc(doc(T,'ledger/main/payments/p2'),{amount:1}), true);
@@ -62,5 +71,7 @@ await t('teacher confirms booking', setDoc(doc(T,'bookingStatus/alice'),{b1:'ok'
 await t('teacher posts board', setDoc(doc(T,'board/main'),{ann:[],posts:[]}), true);
 await t('teacher confirms payment report', setDoc(doc(T,'payClaimStatus/alice'),{c1:'ok'}), true);
 await t('teacher saves payment details', setDoc(doc(T,'board/pay'),{methods:[]}), true);
+await t('teacher confirms order', setDoc(doc(T,'orderStatus/alice'),{o1:{st:'paid',msg:'https://x'}}), true);
+await t('teacher edits shop', setDoc(doc(T,'market/main'),{items:[]}), true);
 console.log(`\n${pass} passed, ${fail} failed`);
 await env.cleanup(); process.exit(fail?1:0);
