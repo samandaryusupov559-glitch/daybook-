@@ -485,6 +485,23 @@ label.plan-it:hover{background:var(--sheet-2)}
 .plan-it .tick{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);color:var(--ok);font-weight:800;font-size:13px}
 .plan-it.done .tick{border-color:var(--ok);background:var(--ok-soft)}
 div.plan-it{cursor:default;background:var(--sheet-2)}
+.mk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.mk-card{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.mk-card:hover{transform:translateY(-2px);box-shadow:0 18px 30px -22px var(--shadow)}
+.mk-card.off{opacity:.55}
+.mk-img{position:relative;aspect-ratio:16/10;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue)}
+.mk-img.k-material{background:var(--pen-soft);color:var(--pen)} .mk-img.k-course{background:color-mix(in srgb,var(--c-art) 16%,var(--sheet));color:var(--c-art)} .mk-img.k-other{background:color-mix(in srgb,var(--c-ww) 16%,var(--sheet));color:var(--c-ww)}
+@media (max-width:560px){.mk-img{aspect-ratio:16/7}}
+.mk-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mk-ic svg{width:44px;height:44px;opacity:.85}
+.mk-kind{position:absolute;left:12px;top:10px;background:var(--sheet);padding:3px 8px;border-radius:999px}
+.mk-body{display:flex;flex-direction:column;gap:6px;padding:14px 16px 16px;flex:1}
+.mk-body h3{margin:0;font-size:17px}
+.mk-body .svc-foot{margin-top:auto;padding-top:8px}
+.mk-total{font-size:22px;padding-top:8px}
+.mk-msg{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--blue-soft);overflow-wrap:anywhere}
+.mk-msg a{color:var(--blue);font-weight:600}
+.pill.mk-wait{background:var(--blue-soft);color:var(--blue)} .pill.mk-paid,.pill.mk-done{background:var(--ok-soft);color:var(--ok)} .pill.mk-no{background:var(--pen-soft);color:var(--pen)}
 .svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
 .svc{position:relative;display:flex;flex-direction:column;gap:8px;padding:18px;background:var(--sheet);border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 28px -24px var(--shadow);overflow:hidden}
 .svc.k-lesson{--kc:var(--blue)} .svc.k-reading{--kc:var(--c-prep)} .svc.k-movie{--kc:var(--pen)} .svc.k-other{--kc:var(--c-art)}
@@ -587,6 +604,7 @@ const I = {
   spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>',
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>',
+  bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20.5z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/></svg>',
   coin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3"/><path d="M16.5 15h.5"/></svg>',
   down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5V4.5M7 9l5-5 5 5M5 20h14"/></svg>',
@@ -779,6 +797,13 @@ function seedDemo(db){
   db.m.set('bookings/ex-timur', {name:'Timur (example)', items:[{id:'b1', serviceId:'s3', slotId:'t2', note:'Can my brother come too?', at:ts(0)}]});
   db.m.set('bookings/ex-aziza', {name:'Aziza (example)', items:[{id:'b2', serviceId:'s2', slotId:'t1', note:'', at:ts(1)}]});
   db.m.set('bookingStatus/ex-aziza', {b2:'ok'});
+  db.m.set('market/main', {items:[
+      {id:'k1', kind:'book', title:'English Grammar in Use (copy)', desc:'Printed copy with answers. Good for B1 and B2.', price:120000, img:'', active:true},
+      {id:'k2', kind:'material', title:'IELTS Writing Task 2 pack (PDF)', desc:'40 model essays with useful phrases. Sent as a PDF link.', price:50000, img:'', active:true},
+      {id:'k3', kind:'material', title:'500 phrasal verbs (PDF)', desc:'A free list with examples.', price:0, img:'', active:true}]});
+  db.m.set('orders/ex-timur', {name:'Timur (example)', items:[{id:'o1', itemId:'k2', qty:1, method:'payme', ref:'14:20', note:'', at:ts(0)}]});
+  db.m.set('orders/ex-aziza', {name:'Aziza (example)', items:[{id:'o2', itemId:'k3', qty:1, method:'', ref:'', note:'', at:ts(2)}]});
+  db.m.set('orderStatus/ex-aziza', {o2:{st:'done', msg:'Here it is: https://example.com/phrasal-verbs.pdf', at:ts(1)}});
   db.m.set('board/pay', {methods:[{id:'m1', kind:'click', number:'+998 90 000 00 00', holder:'Teacher (example)', link:''},{id:'m2', kind:'card', number:'8600 0000 0000 0000', holder:'Teacher (example)', link:''}]});
   db.m.set('payClaims/ex-timur', {name:'Timur (example)', items:[{id:'c1', amount:300000, month:ym, method:'click', ref:'last digits 4821, 14:05', at:ts(0)}]});
   lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
@@ -902,7 +927,7 @@ function startTeacher(){
   S.unsubs.push(S.db.collection('feedback').onSnapshot(s=>{ const f={}; s.docs.forEach(d=>{ if(d.exists) f[d.id]=d.data(); }); S.feedback=f; S.loaded.f=true; checkNewEntries(); refresh(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refresh(); }, onErr));
   S.db.doc('teacher/prefs').get().then(s=>{ S.prefs = s.exists? s.data(): {bank:DEFAULT_BANK.slice()}; }).catch(()=>{ S.prefs={bank:DEFAULT_BANK.slice()}; });
-  startLedger(); startBoard('teacher');
+  startLedger(); startBoard('teacher'); startMarket('teacher');
   refresh(); renderMain();
 }
 function startStudent(){
@@ -914,7 +939,7 @@ function startStudent(){
   S.unsubs.push(S.db.doc(`feedback/${u}`).onSnapshot(s=>{ S.myFeedback = s.exists? s.data(): null; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.collection(`feedback/${u}/reviews`).onSnapshot(s=>{ const r={}; s.docs.forEach(d=>{ if(d.exists) r[d.id]=d.data(); }); S.myReviews=r; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refreshStudent(); }, onErr));
-  startBoard('student');
+  startBoard('student'); startMarket('student');
   refresh(); renderMain();
 }
 function refreshStudent(){
@@ -951,13 +976,13 @@ function renderNav(){
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
     document.title = (waiting?`(${waiting}) `:'')+'Daybook · '+tr('title.teacher');
-    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
     document.title = (unseen?`(${unseen}) `:'')+'Daybook · '+tr('title.student');
     const owe = S.myBalance && S.myBalance.left>0;
-    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
+    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + navBtn('market',tr('nav.shop'),'bag') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
   }
 }
 
@@ -980,7 +1005,7 @@ function renderMain(){
   if(v==='login'){ m.innerHTML=vLogin(); setTimeout(()=>$('#login-email')?.focus(),50); return; }
   if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML=`<div class="loading">${tr('load.teacher')}</div>`; return; }
   if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML=`<div class="loading">${tr('load.student')}</div>`; return; }
-  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, learn:vLearn, book:vBook,
+  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, market:vMarket, learn:vLearn, book:vBook,
               home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay}[v];
   m.innerHTML = fn ? fn() : '';
   after[v] && after[v]();
@@ -1548,6 +1573,145 @@ function openClaim(){
     try{ await S.db.doc('payClaims/'+S.uid).set(next); closeDlg(); toast(tr('pf.sent')); }catch(e2){ btn.disabled=false; dbErr(e2,'pay'); }
   });
 }
+
+/* ---------------- market ----------------
+   market/main holds what the teacher sells (everyone signed in reads it).
+   orders/{uid} is the student's own list of orders; orderStatus/{uid} (teacher only) says whether
+   the money arrived and holds the teacher's message, e.g. the link to a PDF. */
+const MK_KINDS = ['book','material','course','other'];
+const MK_IC = {book:'book', material:'pen', course:'spark', other:'bag'};
+const MK_MAX_QTY = 20;
+function startMarket(role){
+  S.market={items:[]}; S.orders={}; S.ostat={}; S.myOrders=null; S.myOStat={};
+  const perm = e => { if(e && e.code==='permission-denied'){ S.permErr=true; refreshAny(); } };
+  S.unsubs.push(S.db.doc('market/main').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.market={items:d.items||[]}; refreshAny(); }, perm));
+  if(role==='teacher'){
+    S.unsubs.push(S.db.collection('orders').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.orders=o; refreshAny(); }, perm));
+    S.unsubs.push(S.db.collection('orderStatus').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.ostat=o; refreshAny(); }, perm));
+  } else {
+    const u=S.uid;
+    S.unsubs.push(S.db.doc(`orders/${u}`).onSnapshot(s=>{ S.myOrders=s.exists?s.data():null; refreshAny(); }, ()=>{}));
+    S.unsubs.push(S.db.doc(`orderStatus/${u}`).onSnapshot(s=>{ S.myOStat=s.exists?s.data():{}; refreshAny(); }, ()=>{}));
+  }
+}
+const mkItem = id => S.market.items.find(x=>x.id===id);
+const ordSt = o => (o && o.st) || 'wait';
+// show the teacher's message as text, with https links made clickable
+const linkify = t => esc(t||'').replace(/https:\/\/[^\s<>"']+/g, u => `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+function allOrders(){
+  const out=[];
+  for(const [uid,c] of Object.entries(S.orders)) for(const it of (c.items||[])){ const s=S.ostat[uid]?.[it.id]; out.push({...it, uid, name:S.profiles[uid]?.name||c.name||'?', st:ordSt(s), msg:s?.msg||''}); }
+  const rank={wait:0, paid:1, done:2, no:3};
+  return out.sort((a,b)=>rank[a.st]-rank[b.st] || (b.at||0)-(a.at||0));
+}
+const pendingOrders = () => allOrders().filter(o=>o.st==='wait' || o.st==='paid').length;
+const qtyOf = o => Math.min(MK_MAX_QTY, Math.max(1, Math.round(+o.qty||1)));
+function mkCard(x, teacher){
+  const k=MK_KINDS.includes(x.kind)?x.kind:'other', img=safeLink(x.img), hidden=x.active===false;
+  return `<article class="mk-card ${hidden?'off':''}">
+    <div class="mk-img k-${k}">${img?`<img src="${esc(img)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:`<span class="mk-ic">${I[MK_IC[k]]}</span>`}<span class="label mk-kind">${tr('mk.k.'+k)}</span></div>
+    <div class="mk-body"><h3>${esc(x.title)}</h3>${x.desc?`<p class="muted small">${esc(x.desc)}</p>`:''}
+      <div class="svc-foot"><b class="num">${priceText(x.price)}</b>
+      ${teacher?`<span class="row" style="gap:2px">${hidden?`<span class="pill">${tr('mk.hidden')}</span>`:''}<button class="btn ghost sm" data-act="mk-edit" data-id="${esc(x.id)}">${tr('edit')}</button></span>`
+        :`<button class="btn pen sm" data-act="mk-buy" data-id="${esc(x.id)}">${+x.price>0?tr('mk.buy'):tr('mk.get')}</button>`}</div></div></article>`;
+}
+function orderRow(o, teacher){
+  const it=mkItem(o.itemId), q=qtyOf(o), total=it? (+it.price||0)*q : 0;
+  const what = it ? `${esc(it.title)}${q>1?` × ${q}`:''}` : `<span class="faint">${tr('mk.gone')}</span>`;
+  const btn = (act,label,cls='ghost') => `<button class="btn sm ${cls}" data-act="${act}" data-uid="${esc(o.uid||'')}" data-id="${esc(o.id)}">${label}</button>`;
+  let act='';
+  if(teacher){
+    if(o.st==='wait') act=`<span class="row" style="gap:6px">${btn('ord-no',tr('pf.decline'))}${btn('ord-ok',total>0?tr('mk.confirmPaid'):tr('mk.accept'),'primary')}</span>`;
+    else if(o.st==='paid') act=`<span class="row" style="gap:6px">${btn('ord-undo','↺')}${btn('ord-done',tr('mk.markDone'),'primary')}</span>`;
+    else act=btn('ord-undo','↺ '+tr('pf.undo'));
+  } else if(o.st==='wait') act=btn('ord-cancel',tr('pf.cancel'));
+  return `<div class="req ${o.st==='done'?'ok':o.st==='paid'?'ok':o.st}">${teacher?avatar(o.name,o.uid):`<span class="svc-ic sm">${I.bag}</span>`}<div style="min-width:0">
+      ${teacher?`<b>${esc(o.name)}</b> <span class="faint">·</span> `:''}<b>${what}</b>${total>0?` <span class="faint">·</span> <b class="num">${som(total)}</b>`:''}
+      <div class="small muted">${total>0&&o.method?esc(methodName(o.method))+' · ':''}${esc(ago(o.at))}</div>
+      ${o.ref?`<div class="small req-note">${tr('pf.ref2',{ref:esc(o.ref)})}</div>`:''}${o.note?`<div class="small req-note">“${esc(o.note)}”</div>`:''}
+      ${o.msg?`<div class="mk-msg small">${teacher?'':`<b>${tr('mk.fromTeacher')}</b> `}${linkify(o.msg)}</div>`:''}</div>
+    <div class="req-act"><span class="pill mk-${o.st}">${tr('mk.st.'+o.st)}</span>${act}</div></div>`;
+}
+
+/* teacher */
+function vMarketT(){
+  const ords=allOrders().filter(o=>o.st==='wait'||o.st==='paid'||(Date.now()-(o.at||0))<60*864e5);
+  return `<div class="page-head"><div><h1>${tr('mk.h')}</h1><p>${tr('mk.p')}</p></div><button class="btn primary" data-act="mk-new">+ ${tr('mk.add')}</button></div>${rulesNote()}
+  <div class="section" style="margin-top:0"><h2>${tr('mk.ordersH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('pf.claimsP')}</p>
+    ${ords.length?`<div class="list">${ords.map(o=>orderRow(o,true)).join('')}</div>`:`<p class="faint">${tr('mk.noOrders')}</p>`}</div>
+  <div class="section"><h2>${tr('mk.itemsH')}</h2>${S.market.items.length?`<div class="mk-grid">${S.market.items.map(x=>mkCard(x,true)).join('')}</div>`:`<p class="faint">${tr('mk.noItemsT')}</p>`}</div>`;
+}
+async function saveMarket(mut, okMsg){
+  const next=clone(S.market); next.items=next.items||[]; mut(next);
+  try{ await S.db.doc('market/main').set(next); if(okMsg) toast(okMsg); return true; }catch(e){ dbErr(e,'market'); return false; }
+}
+function openMkItem(id){
+  const x = id ? mkItem(id) : null; if(id && !x) return;
+  showDlg(`<form id="mk-form" novalidate>${dlgHead(x?tr('mk.editItem'):tr('mk.newItem'), x?esc(x.title):tr('mk.add'))}
+    <div class="dlg-body">
+      <div class="field"><span>${tr('bd.kind')}</span><select class="inp" id="mi-kind">${MK_KINDS.map(k=>`<option value="${k}" ${(x?.kind||'book')===k?'selected':''}>${tr('mk.k.'+k)}</option>`).join('')}</select></div>
+      <label class="field"><span>${tr('bk.title')}</span><input class="inp" id="mi-title" value="${esc(x?.title||'')}" maxlength="80" placeholder="${tr('mk.titlePh')}"></label>
+      <label class="field"><span>${tr('mk.desc')}</span><textarea class="inp" id="mi-desc" rows="3" placeholder="${tr('mk.descPh')}">${esc(x?.desc||'')}</textarea></label>
+      <label class="field"><span>${tr('bk.price')}</span><input class="inp num" id="mi-price" type="number" min="0" step="1000" inputmode="numeric" value="${esc(x?.price??'')}"></label>
+      <label class="field"><span>${tr('mk.img')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="mi-img" maxlength="400" placeholder="https://" value="${esc(x?.img||'')}"></label>
+      <label class="row" style="gap:8px"><input type="checkbox" id="mi-active" ${x?.active===false?'':'checked'}> <span>${tr('mk.show')}</span></label>
+      <p class="lg-err" id="mi-err" role="alert"></p></div>
+    <div class="dlg-foot">${x?`<button type="button" class="btn ghost" data-act="mk-del" data-id="${esc(x.id)}" style="color:var(--pen);margin-right:auto">${tr('delete')}</button>`:''}<button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary">${tr('save')}</button></div></form>`, {type:'mk', id});
+  $('#mk-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const title=$('#mi-title').value.trim(), img=$('#mi-img').value.trim(), err=$('#mi-err');
+    if(!title){ err.textContent=tr('bk.needTitle'); return; }
+    if(img && !safeLink(img)){ err.textContent=tr('pf.badLink'); return; }
+    const row={id:id||newId(), kind:$('#mi-kind').value, title, desc:$('#mi-desc').value.trim(), price:Math.max(0,Math.round(+$('#mi-price').value||0)), img, active:$('#mi-active').checked};
+    if(await saveMarket(n=>{ const i=n.items.findIndex(s=>s.id===row.id); i>=0? n.items[i]=row : n.items.push(row); }, tr('bk.saved'))) closeDlg();
+  });
+}
+async function setOrderStatus(uid, id, val){
+  const cur={...(S.ostat[uid]||{})}; if(val) cur[id]=val; else delete cur[id];
+  await S.db.doc('orderStatus/'+uid).set(cur);
+}
+function openOrderOk(uid, id){
+  const o=allOrders().find(x=>x.uid===uid && x.id===id); if(!o) return; const it=mkItem(o.itemId), q=qtyOf(o), total=it?(+it.price||0)*q:0;
+  showDlg(`<form id="oo-form" novalidate>${dlgHead(esc(o.name), it?esc(it.title)+(q>1?` × ${q}`:''):tr('mk.gone'))}
+    <div class="dlg-body">${total>0?`<p class="muted">${tr('pf.confP',{sum:`<b class="num">${som(total)}</b>`}).replace(/ [^.]*\.$/,'')}</p>`:''}
+      ${o.ref?`<p class="small req-note">${tr('pf.ref2',{ref:esc(o.ref)})}</p>`:''}
+      <label class="field"><span>${tr('mk.msg')} <span class="faint">${tr('optional')}</span></span><textarea class="inp" id="oo-msg" rows="3" maxlength="500" placeholder="${tr('mk.msgPh')}"></textarea></label></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="oo-save">${total>0?tr('mk.confirmPaid'):tr('mk.accept')}</button></div></form>`, {type:'ord', id});
+  $('#oo-form').addEventListener('submit', async e=>{
+    e.preventDefault(); $('#oo-save').disabled=true;
+    try{ await setOrderStatus(uid, id, {st:'paid', msg:$('#oo-msg').value.trim(), at:nowTs()}); closeDlg(); toast(tr('bk.saved')); }catch(e2){ $('#oo-save').disabled=false; dbErr(e2,'market'); }
+  });
+}
+
+/* student */
+function vMarketS(){
+  const items=S.market.items.filter(x=>x.active!==false), mine=(S.myOrders?.items||[]).slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(o=>{ const s=S.myOStat?.[o.id]; return {...o, st:ordSt(s), msg:s?.msg||''}; });
+  return `<div class="page-head"><div><h1>${tr('mk.h')}</h1><p>${tr('mk.stuP')}</p></div></div>${rulesNote()}
+  ${items.length?`<div class="mk-grid">${items.map(x=>mkCard(x,false)).join('')}</div>`:`<div class="empty"><h3>${tr('mk.noItems')}</h3></div>`}
+  ${mine.length?`<div class="section"><h2>${tr('mk.mine')}</h2><div class="list">${mine.map(o=>orderRow(o,false)).join('')}</div></div>`:''}`;
+}
+function openBuy(itemId){
+  const it=mkItem(itemId); if(!it || it.active===false) return; const price=+it.price||0, ms=S.payInfo.methods||[];
+  const kinds=[...new Set([...ms.map(m=>PAY_KINDS.includes(m.kind)?m.kind:'card'), ...METHODS])];
+  showDlg(`<form id="buy-form" novalidate>${dlgHead(tr('mk.k.'+(MK_KINDS.includes(it.kind)?it.kind:'other')), esc(it.title))}
+    <div class="dlg-body">${it.desc?`<p class="muted">${esc(it.desc)}</p>`:''}
+      <div class="lg-2"><label class="field"><span>${tr('mk.qty')}</span><input class="inp num" id="by-qty" type="number" min="1" max="${MK_MAX_QTY}" value="1" inputmode="numeric"></label>
+        <div class="field"><span>${tr('mk.total')}</span><b class="num mk-total" id="by-total">${priceText(price)}</b></div></div>
+      ${price>0?`<div class="field"><span>${tr('pf.how')}</span>${ms.length?`<div class="list pm-list">${ms.map(m=>methodRow(m,false)).join('')}</div>`:`<p class="small faint">${tr('pf.noMethods')}</p>`}</div>
+      <div class="lg-2"><label class="field"><span>${tr('pf.method')}</span><select class="inp" id="by-method">${kinds.map(k=>`<option value="${k}">${tr('lg.m.'+k)}</option>`).join('')}</select></label>
+        <label class="field"><span>${tr('pf.ref')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="by-ref" maxlength="80" placeholder="${tr('pf.refPh')}"></label></div>`:''}
+      <label class="field"><span>${tr('bk.note')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="by-note" maxlength="200" placeholder="${tr('mk.notePh')}"></label>
+      ${price>0?`<p class="small faint">${tr('mk.safe')}</p>`:''}<p class="lg-err" id="by-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen" id="by-save">${price>0?tr('mk.paidSend'):tr('mk.send')}</button></div></form>`, {type:'buy', id:itemId});
+  const qty=()=>Math.min(MK_MAX_QTY,Math.max(1,Math.round(+$('#by-qty').value||1)));
+  $('#by-qty').addEventListener('input',()=>{ $('#by-total').textContent=priceText(price*qty()); });
+  $('#buy-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const next=clone(S.myOrders)||{items:[]}; next.items=(next.items||[]).slice(-49); next.name=S.myProfile?.name||'';
+    next.items.push({id:newId(), itemId, qty:qty(), method:price>0?$('#by-method').value:'', ref:price>0?$('#by-ref').value.trim():'', note:$('#by-note').value.trim(), at:nowTs()});
+    $('#by-save').disabled=true;
+    try{ await S.db.doc('orders/'+S.uid).set(next); closeDlg(); toast(tr('mk.sent')); }catch(e2){ $('#by-save').disabled=false; dbErr(e2,'order'); }
+  });
+}
+const vMarket = () => S.mode==='teacher' ? vMarketT() : vMarketS();
 
 /* ---------------- noticeboard, learn, plans, extra lessons ---------------- */
 const KINDS = ['tip','vocab','idiom'];
@@ -2252,6 +2416,15 @@ document.addEventListener('click', async ev => {
     case 'slot-del': saveSvc(n=>{ n.slots=n.slots.filter(x=>x.id!==b.dataset.id); }); break;
     case 'bk-open': openBook(b.dataset.id); break;
     case 'pc-open': openClaim(); break;
+    case 'mk-new': openMkItem(); break;
+    case 'mk-edit': openMkItem(b.dataset.id); break;
+    case 'mk-del': if(await saveMarket(n=>{ n.items=n.items.filter(x=>x.id!==b.dataset.id); }, tr('bd.deleted'))) closeDlg(); break;
+    case 'mk-buy': openBuy(b.dataset.id); break;
+    case 'ord-ok': openOrderOk(b.dataset.uid, b.dataset.id); break;
+    case 'ord-no': try{ await setOrderStatus(b.dataset.uid, b.dataset.id, {st:'no', at:nowTs()}); }catch(e){ dbErr(e,'market'); } break;
+    case 'ord-done': { const {uid,id}=b.dataset; try{ await setOrderStatus(uid, id, {...(S.ostat[uid]?.[id]||{}), st:'done', at:nowTs()}); }catch(e){ dbErr(e,'market'); } break; }
+    case 'ord-undo': { const {uid,id}=b.dataset, cur=S.ostat[uid]?.[id]; try{ await setOrderStatus(uid, id, cur?.st==='done' ? {...cur, st:'paid'} : null); }catch(e){ dbErr(e,'market'); } break; }
+    case 'ord-cancel': { const next=clone(S.myOrders)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('orders/'+S.uid).set(next); toast(tr('pf.cancelled')); }catch(e){ dbErr(e,'order'); } break; }
     case 'pc-cancel': { const next=clone(S.myClaims)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('payClaims/'+S.uid).set(next); toast(tr('pf.cancelled')); }catch(e){ dbErr(e,'pay'); } break; }
     case 'pc-ok': openClaimConfirm(b.dataset.uid, b.dataset.id); break;
     case 'pc-no': try{ await setClaimStatus(b.dataset.uid, b.dataset.id, 'no'); }catch(e){ dbErr(e,'payset'); } break;
