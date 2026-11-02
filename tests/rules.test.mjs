@@ -1,0 +1,55 @@
+// Security test for firestore.rules. Run from the repo root with the Firestore emulator on port 8089:
+//   npx firebase emulators:start --only firestore   (then)   node tests/rules.test.mjs
+// Needs: npm i @firebase/rules-unit-testing firebase
+import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
+import fs from 'fs';
+const env = await initializeTestEnvironment({ projectId:'daybook-test', firestore:{ rules: fs.readFileSync('firestore.rules','utf8'), host:'127.0.0.1', port:8089 } });
+await env.withSecurityRulesDisabled(async c => { const db=c.firestore();
+  await setDoc(doc(db,'ledger/main'),{fee:600000}); await setDoc(doc(db,'ledger/main/students/s1'),{name:'A',fee:600000,journalId:'alice'});
+  await setDoc(doc(db,'ledger/main/payments/p1'),{studentId:'s1',amount:600000,month:'2026-11'});
+  await setDoc(doc(db,'balances/alice'),{left:600000}); await setDoc(doc(db,'balances/bob'),{left:300000});
+  await setDoc(doc(db,'plans/alice'),{items:[{id:'i1',text:'x'}],done:{}}); await setDoc(doc(db,'plans/bob'),{items:[],done:{}});
+  await setDoc(doc(db,'board/main'),{ann:[],posts:[]}); await setDoc(doc(db,'bookingStatus/alice'),{b1:'wait'});
+});
+const T = env.authenticatedContext('teach', {email:'samandaryusupov559@gmail.com', email_verified:true}).firestore();
+const FAKE = env.authenticatedContext('fake', {email:'samandaryusupov559@gmail.com', email_verified:false}).firestore();
+const A = env.authenticatedContext('alice', {email:'alice@x.com', email_verified:false}).firestore();
+const N = env.unauthenticatedContext().firestore();
+let pass=0, fail=0;
+async function t(name, p, ok){ try{ await (ok?assertSucceeds(p):assertFails(p)); pass++; console.log('  ok  ', name); }catch(e){ fail++; console.log('  FAIL', name, e.message); } }
+console.log('Student trying to cheat payments');
+await t('student reads ledger students', getDocs(collection(A,'ledger/main/students')), false);
+await t('student reads ledger payments', getDocs(collection(A,'ledger/main/payments')), false);
+await t('student adds a fake payment', setDoc(doc(A,'ledger/main/payments/hack'),{studentId:'s1',amount:9999999,month:'2026-11'}), false);
+await t('student changes own fee', updateDoc(doc(A,'ledger/main/students/s1'),{fee:0}), false);
+await t('student deletes a payment', deleteDoc(doc(A,'ledger/main/payments/p1')), false);
+await t('student sets own balance to 0', setDoc(doc(A,'balances/alice'),{left:0}), false);
+await t('student reads own balance', getDoc(doc(A,'balances/alice')), true);
+await t("student reads someone else's balance", getDoc(doc(A,'balances/bob')), false);
+await t('student lists all balances', getDocs(collection(A,'balances')), false);
+console.log('Someone pretending to be the teacher');
+await t('unverified account with teacher email reads ledger', getDocs(collection(FAKE,'ledger/main/students')), false);
+await t('unverified account with teacher email writes payment', setDoc(doc(FAKE,'ledger/main/payments/x'),{amount:1}), false);
+await t('not signed in reads balances', getDoc(doc(N,'balances/alice')), false);
+await t('not signed in reads board', getDoc(doc(N,'board/main')), false);
+console.log('Tasks, bookings, noticeboard');
+await t('student ticks own task', updateDoc(doc(A,'plans/alice'),{done:{i1:true}}), true);
+await t('student rewrites own task list', updateDoc(doc(A,'plans/alice'),{items:[]}), false);
+await t("student ticks someone else's task", updateDoc(doc(A,'plans/bob'),{done:{x:true}}), false);
+await t('student writes own booking', setDoc(doc(A,'bookings/alice'),{name:'A',items:[{id:'b1'}]}), true);
+await t('student sneaks extra field into booking', setDoc(doc(A,'bookings/alice'),{name:'A',items:[],status:'ok'}), false);
+await t("student writes someone else's booking", setDoc(doc(A,'bookings/bob'),{name:'B',items:[]}), false);
+await t('student confirms own booking', setDoc(doc(A,'bookingStatus/alice'),{b1:'ok'}), false);
+await t('student posts announcement', setDoc(doc(A,'board/main'),{ann:[{text:'hacked'}],posts:[]}), false);
+await t('student reads board', getDoc(doc(A,'board/main')), true);
+await t('student writes teacher feedback', setDoc(doc(A,'feedback/alice'),{reviews:{}}), false);
+console.log('Teacher');
+await t('teacher reads ledger', getDocs(collection(T,'ledger/main/payments')), true);
+await t('teacher writes payment', setDoc(doc(T,'ledger/main/payments/p2'),{amount:1}), true);
+await t('teacher writes balance', setDoc(doc(T,'balances/alice'),{left:0}), true);
+await t('teacher writes plan', setDoc(doc(T,'plans/alice'),{items:[],done:{}}), true);
+await t('teacher confirms booking', setDoc(doc(T,'bookingStatus/alice'),{b1:'ok'}), true);
+await t('teacher posts board', setDoc(doc(T,'board/main'),{ann:[],posts:[]}), true);
+console.log(`\n${pass} passed, ${fail} failed`);
+await env.cleanup(); process.exit(fail?1:0);
