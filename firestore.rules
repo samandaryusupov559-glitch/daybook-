@@ -48,5 +48,17 @@ service cloud.firestore {
     match /teacher/{doc} {
       allow read, write: if isTeacher();
     }
+
+    // Payments (tuition ledger): students, payments and lesson-price settings. Only the teacher.
+    match /ledger/{document=**} {
+      allow read, write: if isTeacher();
+    }
+
+    // Each student's own balance, copied from the ledger by the teacher's page.
+    // The student may read only their own; only the teacher writes.
+    match /balances/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+    }
   }
 }
