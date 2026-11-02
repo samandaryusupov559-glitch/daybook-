@@ -218,6 +218,8 @@ en: {
   "pay.none": "Your teacher hasn’t set up your payments yet.", "pay.history": "Payment history", "pay.updated": "Updated {ago}",
   "pay.allPaid": "All paid for {m}. Thank you!", "pay.owe": "Please pay {sum} for {m}.", "pay.ahead": "You have paid {sum} ahead.",
   "pay.card": "Course payment", "pay.open": "See details", "pay.carried": "includes {sum} from earlier months",
+  /* ---------- app ---------- */
+  "app.install": "Install app", "app.done": "Lexora is installed. Find it on your home screen.", "app.iosH": "Install on iPhone", "app.ios1": "Open this page in Safari and tap the Share button (the square with an arrow) at the bottom.", "app.ios2": "Scroll down and tap “Add to Home Screen”.", "app.ios3": "Tap “Add”. Lexora appears on your home screen like an app.", "app.ok": "Got it",
   /* ---------- email ---------- */
   "what.mail": "save email settings", "em.h": "Email to students",
   "em.p": "Send announcements, tasks, feedback and confirmations to your students’ Gmail automatically, from your own Gmail. It’s free and takes about 10 minutes to set up once.", "em.start": "Set up email",
@@ -529,6 +531,8 @@ uz: {
   "pay.none": "O‘qituvchingiz hali to‘lovlaringizni kiritmagan.", "pay.history": "To‘lovlar tarixi", "pay.updated": "Yangilangan: {ago}",
   "pay.allPaid": "{m} uchun hammasi to‘langan. Rahmat!", "pay.owe": "{m} uchun {sum} to‘lashingiz kerak.", "pay.ahead": "Siz {sum} oldindan to‘lagansiz.",
   "pay.card": "Kurs to‘lovi", "pay.open": "Batafsil", "pay.carried": "oldingi oylardan {sum} bilan",
+  /* ---------- app ---------- */
+  "app.install": "Ilovani o‘rnatish", "app.done": "Lexora o‘rnatildi. U bosh ekraningizda.", "app.iosH": "iPhone’ga o‘rnatish", "app.ios1": "Bu sahifani Safari’da oching va pastdagi “Ulashish” tugmasini (strelkali kvadrat) bosing.", "app.ios2": "Pastga suring va “Добавить на экран «Домой»” / “Add to Home Screen” ni tanlang.", "app.ios3": "“Qo‘shish” ni bosing. Lexora bosh ekranda ilova kabi paydo bo‘ladi.", "app.ok": "Tushunarli",
   /* ---------- email ---------- */
   "what.mail": "email sozlamalarini saqlash", "em.h": "Talabalarga email",
   "em.p": "E’lonlar, vazifalar, tekshirilgan yozuvlar va tasdiqlarni o‘z Gmail’ingizdan talabalarning Gmail’iga avtomatik yuboring. Bepul, bir marta sozlash taxminan 10 daqiqa.", "em.start": "Emailni sozlash",
@@ -839,6 +843,8 @@ ru: {
   "pay.none": "Учитель ещё не внёс ваши оплаты.", "pay.history": "История оплат", "pay.updated": "Обновлено {ago}",
   "pay.allPaid": "За {m} всё оплачено. Спасибо!", "pay.owe": "Пожалуйста, оплатите {sum} за {m}.", "pay.ahead": "Вы оплатили {sum} вперёд.",
   "pay.card": "Оплата курса", "pay.open": "Подробнее", "pay.carried": "включая {sum} с прошлых месяцев",
+  /* ---------- app ---------- */
+  "app.install": "Установить приложение", "app.done": "Lexora установлена. Она на главном экране.", "app.iosH": "Установка на iPhone", "app.ios1": "Откройте эту страницу в Safari и нажмите кнопку «Поделиться» (квадрат со стрелкой) внизу.", "app.ios2": "Прокрутите вниз и выберите «На экран „Домой“».", "app.ios3": "Нажмите «Добавить». Lexora появится на главном экране как приложение.", "app.ok": "Понятно",
   /* ---------- email ---------- */
   "what.mail": "сохранить настройки почты", "em.h": "Письма ученикам",
   "em.p": "Отправляйте объявления, задания, проверенные записи и подтверждения на Gmail учеников автоматически, со своего Gmail. Бесплатно, настройка один раз примерно за 10 минут.", "em.start": "Настроить почту",
