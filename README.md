@@ -1,11 +1,11 @@
-# Daybook — ingliz tili kundaligi
+# Lexora — ingliz tili platformasi
 
 Talabalar kunlari haqida ingliz tilida yozadi, o'qituvchi esa grammatikasini tekshiradi.
 Har bir talaba faqat o'z kundaligini ko'radi. O'qituvchi hammasini ko'radi.
 
 - **Talaba:** email va parol bilan bir marta ro'yxatdan o'tadi, keyin istalgan qurilmadan kiradi.
 - **O'qituvchi:** "Teacher sign-in" tugmasi bilan emailiga kelgan havola orqali kiradi.
-- **Yangi yozuvlar:** Inbox'ga keladi. Brauzer yorlig'ida kutayotganlar soni chiqadi, masalan `(3) Daybook`.
+- **Yangi yozuvlar:** Inbox'ga keladi. Brauzer yorlig'ida kutayotganlar soni chiqadi, masalan `(3) Lexora · ...`.
 - **Tuzatishlar:** talaba "Corrected" tugmasi bilan to'g'rilangan matnni, "My mistakes" bo'limida esa barcha xatolarini ko'radi.
 
 - **Tillar:** yuqoridagi EN / UZ / RU tugmalari bilan sayt ingliz, o'zbek yoki rus tilida ochiladi. Tanlov har bir qurilmada eslab qolinadi. Tarjimalar `i18n.js` faylida.

@@ -1,4 +1,4 @@
-// Daybook translations: English, O‘zbekcha (lotin), Русский.
+// Lexora translations: English, O‘zbekcha (lotin), Русский.
 // {name} placeholders are filled in by the app. Entries with one/few/many/other are plural forms.
 // To fix a word, edit it here; a missing key falls back to English.
 

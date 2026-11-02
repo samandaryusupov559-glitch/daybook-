@@ -1,4 +1,4 @@
-// Daybook settings (see README.md, step 2).
+// Lexora settings (see README.md, step 2).
 
 // Firebase console → Project settings → General → Your apps → Web app
 export const firebaseConfig = {
