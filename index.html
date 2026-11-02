@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2316245F%22/%3E%3Cpath d=%22M16 6l6 10-6 10-6-10z%22 fill=%22none%22 stroke=%22%23F4F2EA%22 stroke-width=%222%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%221.8%22 fill=%22%23D11F3B%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Shantell+Sans:wght@400;500;600&family=Kalam:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Shantell+Sans:wght@400;500;600&family=Kalam:wght@400;700&family=Lora:wght@500;600&family=Onest:wght@400..800&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a dotted ink-blue desk; exercise-book sheets with a red margin and punched holes; student writes in royal-blue handwriting, teacher marks in red pen and grades with a rubber stamp. */
 :root{
@@ -22,10 +22,11 @@
   --shadow:rgba(18,26,51,.30); --focus:#2240BA;
   --c-gr:#C8233F; --c-t:#D35400; --c-art:#A07800; --c-prep:#0E8A7E; --c-ww:#6B4BD8; --c-sp:#B5179E;
   --c-p:#3A6EA5; --c-wo:#8C5A3C; --c-agr:#5F7F14; --c-st:#5C6B8A; --c-good:#1E9A5A;
-  --f-display:"Young Serif", "Iowan Old Style", Georgia, serif;
-  --f-ui:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  /* Latin glyphs use the first font; Cyrillic (Russian) falls through to Lora / Onest / Caveat, which match the look */
+  --f-display:"Young Serif", "Lora", "Iowan Old Style", Georgia, serif;
+  --f-ui:"Bricolage Grotesque", "Onest", "Segoe UI", system-ui, sans-serif;
   --f-write:"Shantell Sans", "Comic Neue", "Segoe Print", system-ui, sans-serif;
-  --f-hand:"Kalam", "Segoe Print", "Bradley Hand", cursive;
+  --f-hand:"Kalam", "Caveat", "Segoe Print", "Bradley Hand", cursive;
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
@@ -330,7 +331,7 @@ textarea.hand:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px co
 @keyframes grow{from{transform:scaleX(0)}to{transform:none}}
 .bar .track i{transform-origin:left}
 .bar .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2);font-weight:700}
-.chart svg{width:100%;height:auto;display:block}
+.chart svg{width:100%;height:auto;display:block;max-height:260px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 @media (max-width:820px){.grid2{grid-template-columns:minmax(0,1fr)}}
 .grid2 > .card{padding:18px 20px;min-width:0}
@@ -353,6 +354,90 @@ textarea.hand:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px co
 .loading{padding:70px 0;text-align:center;color:var(--ink-3);font-family:var(--f-hand);font-size:22px}
 .notice{padding:13px 16px;border-radius:12px;background:var(--pen-soft);color:var(--pen);font-size:14px;font-weight:600;margin-bottom:16px}
 .notice.info{background:var(--blue-soft);color:var(--blue)}
+/* language switcher */
+.lang{align-items:center;flex:none}
+.lang .lang-ic{display:inline-grid;place-items:center;width:24px;color:var(--ink-3)}
+.lang .lang-ic svg{width:15px;height:15px}
+.lang button{padding:4px 10px;font-size:12px;letter-spacing:.06em;font-weight:700}
+:lang(ru) .brand .sub,:lang(ru) .hand,:lang(ru) .loading{font-size:1.08em}
+:lang(ru) .page-head h1,:lang(ru) .login-h{letter-spacing:-.01em}
+@media (max-width:560px){ .top-in{gap:10px} .brand .sub{display:none} .brand .logo{font-size:26px} .who span:not(.av){display:none} }
+
+/* payments */
+.nav button:nth-of-type(6){--tab:var(--ok)}
+.nav .cnt:not(.dim){animation:none}
+.lg-month{display:flex;align-items:center;gap:4px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:5px;box-shadow:0 10px 24px -22px var(--shadow)}
+.lg-month b{min-width:150px;text-align:center;font-family:var(--f-display);font-weight:400;font-size:19px;padding:0 6px}
+.lg-month .btn.ghost{font-size:20px;line-height:1;padding:4px 12px}
+.lg-stats .stat{display:flex;flex-direction:column;gap:2px;min-width:0}
+.lg-stats .stat b{font-size:clamp(22px,2.5vw,31px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:6px 0 2px}
+.lg-stats .stat b small{font-family:var(--f-ui);font-size:12px;color:var(--ink-3);margin-left:5px;font-weight:700;letter-spacing:.02em}
+.lg-bar{display:block;height:7px;border-radius:999px;background:var(--sheet-3);overflow:hidden;margin-top:6px}
+.lg-bar i{display:block;height:100%;background:var(--ok);border-radius:999px;transition:width .5s var(--ease)}
+.lg-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:26px;align-items:start}
+@media (max-width:1100px){.lg-grid{grid-template-columns:minmax(0,1fr)}}
+.lg-tools{gap:10px}
+.lg-tools .inp{max-width:220px;flex:1 1 160px}
+.lg-tools .btn.primary{margin-left:auto}
+.seg .cnt-s{font-size:11px;opacity:.65;margin-left:2px}
+.lg-st{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px 14px 20px;background:var(--sheet);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 24px -22px var(--shadow);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.lg-st:hover{transform:translateY(-1px);box-shadow:0 16px 28px -22px var(--shadow)}
+.lg-st::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--line)}
+.lg-st.paid::before,.lg-st.credit::before{background:var(--ok)} .lg-st.partial::before{background:var(--warn)} .lg-st.unpaid::before{background:var(--pen)}
+.lg-name{all:unset;cursor:pointer;font-weight:700;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lg-name:hover{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+.lg-name:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.lg-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--blue);background:var(--blue-soft);padding:1px 8px 1px 6px;border-radius:999px;flex:none}
+.lg-link svg{width:12px;height:12px}
+.lg-meta{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.lg-meta b{color:var(--ink);font-weight:700}
+.lg-meta .owe,.lg-meta .owe b{color:var(--pen)}
+.lg-st .lg-bar{max-width:340px;height:5px}
+.lg-act{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+@media (max-width:560px){.lg-st{grid-template-columns:minmax(0,1fr);padding-left:18px}.lg-st > .av{display:none}.lg-act{flex-direction:row;justify-content:space-between;align-items:center}}
+.pill.lg-paid{background:var(--ok-soft);color:var(--ok)} .pill.lg-partial{background:var(--warn-soft);color:var(--warn)} .pill.lg-unpaid{background:var(--pen-soft);color:var(--pen)} .pill.lg-credit{background:var(--blue-soft);color:var(--blue)}
+.lg-cost{padding:18px 20px 20px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
+@media (max-width:1100px){.lg-cost{position:static}}
+.lg-ticket{position:relative;overflow:hidden;border-radius:14px;background:var(--hero);background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 25px,rgba(255,255,255,.06) 25px,rgba(255,255,255,.06) 26px);color:var(--on-hero);padding:15px 18px 16px;display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+.lg-ticket::after{content:"";position:absolute;right:-16px;top:50%;width:32px;height:32px;border-radius:50%;background:var(--sheet);transform:translateY(-50%)}
+.lg-ticket .label{color:var(--on-hero);opacity:.7}
+.lg-ticket b{font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.1;color:#FFE07A;letter-spacing:-.02em}
+.lg-ticket span:last-child{font-size:12.5px;opacity:.75}
+.lg-kv{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.lg-kv span{color:var(--ink-2)}
+.lg-set{gap:12px;margin-top:16px;padding-top:4px}
+.lg-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.lg-2{grid-template-columns:1fr}}
+.lg-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.lg-mini div{padding:10px 8px;border-radius:12px;background:var(--sheet-2);text-align:center;min-width:0}
+.lg-mini b{display:block;font-family:var(--f-display);font-weight:400;font-size:21px;margin-top:2px;overflow:hidden;text-overflow:ellipsis}
+.owe{color:var(--pen)}
+.lg-amt{font-family:var(--f-display);font-size:24px;padding:8px 12px}
+.lg-err{color:var(--pen);font-size:13px;font-weight:600;min-height:1.2em}
+.lg-err:empty{display:none}
+.lg-hist{display:flex;flex-direction:column;gap:4px;max-height:230px;overflow:auto}
+.lg-hist .h{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:6px 6px 6px 10px;border-radius:10px;background:var(--sheet-2);font-size:13px}
+dialog.dlg{border:1px solid var(--line);border-top:4px solid var(--pen);border-radius:8px 8px 18px 18px;background:var(--sheet);color:var(--ink);padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100dvh - 32px);box-shadow:0 30px 70px -20px var(--shadow);overflow:hidden}
+dialog.dlg[open]{animation:rise .25s var(--ease) both}
+dialog.dlg::backdrop{background:rgba(11,14,27,.55);backdrop-filter:blur(2px)}
+.dlg form{display:flex;flex-direction:column;max-height:calc(100dvh - 36px)}
+.dlg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:18px 20px 12px;border-bottom:1px dashed var(--line)}
+.dlg-head h2{font-family:var(--f-display);font-weight:400;font-size:27px;line-height:1.1;margin-top:3px;overflow-wrap:anywhere}
+.dlg-body{padding:16px 20px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+.dlg-foot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding:12px 20px 16px;border-top:1px solid var(--line);background:var(--sheet-2)}
+/* student pay card */
+.paycard{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 18px;margin-top:18px;border-radius:16px;border:1px solid var(--line);background:var(--sheet);box-shadow:0 12px 26px -24px var(--shadow);position:relative;overflow:hidden;transition:transform .25s var(--ease)}
+.paycard:hover{transform:translateY(-2px)}
+.paycard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--ok)}
+.paycard.partial::before{background:var(--warn)} .paycard.unpaid::before{background:var(--pen)} .paycard.credit::before{background:var(--blue)}
+.pc-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--ok-soft);color:var(--ok)}
+.paycard.unpaid .pc-ic{background:var(--pen-soft);color:var(--pen)} .paycard.partial .pc-ic{background:var(--warn-soft);color:var(--warn)}
+.pc-ic svg{width:22px;height:22px}
+.pc-msg{display:block;font-size:16px;margin-top:2px}
+.pc-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+@media (max-width:560px){.paycard{grid-template-columns:auto minmax(0,1fr)}.pc-side{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center}}
+.lg-row{grid-template-columns:auto minmax(0,1fr) auto}
+.lg-amt-big{font-family:var(--f-display);font-weight:400;font-size:20px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -366,30 +451,16 @@ textarea.hand:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px co
   </div>
 </div>
 <div id="pop"></div>
+<div id="dlg"></div>
 <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
 
 <script type="module">
+import { LANGS, DICT } from './i18n.js';
 /* ---------------- constants ---------------- */
-const TYPES = [
-  {k:'gr',  code:'Gr',   name:'Grammar'},
-  {k:'t',   code:'T',    name:'Tense'},
-  {k:'art', code:'Art',  name:'Article'},
-  {k:'prep',code:'Prep', name:'Preposition'},
-  {k:'ww',  code:'WW',   name:'Word choice'},
-  {k:'sp',  code:'Sp',   name:'Spelling'},
-  {k:'p',   code:'P',    name:'Punctuation'},
-  {k:'wo',  code:'WO',   name:'Word order'},
-  {k:'agr', code:'Agr',  name:'Agreement'},
-  {k:'st',  code:'St',   name:'Style'},
-  {k:'good',code:'★',    name:'Well done'},
-];
+const TYPES = [['gr','Gr'],['t','T'],['art','Art'],['prep','Prep'],['ww','WW'],['sp','Sp'],['p','P'],['wo','WO'],['agr','Agr'],['st','St'],['good','★']]
+  .map(([k,code])=>({k, code, get name(){ return tr('type.'+k); }}));
 const TYPE = Object.fromEntries(TYPES.map(t=>[t.k,t]));
-const CRIT = [
-  {k:'grammar',  n:'Grammar',    d:'Range and accuracy'},
-  {k:'vocab',    n:'Vocabulary', d:'Range and word choice'},
-  {k:'coherence',n:'Coherence',  d:'Linking and flow'},
-  {k:'content',  n:'Ideas',      d:'Detail and interest'},
-];
+const CRIT = ['grammar','vocab','coherence','content'].map(k=>({k, get n(){ return tr('crit.'+k); }, get d(){ return tr('crit.'+k+'.d'); }}));
 const LEVELS = ['A1','A2','B1','B2','C1','C2'];
 const GOAL = {A1:60,A2:80,B1:120,B2:170,C1:220,C2:250};
 const MOODS = [
@@ -399,6 +470,7 @@ const MOODS = [
   {k:'rainy', n:'Rainy',  svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10.5a3.5 3.5 0 0 0 .4-7 5.5 5.5 0 0 0-10.6-1.2A4.1 4.1 0 0 0 7 14z"/><path d="M8 17.5l-1 2.5M12.5 17.5l-1 2.5M17 17.5l-1 2.5"/></svg>'},
   {k:'stormy',n:'Stormy', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10.5a3.5 3.5 0 0 0 .4-7 5.5 5.5 0 0 0-10.6-1.2A4.1 4.1 0 0 0 7 14z"/><path d="M12.5 15l-2 3.5h3l-2 3.5"/></svg>'},
 ];
+MOODS.forEach(m=>Object.defineProperty(m,'n',{get(){ return tr('mood.'+m.k); }}));
 const MOOD = Object.fromEntries(MOODS.map(m=>[m.k,m]));
 const DEFAULT_BANK = [
   'Use the past simple for finished actions: yesterday, last week, ago.',
@@ -430,6 +502,10 @@ const I = {
   spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>',
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>',
+  coin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3"/><path d="M16.5 15h.5"/></svg>',
+  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>',
+  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5V4.5M7 9l5-5 5 5M5 20h14"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
   nib:'<svg class="nib" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M50 8l22 36-22 48-22-48z"/><circle cx="50" cy="52" r="5"/><path d="M50 57v35"/></svg>',
 };
 
@@ -441,15 +517,44 @@ const newId = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7
 const pad = n => String(n).padStart(2,'0');
 const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
 const parseDate = s => { const [y,m,d]=(s||todayStr()).split('-').map(Number); return new Date(y,m-1,d); };
-const fmtDate = (s,o={weekday:'short',day:'numeric',month:'short'}) => parseDate(s).toLocaleDateString('en-GB',o);
+const fmtDate = (s,o={weekday:'short',day:'numeric',month:'short'}) => dloc(parseDate(s),o);
 const LS = {
   get(k,d){ try{ const v=localStorage.getItem('daybook:'+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
   set(k,v){ try{ localStorage.setItem('daybook:'+k,JSON.stringify(v)); }catch(e){} },
   del(k){ try{ localStorage.removeItem('daybook:'+k);}catch(e){} }
 };
-function ago(ms){ if(!ms) return ''; const s=(Date.now()-ms)/1000; if(s<60) return 'just now'; if(s<3600) return Math.floor(s/60)+' min ago'; if(s<86400) return Math.floor(s/3600)+' h ago'; const d=Math.floor(s/86400); return d===1?'yesterday':d+' days ago'; }
+/* ---------------- language ---------------- */
+let LANG = (()=>{ const saved=LS.get('lang',null); if(saved && DICT[saved]) return saved;
+  for(const x of (navigator.languages||[navigator.language||''])){ const c=String(x).slice(0,2).toLowerCase(); if(DICT[c]) return c; } return 'en'; })();
+const LOCALE = () => (LANGS.find(l=>l.k===LANG)||LANGS[0]).loc;
+const cap = s => s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
+const UZ_M = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+const UZ_MS = ['yan','fev','mar','apr','may','iyn','iyl','avg','sen','okt','noy','dek'];
+const UZ_W = ['yakshanba','dushanba','seshanba','chorshanba','payshanba','juma','shanba'];
+const UZ_WS = ['yak','du','se','chor','pay','ju','sha'];
+function dloc(d, o={}){
+  if(LANG!=='uz') return d.toLocaleDateString(LOCALE(), o);
+  const m = o.month==='long' ? UZ_M[d.getMonth()] : o.month ? UZ_MS[d.getMonth()] : '';
+  const w = o.weekday==='long' ? UZ_W[d.getDay()] : o.weekday ? UZ_WS[d.getDay()] : '';
+  let core = o.day ? `${d.getDate()}-${m}` : m;
+  if(o.year) core = (core ? core+' ' : '') + d.getFullYear();
+  return [w, core].filter(Boolean).join(', ');
+}
+function tr(k, v){
+  let s = DICT[LANG]?.[k]; if(s==null) s = DICT.en[k]; if(s==null) return k;
+  if(typeof s==='object'){ const n=+(v?.n ?? 0); let cat='other'; try{ cat=new Intl.PluralRules(LOCALE()).select(n); }catch(e){} s = s[cat] ?? s.other; }
+  return v ? s.replace(/\{(\w+)\}/g,(m,x)=> v[x]!=null ? v[x] : m) : s;
+}
+document.documentElement.lang = LANG;
+function ago(ms){ if(!ms) return ''; const s=(Date.now()-ms)/1000; if(s<60) return tr('ago.now'); if(s<3600) return tr('ago.min',{n:Math.floor(s/60)}); if(s<86400) return tr('ago.h',{n:Math.floor(s/3600)}); const d=Math.floor(s/86400); return d===1?tr('ago.yesterday'):tr('ago.days',{n:d}); }
+const curYM = () => { const d=new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1); };
+const addM = (ym,d) => { let [y,m]=ym.split('-').map(Number); m+=d; while(m>12){m-=12;y++} while(m<1){m+=12;y--} return `${y}-${pad(m)}`; };
+const ymDate = ym => { const [y,m]=String(ym||curYM()).split('-').map(Number); return new Date(y,(m||1)-1,1); };
+const ymText = ym => dloc(ymDate(ym),{month:'long',year:'numeric'});
+const ymLabel = ym => cap(ymText(ym));
+const ymShort = ym => dloc(ymDate(ym),{month:'short',year:'numeric'});
 function hue(str){ let h=0; for(const c of String(str)) h=(h*31+c.charCodeAt(0))%360; return h; }
-function avatar(name,id){ const n=(name||'?').trim(); const ini=n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(); return `<span class="av" style="background:hsl(${hue(id||n)} 45% 42%)">${esc(ini)}</span>`; }
+function avatar(name,id){ const n=(name||'?').trim(); const ini=(n.split(/\s+/).filter(w=>/^\p{L}/u.test(w)).map(w=>w[0]).slice(0,2).join('')||n[0]).toUpperCase(); return `<span class="av" style="background:hsl(${hue(id||n)} 45% 42%)">${esc(ini)}</span>`; }
 const WORD_RE = /[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu;
 function metrics(text){
   const words = (text.match(WORD_RE)||[]);
@@ -464,11 +569,8 @@ function countErrors(anns){ const c={}; for(const a of anns||[]) c[a.type]=(c[a.
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,3200); }
 function dbErr(e, what){
   const c = e && e.code;
-  if(c==='permission-denied') return toast(`Couldn't ${what}: you don't have permission. Sign out and sign in again.`);
-  if(c==='invalid_argument') return toast(`Couldn't ${what}: this account can't save here. Ask your teacher for Contributor access.`);
-  if(c==='quota_exceeded') return toast(`Couldn't ${what}: the journal's storage is full.`);
-  if(c==='resource_exhausted') return toast(`Couldn't ${what}: too many saves at once. Try again in a moment.`);
-  toast(`Couldn't ${what}. Check your connection and try again.`);
+  const k = c==='permission-denied'?'err.perm' : c==='invalid_argument'?'err.arg' : (c==='quota_exceeded'||c==='quota-exceeded')?'err.quota' : (c==='resource_exhausted'||c==='resource-exhausted')?'err.busy' : 'err.generic';
+  toast(cap(tr(k,{what:tr('what.'+what)})));
 }
 
 /* ---------------- in-memory store for the example class ---------------- */
@@ -560,6 +662,21 @@ function seedDemo(db){
   const sum = rv => ({status:rv.status, overall:overallBand(rv.bands), bands:rv.bands, errorCounts:rv.errorCounts, reviewedAt:rv.reviewedAt, updatedAt:rv.updatedAt});
   db.m.set('feedback/ex-aziza', {reviews:{a1:sum(r1), a2:sum(r2)}, vocab:[...r1.vocab.map(v=>({...v,eid:'a1'})), ...r2.vocab.map(v=>({...v,eid:'a2'}))]});
   db.m.set('settings/prompt', {text:'Describe a small moment from this week that made you smile.', setAt:ts(3)});
+  // example payments
+  const ym=curYM(), pm=addM(ym,-1), ppm=addM(ym,-2);
+  db.m.set('ledger/main', {fee:600000, lessons:12, minutes:80});
+  const lst = [
+    {id:'l-aziza', name:'Aziza (example)', phone:'+998 90 123 45 67', fee:600000, start:ppm, note:'B1 group · Mon, Wed, Fri', journalId:'ex-aziza'},
+    {id:'l-timur', name:'Timur (example)', phone:'+998 93 555 12 34', fee:600000, start:pm, journalId:'ex-timur'},
+    {id:'l-madina', name:'Madina (example)', phone:'', fee:800000, start:ppm, note:'Individual lessons', journalId:'ex-madina'},
+    {id:'l-jasur', name:'Jasur (example)', phone:'+998 97 700 80 90', fee:500000, start:ym},
+  ];
+  lst.forEach(x=>{ const {id,...rest}=x; db.m.set('ledger/main/students/'+id, {...rest, end:'', createdAt:new Date(ts(40)).toISOString()}); });
+  const pays = [['l-aziza',ppm,600000,'cash'],['l-aziza',pm,600000,'click'],['l-aziza',ym,600000,'click'],['l-timur',pm,300000,'cash'],['l-timur',ym,300000,'payme'],['l-madina',ppm,800000,'card'],['l-madina',pm,800000,'card']];
+  const payRows = pays.map(([studentId,month,amount,method],i)=>({id:'p'+i, studentId, month, amount, method, date:month+'-0'+(3+i%5), note:'', createdAt:new Date(ts(10)).toISOString()}));
+  payRows.forEach(({id,...p})=>db.m.set('ledger/main/payments/'+id, p));
+  const ex = {students:lst, payments:payRows};
+  lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
 }
 
 /* ---------------- state ---------------- */
@@ -567,10 +684,11 @@ const S = {
   mode:'teacher', demo:false, realOwner:false, db:null, realDb:null, uid:null, me:null, sample:null, canWrite:null,
   unsubs:[], profiles:{}, feedback:{}, prompt:null, prefs:null, loaded:{},
   view:{name:'inbox'}, review:null, pop:null,
-  myProfile:undefined, myEntries:{}, myFeedback:null, myReviews:{}, edit:null,
+  myProfile:undefined, myEntries:{}, myFeedback:null, myReviews:{}, myBalance:undefined, edit:null,
+  lg:{settings:{fee:600000,lessons:12,minutes:80}, draft:null, students:[], payments:[], bal:{}, month:curYM(), filter:'all', q:'', loaded:{}, err:null},
 };
 const EDIT_VIEWS = new Set(['review','write','prompt','bank','setup','login']);
-function teardown(){ S.unsubs.forEach(u=>{try{u()}catch(e){}}); S.unsubs=[]; closePop(); }
+function teardown(){ S.unsubs.forEach(u=>{try{u()}catch(e){}}); S.unsubs=[]; closePop(); closeDlg(); }
 function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name)) renderMain(); }
 function go(name, extra={}){ closePop(); S.view={name,...extra}; renderNav(); renderMain(); window.scrollTo({top:0}); }
 
@@ -606,7 +724,7 @@ async function boot(){
     import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`),
     import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-auth.js`),
     import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore.js`)]); }
-  catch(e){ toast('Could not load Firebase. Check your internet connection and reload.'); S.setupMissing=true; startDemo('teacher'); return; }
+  catch(e){ toast(tr('fb.load')); S.setupMissing=true; startDemo('teacher'); return; }
   const app = fa.initializeApp(fc);
   S.auth = au.getAuth(app); S.au = au;
   S.realDb = new FireDB(fs.initializeFirestore(app,{ignoreUndefinedProperties:true}), fs);
@@ -619,17 +737,17 @@ async function boot(){
 }
 function authMsg(e){
   const c = (e && e.code) || '';
-  if(c.includes('invalid-email')) return "That email address doesn't look right.";
-  if(c.includes('unauthorized-continue-uri') || c.includes('unauthorized-domain')) return "This website address isn't allowed in Firebase yet. Add it under Authentication → Settings → Authorized domains.";
-  if(c.includes('operation-not-allowed')) return 'Email-link sign-in is switched off in Firebase. Turn it on under Authentication → Sign-in method.';
-  if(c.includes('invalid-action-code') || c.includes('expired')) return 'This sign-in link has expired or was already used. Ask for a new one.';
-  if(c.includes('quota-exceeded')) return 'Too many sign-in emails were sent today. Try again tomorrow.';
-  if(c.includes('network')) return 'No internet connection. Try again.';
-  if(c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found') || c.includes('invalid-login')) return 'Wrong email or password. New here? Create an account first.';
-  if(c.includes('email-already-in-use')) return 'An account with this email already exists. Sign in instead.';
-  if(c.includes('weak-password')) return 'Choose a longer password (at least 6 characters).';
-  if(c.includes('too-many-requests')) return 'Too many attempts. Wait a few minutes and try again.';
-  return "Couldn't sign in. Try again.";
+  if(c.includes('invalid-email')) return tr('auth.email');
+  if(c.includes('unauthorized-continue-uri') || c.includes('unauthorized-domain')) return tr('auth.domain');
+  if(c.includes('operation-not-allowed')) return tr('auth.linkOff');
+  if(c.includes('invalid-action-code') || c.includes('expired')) return tr('auth.expired');
+  if(c.includes('quota-exceeded')) return tr('auth.quota');
+  if(c.includes('network')) return tr('auth.network');
+  if(c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found') || c.includes('invalid-login')) return tr('auth.wrong');
+  if(c.includes('email-already-in-use')) return tr('auth.exists');
+  if(c.includes('weak-password')) return tr('auth.weak');
+  if(c.includes('too-many-requests')) return tr('auth.many');
+  return tr('auth.generic');
 }
 async function completeSignIn(email){
   try{
@@ -646,15 +764,15 @@ function showLogin(){
 function startSignedIn(user){
   teardown(); S.demo=false; S.user=user; S.db=S.realDb; S.uid=user.uid; S.realUid=user.uid;
   S.me = {name: user.displayName || '', email: user.email || ''};
-  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.seenWaiting=null;
+  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.myBalance=undefined; S.seenWaiting=null;
   const teacherEmail = !!user.email && user.email.toLowerCase()===S.teacherEmail;
   S.realOwner = teacherEmail && user.emailVerified;
-  if(teacherEmail && !user.emailVerified) setTimeout(()=>toast('To open the teacher desk, sign out and use “Teacher sign-in”.'),400);
+  if(teacherEmail && !user.emailVerified) setTimeout(()=>toast(tr('auth.teacherHint')),400);
   S.realOwner ? startTeacher() : startStudent();
 }
 function startDemo(role){
   teardown(); S.demo=true; S.db=new MemDB(); seedDemo(S.db);
-  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.loaded={}; S.seenWaiting=null;
+  S.profiles={}; S.feedback={}; S.myProfile=undefined; S.myEntries={}; S.myReviews={}; S.myFeedback=null; S.myBalance=undefined; S.loaded={}; S.seenWaiting=null;
   if(role==='teacher'){ S.uid='ex-teacher'; startTeacher(); }
   else { S.uid='ex-aziza'; S.canWrite=true; startStudent(); }
 }
@@ -667,23 +785,25 @@ function checkNewEntries(){
   const now = new Set(allEntries().filter(e=>e.status==='submitted').map(e=>e.sid+'/'+e.eid));
   if(S.seenWaiting && !S.demo){
     const fresh=[...now].filter(k=>!S.seenWaiting.has(k));
-    if(fresh.length){ const [sid]=fresh[0].split('/'); const nm=S.profiles[sid]?.name||'a student';
-      toast(fresh.length===1 ? `New entry from ${nm}` : `${fresh.length} new entries arrived`); }
+    if(fresh.length){ const [sid]=fresh[0].split('/'); const nm=S.profiles[sid]?.name||tr('new.someone');
+      toast(fresh.length===1 ? tr('new.one',{name:nm}) : tr('new.many',{n:fresh.length})); }
   }
   S.seenWaiting = now;
 }
 function startTeacher(){
   S.mode='teacher'; S.view={name:'inbox'}; S.loaded={};
-  const onErr = e => { if(e && e.code!=='revoked') toast('Live updates paused. Reload the page to reconnect.'); };
+  const onErr = e => { if(e && e.code!=='revoked') toast(tr('live.paused')); };
   S.unsubs.push(S.db.collection('journals').onSnapshot(s=>{ const p={}; s.docs.forEach(d=>{ if(d.exists) p[d.id]=d.data(); }); S.profiles=p; S.loaded.p=true; checkNewEntries(); refresh(); }, onErr));
   S.unsubs.push(S.db.collection('feedback').onSnapshot(s=>{ const f={}; s.docs.forEach(d=>{ if(d.exists) f[d.id]=d.data(); }); S.feedback=f; S.loaded.f=true; checkNewEntries(); refresh(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refresh(); }, onErr));
   S.db.doc('teacher/prefs').get().then(s=>{ S.prefs = s.exists? s.data(): {bank:DEFAULT_BANK.slice()}; }).catch(()=>{ S.prefs={bank:DEFAULT_BANK.slice()}; });
+  startLedger();
   refresh(); renderMain();
 }
 function startStudent(){
   S.mode='student'; S.view={name:'home'}; S.loaded={};
-  const u=S.uid, onErr = e => { if(e && e.code!=='revoked') toast('Live updates paused. Reload the page to reconnect.'); };
+  const u=S.uid, onErr = e => { if(e && e.code!=='revoked') toast(tr('live.paused')); };
+  S.unsubs.push(S.db.doc(`balances/${u}`).onSnapshot(s=>{ S.myBalance = s.exists? s.data(): null; refreshStudent(); }, ()=>{ S.myBalance=null; refreshStudent(); }));
   S.unsubs.push(S.db.doc(`journals/${u}`).onSnapshot(s=>{ S.myProfile = s.exists? s.data(): null; if(S.myProfile===null && S.view.name!=='setup') S.view={name:'setup'}; else if(S.myProfile && S.view.name==='setup') S.view={name:'home'}; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.collection(`journals/${u}/entries`).onSnapshot(s=>{ const e={}; s.docs.forEach(d=>{ if(d.exists) e[d.id]=d.data(); }); S.myEntries=e; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.doc(`feedback/${u}`).onSnapshot(s=>{ S.myFeedback = s.exists? s.data(): null; refreshStudent(); }, onErr));
@@ -702,18 +822,19 @@ function renderTop(){
   let right='';
   if(S.demo){
     let back='';
-    if(S.user) back=`<button class="btn sm" data-act="leave-demo">${S.realOwner?'Back to my class':'Back to my journal'}</button>`;
-    else if(S.realDb) back='<button class="btn sm" data-act="leave-demo">Sign in</button>';
-    right = `<div class="demo-bar">${S.setupMissing?'Firebase is not connected yet, so you are seeing an example class.':'Example class: nothing you do here is saved.'}
-      <div class="seg" role="group" aria-label="View as">
-        <button data-act="demo-role" data-role="teacher" aria-pressed="${S.mode==='teacher'}">Teacher</button>
-        <button data-act="demo-role" data-role="student" aria-pressed="${S.mode==='student'}">Student</button>
+    if(S.user) back=`<button class="btn sm" data-act="leave-demo">${S.realOwner?tr('top.backClass'):tr('top.backJournal')}</button>`;
+    else if(S.realDb) back=`<button class="btn sm" data-act="leave-demo">${tr('top.signIn')}</button>`;
+    right = `<div class="demo-bar">${S.setupMissing?tr('top.noFirebase'):tr('top.example')}
+      <div class="seg" role="group" aria-label="${tr('top.viewAs')}">
+        <button data-act="demo-role" data-role="teacher" aria-pressed="${S.mode==='teacher'}">${tr('teacher')}</button>
+        <button data-act="demo-role" data-role="student" aria-pressed="${S.mode==='student'}">${tr('student')}</button>
       </div>${back}</div>`;
   } else if(S.user){
-    const nm = S.mode==='student' ? (S.myProfile?.name || S.me?.email || 'Student') : (S.me?.name || 'Teacher');
-    right = `<div class="who">${avatar(nm,S.uid)}<span><b style="color:var(--ink)">${esc(nm)}</b><br><span class="faint small">${S.mode==='teacher'?'Teacher · sees every journal':'Only you and your teacher can read this'}</span></span></div><button class="btn sm ghost" data-act="sign-out">Sign out</button>`;
+    const nm = S.mode==='student' ? (S.myProfile?.name || S.me?.email || tr('student')) : (S.me?.name || tr('teacher'));
+    right = `<div class="who">${avatar(nm,S.uid)}<span><b style="color:var(--ink)">${esc(nm)}</b><br><span class="faint small">${S.mode==='teacher'?tr('top.teacherSees'):tr('top.private')}</span></span></div><button class="btn sm ghost" data-act="sign-out">${tr('top.signOut')}</button>`;
   }
-  $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Day<i>book</i></span><span class="sub">${S.view.name==='login'?'english journal':S.mode==='teacher'?'marking desk':'my English journal'}</span></div>${right}`;
+  const langs = `<div class="seg lang" role="group" aria-label="${tr('lang.label')}"><span class="lang-ic" aria-hidden="true">${I.globe}</span>${LANGS.map(l=>`<button data-act="lang" data-l="${l.k}" aria-pressed="${l.k===LANG}" title="${l.full}" lang="${l.k}">${l.n}</button>`).join('')}</div>`;
+  $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Day<i>book</i></span><span class="sub">${S.view.name==='login'?tr('sub.login'):S.mode==='teacher'?tr('sub.teacher'):tr('sub.student')}</span></div>${langs}${right}`;
 }
 function navBtn(name,label,icon,count,dim){ const cur = S.view.name===name || (name==='students' && S.view.name==='student') || (name==='inbox' && S.view.name==='review') || (name==='home' && S.view.name==='entry');
   return `<button data-act="go" data-v="${name}" ${cur?'aria-current="page"':''}>${I[icon]}<span>${label}</span>${count?`<span class="cnt ${dim?'dim':''}">${count}</span>`:''}</button>`; }
@@ -723,13 +844,14 @@ function renderNav(){
   if(solo){ n.innerHTML=''; document.title='Daybook'; return; }
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
-    document.title = (waiting?`(${waiting}) `:'')+'Daybook · Marking desk';
-    n.innerHTML = navBtn('inbox','Inbox','inbox',waiting) + navBtn('students','Students','people',Object.keys(S.profiles).length,true) + navBtn('insights','Class insights','chart') + navBtn('prompt','Writing prompt','bulb') + navBtn('bank','Comment bank','bank') +
-      `<div class="nav-foot">Each student sees only their own journal. Your marks stay hidden until you press <b>Return</b>.</div>`;
+    document.title = (waiting?`(${waiting}) `:'')+'Daybook · '+tr('title.teacher');
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',lgOwing(),true) + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+      `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
-    document.title = (unseen?`(${unseen}) `:'')+'Daybook · My journal';
-    n.innerHTML = navBtn('home','My journal','home',unseen) + navBtn('write','Write','pen') + navBtn('mistakes','My mistakes','flag') + navBtn('words','Words to learn','book',(S.myFeedback?.vocab||[]).length,true);
+    document.title = (unseen?`(${unseen}) `:'')+'Daybook · '+tr('title.student');
+    const owe = S.myBalance && S.myBalance.left>0;
+    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
   }
 }
 
@@ -742,18 +864,18 @@ function allEntries(){
   }
   return out;
 }
-const TLABEL = {submitted:'New', inreview:'In progress', reviewed:'Returned', revise:'Revision asked'};
-const SLABEL = {submitted:'Sent', inreview:'Being checked', reviewed:'Checked', revise:'Please revise'};
+const TLABEL = new Proxy({}, {get:(_,k)=>tr('tl.'+String(k))});
+const SLABEL = new Proxy({}, {get:(_,k)=>tr('sl.'+String(k))});
 const pill = (st, map) => `<span class="pill st-${st}">${map[st]}</span>`;
 
 /* ---------------- main router ---------------- */
 function renderMain(){
   const m=$('#main'); const v=S.view.name;
   if(v==='login'){ m.innerHTML=vLogin(); setTimeout(()=>$('#login-email')?.focus(),50); return; }
-  if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML='<div class="loading">Gathering notebooks…</div>'; return; }
-  if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML='<div class="loading">Opening your notebook…</div>'; return; }
-  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview,
-              home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup}[v];
+  if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML=`<div class="loading">${tr('load.teacher')}</div>`; return; }
+  if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML=`<div class="loading">${tr('load.student')}</div>`; return; }
+  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger,
+              home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay}[v];
   m.innerHTML = fn ? fn() : '';
   after[v] && after[v]();
 }
@@ -762,16 +884,16 @@ const after = {};
 /* ---------------- teacher: inbox ---------------- */
 function entryCard(e, teacher=true){
   const d=parseDate(e.date);
-  const status = teacher ? pill(e.status,TLABEL) : (e.isNew? '<span class="pill st-new">New feedback</span>' : pill(e.status,SLABEL));
+  const status = teacher ? pill(e.status,TLABEL) : (e.isNew? `<span class="pill st-new">${tr('card.newFb')}</span>` : pill(e.status,SLABEL));
   const band = e.rv?.overall ?? e.overall;
   return `<button class="ecard" data-act="${teacher?'open-review':'open-entry'}" data-sid="${esc(e.sid||'')}" data-eid="${esc(e.eid)}">
-    ${teacher? `<span class="avwrap">${avatar(e.name,e.sid)}</span>` : `<span class="datechip"><b>${d.getDate()}</b><span>${d.toLocaleDateString('en-GB',{month:'short'})}</span></span>`}
+    ${teacher? `<span class="avwrap">${avatar(e.name,e.sid)}</span>` : `<span class="datechip"><b>${d.getDate()}</b><span>${dloc(d,{month:'short'})}</span></span>`}
     <span style="min-width:0">
-      <span class="t">${teacher? esc(e.name)+' · ':''}${esc(e.title||'Untitled')}</span>
+      <span class="t">${teacher? esc(e.name)+' · ':''}${esc(e.title||tr('untitled'))}</span>
       <span class="pv" style="display:block">${esc(e.preview||'')}</span>
-      <span class="meta"><span>${fmtDate(e.date)}</span><span class="num">${e.words||0} words</span>${e.mood&&MOOD[e.mood]?`<span>${MOOD[e.mood].n}</span>`:''}${teacher&&e.status==='submitted'?`<span>sent ${ago(e.submittedAt)}</span>`:''}${e.revisionOf?'<span>revision</span>':''}</span>
+      <span class="meta"><span>${fmtDate(e.date)}</span><span class="num">${tr('words',{n:e.words||0})}</span>${e.mood&&MOOD[e.mood]?`<span>${MOOD[e.mood].n}</span>`:''}${teacher&&e.status==='submitted'?`<span>${tr('card.sent',{ago:ago(e.submittedAt)})}</span>`:''}${e.revisionOf?`<span>${tr('card.revision')}</span>`:''}</span>
     </span>
-    <span class="side">${status}${band!=null && (e.status==='reviewed'||e.status==='revise')?`<span class="small num faint">Band <b style="color:var(--ink)">${fmtBand(band)}</b></span>`:''}</span>
+    <span class="side">${status}${band!=null && (e.status==='reviewed'||e.status==='revise')?`<span class="small num faint">${tr('band')} <b style="color:var(--ink)">${fmtBand(band)}</b></span>`:''}</span>
   </button>`;
 }
 function vInbox(){
@@ -779,14 +901,14 @@ function vInbox(){
   const waiting = all.filter(e=>e.status==='submitted').sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0));
   const prog = all.filter(e=>e.status==='inreview').sort((a,b)=>(b.rv?.updatedAt||0)-(a.rv?.updatedAt||0));
   const done = all.filter(e=>e.status==='reviewed'||e.status==='revise').sort((a,b)=>(b.rv?.reviewedAt||0)-(a.rv?.reviewedAt||0)).slice(0,8);
-  if(!all.length) return `<div class="page-head"><div><h1>Inbox</h1><p>New journal entries land here, oldest first.</p></div></div>
-    <div class="empty"><h3>No entries yet</h3><p>Share this page with your students and give them <b>Contributor</b> access so they can write.<br>Each student sees only their own journal; you see everyone's.</p>
-    ${S.demo?'':'<p style="margin-top:16px"><button class="btn primary" data-act="demo">Explore with an example class</button></p>'}</div>`;
-  return `<div class="page-head"><div><h1>Inbox</h1><p>${waiting.length? `${waiting.length} ${waiting.length===1?'entry is':'entries are'} waiting to be marked.`:'All caught up. Nice work.'}</p></div>
-    ${waiting.length?`<button class="btn pen" data-act="open-review" data-sid="${esc(waiting[0].sid)}" data-eid="${esc(waiting[0].eid)}">${I.pen} Start marking</button>`:''}</div>
+  if(!all.length) return `<div class="page-head"><div><h1>${tr('inbox.h')}</h1><p>${tr('inbox.p')}</p></div></div>
+    <div class="empty"><h3>${tr('inbox.emptyH')}</h3><p>${tr('inbox.emptyP')}</p>
+    ${S.demo?'':`<p style="margin-top:16px"><button class="btn primary" data-act="demo">${tr('inbox.explore')}</button></p>`}</div>`;
+  return `<div class="page-head"><div><h1>${tr('inbox.h')}</h1><p>${waiting.length? tr('inbox.waiting',{n:waiting.length}) : tr('inbox.caught')}</p></div>
+    ${waiting.length?`<button class="btn pen" data-act="open-review" data-sid="${esc(waiting[0].sid)}" data-eid="${esc(waiting[0].eid)}">${I.pen} ${tr('inbox.start')}</button>`:''}</div>
     ${waiting.length?`<div class="list">${waiting.map(e=>entryCard(e)).join('')}</div>`:''}
-    ${prog.length?`<div class="section"><h2>In progress</h2><div class="list">${prog.map(e=>entryCard(e)).join('')}</div></div>`:''}
-    ${done.length?`<div class="section"><h2>Recently returned</h2><div class="list">${done.map(e=>entryCard(e)).join('')}</div></div>`:''}`;
+    ${prog.length?`<div class="section"><h2>${tr('inbox.prog')}</h2><div class="list">${prog.map(e=>entryCard(e)).join('')}</div></div>`:''}
+    ${done.length?`<div class="section"><h2>${tr('inbox.done')}</h2><div class="list">${done.map(e=>entryCard(e)).join('')}</div></div>`:''}`;
 }
 
 /* ---------------- teacher: students ---------------- */
@@ -804,26 +926,26 @@ function studentStats(sid){
 function topErr(errs){ const e=Object.entries(errs).sort((a,b)=>b[1]-a[1])[0]; return e? TYPE[e[0]] : null; }
 function vStudents(){
   const ids = Object.keys(S.profiles).sort((a,b)=>(S.profiles[a].name||'').localeCompare(S.profiles[b].name||''));
-  if(!ids.length) return `<div class="page-head"><div><h1>Students</h1></div></div><div class="empty"><h3>No students yet</h3><p>When a student opens this page for the first time, they type their name and their notebook appears here.</p></div>`;
-  return `<div class="page-head"><div><h1>Students</h1><p>${ids.length} ${ids.length===1?'notebook':'notebooks'} · tap one to see progress and recurring mistakes.</p></div>
-    <input class="inp" id="stu-q" placeholder="Search by name" style="max-width:240px" value="${esc(S.view.q||'')}" aria-label="Search students"></div>
+  if(!ids.length) return `<div class="page-head"><div><h1>${tr('stu.h')}</h1></div></div><div class="empty"><h3>${tr('stu.emptyH')}</h3><p>${tr('stu.emptyP')}</p></div>`;
+  return `<div class="page-head"><div><h1>${tr('stu.h')}</h1><p>${tr('stu.count',{n:ids.length})}</p></div>
+    <input class="inp" id="stu-q" placeholder="${tr('stu.search')}" style="max-width:240px" value="${esc(S.view.q||'')}" aria-label="${tr('stu.search')}"></div>
     <div class="scards" id="scards">${ids.map(sid=>{ const p=S.profiles[sid], st=studentStats(sid), te=topErr(st.errs);
       return `<button class="scard" data-act="open-student" data-sid="${esc(sid)}" data-name="${esc((p.name||'').toLowerCase())}">
-        <span class="top-r">${avatar(p.name,sid)}<span style="min-width:0"><span class="nm">${esc(p.name||'Unnamed')}</span><br><span class="small faint">${st.last?'last wrote '+fmtDate(st.last):'no entries yet'}</span></span><span class="lvl" style="margin-left:auto">${esc(p.level||'–')}</span></span>
-        <span class="kv"><div><b>${st.entries}</b>entries</div><div><b>${fmtBand(st.latest)}</b>latest band</div><div><b style="${st.waiting?'color:var(--pen)':''}">${st.waiting}</b>to mark</div></span>
-        ${te?`<span class="small muted">Most frequent: <span class="tchip t-${te.k}" style="padding:1px 8px 1px 3px"><span class="code">${te.code}</span>${te.name}</span></span>`:'<span class="small faint">No marked entries yet</span>'}
+        <span class="top-r">${avatar(p.name,sid)}<span style="min-width:0"><span class="nm">${esc(p.name||tr('stu.unnamed'))}</span><br><span class="small faint">${st.last?tr('stu.last',{d:fmtDate(st.last)}):tr('stu.none')}</span></span><span class="lvl" style="margin-left:auto">${esc(p.level||'–')}</span></span>
+        <span class="kv"><div><b>${st.entries}</b>${tr('k.entries')}</div><div><b>${fmtBand(st.latest)}</b>${tr('k.latest')}</div><div><b style="${st.waiting?'color:var(--pen)':''}">${st.waiting}</b>${tr('k.toMark')}</div></span>
+        ${te?`<span class="small muted">${tr('stu.most')} <span class="tchip t-${te.k}" style="padding:1px 8px 1px 3px"><span class="code">${te.code}</span>${te.name}</span></span>`:`<span class="small faint">${tr('stu.noMarked')}</span>`}
       </button>`; }).join('')}</div>`;
 }
 after.students = () => { const q=$('#stu-q'); if(!q) return; const f=()=>{ const v=q.value.toLowerCase().trim(); S.view.q=q.value; document.querySelectorAll('#scards .scard').forEach(c=>c.hidden = v && !c.dataset.name.includes(v)); }; q.addEventListener('input',f); f(); };
 
 function errorBars(errs){
   const list = TYPES.filter(t=>t.k!=='good' && errs[t.k]).map(t=>({t,n:errs[t.k]})).sort((a,b)=>b.n-a.n);
-  if(!list.length) return '<p class="small faint">Error patterns appear once entries are marked.</p>';
+  if(!list.length) return `<p class="small faint">${tr('err.bars')}</p>`;
   const max = list[0].n;
   return `<div class="bars">${list.map(({t,n})=>`<div class="bar t-${t.k}"><span class="tchip t-${t.k}" style="padding:1px 8px 1px 3px;justify-self:start"><span class="code">${t.code}</span>${t.name}</span><span class="track"><i style="width:${Math.max(4,n/max*100)}%"></i></span><span class="n">${n}</span></div>`).join('')}</div>`;
 }
 function bandChart(pts){
-  if(pts.length<2) return `<p class="small faint">The band trend appears after two marked entries${pts.length?` (current: ${fmtBand(pts[0].v)})`:''}.</p>`;
+  if(pts.length<2) return `<p class="small faint">${pts.length?tr('chart.cur',{v:fmtBand(pts[0].v)}):tr('chart.need')}</p>`;
   const W=420,H=150,pl=28,pr=14,pt=14,pb=26, lo=0, hi=9;
   const x=i=>pl+(W-pl-pr)*(pts.length===1?0.5:i/(pts.length-1)), y=v=>pt+(H-pt-pb)*(1-(v-lo)/(hi-lo));
   const line = pts.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join('');
@@ -832,19 +954,21 @@ function bandChart(pts){
   const labs = pts.map((p,i)=> (i===0||i===pts.length-1||pts.length<=6)?`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)" font-family="Figtree,sans-serif">${p.date?fmtDate(p.date,{day:'numeric',month:'short'}):''}</text>`:'').join('');
   const dots = pts.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.v)}" r="${i===pts.length-1?5:3}" fill="${i===pts.length-1?'var(--pen)':'var(--sheet)'}" stroke="var(--pen)" stroke-width="2"/>`).join('');
   const last=pts[pts.length-1];
-  return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Band score trend">${ticks}<path d="${area}" fill="var(--pen)" opacity=".08"/><path d="${line}" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/>${dots}<text x="${x(pts.length-1)-8}" y="${y(last.v)-10}" text-anchor="end" font-size="13" font-weight="700" fill="var(--pen)" font-family="Figtree,sans-serif">${fmtBand(last.v)}</text>${labs}</svg></div>`;
+  return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${tr('chart.aria')}">${ticks}<path d="${area}" fill="var(--pen)" opacity=".08"/><path d="${line}" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linejoin="round"/>${dots}<text x="${x(pts.length-1)-8}" y="${y(last.v)-10}" text-anchor="end" font-size="13" font-weight="700" fill="var(--pen)" font-family="Figtree,sans-serif">${fmtBand(last.v)}</text>${labs}</svg></div>`;
 }
 function vStudent(){
-  const sid=S.view.sid, p=S.profiles[sid]; if(!p) return `<div class="empty"><h3>Student not found</h3><button class="btn" data-act="go" data-v="students">Back to students</button></div>`;
+  const sid=S.view.sid, p=S.profiles[sid]; if(!p) return `<div class="empty"><h3>${tr('stu.notFound')}</h3><button class="btn" data-act="go" data-v="students">${tr('stu.backList')}</button></div>`;
   const st=studentStats(sid), fb=S.feedback[sid]||{};
   const entries = Object.entries(p.index||{}).map(([eid,ix])=>{ const rv=fb.reviews?.[eid]; return {sid,eid,...ix,name:p.name,status:rv?.status||'submitted',rv}; }).sort((a,b)=>a.date<b.date?1:-1);
   const vocab = fb.vocab||[];
-  return `<button class="btn ghost sm" data-act="go" data-v="students">${I.back} Students</button>
-    <div class="page-head" style="margin-top:10px"><div class="row">${avatar(p.name,sid)}<div><h1>${esc(p.name)}</h1><p>Level ${esc(p.level||'–')} · joined ${p.joinedAt? new Date(p.joinedAt).toLocaleDateString('en-GB',{day:'numeric',month:'long'}):'–'}</p></div></div></div>
-    <div class="stats"><div class="stat"><b>${st.entries}</b><span>entries</span></div><div class="stat"><b>${st.words.toLocaleString()}</b><span>words written</span></div><div class="stat"><b>${fmtBand(st.latest)}</b><span>latest band</span></div><div class="stat"><b>${st.waiting}</b><span>waiting for you</span></div></div>
-    <div class="grid2 section"><div class="card"><h3>Band trend</h3>${bandChart(st.pts)}</div><div class="card"><h3>Recurring mistakes</h3>${errorBars(st.errs)}</div></div>
-    <div class="section"><h2>Entries</h2><div class="list">${entries.map(e=>entryCard(e)).join('') || '<p class="faint">No entries yet.</p>'}</div></div>
-    <div class="section"><h2>Words you've given ${esc((p.name||'').split(' ')[0])}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:'<p class="small faint">Add words to learn while marking an entry.</p>'}</div>`;
+  const lgs = S.lg.students.find(x=>x.journalId===sid), lgL = lgs ? lgCalc(lgs, curYM()) : null;
+  return `<button class="btn ghost sm" data-act="go" data-v="students">${I.back} ${tr('nav.students')}</button>
+    <div class="page-head" style="margin-top:10px"><div class="row">${avatar(p.name,sid)}<div><h1>${esc(p.name)}</h1><p>${tr('stu.meta',{l:esc(p.level||'–'), d:p.joinedAt? dloc(new Date(p.joinedAt),{day:'numeric',month:'long'}):'–'})}</p></div></div>
+    ${lgs?`<button class="btn sm" data-act="lg-open" data-id="${esc(lgs.id)}">${I.coin} <span class="pill lg-${lgL.status}">${tr('lg.st.'+lgL.status)}</span>${lgL.left>0?`<span class="num">${tr('lg.left')} ${money(lgL.left)}</span>`:''}</button>`:''}</div>
+    <div class="stats"><div class="stat"><b>${st.entries}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${st.words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${fmtBand(st.latest)}</b><span>${tr('k.latest')}</span></div><div class="stat"><b>${st.waiting}</b><span>${tr('k.waiting')}</span></div></div>
+    <div class="grid2 section"><div class="card"><h3>${tr('stu.trend')}</h3>${bandChart(st.pts)}</div><div class="card"><h3>${tr('stu.recur')}</h3>${errorBars(st.errs)}</div></div>
+    <div class="section"><h2>${tr('stu.entries')}</h2><div class="list">${entries.map(e=>entryCard(e)).join('') || `<p class="faint">${tr('stu.noEntries')}</p>`}</div></div>
+    <div class="section"><h2>${tr('stu.given',{name:esc((p.name||'').split(' ')[0])})}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:`<p class="small faint">${tr('stu.addWords')}</p>`}</div>`;
 }
 
 /* ---------------- teacher: insights ---------------- */
@@ -862,47 +986,364 @@ function vInsights(){
   const avg = a => a.length? Math.round(a.reduce((x,y)=>x+y,0)/a.length*10)/10 : null;
   const marked = all.filter(e=>e.status==='reviewed'||e.status==='revise').length;
   const totalWords = all.reduce((a,e)=>a+(e.words||0),0);
-  return `<div class="page-head"><div><h1>Class insights</h1><p>What your whole class is writing, and where they slip.</p></div></div>
-    <div class="stats"><div class="stat"><b>${Object.keys(S.profiles).length}</b><span>students</span></div><div class="stat"><b>${all.length}</b><span>entries</span></div><div class="stat"><b>${marked}</b><span>marked</span></div><div class="stat"><b>${totalWords.toLocaleString()}</b><span>words written</span></div></div>
+  return `<div class="page-head"><div><h1>${tr('ins.h')}</h1><p>${tr('ins.p')}</p></div></div>
+    <div class="stats"><div class="stat"><b>${Object.keys(S.profiles).length}</b><span>${tr('k.students')}</span></div><div class="stat"><b>${all.length}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${marked}</b><span>${tr('k.marked')}</span></div><div class="stat"><b>${totalWords.toLocaleString()}</b><span>${tr('k.words')}</span></div></div>
     <div class="grid2 section">
-      <div class="card"><h3>Entries per week</h3><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Entries per week">${grid}${bars}</svg></div><p class="small faint" style="margin-top:6px">Weeks start on Monday. This week is in red.</p></div>
-      <div class="card"><h3>Class mistakes by type</h3>${errorBars(errs)}</div>
+      <div class="card"><h3>${tr('ins.week')}</h3><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${tr('ins.week')}">${grid}${bars}</svg></div><p class="small faint" style="margin-top:6px">${tr('ins.weekNote')}</p></div>
+      <div class="card"><h3>${tr('ins.mist')}</h3>${errorBars(errs)}</div>
     </div>
-    <div class="section card" style="padding:16px 18px"><h3>Average band by criterion</h3>
+    <div class="section card" style="padding:16px 18px"><h3>${tr('ins.avg')}</h3>
       <div class="bands-mini">${CRIT.map(c=>`<div><b>${avg(crit[c.k])==null?'–':avg(crit[c.k]).toFixed(1)}</b><span>${c.n}</span></div>`).join('')}</div></div>`;
 }
 
 /* ---------------- teacher: prompt + bank ---------------- */
 function vPrompt(){
-  return `<div class="page-head"><div><h1>Writing prompt</h1><p>Students see this on their journal page as an idea for today's entry.</p></div></div>
+  return `<div class="page-head"><div><h1>${tr('pr.h')}</h1><p>${tr('pr.p')}</p></div></div>
     <div class="card" style="padding:18px 20px;max-width:720px">
-      <label class="field"><span>Prompt of the week</span><textarea class="inp" id="prompt-txt" rows="3" style="font-family:var(--f-write);font-size:18px">${esc(S.prompt?.text||'')}</textarea></label>
-      <div class="row" style="margin-top:12px"><button class="btn primary" data-act="save-prompt">Publish prompt</button><button class="btn ghost" data-act="clear-prompt">Remove prompt</button>${S.prompt?.setAt?`<span class="small faint">Last set ${ago(S.prompt.setAt)}</span>`:''}</div>
+      <label class="field"><span>${tr('pr.label')}</span><textarea class="inp" id="prompt-txt" rows="3" style="font-family:var(--f-write);font-size:18px">${esc(S.prompt?.text||'')}</textarea></label>
+      <div class="row" style="margin-top:12px"><button class="btn primary" data-act="save-prompt">${tr('pr.publish')}</button><button class="btn ghost" data-act="clear-prompt">${tr('pr.remove')}</button>${S.prompt?.setAt?`<span class="small faint">${tr('pr.last',{ago:ago(S.prompt.setAt)})}</span>`:''}</div>
     </div>
-    <div class="section"><h2>Ideas</h2><div class="list">${PROMPT_IDEAS.map(p=>`<button class="ecard" style="grid-template-columns:minmax(0,1fr) auto" data-act="use-idea" data-t="${esc(p)}"><span class="pv" style="white-space:normal;color:var(--ink)">${esc(p)}</span><span class="small faint">Use</span></button>`).join('')}</div></div>`;
+    <div class="section"><h2>${tr('pr.ideas')}</h2><div class="list">${PROMPT_IDEAS.map(p=>`<button class="ecard" style="grid-template-columns:minmax(0,1fr) auto" data-act="use-idea" data-t="${esc(p)}"><span class="pv" style="white-space:normal;color:var(--ink)">${esc(p)}</span><span class="small faint">${tr('pr.use')}</span></button>`).join('')}</div></div>`;
 }
 function vBank(){
   const bank = S.prefs?.bank || DEFAULT_BANK;
-  return `<div class="page-head"><div><h1>Comment bank</h1><p>Notes you write again and again. They appear as one-tap chips while you mark. Only you can see this list.</p></div></div>
+  return `<div class="page-head"><div><h1>${tr('bank.h')}</h1><p>${tr('bank.p')}</p></div></div>
     <div class="card" style="padding:16px 18px;max-width:760px">
-      <div class="row" style="flex-wrap:nowrap"><input class="inp" id="bank-new" placeholder="e.g. Use 'since' with a point in time: since Monday."><button class="btn primary" data-act="bank-add">Add</button></div>
-      <div class="list" style="margin-top:14px">${bank.map((b,i)=>`<div class="row" style="flex-wrap:nowrap;justify-content:space-between;padding:8px 10px;border-radius:8px;background:var(--sheet-2)"><span class="hand" style="font-size:16px">${esc(b)}</span><button class="btn ghost sm" data-act="bank-del" data-i="${i}" aria-label="Delete comment">Delete</button></div>`).join('')}</div>
+      <div class="row" style="flex-wrap:nowrap"><input class="inp" id="bank-new" placeholder="e.g. Use 'since' with a point in time: since Monday."><button class="btn primary" data-act="bank-add">${tr('bank.add')}</button></div>
+      <div class="list" style="margin-top:14px">${bank.map((b,i)=>`<div class="row" style="flex-wrap:nowrap;justify-content:space-between;padding:8px 10px;border-radius:8px;background:var(--sheet-2)"><span class="hand" style="font-size:16px">${esc(b)}</span><button class="btn ghost sm" data-act="bank-del" data-i="${i}" aria-label="${tr('bank.delAria')}">${tr('delete')}</button></div>`).join('')}</div>
     </div>`;
 }
-async function savePrefs(){ if(!S.prefs) S.prefs={bank:DEFAULT_BANK.slice()}; try{ await S.db.doc('teacher/prefs').set(S.prefs); }catch(e){ dbErr(e,'save your comment bank'); } }
+async function savePrefs(){ if(!S.prefs) S.prefs={bank:DEFAULT_BANK.slice()}; try{ await S.db.doc('teacher/prefs').set(S.prefs); }catch(e){ dbErr(e,'bank'); } }
+
+/* ---------------- teacher: payments (tuition ledger) ---------------- */
+const METHODS = ['cash','card','click','payme','transfer'];
+const methodName = m => METHODS.includes(m) ? tr('lg.m.'+m) : (m||'');
+const money = n => Math.round(+n||0).toLocaleString('en-US').replace(/,/g,' ');
+const som = n => money(n)+' '+tr('lg.som');
+const lgActive = (st, ym) => st.start <= ym && (!st.end || st.end >= ym);
+function lgCalcWith(st, ym, payments){
+  let due = 0, m = st.start, guard = 0;
+  const last = st.end && st.end < ym ? st.end : ym;
+  while (m <= last && guard++ < 600){ due += +st.fee||0; m = addM(m,1); }
+  const pays = payments.filter(p => p.studentId === st.id);
+  const sum = a => a.reduce((x,p)=>x+(+p.amount||0),0);
+  const paidUpTo = sum(pays.filter(p => p.month <= ym)), paidThis = sum(pays.filter(p => p.month === ym));
+  const thisFee = lgActive(st, ym) ? (+st.fee||0) : 0;
+  const carried = (due - thisFee) - (paidUpTo - paidThis);
+  const dueNow = thisFee + carried, left = dueNow - paidThis;
+  const status = left < 0 ? 'credit' : left === 0 ? 'paid' : paidThis > 0 ? 'partial' : 'unpaid';
+  return { thisFee, carried, dueNow, paidThis, left, status, totalPaid: sum(pays) };
+}
+const lgCalc = (st, ym) => lgCalcWith(st, ym, S.lg.payments);
+const lgBucket = s => s==='credit' ? 'paid' : s;
+function lgRows(ym){
+  return S.lg.students.filter(st => lgActive(st, ym) || (st.start<=ym && lgCalc(st, ym).left > 0))
+    .map(st => ({st, L: lgCalc(st, ym)}))
+    .sort((a,b) => (b.L.left>0) - (a.L.left>0) || b.L.left - a.L.left || a.st.name.localeCompare(b.st.name));
+}
+function lgOwing(){ return (S.lg.loaded.st && S.lg.loaded.p) ? lgRows(curYM()).filter(r=>r.L.left>0).length : 0; }
+// what a linked student may see about their own fees (kept in balances/{uid})
+function balanceDoc(st, payments, ym){
+  const L = lgCalcWith(st, ym, payments);
+  const history = payments.filter(p=>p.studentId===st.id).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,24)
+    .map(p=>({date:p.date||'', month:p.month||'', amount:+p.amount||0, method:p.method||''}));
+  return {month:ym, fee:+st.fee||0, start:st.start||'', end:st.end||'', dueNow:L.dueNow, paidThis:L.paidThis, left:L.left, carried:L.carried, status:L.status, totalPaid:L.totalPaid, history};
+}
+let lgSyncT=null;
+function lgScheduleSync(){ clearTimeout(lgSyncT); lgSyncT=setTimeout(lgSync, 600); }
+async function lgSync(){
+  const G=S.lg; if(S.mode!=='teacher' || !(G.loaded.st && G.loaded.p && G.loaded.b)) return;
+  const ym=curYM(), want={};
+  for(const st of G.students) if(st.journalId) want[st.journalId]=balanceDoc(st, G.payments, ym);
+  const strip = d => { if(!d) return ''; const {updatedAt, ...r} = d; return JSON.stringify(r); };
+  try{
+    for(const [uid,d] of Object.entries(want)) if(strip(G.bal[uid])!==JSON.stringify(d)) await S.db.doc('balances/'+uid).set({...d, updatedAt:Date.now()});
+    for(const uid of Object.keys(G.bal)) if(!want[uid]) await S.db.doc('balances/'+uid).delete();
+  }catch(e){ /* rules not updated yet: the teacher sees the notice on the Payments page */ }
+}
+function startLedger(){
+  const G=S.lg; G.loaded={}; G.err=null; G.students=[]; G.payments=[]; G.bal={}; G.draft=null; G.settings={fee:600000,lessons:12,minutes:80};
+  const fail = e => { if(e && e.code==='revoked') return; G.err=(e&&e.code)||'error'; refresh(); };
+  S.unsubs.push(S.db.doc('ledger/main').onSnapshot(s=>{ if(s.exists){ const d=s.data(); G.settings={fee:+d.fee||600000, lessons:+d.lessons||12, minutes:+d.minutes||80}; } G.loaded.s=true; if(S.view.name==='ledger') lgCostUpdate(); }, fail));
+  S.unsubs.push(S.db.collection('ledger/main/students').onSnapshot(q=>{ G.students=q.docs.filter(d=>d.exists).map(d=>({...d.data(), id:d.id})); G.loaded.st=true; G.err=null; lgChanged(); }, fail));
+  S.unsubs.push(S.db.collection('ledger/main/payments').onSnapshot(q=>{ G.payments=q.docs.filter(d=>d.exists).map(d=>({...d.data(), id:d.id})); G.loaded.p=true; G.err=null; lgChanged(); }, fail));
+  S.unsubs.push(S.db.collection('balances').onSnapshot(q=>{ const b={}; q.docs.forEach(d=>{ if(d.exists) b[d.id]=d.data(); }); G.bal=b; G.loaded.b=true; lgScheduleSync(); }, ()=>{}));
+}
+function lgChanged(){
+  lgScheduleSync();
+  if(S.view.name==='ledger' && $('#lg-list')){ renderLgStats(); renderLgList(); lgCostUpdate(); renderNav(); }
+  else refresh();
+  if(S.dlg?.type==='st') fillLgHistory();
+}
+const lgErrText = e => (e && e.code==='permission-denied') ? tr('lg.errRules').replace(/<[^>]+>/g,'') : tr('lg.errSave');
+
+function vLedger(){
+  const G=S.lg, ym=G.month;
+  const head = `<div class="page-head"><div><h1>${tr('lg.title')}</h1><p>${tr('lg.sub')}</p></div>
+    <div class="lg-month" role="group" aria-label="${tr('lg.month')}"><button class="btn sm ghost" data-act="lg-m" data-d="-1" aria-label="${tr('lg.prev')}">‹</button><b>${esc(ymLabel(ym))}</b><button class="btn sm ghost" data-act="lg-m" data-d="1" aria-label="${tr('lg.next')}">›</button>${ym!==curYM()?`<button class="btn sm" data-act="lg-m" data-d="0">${tr('lg.thisMonth')}</button>`:''}</div></div>`;
+  if(!(G.loaded.st && G.loaded.p)){
+    if(G.err) return head + `<div class="notice">${G.err==='permission-denied'?tr('lg.errRules'):tr('lg.errLoad')}</div>`;
+    return head + `<div class="loading">${tr('lg.loading')}</div>`;
+  }
+  return head + `<div class="stats lg-stats" id="lg-stats"></div>
+    <div class="lg-grid section">
+      <div style="min-width:0">
+        <div class="toolbar lg-tools">
+          <div class="seg" role="group" aria-label="${tr('lg.filter')}" id="lg-filters"></div>
+          <input class="inp" id="lg-q" type="search" placeholder="${tr('lg.search')}" value="${esc(G.q)}" aria-label="${tr('lg.search')}">
+          <button class="btn primary sm" data-act="lg-add">+ ${tr('lg.addStudent')}</button>
+        </div>
+        <div class="list" id="lg-list"></div>
+        <div class="row" style="margin-top:18px;gap:6px"><button class="btn sm ghost" data-act="lg-export">${I.down} ${tr('lg.export')}</button><label class="btn sm ghost" style="cursor:pointer">${I.up} ${tr('lg.import')}<input type="file" id="lg-file" accept=".csv,text/csv" hidden></label></div>
+      </div>
+      <aside class="card lg-cost">
+        <h3>${tr('lg.costH')}</h3>
+        <div class="lg-ticket"><span class="label">${tr('lg.perLesson')}</span><b class="num" id="lc-per"></b><span id="lc-per-sub"></span></div>
+        <div class="lg-kv"><span>${tr('lg.perHour')}</span><b class="num" id="lc-hour"></b></div>
+        <div class="lg-kv"><span>${tr('lg.perMin')}</span><b class="num" id="lc-min"></b></div>
+        <div class="lg-kv"><span>${tr('lg.hoursMonth')}</span><b class="num" id="lc-hours"></b></div>
+        <div class="lg-kv"><span>${tr('lg.allLesson')}</span><b class="num" id="lc-all"></b></div>
+        <div class="stack lg-set">
+          <label class="field"><span>${tr('lg.fee')}</span><input class="inp num" id="lc-fee" type="number" min="0" step="10000" inputmode="numeric"></label>
+          <div class="field"><span>${tr('lg.lessons')}</span><div class="row" style="gap:8px;flex-wrap:nowrap"><div class="seg">${[8,12,16].map(n=>`<button data-act="lc-pre" data-l="${n}">${n}</button>`).join('')}</div><input class="inp num" id="lc-lessons" type="number" min="1" inputmode="numeric" style="width:76px" aria-label="${tr('lg.lessons')}"></div></div>
+          <label class="field"><span>${tr('lg.minutes')} <span class="faint" id="lc-len"></span></span><input class="inp num" id="lc-minutes" type="number" min="1" step="5" inputmode="numeric"></label>
+          <div class="row" style="justify-content:space-between"><span class="small faint" id="lc-note"></span><button class="btn sm primary" data-act="lc-save" id="lc-save">${tr('lg.saveSettings')}</button></div>
+        </div>
+      </aside>
+    </div>`;
+}
+after.ledger = () => {
+  if(!$('#lg-list')) return;
+  renderLgStats(); renderLgList(); lgCostUpdate();
+  const q=$('#lg-q'); q.addEventListener('input',()=>{ S.lg.q=q.value; renderLgList(); });
+  const f=$('#lg-file'); f.addEventListener('change',()=>{ if(f.files[0]) lgImport(f.files[0]); f.value=''; });
+  for(const [id,k,min] of [['#lc-fee','fee',0],['#lc-lessons','lessons',1],['#lc-minutes','minutes',1]])
+    $(id).addEventListener('input', e=>{ const v=Math.round(+e.target.value); if(e.target.value!=='' && v>=min){ S.lg.draft={...(S.lg.draft||S.lg.settings), [k]:v}; lgCostUpdate(); } });
+};
+function renderLgStats(){
+  const el=$('#lg-stats'); if(!el) return; const G=S.lg, rows=lgRows(G.month);
+  let exp=0, paid=0, owed=0; const n={paid:0,partial:0,unpaid:0};
+  rows.forEach(({L}) => { exp += Math.max(0,L.dueNow); paid += L.paidThis; owed += Math.max(0,L.left); n[lgBucket(L.status)]++; });
+  const pct = exp>0 ? Math.min(100, paid/exp*100) : 0, sm = `<small>${tr('lg.som')}</small>`;
+  el.innerHTML = `<div class="stat"><div class="label">${tr('lg.expected')}</div><b class="num">${money(exp)}${sm}</b><span>${tr('lg.expectedSub')}</span></div>
+    <div class="stat"><div class="label">${tr('lg.paid')}</div><b class="num">${money(paid)}${sm}</b><div class="lg-bar" role="progressbar" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
+    <div class="stat"><div class="label">${tr('lg.owed')}</div><b class="num" ${owed>0?'style="color:var(--pen)"':''}>${money(owed)}${sm}</b><span>${n.unpaid+n.partial? tr('lg.owedSub',{a:n.unpaid,b:n.partial}) : tr('lg.settled')}</span></div>
+    <div class="stat"><div class="label">${tr('lg.students')}</div><b class="num">${rows.length}</b><span>${tr('lg.fullyPaid',{n:n.paid})}</span></div>`;
+  const fl=$('#lg-filters'); if(fl) fl.innerHTML = [['all',rows.length],['unpaid',n.unpaid],['partial',n.partial],['paid',n.paid]].map(([k,c])=>`<button data-act="lg-f" data-f="${k}" aria-pressed="${G.filter===k}">${tr('lg.f.'+k)} <span class="cnt-s num">${c}</span></button>`).join('');
+}
+function renderLgList(){
+  const el=$('#lg-list'); if(!el) return; const G=S.lg, ym=G.month, rows=lgRows(ym);
+  if(!rows.length){ el.innerHTML=`<div class="empty"><h3>${tr('lg.emptyH',{m:esc(ymLabel(ym))})}</h3><p>${tr('lg.emptyP')}</p><p style="margin-top:14px"><button class="btn primary" data-act="lg-add">+ ${tr('lg.addStudent')}</button></p></div>`; return; }
+  const q=G.q.trim().toLowerCase();
+  const shown=rows.filter(({st,L})=>(G.filter==='all'||lgBucket(L.status)===G.filter) && (!q || st.name.toLowerCase().includes(q) || (st.phone||'').replace(/\s/g,'').includes(q.replace(/\s/g,''))));
+  if(!shown.length){ el.innerHTML=`<p class="faint" style="padding:22px 4px">${tr('lg.noMatch')}</p>`; return; }
+  el.innerHTML = shown.map(({st,L})=>{
+    const pct = L.dueNow>0 ? Math.min(100, L.paidThis/L.dueNow*100) : 100;
+    const col = L.status==='partial'?'var(--warn)':L.status==='unpaid'?'var(--pen)':'var(--ok)';
+    const extra = L.carried>0 ? `<span class="owe">${tr('lg.fromEarlier',{n:money(L.carried)})}</span>` : L.carried<0 ? `<span>${tr('lg.ahead',{n:money(-L.carried)})}</span>` : '';
+    const linked = st.journalId && S.profiles[st.journalId] ? `<span class="lg-link" title="${tr('lg.link')}">${I.book}${tr('lg.linked')}</span>` : '';
+    return `<article class="lg-st ${L.status}">${avatar(st.name,st.id)}
+      <div style="min-width:0"><div class="row" style="gap:8px;flex-wrap:nowrap"><button class="lg-name" data-act="lg-open" data-id="${esc(st.id)}" title="${esc(st.note||st.name)}">${esc(st.name)}</button>${linked}</div>
+        <div class="lg-meta"><span>${tr('lg.due')} <b class="num">${money(Math.max(0,L.dueNow))}</b></span><span>${tr('lg.paidShort')} <b class="num">${money(L.paidThis)}</b></span><span class="${L.left>0?'owe':''}">${tr('lg.left')} <b class="num">${money(Math.max(0,L.left))}</b></span>${extra}</div>
+        <div class="lg-bar"><i style="width:${pct}%;background:${col}"></i></div></div>
+      <div class="lg-act"><span class="pill lg-${L.status}">${tr('lg.st.'+L.status)}</span><button class="btn sm ${L.left>0?'primary':''}" data-act="lg-pay" data-id="${esc(st.id)}">${L.left>0?tr('lg.record'):tr('lg.addPay')}</button></div>
+    </article>`; }).join('');
+}
+function lgCostUpdate(){
+  const G=S.lg, s=G.draft||G.settings; if(!$('#lc-per')) return;
+  const {fee,lessons,minutes}=s, per=lessons>0?fee/lessons:0, perHour=minutes>0?per/(minutes/60):0;
+  const h=Math.floor(minutes/60), mm=minutes%60;
+  $('#lc-len').textContent = '· '+[h?tr('lg.h',{n:h}):'', mm?tr('lg.min',{n:mm}):''].filter(Boolean).join(' ');
+  $('#lc-per').textContent = money(per); $('#lc-per-sub').textContent = tr('lg.perLessonSub',{fee:money(fee), n:lessons});
+  $('#lc-hour').textContent = som(perHour); $('#lc-min').textContent = som(minutes? per/minutes : 0);
+  $('#lc-hours').textContent = tr('lg.hShort',{n:Math.round(lessons*minutes/6)/10});
+  const act=G.students.filter(st=>lgActive(st,G.month));
+  $('#lc-all').textContent = som(act.reduce((a,st)=>a+(+st.fee||0)/(lessons||1),0))+' · '+act.length;
+  for(const [id,k] of [['#lc-fee','fee'],['#lc-lessons','lessons'],['#lc-minutes','minutes']]){ const el=$(id); if(document.activeElement!==el) el.value=s[k]; }
+  document.querySelectorAll('[data-act="lc-pre"]').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.l===lessons)));
+  const dirty=!!G.draft && JSON.stringify(G.draft)!==JSON.stringify(G.settings);
+  $('#lc-save').disabled=!dirty; const note=$('#lc-note'); note.textContent = dirty? tr('lg.unsaved') : tr('lg.defaultNote'); note.style.color = dirty? 'var(--warn)' : '';
+}
+async function lgSaveSettings(b){
+  const G=S.lg; if(!G.draft) return; const next={...G.draft}; b.disabled=true;
+  try{ await S.db.doc('ledger/main').set(next); G.settings=next; G.draft=null; toast(tr('lg.settingsSaved')); }catch(e){ toast(lgErrText(e)); }
+  lgCostUpdate();
+}
+
+/* dialogs */
+function closeDlg(){ const d=$('#lg-dlg'); S.dlg=null; if(d){ try{ d.close(); }catch(e){} } const c=$('#dlg'); if(c) c.innerHTML=''; }
+function showDlg(html, info){
+  closeDlg(); $('#dlg').innerHTML = `<dialog class="dlg" id="lg-dlg" aria-labelledby="dlg-h">${html}</dialog>`;
+  const d=$('#lg-dlg'); S.dlg=info; d.addEventListener('close',()=>{ if(S.dlg===info){ S.dlg=null; $('#dlg').innerHTML=''; } });
+  d.addEventListener('click', e=>{ if(e.target===d) closeDlg(); });
+  d.showModal(); return d;
+}
+const dlgHead = (kicker, title) => `<div class="dlg-head"><div style="min-width:0"><span class="label">${kicker}</span><h2 id="dlg-h">${title}</h2></div><button type="button" class="btn ghost sm" data-act="dlg-close" aria-label="${tr('close')}">✕</button></div>`;
+const mini = items => `<div class="lg-mini">${items.map(([k,v,owe])=>`<div><span class="label">${k}</span><b class="num ${owe?'owe':''}">${v}</b></div>`).join('')}</div>`;
+
+function openLgPay(id, month, fromStudent){
+  const st=S.lg.students.find(s=>s.id===id); if(!st) return;
+  const ym=month||S.lg.month, L=lgCalc(st,ym), left=Math.max(0,L.left), fee=+st.fee||0;
+  const quick=[...new Set([left,fee,Math.round(fee/2)].filter(v=>v>0))];
+  showDlg(`<form id="lg-form" novalidate>${dlgHead(tr('lg.recordH'), esc(st.name))}
+    <div class="dlg-body">
+      ${mini([[tr('lg.due'),money(Math.max(0,L.dueNow))],[tr('lg.paidShort'),money(L.paidThis)],[tr('lg.left'),money(left),left>0]])}
+      <label class="field"><span>${tr('lg.amount')}</span><input class="inp num lg-amt" id="lp-amount" type="number" min="1" step="1000" inputmode="numeric" value="${left>0?left:fee}"></label>
+      <div class="row" style="gap:6px">${quick.map(v=>`<button type="button" class="btn sm" data-act="lg-quick" data-v="${v}">${v===left?tr('lg.qLeft'):v===fee?tr('lg.qFull'):tr('lg.qHalf')} · <span class="num">${money(v)}</span></button>`).join('')}</div>
+      <div class="lg-2"><label class="field"><span>${tr('lg.forMonth')}</span><input class="inp" id="lp-month" type="month" value="${ym}" placeholder="YYYY-MM"></label><label class="field"><span>${tr('lg.date')}</span><input class="inp" id="lp-date" type="date" value="${todayStr()}"></label></div>
+      <div class="lg-2"><label class="field"><span>${tr('lg.method')}</span><select class="inp" id="lp-method">${METHODS.map(m=>`<option value="${m}">${tr('lg.m.'+m)}</option>`).join('')}</select></label><label class="field"><span>${tr('lg.note')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="lp-note" maxlength="200"></label></div>
+      <p class="lg-err" id="lp-err" role="alert"></p>
+    </div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="lp-save">${tr('lg.savePay')}</button></div></form>`, {type:'pay', id});
+  setTimeout(()=>$('#lp-amount')?.select(),30);
+  $('#lg-form').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const amount=Math.round(+$('#lp-amount').value), mon=$('#lp-month').value.trim(), err=$('#lp-err');
+    if(!(amount>0)){ err.textContent=tr('lg.amtErr'); return; }
+    if(!/^\d{4}-\d{2}$/.test(mon)){ err.textContent=tr('lg.monthErr'); return; }
+    const data={studentId:id, amount, month:mon, date:$('#lp-date').value||todayStr(), method:$('#lp-method').value, note:$('#lp-note').value.trim(), createdAt:new Date().toISOString()};
+    const btn=$('#lp-save'); btn.disabled=true;
+    try{ await S.db.doc('ledger/main/payments/'+newId()).set(data); toast(tr('lg.paySaved',{sum:som(amount)})); if(fromStudent) openLgStudent(id); else closeDlg(); }
+    catch(e2){ err.textContent=lgErrText(e2); btn.disabled=false; }
+  });
+}
+function openLgStudent(id){
+  const G=S.lg, st = id ? G.students.find(s=>s.id===id) : null; if(id && !st) return;
+  const v = (k,d='') => esc(st ? (st[k]??d) : d);
+  const linkedTo = new Set(G.students.filter(x=>x.journalId && x.id!==id).map(x=>x.journalId));
+  const profs = Object.entries(S.profiles).filter(([uid])=>!linkedTo.has(uid)).sort((a,b)=>(a[1].name||'').localeCompare(b[1].name||''));
+  showDlg(`<form id="lg-form" novalidate>${dlgHead(st?tr('lg.studentK'):tr('lg.newStudent'), st?esc(st.name):tr('lg.addStudentH'))}
+    <div class="dlg-body">
+      ${st?`<div id="lg-st-mini"></div>`:''}
+      <label class="field"><span>${tr('lg.name')}</span><input class="inp" id="ls-name" value="${v('name')}" maxlength="80" autocomplete="off"></label>
+      <div class="lg-2"><label class="field"><span>${tr('lg.phone')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ls-phone" type="tel" value="${v('phone')}" placeholder="+998" autocomplete="off"></label>
+        <label class="field"><span>${tr('lg.fee')}</span><input class="inp num" id="ls-fee" type="number" min="0" step="10000" inputmode="numeric" value="${st?esc(st.fee):G.settings.fee}"></label></div>
+      <div class="lg-2"><label class="field"><span>${tr('lg.start')}</span><input class="inp" id="ls-start" type="month" value="${st?v('start'):G.month}" placeholder="YYYY-MM"></label>
+        <label class="field"><span>${tr('lg.end')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ls-end" type="month" value="${v('end')}" placeholder="YYYY-MM"><span class="small faint" style="font-weight:500">${tr('lg.endHint')}</span></label></div>
+      <label class="field"><span>${tr('lg.link')}</span><select class="inp" id="ls-link"><option value="">${tr('lg.linkNone')}</option>${profs.map(([uid,p])=>`<option value="${esc(uid)}" ${st?.journalId===uid?'selected':''}>${esc(p.name||uid)}${p.level?' · '+esc(p.level):''}</option>`).join('')}</select><span class="small faint" style="font-weight:500">${tr('lg.linkHint')}</span></label>
+      <label class="field"><span>${tr('lg.noteLabel')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ls-note" value="${v('note')}" placeholder="${tr('lg.notePh')}" maxlength="200"></label>
+      ${st?`<div class="field"><span>${tr('lg.history')}</span><div class="lg-hist" id="lg-hist"></div></div>`:''}
+      <p class="lg-err" id="ls-err" role="alert"></p>
+    </div>
+    <div class="dlg-foot">${st?`<button type="button" class="btn ghost" data-act="lg-st-del" style="color:var(--pen);margin-right:auto">${tr('lg.delStudent')}</button><button type="button" class="btn" data-act="lg-st-pay">${I.coin} ${tr('lg.record')}</button>`:''}<button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="ls-save">${st?tr('lg.saveChanges'):tr('lg.addStudent')}</button></div></form>`, {type:'st', id});
+  if(st) fillLgHistory(); else setTimeout(()=>$('#ls-name')?.focus(),30);
+  $('#lg-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const err=$('#ls-err');
+    const name=$('#ls-name').value.trim(), fee=Math.round(+$('#ls-fee').value), start=$('#ls-start').value.trim(), end=$('#ls-end').value.trim();
+    if(!name){ err.textContent=tr('lg.nameErr'); return; }
+    if($('#ls-fee').value==='' || !(fee>=0)){ err.textContent=tr('lg.feeErr'); return; }
+    if(!/^\d{4}-\d{2}$/.test(start)){ err.textContent=tr('lg.startErr'); return; }
+    if(end && (!/^\d{4}-\d{2}$/.test(end) || end<start)){ err.textContent=tr('lg.endErr'); return; }
+    const data={name, phone:$('#ls-phone').value.trim(), fee, start, end:end||'', note:$('#ls-note').value.trim(), journalId:$('#ls-link').value||'', createdAt:st?.createdAt||new Date().toISOString()};
+    const btn=$('#ls-save'); btn.disabled=true;
+    try{ await S.db.doc('ledger/main/students/'+(id||newId())).set(data); toast(id?tr('lg.changed'):tr('lg.added')); closeDlg(); }
+    catch(e2){ err.textContent=lgErrText(e2); btn.disabled=false; }
+  });
+}
+function fillLgHistory(){
+  const id=S.dlg?.id, st=S.lg.students.find(s=>s.id===id); if(!st) return;
+  const L=lgCalc(st, S.lg.month), m=$('#lg-st-mini');
+  if(m) m.innerHTML = mini([[tr('lg.totalPaid'),money(L.totalPaid)],[tr('lg.owesNow'),money(Math.max(0,L.left)),L.left>0],[tr('lg.since'),esc(ymShort(st.start))]]);
+  const box=$('#lg-hist'); if(!box) return;
+  const pays=S.lg.payments.filter(p=>p.studentId===id).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  box.innerHTML = pays.length ? pays.map(p=>`<div class="h"><span class="num faint">${esc(p.date||'')}</span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${tr('lg.forM',{m:esc(ymShort(p.month))})} · ${esc(methodName(p.method))}${p.note?' · '+esc(p.note):''}</span><b class="num">${money(p.amount)}</b><button type="button" class="btn ghost sm" data-act="lg-pdel" data-id="${esc(p.id)}" style="color:var(--pen)">${tr('delete')}</button></div>`).join('')
+    : `<p class="small faint">${tr('lg.noPays')}</p>`;
+}
+async function lgDeletePayment(b){
+  if(!b.dataset.armed){ b.dataset.armed='1'; b.textContent=tr('lg.confirm'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent=tr('delete'); } },3000); return; }
+  try{ await S.db.doc('ledger/main/payments/'+b.dataset.id).delete(); toast(tr('lg.payDeleted')); }catch(e){ toast(lgErrText(e)); }
+}
+async function lgDeleteStudent(b){
+  const id=S.dlg?.id; if(!id) return;
+  if(!b.dataset.armed){ b.dataset.armed='1'; b.textContent=tr('lg.delConfirm'); return; }
+  b.disabled=true;
+  try{ for(const p of S.lg.payments.filter(p=>p.studentId===id)) await S.db.doc('ledger/main/payments/'+p.id).delete();
+    await S.db.doc('ledger/main/students/'+id).delete(); closeDlg(); toast(tr('lg.deleted')); }
+  catch(e){ toast(lgErrText(e)); b.disabled=false; }
+}
+
+/* CSV export / import (same layout as the old Tuition Ledger export) */
+function lgExport(){
+  const G=S.lg, q = v => { const s=String(v??''); return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s; };
+  const byId = Object.fromEntries(G.students.map(s=>[s.id,s]));
+  const lines = [['Student','Phone','Monthly fee','First month','Last month','Due '+G.month,'Paid '+G.month,'Left '+G.month,'Status'].join(',')];
+  G.students.forEach(st => { const L=lgCalc(st,G.month); lines.push([st.name,st.phone,st.fee,st.start,st.end,Math.max(0,L.dueNow),L.paidThis,Math.max(0,L.left),tr('lg.st.'+L.status)].map(q).join(',')); });
+  lines.push(''); lines.push(['Payment date','Student','For month','Amount','Method','Note'].join(','));
+  [...G.payments].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).forEach(p => lines.push([p.date,byId[p.studentId]?.name||'(deleted)',p.month,p.amount,p.method,p.note].map(q).join(',')));
+  const url=URL.createObjectURL(new Blob(['﻿'+lines.join('\n')],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a'); a.href=url; a.download=`tuition-ledger-${G.month}.csv`; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },1000); toast(tr('lg.exported'));
+}
+function parseCSV(t){
+  const rows=[]; let row=[], f='', q=false;
+  for(let i=0;i<t.length;i++){ const c=t[i];
+    if(q){ if(c==='"'){ if(t[i+1]==='"'){ f+='"'; i++; } else q=false; } else f+=c; }
+    else if(c==='"') q=true; else if(c===','){ row.push(f); f=''; }
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; }
+    else f+=c; }
+  if(f||row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+async function lgImport(file){
+  let text; try{ text=(await file.text()).replace(/^﻿/,''); }catch(e){ toast(tr('lg.importBad')); return; }
+  let sec=null; const sts=[], pays=[];
+  for(const r of parseCSV(text)){ const a=r.map(x=>x.trim()); if(!a.join('')) continue;
+    if(/^student$/i.test(a[0])){ sec='s'; continue; } if(/^payment date$/i.test(a[0])){ sec='p'; continue; }
+    if(sec==='s') sts.push(a); else if(sec==='p') pays.push(a); }
+  if(!sec){ toast(tr('lg.importBad')); return; }
+  const isYM = s => /^\d{4}-\d{2}$/.test(s||''), num = s => Math.round(+String(s||'').replace(/[\s ]/g,''));
+  const byName = new Map(S.lg.students.map(s=>[s.name.trim().toLowerCase(), s.id]));
+  let nS=0, nP=0;
+  try{
+    for(const [name,phone,fee,start,end] of sts){
+      if(!name || /^example:/i.test(name) || byName.has(name.toLowerCase())) continue;
+      const id=newId(); await S.db.doc('ledger/main/students/'+id).set({name, phone:phone||'', fee:num(fee)||0, start:isYM(start)?start:curYM(), end:isYM(end)?end:'', note:'', journalId:'', createdAt:new Date().toISOString()});
+      byName.set(name.toLowerCase(), id); nS++;
+    }
+    const seen = new Set(S.lg.payments.map(p=>[p.studentId,p.date,p.month,p.amount].join('|')));
+    for(const [date,name,month,amount,method,note] of pays){
+      const sid=byName.get((name||'').toLowerCase()), amt=num(amount); if(!sid || !(amt>0) || !isYM(month)) continue;
+      const k=[sid,date||'',month,amt].join('|'); if(seen.has(k)) continue; seen.add(k);
+      const mk=(method||'').toLowerCase().replace('bank transfer','transfer');
+      await S.db.doc('ledger/main/payments/'+newId()).set({studentId:sid, amount:amt, month, date:date||'', method:METHODS.includes(mk)?mk:(method||''), note:note||'', createdAt:new Date().toISOString()}); nP++;
+    }
+    toast(tr('lg.imported',{a:nS,b:nP}));
+  }catch(e){ toast(lgErrText(e)); }
+}
+
+/* ---------------- student: my payments ---------------- */
+function payCard(){
+  const B=S.myBalance; if(!B) return '';
+  const m=esc(ymText(B.month)), msg = B.left>0 ? tr('pay.owe',{sum:`<b class="num">${som(B.left)}</b>`, m}) : B.left<0 ? tr('pay.ahead',{sum:`<b class="num">${som(-B.left)}</b>`}) : tr('pay.allPaid',{m});
+  return `<button class="paycard section ${B.status}" data-act="go" data-v="pay"><span class="pc-ic">${I.coin}</span><span style="min-width:0"><span class="label">${tr('pay.card')}</span><span class="pc-msg">${msg}</span></span><span class="pc-side"><span class="pill lg-${B.status}">${tr('lg.st.'+B.status)}</span><span class="small faint">${tr('pay.open')} →</span></span></button>`;
+}
+function vPay(){
+  const B=S.myBalance;
+  const head=`<div class="page-head"><div><h1>${tr('pay.h')}</h1><p>${tr('pay.p')}</p></div></div>`;
+  if(!B) return head+`<div class="empty"><h3>${tr('pay.none')}</h3></div>`;
+  const pct = B.dueNow>0 ? Math.min(100,B.paidThis/B.dueNow*100) : 100;
+  return head + `${payCard().replace('section','')}
+    <div class="stats lg-stats section" style="margin-top:18px">
+      <div class="stat"><div class="label">${tr('pay.fee')}</div><b class="num">${money(B.fee)}<small>${tr('lg.som')}</small></b><span>${esc(ymLabel(B.month))}</span></div>
+      <div class="stat"><div class="label">${tr('pay.due')}</div><b class="num">${money(Math.max(0,B.dueNow))}<small>${tr('lg.som')}</small></b><span>${B.carried>0?tr('pay.carried',{sum:money(B.carried)}):'&nbsp;'}</span></div>
+      <div class="stat"><div class="label">${tr('pay.paid')}</div><b class="num">${money(B.paidThis)}<small>${tr('lg.som')}</small></b><div class="lg-bar"><i style="width:${pct}%"></i></div></div>
+      <div class="stat"><div class="label">${tr('pay.left')}</div><b class="num" ${B.left>0?'style="color:var(--pen)"':''}>${money(Math.max(0,B.left))}<small>${tr('lg.som')}</small></b><span>${B.updatedAt?tr('pay.updated',{ago:ago(B.updatedAt)}):''}</span></div>
+    </div>
+    <div class="section"><h2>${tr('pay.history')}</h2>${(B.history||[]).length?`<div class="list">${B.history.map(p=>`<div class="lg-st paid lg-row"><span class="datechip"><b>${parseDate(p.date).getDate()}</b><span>${dloc(parseDate(p.date),{month:'short'})}</span></span><span style="min-width:0"><b>${tr('lg.forM',{m:esc(ymText(p.month))})}</b><br><span class="small faint">${esc(methodName(p.method))}</span></span><b class="num lg-amt-big">${som(p.amount)}</b></div>`).join('')}</div>`:`<p class="faint">${tr('lg.noPays')}</p>`}</div>`;
+}
 
 /* ---------------- teacher: review ---------------- */
 function blankReview(){ return {annotations:[], comment:'', bands:{grammar:null,vocab:null,coherence:null,content:null}, vocab:[], status:'submitted'}; }
 async function openReview(sid,eid){
   if(saveT && S.review){ saveReview(); } S.view={name:'review',sid,eid}; S.review=null; renderNav();
-  $('#main').innerHTML='<div class="loading">Fetching the page…</div>'; window.scrollTo({top:0});
+  $('#main').innerHTML=`<div class="loading">${tr('load.page')}</div>`; window.scrollTo({top:0});
   try{
     const [e,r] = await Promise.all([S.db.doc(`journals/${sid}/entries/${eid}`).get(), S.db.doc(`feedback/${sid}/reviews/${eid}`).get()]);
-    if(!e.exists){ $('#main').innerHTML=`<div class="empty"><h3>This entry was deleted</h3><button class="btn" data-act="go" data-v="inbox">Back to inbox</button></div>`; return; }
+    if(!e.exists){ $('#main').innerHTML=`<div class="empty"><h3>${tr('rv.deleted')}</h3><button class="btn" data-act="go" data-v="inbox">${tr('rv.backInbox')}</button></div>`; return; }
     const data = r.exists? Object.assign(blankReview(), r.data()) : blankReview();
     S.review = {sid,eid,entry:e.data(),data,sugs:[],view:'marked',saved:true,lastType:'gr'};
     renderMain();
-  }catch(err){ dbErr(err,'open the entry'); }
+  }catch(err){ dbErr(err,'open'); }
 }
 function markedHTML(body, anns, sugs=[], selId){
   const items=[...anns.map(a=>({...a,kind:'ann'})),...sugs.map(s=>({...s,kind:'sug'}))].filter(a=>a.start>=0&&a.end<=body.length).sort((a,b)=>a.start-b.start);
@@ -922,42 +1363,42 @@ function fixOffsets(body, anns){ // keep annotations aligned if offsets drift
   return anns.map(a=>{ if(body.slice(a.start,a.end)===a.quote) return a; const j=body.indexOf(a.quote); return j>=0? {...a,start:j,end:j+a.quote.length} : {...a,start:-1,end:-1}; });
 }
 function stampHTML(status, bands){
-  if(status==='revise') return '<div class="stamp revise">Please revise</div>';
+  if(status==='revise') return `<div class="stamp revise">${tr('stamp.revise')}</div>`;
   if(status!=='reviewed') return '';
   const ob=overallBand(bands);
-  return ob==null ? '<div class="stamp"><span>Teacher</span><b>✓</b><span>Checked</span></div>' : `<div class="stamp"><span>Band</span><b>${fmtBand(ob)}</b><span>Checked</span></div>`;
+  return ob==null ? `<div class="stamp"><span>${tr('stamp.teacher')}</span><b>✓</b><span>${tr('stamp.checked')}</span></div>` : `<div class="stamp"><span>${tr('stamp.band')}</span><b>${fmtBand(ob)}</b><span>${tr('stamp.checked')}</span></div>`;
 }
 function vReview(){
-  const R=S.review; if(!R) return '<div class="loading">Fetching the page…</div>';
+  const R=S.review; if(!R) return `<div class="loading">${tr('load.page')}</div>`;
   const p=S.profiles[R.sid]||{}, e=R.entry, d=R.data, mt=metrics(e.body);
   d.annotations = fixOffsets(e.body, d.annotations);
   const queue = allEntries().filter(x=>x.status==='submitted' && !(x.sid===R.sid&&x.eid===R.eid));
-  return `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="go" data-v="inbox">${I.back} Inbox</button><span class="save-state ${R.saved?'':'busy'}" id="save-state">${R.saved?'All changes saved':'Saving…'}</span></div>
+  return `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="go" data-v="inbox">${I.back} ${tr('nav.inbox')}</button><span class="save-state ${R.saved?'':'busy'}" id="save-state">${R.saved?tr('saved'):tr('saving')}</span></div>
   <div class="review-grid" style="margin-top:10px">
     <div style="min-width:0">
       <div id="rv-tools"></div>
       <article class="paper ${d.status==='reviewed'||d.status==='revise'?'has-stamp':''}">${stampHTML(d.status,d.bands)}
-        <div class="paper-head"><div style="min-width:0"><div class="row" style="gap:8px">${avatar(p.name,R.sid)}<span><b>${esc(p.name||'Student')}</b> <span class="lvl">${esc(p.level||'–')}</span></span></div>
-          <h2 class="paper-title" style="margin-top:10px">${esc(e.title||'Untitled')}</h2>
-          <div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${e.revisionOf?'<span class="pill st-submitted">Revision</span>':''}</div></div></div>
+        <div class="paper-head"><div style="min-width:0"><div class="row" style="gap:8px">${avatar(p.name,R.sid)}<span><b>${esc(p.name||tr('student'))}</b> <span class="lvl">${esc(p.level||'–')}</span></span></div>
+          <h2 class="paper-title" style="margin-top:10px">${esc(e.title||tr('untitled'))}</h2>
+          <div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${e.revisionOf?`<span class="pill st-submitted">${tr('rv.revision')}</span>`:''}</div></div></div>
         <div class="ruled teacher" id="paper-text"></div>
-        <div class="metrics"><span><b>${mt.words}</b> words</span><span><b>${mt.sentences}</b> sentences</span><span><b>${mt.avg.toFixed(1)}</b> words per sentence</span><span><b>${mt.variety}%</b> different words</span><span>goal for ${esc(p.level||'B1')}: <b>${GOAL[p.level]||120}</b></span></div>
+        <div class="metrics"><span><b>${mt.words}</b> ${tr('m.words')}</span><span><b>${mt.sentences}</b> ${tr('m.sent')}</span><span><b>${mt.avg.toFixed(1)}</b> ${tr('m.avg')}</span><span><b>${mt.variety}%</b> ${tr('m.var')}</span><span>${tr('m.goal',{l:esc(p.level||'B1')})} <b>${GOAL[p.level]||120}</b></span></div>
       </article>
     </div>
     <aside class="panel">
-      <div class="pbox"><h3><span>Marks <span class="faint num" id="ann-count"></span></span></h3><div id="ann-sum" class="row" style="gap:5px;margin-bottom:8px"></div><div class="ann-list" id="ann-list"></div></div>
-      <div class="pbox"><h3>Band scores <span class="small faint" style="font-weight:500">0–9</span></h3>
-        ${CRIT.map(c=>`<div class="band-row"><div><div class="nm">${c.n}</div><div class="ds">${c.d}</div></div><div class="stepper"><button data-act="band" data-k="${c.k}" data-d="-0.5" aria-label="Lower ${c.n}">−</button><output id="band-${c.k}">${fmtBand(d.bands?.[c.k])}</output><button data-act="band" data-k="${c.k}" data-d="0.5" aria-label="Raise ${c.n}">+</button></div></div>`).join('')}
-        <div class="overall"><span class="label">Overall band</span><b id="band-overall">${fmtBand(overallBand(d.bands))}</b></div></div>
-      <div class="pbox"><h3>Comment for the student</h3><textarea class="hand" id="rv-comment" placeholder="What went well, and one thing to work on next…">${esc(d.comment||'')}</textarea>
+      <div class="pbox"><h3><span>${tr('rv.marks')} <span class="faint num" id="ann-count"></span></span></h3><div id="ann-sum" class="row" style="gap:5px;margin-bottom:8px"></div><div class="ann-list" id="ann-list"></div></div>
+      <div class="pbox"><h3>${tr('rv.bands')} <span class="small faint" style="font-weight:500">0–9</span></h3>
+        ${CRIT.map(c=>`<div class="band-row"><div><div class="nm">${c.n}</div><div class="ds">${c.d}</div></div><div class="stepper"><button data-act="band" data-k="${c.k}" data-d="-0.5" aria-label="${tr('rv.lower',{c:c.n})}">−</button><output id="band-${c.k}">${fmtBand(d.bands?.[c.k])}</output><button data-act="band" data-k="${c.k}" data-d="0.5" aria-label="${tr('rv.raise',{c:c.n})}">+</button></div></div>`).join('')}
+        <div class="overall"><span class="label">${tr('rv.overall')}</span><b id="band-overall">${fmtBand(overallBand(d.bands))}</b></div></div>
+      <div class="pbox"><h3>${tr('rv.comment')}</h3><textarea class="hand" id="rv-comment" placeholder="${tr('rv.commentPh')}">${esc(d.comment||'')}</textarea>
         <div class="bank-chips">${(S.prefs?.bank||DEFAULT_BANK).map((b,i)=>`<button data-act="bank-ins" data-i="${i}" title="${esc(b)}">${esc(b)}</button>`).join('')}</div></div>
-      <div class="pbox"><h3>Words to learn</h3>
+      <div class="pbox"><h3>${tr('rv.words')}</h3>
         <div class="vocab" id="vocab-list"></div>
-        <div class="stack" style="gap:6px;margin-top:8px"><input class="inp" id="vw" placeholder="Word or phrase"><input class="inp" id="vm" placeholder="Meaning"><input class="inp" id="vx" placeholder="Example sentence (optional)"><button class="btn sm" data-act="vocab-add">Add word</button></div></div>
+        <div class="stack" style="gap:6px;margin-top:8px"><input class="inp" id="vw" placeholder="${tr('rv.wPh')}"><input class="inp" id="vm" placeholder="${tr('rv.mPh')}"><input class="inp" id="vx" placeholder="${tr('rv.xPh')}"><button class="btn sm" data-act="vocab-add">${tr('rv.addWord')}</button></div></div>
       <div class="pbox stack" style="gap:8px">
-        <button class="btn pen" data-act="finish" data-st="reviewed">Return to student</button>
-        <button class="btn" data-act="finish" data-st="revise">Ask for a revision</button>
-        <span class="small faint">The student sees your marks only after you return the entry.${queue.length?` ${queue.length} more waiting.`:''}</span>
+        <button class="btn pen" data-act="finish" data-st="reviewed">${tr('rv.return')}</button>
+        <button class="btn" data-act="finish" data-st="revise">${tr('rv.askRev')}</button>
+        <span class="small faint">${tr('rv.hidden')}${queue.length?' '+tr('rv.more',{n:queue.length}):''}</span>
       </div>
     </aside>
   </div>`;
@@ -970,11 +1411,11 @@ after.review = () => { if(!S.review) return; renderPaper(); renderAnnList(); ren
 };
 function renderReviewTools(){
   const R=S.review, el=$('#rv-tools'); if(!R||!el) return;
-  const sug = R.sugs.length? `<div class="sug-bar">${I.spark} ${R.sugs.length} suggestion${R.sugs.length>1?'s':''} from Claude, shown with dashed lines. Tap one to accept or edit.<span class="row" style="margin-left:auto;gap:6px"><button class="btn sm" data-act="sug-all">Accept all</button><button class="btn sm ghost" data-act="sug-none">Dismiss</button></span></div>`:'';
-  el.innerHTML = `<div class="toolbar"><div class="seg" role="group" aria-label="Paper view"><button data-act="rv-view" data-v="marked" aria-pressed="${R.view==='marked'}">Marked</button><button data-act="rv-view" data-v="corrected" aria-pressed="${R.view==='corrected'}">Corrected</button></div>
-    ${S.sample||S.demo?`<button class="btn sm" data-act="ai" ${R.aiBusy?'disabled':''}>${I.spark} ${R.aiBusy?'Reading the entry…':'Suggest corrections'}</button>`:''}
-    <button class="btn sm ghost" data-act="copy-fixed">${I.copy} Copy corrected text</button>
-    <span class="hint">Select words to mark them · <kbd>Alt</kbd>+<kbd>1</kbd>–<kbd>9</kbd> picks a type</span></div>${sug}`;
+  const sug = R.sugs.length? `<div class="sug-bar">${I.spark} ${tr('rv.sugs',{n:R.sugs.length})}<span class="row" style="margin-left:auto;gap:6px"><button class="btn sm" data-act="sug-all">${tr('rv.acceptAll')}</button><button class="btn sm ghost" data-act="sug-none">${tr('rv.dismiss')}</button></span></div>`:'';
+  el.innerHTML = `<div class="toolbar"><div class="seg" role="group" aria-label="${tr('rv.view')}"><button data-act="rv-view" data-v="marked" aria-pressed="${R.view==='marked'}">${tr('rv.marked')}</button><button data-act="rv-view" data-v="corrected" aria-pressed="${R.view==='corrected'}">${tr('rv.corrected')}</button></div>
+    ${S.sample||S.demo?`<button class="btn sm" data-act="ai" ${R.aiBusy?'disabled':''}>${I.spark} ${R.aiBusy?tr('rv.reading'):tr('rv.suggest')}</button>`:''}
+    <button class="btn sm ghost" data-act="copy-fixed">${I.copy} ${tr('rv.copy')}</button>
+    <span class="hint">${tr('rv.hint')}</span></div>${sug}`;
 }
 function renderPaper(){
   const R=S.review, el=$('#paper-text'); if(!R||!el) return;
@@ -987,11 +1428,11 @@ function renderAnnList(){
   const c=countErrors(anns);
   $('#ann-sum').innerHTML = TYPES.filter(t=>c[t.k]).map(t=>`<span class="tchip t-${t.k}"><span class="code">${t.code}</span><span class="n">${c[t.k]}</span></span>`).join('');
   el.innerHTML = anns.length ? anns.map(a=>{ const t=TYPE[a.type]||TYPE.gr; return `<button class="ann t-${a.type}" data-act="ann-open" data-id="${esc(a.id)}"><span class="code">${t.code}</span><span style="min-width:0"><span class="q">${a.type==='good'?`“${esc(a.quote)}”`:`<s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}`}</span>${a.note?`<br><span class="nt">${esc(a.note)}</span>`:''}</span></button>`; }).join('')
-    : '<p class="small faint">Select any words in the entry to add your first mark.</p>';
+    : `<p class="small faint">${tr('rv.firstMark')}</p>`;
 }
 function renderVocab(){
   const R=S.review, el=$('#vocab-list'); if(!R||!el) return;
-  el.innerHTML = (R.data.vocab||[]).map((v,i)=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span><button class="btn ghost sm" data-act="vocab-del" data-i="${i}" aria-label="Remove word">✕</button></div>`).join('');
+  el.innerHTML = (R.data.vocab||[]).map((v,i)=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span><button class="btn ghost sm" data-act="vocab-del" data-i="${i}" aria-label="${tr('rv.removeWord')}">✕</button></div>`).join('');
 }
 function onSelect(container){
   const R=S.review; if(!R || R.view!=='marked') return;
@@ -1001,7 +1442,7 @@ function onSelect(container){
   let start=pre.toString().length, end=start+r.toString().length; const body=R.entry.body;
   while(start<end && /\s/.test(body[start])) start++; while(end>start && /\s/.test(body[end-1])) end--;
   if(end<=start) return;
-  if(R.data.annotations.some(a=>a.start<end && a.end>start)){ toast('Part of that text already has a mark. Tap the mark to change it.'); return; }
+  if(R.data.annotations.some(a=>a.start<end && a.end>start)){ toast(tr('rv.overlap')); return; }
   R.sugs = R.sugs.filter(s=>!(s.start<end && s.end>start));
   const rect=r.getBoundingClientRect();
   openAnnPop({start,end,quote:body.slice(start,end),type:R.lastType||'gr',correction:'',note:''}, rect, true);
@@ -1015,19 +1456,19 @@ function closePop(){ const p=$('#pop'); if(p) p.innerHTML=''; S.pop=null; if(S.r
 function openAnnPop(a, rect, isNew){
   const R=S.review; S.pop={a:clone(a), isNew};
   const bank=S.prefs?.bank||DEFAULT_BANK;
-  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="Mark this text">
+  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="${tr('pop.aria')}">
     <div class="types">${TYPES.map((t,i)=>`<button class="tchip t-${t.k}" data-act="pop-type" data-k="${t.k}" aria-pressed="${t.k===a.type}" title="${t.name}${i<9?' (Alt+'+(i+1)+')':''}"><span class="code">${t.code}</span>${t.name}</button>`).join('')}</div>
     <div class="quote">${esc(a.quote)}</div>
-    <label class="field" id="pf-fix-wrap" ${a.type==='good'?'hidden':''}><span>Correction</span><input class="inp fix" id="pf-fix" value="${esc(a.correction)}" placeholder="Write the correct version" autocomplete="off"></label>
-    <label class="field"><span>${a.type==='good'?'Praise':'Note for the student'} <span class="faint">(optional)</span></span><input class="inp" id="pf-note" value="${esc(a.note)}" list="bank-dl" placeholder="${a.type==='good'?'What makes this good?':'Why is it wrong?'}" autocomplete="off"><datalist id="bank-dl">${bank.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
-    <div class="pop-acts">${isNew?'':'<button class="btn sm ghost" data-act="pop-del" style="color:var(--pen);margin-right:auto">Delete</button>'}<button class="btn sm ghost" data-act="pop-close">Cancel</button><button class="btn sm primary" data-act="pop-save">${isNew?'Add mark':'Save'}</button></div></div>`;
+    <label class="field" id="pf-fix-wrap" ${a.type==='good'?'hidden':''}><span>${tr('pop.fix')}</span><input class="inp fix" id="pf-fix" value="${esc(a.correction)}" placeholder="${tr('pop.fixPh')}" autocomplete="off"></label>
+    <label class="field"><span>${a.type==='good'?tr('pop.praise'):tr('pop.note')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="pf-note" value="${esc(a.note)}" list="bank-dl" placeholder="${a.type==='good'?tr('pop.goodPh'):tr('pop.whyPh')}" autocomplete="off"><datalist id="bank-dl">${bank.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
+    <div class="pop-acts">${isNew?'':`<button class="btn sm ghost" data-act="pop-del" style="color:var(--pen);margin-right:auto">${tr('delete')}</button>`}<button class="btn sm ghost" data-act="pop-close">${tr('cancel')}</button><button class="btn sm primary" data-act="pop-save">${isNew?tr('pop.add'):tr('save')}</button></div></div>`;
   const el=$('#pop .pop'); placePop(el, rect);
   const f = a.type==='good'? $('#pf-note') : $('#pf-fix'); if(isNew && !a.correction){ f.value = a.type==='good'?'':a.quote; } setTimeout(()=>{ f.focus(); f.select(); },20);
 }
 function popSave(){
   const R=S.review, P=S.pop; if(!R||!P) return;
   const a=P.a; a.correction = a.type==='good' ? '' : ($('#pf-fix')?.value||'').trim(); a.note=($('#pf-note')?.value||'').trim();
-  if(a.type!=='good' && a.correction===a.quote && !a.note){ toast('Write a correction or a note first.'); return; }
+  if(a.type!=='good' && a.correction===a.quote && !a.note){ toast(tr('pop.need')); return; }
   if(P.isNew){ a.id=newId(); R.data.annotations.push(a); R.lastType=a.type; }
   else { const i=R.data.annotations.findIndex(x=>x.id===a.id); if(i>=0) R.data.annotations[i]=a; }
   getSelection().removeAllRanges(); closePop(); renderPaper(); renderAnnList(); scheduleSave();
@@ -1035,14 +1476,14 @@ function popSave(){
 function openSugPop(s, rect){
   const t=TYPE[s.type]||TYPE.gr;
   S.pop={sug:s};
-  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="Suggestion">
-    <div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span><span class="small faint">Suggested by Claude</span></div>
+  $('#pop').innerHTML = `<div class="pop" role="dialog" aria-label="${tr('sug.aria')}">
+    <div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span><span class="small faint">${tr('sug.by')}</span></div>
     <div class="quote">${esc(s.quote)}${s.correction?` → <span class="fix">${esc(s.correction)}</span>`:''}</div>${s.note?`<p class="small muted">${esc(s.note)}</p>`:''}
-    <div class="pop-acts"><button class="btn sm ghost" data-act="sug-dismiss" style="margin-right:auto">Dismiss</button><button class="btn sm" data-act="sug-edit">Edit</button><button class="btn sm primary" data-act="sug-accept">Accept</button></div></div>`;
+    <div class="pop-acts"><button class="btn sm ghost" data-act="sug-dismiss" style="margin-right:auto">${tr('rv.dismiss')}</button><button class="btn sm" data-act="sug-edit">${tr('edit')}</button><button class="btn sm primary" data-act="sug-accept">${tr('sug.accept')}</button></div></div>`;
   placePop($('#pop .pop'), rect);
 }
 let saveT=null, saveChain=Promise.resolve();
-function setSaved(ok){ const R=S.review; if(!R) return; R.saved=ok; const el=$('#save-state'); if(el){ el.textContent= ok?'All changes saved':'Saving…'; el.classList.toggle('busy',!ok); } }
+function setSaved(ok){ const R=S.review; if(!R) return; R.saved=ok; const el=$('#save-state'); if(el){ el.textContent= ok?tr('saved'):tr('saving'); el.classList.toggle('busy',!ok); } }
 function scheduleSave(){ setSaved(false); clearTimeout(saveT); saveT=setTimeout(()=>saveReview(), 1200); }
 function saveReview(status){
   clearTimeout(saveT);
@@ -1060,12 +1501,12 @@ function saveReview(status){
     S.feedback[sid]=fb;
     await S.db.doc(`feedback/${sid}`).set(fb);
     if(S.review===R) setSaved(true);
-  }).catch(e=>{ dbErr(e,'save your marks'); });
+  }).catch(e=>{ dbErr(e,'marks'); });
   return saveChain;
 }
 async function aiSuggest(){
   const R=S.review; if(!R) return;
-  if(S.demo && !S.sample){ R.sugs = demoSuggestions(R.entry.body, R.data.annotations); renderReviewTools(); renderPaper(); if(!R.sugs.length) toast('No new suggestions for this entry.'); return; }
+  if(S.demo && !S.sample){ R.sugs = demoSuggestions(R.entry.body, R.data.annotations); renderReviewTools(); renderPaper(); if(!R.sugs.length) toast(tr('ai.none')); return; }
   R.aiBusy=true; renderReviewTools();
   const lvl=S.profiles[R.sid]?.level||'B1';
   const prompt = `You help an English teacher mark a learner's diary entry. Learner level: ${lvl} (CEFR).
@@ -1081,11 +1522,11 @@ ${R.entry.body}
   try{
     const res = await S.sample.json(prompt,{modelTier:'default'});
     R.sugs = locateSuggestions(R.entry.body, R.data.annotations, (res&&res.suggestions)||[]);
-    if(!R.sugs.length) toast('Claude found nothing new to suggest.');
+    if(!R.sugs.length) toast(tr('ai.nothing'));
   }catch(e){
-    if(e&&e.code==='not_granted'){ S.sample=null; toast('Claude suggestions were not allowed for this page.'); }
-    else if(e&&e.code==='rate_limited') toast('Too many requests just now. Try again in a minute.');
-    else toast('Could not get suggestions. Try again.');
+    if(e&&e.code==='not_granted'){ S.sample=null; toast(tr('ai.denied')); }
+    else if(e&&e.code==='rate_limited') toast(tr('ai.rate'));
+    else toast(tr('ai.fail'));
   }
   R.aiBusy=false; if(S.review===R){ renderReviewTools(); renderPaper(); }
 }
@@ -1104,28 +1545,28 @@ function demoSuggestions(body, anns){
 
 function vLogin(){
   const st=S.view.step||'signin', em=esc(S.view.email||'');
-  const emailF = (label='Email') => `<label class="field"><span>${label}</span><input class="inp" id="login-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" value="${em}"></label>`;
-  const passF = (nw) => `<label class="field"><span>${nw?'Choose a password (6+ characters)':'Password'}</span><input class="inp" id="login-pass" type="password" autocomplete="${nw?'new-password':'current-password'}" minlength="6"></label>`;
+  const emailF = (label=tr('lo.email')) => `<label class="field"><span>${label}</span><input class="inp" id="login-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" value="${em}"></label>`;
+  const passF = (nw) => `<label class="field"><span>${nw?tr('lo.newPass'):tr('lo.pass')}</span><input class="inp" id="login-pass" type="password" autocomplete="${nw?'new-password':'current-password'}" minlength="6"></label>`;
   let form='';
-  if(st==='signin') form = `${emailF()}${passF(false)}<button class="btn primary" data-act="pw-signin">Sign in</button>
-      <div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="login-step" data-s="signup">New here? Create an account</button><button class="btn ghost sm" data-act="login-step" data-s="reset">Forgot password?</button></div>`;
-  else if(st==='signup') form = `${emailF()}${passF(true)}<button class="btn primary" data-act="pw-signup">Create my journal</button>
-      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">I already have an account</button>`;
-  else if(st==='reset') form = `${emailF()}<button class="btn primary" data-act="pw-reset">Email me a reset link</button>
-      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back to sign in</button>`;
-  else if(st==='teacher') form = `<div class="notice info" style="margin:0">Teachers sign in with a one-time link sent to the teacher email.</div>${emailF('Teacher email')}<button class="btn primary" data-act="send-link">Email me a sign-in link</button>
-      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back to student sign-in</button>`;
-  else if(st==='confirm') form = `${emailF('Type your email again to finish signing in')}<button class="btn primary" data-act="confirm-link">Finish signing in</button>`;
-  else if(st==='sent') form = `<div class="notice info" style="margin:0">We sent a sign-in link to <b>${em}</b>. Open it on this device. If you can't find it, check your spam folder.</div>
-      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">Back</button>`;
+  if(st==='signin') form = `${emailF()}${passF(false)}<button class="btn primary" data-act="pw-signin">${tr('lo.signIn')}</button>
+      <div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="login-step" data-s="signup">${tr('lo.new')}</button><button class="btn ghost sm" data-act="login-step" data-s="reset">${tr('lo.forgot')}</button></div>`;
+  else if(st==='signup') form = `${emailF()}${passF(true)}<button class="btn primary" data-act="pw-signup">${tr('lo.create')}</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">${tr('lo.have')}</button>`;
+  else if(st==='reset') form = `${emailF()}<button class="btn primary" data-act="pw-reset">${tr('lo.reset')}</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">${tr('lo.backSignIn')}</button>`;
+  else if(st==='teacher') form = `<div class="notice info" style="margin:0">${tr('lo.tInfo')}</div>${emailF(tr('lo.tEmail'))}<button class="btn primary" data-act="send-link">${tr('lo.sendLink')}</button>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">${tr('lo.backStudent')}</button>`;
+  else if(st==='confirm') form = `${emailF(tr('lo.again'))}<button class="btn primary" data-act="confirm-link">${tr('lo.finish')}</button>`;
+  else if(st==='sent') form = `<div class="notice info" style="margin:0">${tr('lo.sentTo',{email:em})}</div>
+      <button class="btn ghost sm" style="align-self:flex-start" data-act="login-step" data-s="signin">${tr('back')}</button>`;
   return `<article class="paper" style="max-width:600px;margin:24px auto 0">
-    <span class="label">My English journal</span>
-    <h1 class="login-h">Write a little<br>about <em>every day.</em></h1>
-    <p class="muted" style="margin-top:14px;font-size:16px;max-width:44ch">Your teacher reads each entry and marks your English. Nobody else can see your journal.</p>
+    <span class="label">${tr('lo.kicker')}</span>
+    <h1 class="login-h">${tr('lo.h')}</h1>
+    <p class="muted" style="margin-top:14px;font-size:16px;max-width:44ch">${tr('lo.p')}</p>
     <div class="stack" style="margin-top:24px">${form}</div>
     <div class="row" style="margin-top:22px;justify-content:space-between;border-top:1px dashed var(--line);padding-top:14px">
-      ${st==='teacher'?'<span></span>':'<button class="btn ghost sm" data-act="login-step" data-s="teacher">Teacher sign-in</button>'}
-      <button class="btn ghost sm" data-act="explore">See an example class</button></div>
+      ${st==='teacher'?'<span></span>':`<button class="btn ghost sm" data-act="login-step" data-s="teacher">${tr('lo.teacher')}</button>`}
+      <button class="btn ghost sm" data-act="explore">${tr('lo.example')}</button></div>
   </article>`;
 }
 
@@ -1144,13 +1585,13 @@ function streak(){
 }
 function vSetup(){
   return `<div style="max-width:520px;margin:20px auto 0" class="paper">
-    <h1 style="font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.1">Welcome to your English journal</h1>
-    <p class="muted" style="margin-top:10px">Write a little about your days. Your teacher reads each entry and marks your English. Nobody else can see your journal.</p>
+    <h1 style="font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.1">${tr('su.h')}</h1>
+    <p class="muted" style="margin-top:10px">${tr('su.p')}</p>
     <div class="stack" style="margin-top:20px">
-      <label class="field"><span>Your name</span><input class="inp" id="setup-name" value="${esc(S.me?.name||'')}" placeholder="First and last name"></label>
-      <label class="field"><span>Your English level</span><select class="inp" id="setup-level">${LEVELS.map(l=>`<option ${l==='B1'?'selected':''}>${l}</option>`).join('')}</select></label>
-      <button class="btn primary" data-act="setup-save">Open my journal</button>
-      ${S.canWrite===false?'<div class="notice">Your access to this page is view-only, so your journal can\'t be saved. Ask your teacher to give you Contributor access.</div>':''}
+      <label class="field"><span>${tr('su.name')}</span><input class="inp" id="setup-name" value="${esc(S.me?.name||'')}" placeholder="${tr('su.namePh')}"></label>
+      <label class="field"><span>${tr('su.level')}</span><select class="inp" id="setup-level">${LEVELS.map(l=>`<option ${l==='B1'?'selected':''}>${l}</option>`).join('')}</select></label>
+      <button class="btn primary" data-act="setup-save">${tr('su.open')}</button>
+      ${S.canWrite===false?`<div class="notice">${tr('su.viewOnly')}</div>`:''}
     </div></div>`;
 }
 function vHome(){
@@ -1160,20 +1601,21 @@ function vHome(){
   const first=(p.name||'').split(' ')[0];
   const wroteToday = ents.some(e=>e.date===todayStr());
   const fresh = ents.filter(e=>e.isNew);
-  const months={}; ents.forEach(e=>{ const k=parseDate(e.date).toLocaleDateString('en-GB',{month:'long',year:'numeric'}); (months[k]=months[k]||[]).push(e); });
-  return `${S.canWrite===false?'<div class="notice">Your access is view-only, so new entries can\'t be saved. Ask your teacher for Contributor access.</div>':''}
+  const months={}; ents.forEach(e=>{ const k=cap(dloc(parseDate(e.date),{month:'long',year:'numeric'})); (months[k]=months[k]||[]).push(e); });
+  return `${S.canWrite===false?`<div class="notice">${tr('home.viewOnly')}</div>`:''}
   <div class="hero">
-    <div class="today">${I.nib}<div class="label" style="color:inherit;opacity:.7">${new Date().toLocaleDateString('en-GB',{weekday:'long'})}</div>
-      <div class="d">${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long'})}</div>
-      <p>${wroteToday?`You've written today, ${esc(first)}. Want to add more?`:`Hi ${esc(first)}. What happened today? Even five sentences count.`}</p>
-      <button class="btn" data-act="new-entry">${I.pen} ${wroteToday?'Write another entry':"Write today's entry"}</button></div>
-    <div class="prompt-card"><span class="label">Prompt from your teacher</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">Write about this</button>`:'<p class="muted">No prompt this week. Write about anything that happened to you.</p>'}</div>
+    <div class="today">${I.nib}<div class="label" style="color:inherit;opacity:.7">${dloc(new Date(),{weekday:'long'})}</div>
+      <div class="d">${dloc(new Date(),{day:'numeric',month:'long'})}</div>
+      <p>${wroteToday?tr('home.wrote',{name:esc(first)}):tr('home.hi',{name:esc(first)})}</p>
+      <button class="btn" data-act="new-entry">${I.pen} ${wroteToday?tr('home.another'):tr('home.today')}</button></div>
+    <div class="prompt-card"><span class="label">${tr('home.prompt')}</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">${tr('home.about')}</button>`:`<p class="muted">${tr('home.noPrompt')}</p>`}</div>
   </div>
-  ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>Your teacher checked ${fresh.length===1?'an entry':fresh.length+' entries'}. See the corrections:</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||'Untitled')}</button>`).join('')}</div>`:''}
-  <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>entries</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>words written</span></div><div class="stat"><b>${streak()}</b><span>day streak</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>latest band</span></div></div>
-  ${pts.length?`<div class="card section" style="padding:16px 18px"><h3>Your band over time</h3>${bandChart(pts)}</div>`:''}
-  <div class="section">${ents.length? Object.entries(months).map(([m,list])=>`<h2 style="font-family:var(--f-display);font-weight:400;font-size:23px;margin:22px 0 12px">${m}</h2><div class="list">${list.map(e=>entryCard(e,false)).join('')}</div>`).join('')
-    : `<div class="empty"><h3>Your first page is waiting</h3><p>Write about your day: what you did, who you saw, how you felt.</p><p style="margin-top:14px"><button class="btn primary" data-act="new-entry">Start writing</button></p></div>`}</div>`;
+  ${payCard()}
+  ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>${tr('home.checked',{n:fresh.length})}</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||tr('untitled'))}</button>`).join('')}</div>`:''}
+  <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${streak()}</b><span>${tr('k.streak')}</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>${tr('k.latest')}</span></div></div>
+  ${pts.length?`<div class="card section" style="padding:16px 18px"><h3>${tr('home.trend')}</h3>${bandChart(pts)}</div>`:''}
+  <div class="section">${ents.length? Object.entries(months).map(([m,list])=>`<h2 style="font-family:var(--f-display);font-weight:400;font-size:23px;margin:22px 0 12px">${esc(m)}</h2><div class="list">${list.map(e=>entryCard(e,false)).join('')}</div>`).join('')
+    : `<div class="empty"><h3>${tr('home.emptyH')}</h3><p>${tr('home.emptyP')}</p><p style="margin-top:14px"><button class="btn primary" data-act="new-entry">${tr('home.start')}</button></p></div>`}</div>`;
 }
 function draftKey(){ return 'draft:'+S.uid; }
 function startEdit(opts={}){
@@ -1186,64 +1628,64 @@ function vWrite(){
   if(!S.edit) S.edit = LS.get(draftKey(),null) || {eid:null,title:'',body:'',mood:null,date:todayStr()};
   const E=S.edit, lvl=S.myProfile?.level||'B1', goal=GOAL[lvl]||120;
   const rv = E.revisionOf ? S.myReviews[E.revisionOf] : null;
-  return `<div class="page-head"><div><h1>${E.eid?'Edit entry':E.revisionOf?'Revise your entry':'New entry'}</h1><p>${E.revisionOf?'Fix the marked mistakes, then send it again.':'Write in English about your day. Your teacher will check it.'}</p></div></div>
-  ${rv?`<div class="fb-box" style="margin-bottom:16px"><span class="label">Your teacher's marks</span><div class="mist" style="margin-top:8px">${(rv.annotations||[]).filter(a=>a.type!=='good').map(a=>`<div class="m"><span class="q"><s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}${a.note?`<br><span class="small muted">${esc(a.note)}</span>`:''}</span><span class="tchip t-${a.type}" style="align-self:start;padding:1px 8px 1px 3px"><span class="code">${(TYPE[a.type]||TYPE.gr).code}</span></span></div>`).join('')}</div></div>`:''}
+  return `<div class="page-head"><div><h1>${E.eid?tr('w.edit'):E.revisionOf?tr('w.revise'):tr('w.new')}</h1><p>${E.revisionOf?tr('w.reviseP'):tr('w.newP')}</p></div></div>
+  ${rv?`<div class="fb-box" style="margin-bottom:16px"><span class="label">${tr('w.marks')}</span><div class="mist" style="margin-top:8px">${(rv.annotations||[]).filter(a=>a.type!=='good').map(a=>`<div class="m"><span class="q"><s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}${a.note?`<br><span class="small muted">${esc(a.note)}</span>`:''}</span><span class="tchip t-${a.type}" style="align-self:start;padding:1px 8px 1px 3px"><span class="code">${(TYPE[a.type]||TYPE.gr).code}</span></span></div>`).join('')}</div></div>`:''}
   <article class="paper">
-    <div class="write-head"><label class="field"><span>Date</span><input type="date" class="inp" id="w-date" value="${esc(E.date)}" max="${todayStr()}"></label>
-      <label class="field"><span>Title</span><input class="title-inp" id="w-title" value="${esc(E.title)}" placeholder="Give your day a title" maxlength="120"></label></div>
-    <div class="field" style="margin-bottom:12px"><span>Today felt…</span><div class="moods">${MOODS.map(m=>`<button class="mood" data-act="mood" data-k="${m.k}" aria-pressed="${E.mood===m.k}">${m.svg}${m.n}</button>`).join('')}</div></div>
-    <textarea class="ruled" id="w-body" placeholder="Today I…" aria-label="Your entry" spellcheck="false">${esc(E.body)}</textarea>
-    <div class="write-foot"><span class="small num" id="w-count"></span><span class="goal" id="w-goal"><i></i></span><span class="small faint">Goal for ${lvl}: ${goal} words</span></div>
+    <div class="write-head"><label class="field"><span>${tr('w.date')}</span><input type="date" class="inp" id="w-date" value="${esc(E.date)}" max="${todayStr()}"></label>
+      <label class="field"><span>${tr('w.title')}</span><input class="title-inp" id="w-title" value="${esc(E.title)}" placeholder="${tr('w.titlePh')}" maxlength="120"></label></div>
+    <div class="field" style="margin-bottom:12px"><span>${tr('w.felt')}</span><div class="moods">${MOODS.map(m=>`<button class="mood" data-act="mood" data-k="${m.k}" aria-pressed="${E.mood===m.k}">${m.svg}${m.n}</button>`).join('')}</div></div>
+    <textarea class="ruled" id="w-body" placeholder="Today I…" aria-label="${tr('w.aria')}" spellcheck="false" lang="en">${esc(E.body)}</textarea>
+    <div class="write-foot"><span class="small num" id="w-count"></span><span class="goal" id="w-goal"><i></i></span><span class="small faint">${tr('w.goal',{l:lvl,n:goal})}</span></div>
   </article>
-  <div class="row" style="margin-top:16px;justify-content:space-between"><span class="small faint" id="w-saved">${E.eid?'Changes are saved when you press the button.':'Your draft is kept on this device until you send it.'}</span>
-    <span class="row"><button class="btn ghost" data-act="cancel-write">Cancel</button>${E.eid?'<button class="btn ghost" data-act="del-entry" style="color:var(--pen)">Delete</button>':''}<button class="btn primary" data-act="submit-entry" ${S.canWrite===false?'disabled':''}>${E.eid?'Save changes':'Send to teacher'}</button></span></div>
+  <div class="row" style="margin-top:16px;justify-content:space-between"><span class="small faint" id="w-saved">${E.eid?tr('w.savedOnPress'):tr('w.draft')}</span>
+    <span class="row"><button class="btn ghost" data-act="cancel-write">${tr('cancel')}</button>${E.eid?`<button class="btn ghost" data-act="del-entry" style="color:var(--pen)">${tr('delete')}</button>`:''}<button class="btn primary" data-act="submit-entry" ${S.canWrite===false?'disabled':''}>${E.eid?tr('w.saveChanges'):tr('w.send')}</button></span></div>
   <div id="del-confirm"></div>
-  <p class="small faint" style="margin-top:10px">Spell-check is switched off so that you practise. You can edit an entry until your teacher starts checking it.</p>`;
+  <p class="small faint" style="margin-top:10px">${tr('w.spell')}</p>`;
 }
 after.write = () => {
   const ta=$('#w-body'), E=S.edit, goal=GOAL[S.myProfile?.level||'B1']||120;
   const grow=()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; };
-  const upd=()=>{ const n=wc(ta.value); $('#w-count').innerHTML=`<b>${n}</b> words`; const g=$('#w-goal'); g.firstElementChild.style.width=Math.min(100,n/goal*100)+'%'; g.classList.toggle('done',n>=goal); };
+  const upd=()=>{ const n=wc(ta.value); $('#w-count').innerHTML=tr('w.count',{n}); const g=$('#w-goal'); g.firstElementChild.style.width=Math.min(100,n/goal*100)+'%'; g.classList.toggle('done',n>=goal); };
   const persist=()=>{ E.body=ta.value; E.title=$('#w-title').value; E.date=$('#w-date').value||todayStr(); if(!E.eid && !E.revisionOf) LS.set(draftKey(),E); };
   ta.addEventListener('input',()=>{ grow(); upd(); persist(); }); $('#w-title').addEventListener('input',persist); $('#w-date').addEventListener('change',persist);
   grow(); upd(); if(!E.body) ta.focus();
 };
 async function submitEntry(){
   const E=S.edit; E.body=$('#w-body').value; E.title=$('#w-title').value.trim(); E.date=$('#w-date').value||todayStr();
-  const n=wc(E.body); if(n<10){ toast('Write at least 10 words before sending.'); return; }
+  const n=wc(E.body); if(n<10){ toast(tr('w.min')); return; }
   const eid=E.eid||newId(); const now=Date.now(); const prev=E.eid?S.myEntries[E.eid]:null;
   const data={title:E.title||'Untitled', body:E.body, mood:E.mood||null, date:E.date, words:n, createdAt:prev?.createdAt||now, updatedAt:now}; if(E.revisionOf) data.revisionOf=E.revisionOf;
   const prof=clone(S.myProfile)||{}; prof.index=prof.index||{}; prof.index[eid]={title:data.title,date:data.date,words:n,mood:data.mood,preview:E.body.slice(0,150),submittedAt:prev?(prof.index[eid]?.submittedAt||now):now}; if(E.revisionOf) prof.index[eid].revisionOf=E.revisionOf; prof.updatedAt=now;
-  const btn=$('[data-act="submit-entry"]'); if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
+  const btn=$('[data-act="submit-entry"]'); if(btn){ btn.disabled=true; btn.textContent=tr('lo.sending'); }
   try{ await S.db.doc(`journals/${S.uid}/entries/${eid}`).set(data); await S.db.doc(`journals/${S.uid}`).set(prof);
-    if(!E.eid && !E.revisionOf) LS.del(draftKey()); S.edit=null; toast(E.eid?'Changes saved.':'Sent to your teacher.'); go('home');
-  }catch(e){ dbErr(e,'send your entry'); if(btn){ btn.disabled=false; btn.textContent='Try again'; } }
+    if(!E.eid && !E.revisionOf) LS.del(draftKey()); S.edit=null; toast(E.eid?tr('w.changed'):tr('w.sentOk')); go('home');
+  }catch(e){ dbErr(e,'send'); if(btn){ btn.disabled=false; btn.textContent=tr('w.retry'); } }
 }
 async function deleteEntry(eid){
   const prof=clone(S.myProfile)||{}; if(prof.index) delete prof.index[eid];
-  try{ await S.db.doc(`journals/${S.uid}/entries/${eid}`).delete(); await S.db.doc(`journals/${S.uid}`).set(prof); S.edit=null; toast('Entry deleted.'); go('home'); }catch(e){ dbErr(e,'delete the entry'); }
+  try{ await S.db.doc(`journals/${S.uid}/entries/${eid}`).delete(); await S.db.doc(`journals/${S.uid}`).set(prof); S.edit=null; toast(tr('w.deleted')); go('home'); }catch(e){ dbErr(e,'delete'); }
 }
 function vEntry(){
-  const eid=S.view.eid, e=S.myEntries[eid]; if(!e) return `<div class="empty"><h3>Entry not found</h3><button class="btn" data-act="go" data-v="home">Back</button></div>`;
+  const eid=S.view.eid, e=S.myEntries[eid]; if(!e) return `<div class="empty"><h3>${tr('en.notFound')}</h3><button class="btn" data-act="go" data-v="home">${tr('back')}</button></div>`;
   const st=S.myFeedback?.reviews?.[eid]?.status||'submitted'; const rv=S.myReviews[eid];
   const shown = (st==='reviewed'||st==='revise') && rv; const anns = shown? fixOffsets(e.body, rv.annotations||[]) : [];
   const mode=S.view.mode||'marked'; const mt=metrics(e.body);
   const editable = st==='submitted';
-  return `<button class="btn ghost sm" data-act="go" data-v="home">${I.back} My journal</button>
+  return `<button class="btn ghost sm" data-act="go" data-v="home">${I.back} ${tr('nav.home')}</button>
   <div class="review-grid" style="margin-top:10px">
     <div style="min-width:0">
-      ${shown?`<div class="toolbar"><div class="seg" role="group" aria-label="Paper view"><button data-act="entry-view" data-v="marked" aria-pressed="${mode==='marked'}">With marks</button><button data-act="entry-view" data-v="corrected" aria-pressed="${mode==='corrected'}">Corrected</button></div><span class="hint">Tap a mark to see why</span></div>`:''}
-      <article class="paper ${shown?'has-stamp':''}">${shown?stampHTML(st,rv.bands):''}<div class="paper-head"><div><h2 class="paper-title">${esc(e.title||'Untitled')}</h2><div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${pill(st,SLABEL)}</div></div>${editable?`<button class="btn sm" data-act="edit-entry" data-eid="${esc(eid)}">Edit</button>`:''}</div>
+      ${shown?`<div class="toolbar"><div class="seg" role="group" aria-label="${tr('rv.view')}"><button data-act="entry-view" data-v="marked" aria-pressed="${mode==='marked'}">${tr('en.withMarks')}</button><button data-act="entry-view" data-v="corrected" aria-pressed="${mode==='corrected'}">${tr('rv.corrected')}</button></div><span class="hint">${tr('en.tapMark')}</span></div>`:''}
+      <article class="paper ${shown?'has-stamp':''}">${shown?stampHTML(st,rv.bands):''}<div class="paper-head"><div><h2 class="paper-title">${esc(e.title||tr('untitled'))}</h2><div class="paper-meta"><span>${fmtDate(e.date,{weekday:'long',day:'numeric',month:'long'})}</span>${e.mood&&MOOD[e.mood]?`<span class="row" style="gap:4px"><span style="width:16px;height:16px;display:inline-block">${MOOD[e.mood].svg}</span>${MOOD[e.mood].n}</span>`:''}${pill(st,SLABEL)}</div></div>${editable?`<button class="btn sm" data-act="edit-entry" data-eid="${esc(eid)}">${tr('edit')}</button>`:''}</div>
         <div class="ruled" id="entry-text">${shown ? (mode==='corrected'?correctedHTML(e.body,anns):markedHTML(e.body,anns)) : esc(e.body)}</div>
-        <div class="metrics"><span><b>${mt.words}</b> words</span><span><b>${mt.sentences}</b> sentences</span><span><b>${mt.variety}%</b> different words</span></div></article>
+        <div class="metrics"><span><b>${mt.words}</b> ${tr('m.words')}</span><span><b>${mt.sentences}</b> ${tr('m.sent')}</span><span><b>${mt.variety}%</b> ${tr('m.var')}</span></div></article>
     </div>
     <aside class="panel">${shown? `
-      <div class="fb-box"><span class="label">Your teacher says</span>${rv.comment?`<p class="hand" style="margin-top:6px">${esc(rv.comment)}</p>`:''}
-        ${overallBand(rv.bands)!=null?`<div class="overall"><span class="label">Overall band</span><b>${fmtBand(overallBand(rv.bands))}</b></div><div class="bands-mini">${CRIT.map(c=>`<div><b>${fmtBand(rv.bands?.[c.k])}</b><span>${c.n}</span></div>`).join('')}</div>`:''}</div>
-      ${st==='revise'?`<div class="fb-box" style="border-color:var(--pen)"><b>Your teacher asked for a revision.</b><p class="small muted" style="margin:4px 0 10px">Rewrite the entry with the corrections. It will be sent as a new page.</p><button class="btn pen" data-act="revise" data-eid="${esc(eid)}">Write the revision</button></div>`:''}
-      <div class="fb-box"><span class="label">Marks</span><div class="row" style="gap:5px;margin-top:8px">${(()=>{ const c=countErrors(anns); return TYPES.filter(t=>c[t.k]).map(t=>`<span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></span>`).join('') || '<span class="small faint">No marks. Well done!</span>'; })()}</div></div>
-      ${(rv.vocab||[]).length?`<div class="fb-box"><span class="label">Words to learn</span><div class="vocab" style="margin-top:8px">${rv.vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div></div>`:''}`
-    : `<div class="fb-box"><span class="label">Status</span><p style="margin-top:6px">${st==='inreview'?'Your teacher is checking this entry now.':'Sent. Your teacher will check it soon. You can still edit it until then.'}</p></div>`}
+      <div class="fb-box"><span class="label">${tr('en.says')}</span>${rv.comment?`<p class="hand" style="margin-top:6px">${esc(rv.comment)}</p>`:''}
+        ${overallBand(rv.bands)!=null?`<div class="overall"><span class="label">${tr('rv.overall')}</span><b>${fmtBand(overallBand(rv.bands))}</b></div><div class="bands-mini">${CRIT.map(c=>`<div><b>${fmtBand(rv.bands?.[c.k])}</b><span>${c.n}</span></div>`).join('')}</div>`:''}</div>
+      ${st==='revise'?`<div class="fb-box" style="border-color:var(--pen)"><b>${tr('en.askedRev')}</b><p class="small muted" style="margin:4px 0 10px">${tr('en.revP')}</p><button class="btn pen" data-act="revise" data-eid="${esc(eid)}">${tr('en.writeRev')}</button></div>`:''}
+      <div class="fb-box"><span class="label">${tr('rv.marks')}</span><div class="row" style="gap:5px;margin-top:8px">${(()=>{ const c=countErrors(anns); return TYPES.filter(t=>c[t.k]).map(t=>`<span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></span>`).join('') || `<span class="small faint">${tr('en.noMarks')}</span>`; })()}</div></div>
+      ${(rv.vocab||[]).length?`<div class="fb-box"><span class="label">${tr('rv.words')}</span><div class="vocab" style="margin-top:8px">${rv.vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="small muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div></div>`:''}`
+    : `<div class="fb-box"><span class="label">${tr('en.status')}</span><p style="margin-top:6px">${st==='inreview'?tr('en.checking'):tr('en.sentSoon')}</p></div>`}
     </aside></div>`;
 }
 after.entry = () => {
@@ -1255,17 +1697,17 @@ function vMistakes(){
   const bad=items.filter(a=>a.type!=='good'), good=items.filter(a=>a.type==='good');
   const filt=S.view.f||'all'; const c=countErrors(bad);
   const shown = bad.filter(a=>filt==='all'||a.type===filt).sort((a,b)=>a.date<b.date?1:-1);
-  return `<div class="page-head"><div><h1>My mistakes</h1><p>Every correction from your teacher, grouped by type. Read them before you write.</p></div></div>
-  ${bad.length?`<div class="row" style="gap:6px;margin-bottom:16px"><button class="tchip t-st" data-act="mist-f" data-k="all" aria-pressed="${filt==='all'}"><span class="code">All</span><span class="n">${bad.length}</span></button>${TYPES.filter(t=>c[t.k]).sort((a,b)=>c[b.k]-c[a.k]).map(t=>`<button class="tchip t-${t.k}" data-act="mist-f" data-k="${t.k}" aria-pressed="${filt===t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></button>`).join('')}</div>
+  return `<div class="page-head"><div><h1>${tr('mi.h')}</h1><p>${tr('mi.p')}</p></div></div>
+  ${bad.length?`<div class="row" style="gap:6px;margin-bottom:16px"><button class="tchip t-st" data-act="mist-f" data-k="all" aria-pressed="${filt==='all'}"><span class="code">${tr('mi.all')}</span><span class="n">${bad.length}</span></button>${TYPES.filter(t=>c[t.k]).sort((a,b)=>c[b.k]-c[a.k]).map(t=>`<button class="tchip t-${t.k}" data-act="mist-f" data-k="${t.k}" aria-pressed="${filt===t.k}"><span class="code">${t.code}</span>${t.name}<span class="n">${c[t.k]}</span></button>`).join('')}</div>
   <div class="mist">${shown.map(a=>`<div class="m"><span class="q"><s>${esc(a.quote)}</s>${a.correction?` → <em>${esc(a.correction)}</em>`:''}${a.note?`<br><span class="small muted">${esc(a.note)}</span>`:''}</span><span class="small faint">${a.date?fmtDate(a.date,{day:'numeric',month:'short'}):''}</span></div>`).join('')}</div>`
-  : `<div class="empty"><h3>Nothing here yet</h3><p>When your teacher checks your entries, the corrections collect here.</p></div>`}
-  ${good.length?`<div class="section"><h2>What you did well</h2><div class="mist">${good.map(a=>`<div class="m"><span class="q">“${esc(a.quote)}”${a.note?`<br><span class="small" style="color:var(--ok)">${esc(a.note)}</span>`:''}</span><span class="small faint">${a.date?fmtDate(a.date,{day:'numeric',month:'short'}):''}</span></div>`).join('')}</div></div>`:''}`;
+  : `<div class="empty"><h3>${tr('mi.emptyH')}</h3><p>${tr('mi.emptyP')}</p></div>`}
+  ${good.length?`<div class="section"><h2>${tr('mi.good')}</h2><div class="mist">${good.map(a=>`<div class="m"><span class="q">“${esc(a.quote)}”${a.note?`<br><span class="small" style="color:var(--ok)">${esc(a.note)}</span>`:''}</span><span class="small faint">${a.date?fmtDate(a.date,{day:'numeric',month:'short'}):''}</span></div>`).join('')}</div></div>`:''}`;
 }
 function vWords(){
   const list=S.myFeedback?.vocab||[]; const learned=new Set(LS.get('learned:'+S.uid,[]));
-  return `<div class="page-head"><div><h1>Words to learn</h1><p>New words from your teacher. Tick a word when you can use it in your own sentence.</p></div>${list.length?`<span class="small muted num">${list.filter(v=>learned.has(v.w)).length} of ${list.length} learned</span>`:''}</div>
+  return `<div class="page-head"><div><h1>${tr('wd.h')}</h1><p>${tr('wd.p')}</p></div>${list.length?`<span class="small muted num">${tr('wd.learned',{a:list.filter(v=>learned.has(v.w)).length,b:list.length})}</span>`:''}</div>
   ${list.length?`<div class="list">${list.map((v,i)=>`<label class="ecard" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" id="lw-${i}" data-act="learn" data-w="${esc(v.w)}" ${learned.has(v.w)?'checked':''} style="width:20px;height:20px;accent-color:var(--ok)"><span><span style="font-family:var(--f-write);font-size:20px;${learned.has(v.w)?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(v.w)}</span> <span class="muted">— ${esc(v.m)}</span>${v.ex?`<br><span class="hand" style="font-size:15px;color:var(--ink-2)">${esc(v.ex)}</span>`:''}</span></label>`).join('')}</div>`
-  : `<div class="empty"><h3>No words yet</h3><p>Your teacher adds useful words while checking your entries.</p></div>`}`;
+  : `<div class="empty"><h3>${tr('wd.emptyH')}</h3><p>${tr('wd.emptyP')}</p></div>`}`;
 }
 
 /* ---------------- events ---------------- */
@@ -1286,9 +1728,9 @@ document.addEventListener('click', async ev => {
       else { const a=R.data.annotations.find(x=>x.id===id); if(a){ R.selId=id; renderPaper(); openAnnPop(a,rect,false); } }
     } else if(S.mode==='student' && S.view.name==='entry'){
       const rv=S.myReviews[S.view.eid]; const a=(rv?.annotations||[]).find(x=>x.id===mk.dataset.id); if(!a) return; const t=TYPE[a.type]||TYPE.gr;
-      $('#pop').innerHTML=`<div class="pop" role="dialog" aria-label="Correction"><div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span></div>
-        ${a.type==='good'?`<div class="quote">“${esc(a.quote)}”</div>`:`<div><span class="label">You wrote</span><div class="quote" style="margin-top:4px">${esc(a.quote)}</div></div>${a.correction?`<div><span class="label">Better</span><div class="fix" style="margin-top:2px">${esc(a.correction)}</div></div>`:''}`}
-        ${a.note?`<p class="small" style="color:var(--ink-2)">${esc(a.note)}</p>`:''}<div class="pop-acts"><button class="btn sm" data-act="pop-close">Got it</button></div></div>`;
+      $('#pop').innerHTML=`<div class="pop" role="dialog" aria-label="${tr('en.corrAria')}"><div class="row"><span class="tchip t-${t.k}"><span class="code">${t.code}</span>${t.name}</span></div>
+        ${a.type==='good'?`<div class="quote">“${esc(a.quote)}”</div>`:`<div><span class="label">${tr('en.youWrote')}</span><div class="quote" style="margin-top:4px">${esc(a.quote)}</div></div>${a.correction?`<div><span class="label">${tr('en.better')}</span><div class="fix" style="margin-top:2px">${esc(a.correction)}</div></div>`:''}`}
+        ${a.note?`<p class="small" style="color:var(--ink-2)">${esc(a.note)}</p>`:''}<div class="pop-acts"><button class="btn sm" data-act="pop-close">${tr('en.gotIt')}</button></div></div>`;
       placePop($('#pop .pop'), mk.getBoundingClientRect());
     }
     return;
@@ -1297,22 +1739,23 @@ document.addEventListener('click', async ev => {
   const act=b.dataset.act, R=S.review;
   switch(act){
     case 'go': if(b.dataset.v==='write'){ startEdit(); } else go(b.dataset.v); break;
+    case 'lang': setLang(b.dataset.l); break;
     case 'demo': startDemo('teacher'); break;
     case 'explore': startDemo('teacher'); break;
     case 'sign-out': if(S.au) S.au.signOut(S.auth); break;
     case 'login-step': S.view={name:'login',step:b.dataset.s,email:($('#login-email')?.value||S.view.email||'').trim()}; renderMain(); break;
     case 'pw-signin': case 'pw-signup': { const email=($('#login-email')?.value||'').trim(), pass=$('#login-pass')?.value||'';
-      if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; } if(pass.length<6){ toast('The password needs at least 6 characters.'); break; }
+      if(!/^\S+@\S+\.\S+$/.test(email)){ toast(tr('lo.badEmail')); break; } if(pass.length<6){ toast(tr('lo.short')); break; }
       b.disabled=true; LS.set('last-email',email);
       try{ act==='pw-signup' ? await S.au.createUserWithEmailAndPassword(S.auth,email,pass) : await S.au.signInWithEmailAndPassword(S.auth,email,pass); }
       catch(e){ toast(authMsg(e)); b.disabled=false; } break; }
-    case 'pw-reset': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; }
-      b.disabled=true; try{ await S.au.sendPasswordResetEmail(S.auth,email); toast('Check your email for a link to set a new password.'); S.view={name:'login',step:'signin',email}; renderMain(); }catch(e){ toast(authMsg(e)); b.disabled=false; } break; }
-    case 'send-link': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Type a valid email address.'); break; }
-      b.disabled=true; b.textContent='Sending…';
+    case 'pw-reset': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast(tr('lo.badEmail')); break; }
+      b.disabled=true; try{ await S.au.sendPasswordResetEmail(S.auth,email); toast(tr('lo.resetSent')); S.view={name:'login',step:'signin',email}; renderMain(); }catch(e){ toast(authMsg(e)); b.disabled=false; } break; }
+    case 'send-link': { const email=($('#login-email')?.value||'').trim(); if(!/^\S+@\S+\.\S+$/.test(email)){ toast(tr('lo.badEmail')); break; }
+      b.disabled=true; b.textContent=tr('lo.sending');
       try{ await S.au.sendSignInLinkToEmail(S.auth, email, {url: location.origin+location.pathname, handleCodeInApp:true}); LS.set('signin-email',email); S.view={name:'login',step:'sent',email}; renderMain(); }
-      catch(e){ toast(authMsg(e)); b.disabled=false; b.textContent='Email me a sign-in link'; } break; }
-    case 'confirm-link': { const email=($('#login-email')?.value||'').trim(); if(!email){ toast('Type your email.'); break; } b.disabled=true; await completeSignIn(email); break; }
+      catch(e){ toast(authMsg(e)); b.disabled=false; b.textContent=tr('lo.sendLink'); } break; }
+    case 'confirm-link': { const email=($('#login-email')?.value||'').trim(); if(!email){ toast(tr('lo.typeEmail')); break; } b.disabled=true; await completeSignIn(email); break; }
     case 'demo-role': startDemo(b.dataset.role); break;
     case 'leave-demo': leaveDemo(); break;
     case 'open-review': openReview(b.dataset.sid,b.dataset.eid); break;
@@ -1320,7 +1763,7 @@ document.addEventListener('click', async ev => {
     case 'open-entry': go('entry',{eid:b.dataset.eid}); break;
     case 'rv-view': R.view=b.dataset.v; closePop(); renderReviewTools(); renderPaper(); break;
     case 'ai': aiSuggest(); break;
-    case 'copy-fixed': { const txt=correctedText(R.entry.body,R.data.annotations); try{ await navigator.clipboard.writeText(txt); toast('Corrected text copied.'); }catch(e){ R.view='corrected'; renderReviewTools(); renderPaper(); const r=document.createRange(); r.selectNodeContents($('#paper-text')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast('Text selected. Press Ctrl+C to copy.'); } break; }
+    case 'copy-fixed': { const txt=correctedText(R.entry.body,R.data.annotations); try{ await navigator.clipboard.writeText(txt); toast(tr('t.copied')); }catch(e){ R.view='corrected'; renderReviewTools(); renderPaper(); const r=document.createRange(); r.selectNodeContents($('#paper-text')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast(tr('t.selected')); } break; }
     case 'pop-type': { const P=S.pop; if(!P||!P.a) break; P.a.type=b.dataset.k; document.querySelectorAll('#pop .types .tchip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===P.a.type)); const w=$('#pf-fix-wrap'); if(w) w.hidden = P.a.type==='good'; (P.a.type==='good'?$('#pf-note'):$('#pf-fix')).focus(); break; }
     case 'pop-save': popSave(); break;
     case 'pop-close': closePop(); getSelection().removeAllRanges(); break;
@@ -1330,35 +1773,49 @@ document.addEventListener('click', async ev => {
       if(act==='sug-accept'){ R.data.annotations.push({...s,id:newId()}); scheduleSave(); }
       if(act==='sug-edit'){ renderPaper(); renderReviewTools(); const a={...s}; openAnnPop({...a,id:undefined}, $('#paper-text').getBoundingClientRect(), true); S.pop.a=a; delete S.pop.a.id; break; }
       renderReviewTools(); renderPaper(); renderAnnList(); break; }
-    case 'sug-all': R.data.annotations.push(...R.sugs.map(s=>({...s,id:newId()}))); R.sugs=[]; renderReviewTools(); renderPaper(); renderAnnList(); scheduleSave(); toast('Suggestions added. Check them before returning.'); break;
+    case 'sug-all': R.data.annotations.push(...R.sugs.map(s=>({...s,id:newId()}))); R.sugs=[]; renderReviewTools(); renderPaper(); renderAnnList(); scheduleSave(); toast(tr('t.sugAdded')); break;
     case 'sug-none': R.sugs=[]; renderReviewTools(); renderPaper(); break;
     case 'band': { const k=b.dataset.k; let v=R.data.bands[k]; v = v==null ? 5 : Math.min(9,Math.max(0,v+Number(b.dataset.d))); R.data.bands[k]=v; $('#band-'+k).textContent=fmtBand(v); $('#band-overall').textContent=fmtBand(overallBand(R.data.bands)); scheduleSave(); break; }
     case 'bank-ins': { const t=(S.prefs?.bank||DEFAULT_BANK)[+b.dataset.i]; const c=$('#rv-comment'); c.value = (c.value.trim()? c.value.trim()+' ':'')+t; R.data.comment=c.value; scheduleSave(); c.focus(); break; }
-    case 'vocab-add': { const w=$('#vw').value.trim(), m=$('#vm').value.trim(), x=$('#vx').value.trim(); if(!w||!m){ toast('Add the word and its meaning.'); break; } R.data.vocab=R.data.vocab||[]; R.data.vocab.push({w,m,ex:x}); $('#vw').value=$('#vm').value=$('#vx').value=''; renderVocab(); scheduleSave(); $('#vw').focus(); break; }
+    case 'vocab-add': { const w=$('#vw').value.trim(), m=$('#vm').value.trim(), x=$('#vx').value.trim(); if(!w||!m){ toast(tr('t.wordMeaning')); break; } R.data.vocab=R.data.vocab||[]; R.data.vocab.push({w,m,ex:x}); $('#vw').value=$('#vm').value=$('#vx').value=''; renderVocab(); scheduleSave(); $('#vw').focus(); break; }
     case 'vocab-del': R.data.vocab.splice(+b.dataset.i,1); renderVocab(); scheduleSave(); break;
-    case 'finish': { const st=b.dataset.st; if(overallBand(R.data.bands)==null && st==='reviewed' && !b.dataset.ok){ b.dataset.ok='1'; b.textContent='Return without full band scores?'; break; }
+    case 'finish': { const st=b.dataset.st; if(overallBand(R.data.bands)==null && st==='reviewed' && !b.dataset.ok){ b.dataset.ok='1'; b.textContent=tr('t.noBands'); break; }
       document.querySelectorAll('[data-act="finish"]').forEach(x=>x.disabled=true);
-      await saveReview(st); toast(st==='reviewed'?'Returned to the student.':'Revision requested.');
+      await saveReview(st); toast(st==='reviewed'?tr('t.returned'):tr('t.revReq'));
       const next=allEntries().filter(x=>x.status==='submitted'&&!(x.sid===R.sid&&x.eid===R.eid)).sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0))[0];
       if(next) openReview(next.sid,next.eid); else go('inbox'); break; }
-    case 'save-prompt': { const t=$('#prompt-txt').value.trim(); if(!t){ toast('Write a prompt first.'); break; } try{ await S.db.doc('settings/prompt').set({text:t,setAt:Date.now()}); toast('Prompt published to all students.'); }catch(e){ dbErr(e,'publish the prompt'); } break; }
-    case 'clear-prompt': try{ await S.db.doc('settings/prompt').delete(); $('#prompt-txt').value=''; toast('Prompt removed.'); }catch(e){ dbErr(e,'remove the prompt'); } break;
+    case 'save-prompt': { const t=$('#prompt-txt').value.trim(); if(!t){ toast(tr('t.promptFirst')); break; } try{ await S.db.doc('settings/prompt').set({text:t,setAt:Date.now()}); toast(tr('t.promptPub')); }catch(e){ dbErr(e,'prompt'); } break; }
+    case 'clear-prompt': try{ await S.db.doc('settings/prompt').delete(); $('#prompt-txt').value=''; toast(tr('t.promptDel')); }catch(e){ dbErr(e,'unprompt'); } break;
     case 'use-idea': $('#prompt-txt').value=b.dataset.t; $('#prompt-txt').focus(); break;
     case 'bank-add': { const v=$('#bank-new').value.trim(); if(!v) break; S.prefs=S.prefs||{bank:DEFAULT_BANK.slice()}; S.prefs.bank.unshift(v); await savePrefs(); renderMain(); break; }
     case 'bank-del': S.prefs=S.prefs||{bank:DEFAULT_BANK.slice()}; S.prefs.bank.splice(+b.dataset.i,1); await savePrefs(); renderMain(); break;
     // student
-    case 'setup-save': { const name=$('#setup-name').value.trim(); if(!name){ toast('Type your name.'); break; } const prof={name,level:$('#setup-level').value,joinedAt:Date.now(),updatedAt:Date.now(),index:{}}; b.disabled=true; try{ await S.db.doc(`journals/${S.uid}`).set(prof); }catch(e){ b.disabled=false; dbErr(e,'create your journal'); } break; }
+    case 'setup-save': { const name=$('#setup-name').value.trim(); if(!name){ toast(tr('su.typeName')); break; } const prof={name,level:$('#setup-level').value,joinedAt:Date.now(),updatedAt:Date.now(),index:{}}; b.disabled=true; try{ await S.db.doc(`journals/${S.uid}`).set(prof); }catch(e){ b.disabled=false; dbErr(e,'journal'); } break; }
     case 'new-entry': startEdit({prompt:!!b.dataset.prompt}); break;
     case 'mood': S.edit.mood = S.edit.mood===b.dataset.k? null : b.dataset.k; document.querySelectorAll('.mood').forEach(m=>m.setAttribute('aria-pressed', m.dataset.k===S.edit.mood)); if(!S.edit.eid&&!S.edit.revisionOf) LS.set(draftKey(),S.edit); break;
     case 'submit-entry': submitEntry(); break;
     case 'cancel-write': { const wasEdit=S.edit?.eid; S.edit=null; wasEdit? go('entry',{eid:wasEdit}) : go('home'); break; }
-    case 'del-entry': $('#del-confirm').innerHTML=`<div class="notice" style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">Delete this entry for good? <button class="btn sm pen" data-act="del-yes">Delete</button><button class="btn sm" data-act="del-no">Keep it</button></div>`; break;
+    case 'del-entry': $('#del-confirm').innerHTML=`<div class="notice" style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">${tr('w.delQ')} <button class="btn sm pen" data-act="del-yes">${tr('delete')}</button><button class="btn sm" data-act="del-no">${tr('w.keep')}</button></div>`; break;
     case 'del-yes': deleteEntry(S.edit.eid); break;
     case 'del-no': $('#del-confirm').innerHTML=''; break;
     case 'edit-entry': startEdit({eid:b.dataset.eid}); break;
     case 'revise': startEdit({revisionOf:b.dataset.eid}); break;
     case 'entry-view': S.view.mode=b.dataset.v; renderMain(); break;
     case 'mist-f': S.view.f=b.dataset.k; renderMain(); break;
+    // payments
+    case 'lg-m': S.lg.month = +b.dataset.d===0 ? curYM() : addM(S.lg.month,+b.dataset.d); renderMain(); break;
+    case 'lg-f': S.lg.filter=b.dataset.f; document.querySelectorAll('[data-act="lg-f"]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderLgList(); break;
+    case 'lg-add': openLgStudent(null); break;
+    case 'lg-open': openLgStudent(b.dataset.id); break;
+    case 'lg-pay': openLgPay(b.dataset.id); break;
+    case 'lg-export': lgExport(); break;
+    case 'lc-pre': S.lg.draft={...(S.lg.draft||S.lg.settings), lessons:+b.dataset.l}; lgCostUpdate(); break;
+    case 'lc-save': lgSaveSettings(b); break;
+    case 'dlg-close': closeDlg(); break;
+    case 'lg-quick': { const a=$('#lp-amount'); if(a){ a.value=b.dataset.v; a.focus(); } break; }
+    case 'lg-st-pay': { const id=S.dlg?.id; if(id) openLgPay(id, null, true); break; }
+    case 'lg-st-del': lgDeleteStudent(b); break;
+    case 'lg-pdel': lgDeletePayment(b); break;
   }
 });
 document.addEventListener('change', ev=>{
@@ -1375,6 +1832,15 @@ document.addEventListener('keydown', ev=>{
   if((ev.key==='Enter'||ev.key===' ') && ev.target.classList?.contains('mk')){ ev.preventDefault(); ev.target.click(); }
 });
 window.addEventListener('resize', ()=>{ if(S.pop) closePop(); });
+function setLang(l){
+  if(!DICT[l] || l===LANG) return;
+  if(S.view.name==='login'){ const em=$('#login-email'); if(em) S.view.email=em.value; }
+  const sn=$('#setup-name'); if(sn && S.me) S.me.name=sn.value;
+  LANG=l; LS.set('lang',l); document.documentElement.lang=l;
+  const reopen = S.dlg; closeDlg();
+  closePop(); renderTop(); renderNav(); renderMain();
+  if(reopen?.type==='st') openLgStudent(reopen.id);
+}
 document.addEventListener('scroll', ()=>{ if(S.pop && !$('#pop .pop')?.contains(document.activeElement)) closePop(); }, {passive:true});
 
 renderTop(); boot();

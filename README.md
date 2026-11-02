@@ -8,6 +8,10 @@ Har bir talaba faqat o'z kundaligini ko'radi. O'qituvchi hammasini ko'radi.
 - **Yangi yozuvlar:** Inbox'ga keladi. Brauzer yorlig'ida kutayotganlar soni chiqadi, masalan `(3) Daybook`.
 - **Tuzatishlar:** talaba "Corrected" tugmasi bilan to'g'rilangan matnni, "My mistakes" bo'limida esa barcha xatolarini ko'radi.
 
+- **Tillar:** yuqoridagi EN / UZ / RU tugmalari bilan sayt ingliz, o'zbek yoki rus tilida ochiladi. Tanlov har bir qurilmada eslab qolinadi. Tarjimalar `i18n.js` faylida.
+- **To'lovlar:** o'qituvchi sahifasidagi **To'lovlar** bo'limi (avvalgi Tuition Ledger): oylik to'lov, tushumlar, qarzlar va dars narxi kalkulyatori.
+- **Talaba balansi:** to'lovlardagi talabani uning kundalik akkauntiga bog'lasangiz, talaba kirganda **To'lovlarim** bo'limida o'z balansini ko'radi.
+
 Sayt Firebase'siz ham ochiladi, lekin unda faqat namunaviy sinf ko'rinadi va hech narsa saqlanmaydi.
 
 ---
@@ -58,6 +62,22 @@ Bu qoidalar har bir talabaning yozuvini boshqalardan himoya qiladi.
 
 ---
 
+## Yangilash: To'lovlar uchun xavfsizlik qoidalari
+
+To'lovlar bo'limi ishlashi uchun Firebase qoidalarini bir marta yangilash kerak:
+
+1. **Firestore Database → Rules** bo'limini oching.
+2. Yangi `firestore.rules` faylidagi hamma matnni u yerga qo'ying (eski matnni o'chirib).
+3. **Publish** ni bosing.
+
+Qoidalar yangilanmaguncha To'lovlar sahifasida shu haqda ogohlantirish chiqadi.
+
+### Eski Tuition Ledger yozuvlarini ko'chirish
+
+1. Eski Tuition Ledger sahifasini claude.ai'da oching va **Export CSV** ni bosing.
+2. Daybook'da **To'lovlar → CSV import qilish** ni bosing va shu faylni tanlang.
+3. Talabalar va to'lovlar qo'shiladi. Bir xil ismli talaba ikki marta qo'shilmaydi.
+
 ## Foydalanish
 
 1. Saytga birinchi bo'lib **o'zingiz** kiring: **Teacher sign-in** tugmasini bosing, `TEACHER_EMAIL` dagi emailni yozing va kelgan havolani o'sha qurilmada oching. O'qituvchi sahifasi ochiladi.
@@ -72,6 +92,7 @@ Bu qoidalar har bir talabaning yozuvini boshqalardan himoya qiladi.
 |---|---|
 | `index.html` | Butun sayt: dizayn, o'qituvchi va talaba sahifalari |
 | `config.js` | Firebase kalitlari va o'qituvchi emaili |
+| `i18n.js` | Ingliz, o'zbek va rus tilidagi barcha matnlar |
 | `firestore.rules` | Kim nimani ko'rishi mumkinligi (Firebase'ga qo'yiladi) |
 
 Firebase'ning bepul tarifi kuniga 50 000 o'qish va 20 000 yozishgacha ruxsat beradi. Bu bir necha o'nlab talabaga bemalol yetadi.
