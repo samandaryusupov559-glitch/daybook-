@@ -500,6 +500,7 @@ div.plan-it{cursor:default;background:var(--sheet-2)}
 .em-steps{margin:0 0 6px;padding-left:22px;display:flex;flex-direction:column;gap:10px;line-height:1.5}
 .em-steps a{color:var(--blue);font-weight:600}
 .em-pref{margin-top:18px;gap:8px}
+.em-who{margin-top:14px} .em-who summary{cursor:pointer;font-weight:600;color:var(--blue)} .em-who ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
 .mk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
 .mk-card{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s}
 .mk-card:hover{transform:translateY(-2px);box-shadow:0 18px 30px -22px var(--shadow)}
@@ -1879,7 +1880,7 @@ const vMarket = () => S.mode==='teacher' ? vMarketT() : vMarketS();
    private/mail:   {url, secret, on:{...}} teacher only. url = the teacher's Google Apps Script web app,
                    which checks the secret and sends with GmailApp, BCC to the students. */
 const MAIL_EVENTS = ['ann','post','task','prompt','review','pay','book','order'];
-const SCRIPT_SRC = secret => `// Lexora: sends emails to your students from your own Gmail.
+const SCRIPT_SRC = secret => `// Lexora email script, version 2: each student gets their own email from your Gmail.
 // 1) Paste all of this into a new project at https://script.google.com
 // 2) Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone.
 // 3) Copy the Web app URL into Lexora > Noticeboard > Email.
@@ -1889,14 +1890,15 @@ function doPost(e) {
   try {
     const d = JSON.parse(e.postData.contents);
     if (d.secret !== SECRET) return out({ ok: false, error: 'wrong secret' });
-    if (d.test && !(d.bcc || []).length) return out({ ok: true, left: MailApp.getRemainingDailyQuota() });
+    if (d.test && !(d.to || d.bcc || []).length) return out({ ok: true, v: 2, left: MailApp.getRemainingDailyQuota() });
     const ok = x => /^[^@\\s,;<>]+@[^@\\s,;<>]+\\.[^@\\s,;<>]+$/.test(x);
-    const bcc = (d.bcc || []).filter(ok).slice(0, 50);
-    if (!bcc.length) return out({ ok: false, error: 'no recipients' });
-    GmailApp.sendEmail(Session.getEffectiveUser().getEmail(), String(d.subject || '').slice(0, 200), String(d.text || '').slice(0, 10000), {
-      bcc: bcc.join(','), htmlBody: String(d.html || '').slice(0, 30000), name: String(d.from || 'Lexora').slice(0, 60)
-    });
-    return out({ ok: true, left: MailApp.getRemainingDailyQuota() });
+    const list = (d.to || d.bcc || []).filter(ok).slice(0, 50);
+    if (!list.length) return out({ ok: false, v: 2, error: 'no recipients' });
+    const subject = String(d.subject || '').slice(0, 200), text = String(d.text || '').slice(0, 10000);
+    const opts = { htmlBody: String(d.html || '').slice(0, 30000), name: String(d.from || 'Lexora').slice(0, 60) };
+    let sent = 0;
+    list.forEach(to => { GmailApp.sendEmail(to, subject, text, opts); sent++; });  // each student gets their own email
+    return out({ ok: true, v: 2, sent: sent, left: MailApp.getRemainingDailyQuota() });
   } catch (err) {
     return out({ ok: false, error: String(err) });
   }
@@ -1909,7 +1911,7 @@ const siteUrl = () => location.origin + location.pathname;
 function startMail(role){
   S.mail={url:'', secret:'', on:{}}; S.contacts={}; S.myContact=undefined;
   if(role==='teacher'){
-    S.unsubs.push(S.db.doc('private/mail').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.mail={url:d.url||'', secret:d.secret||'', on:d.on||{}}; if(S.view.name==='board') refresh(); }, ()=>{}));
+    S.unsubs.push(S.db.doc('private/mail').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.mail={url:d.url||'', secret:d.secret||'', on:d.on||{}, v:d.v||0}; S.mailOld = d.v===1; if(S.view.name==='board') refresh(); }, ()=>{}));
     S.unsubs.push(S.db.collection('contacts').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.contacts=o; }, ()=>{}));
   } else {
     S.unsubs.push(S.db.doc('contacts/'+S.uid).onSnapshot(s=>{ const first=S.myContact===undefined; S.myContact=s.exists?s.data():null; syncContact(); if(first) refreshStudent(); }, ()=>{ S.myContact=null; }));
@@ -1929,17 +1931,18 @@ async function notify(ev, who, build){
   const uids = who==='all' ? Object.keys(S.profiles) : who;
   const byLang={};
   for(const uid of uids){ const c=S.contacts[uid]; if(!c || c.off || !c.email) continue; (byLang[c.lang||'en'] ||= []).push(c.email); }
-  const langs=Object.keys(byLang); if(!langs.length) return;
+  const langs=Object.keys(byLang); if(!langs.length){ toast(tr('em.nobody')); return; }
   if(S.demo){ toast(tr('em.demo',{n:langs.reduce((a,l)=>a+byLang[l].length,0)})); return; }
   let sent=0, fail=null;
   for(const lang of langs){
     const m=withLang(lang, ()=>build(lang)), list=byLang[lang];
     for(let i=0;i<list.length;i+=50){
-      const r=await mailPost({bcc:list.slice(i,i+50), subject:m.subject, html:withLang(lang,()=>mailHtml(lang,m)), text:m.text||m.subject, from:trL(lang,'em.from',{name:S.me?.name||tr('teacher')})});
-      if(r.ok) sent+=Math.min(50,list.length-i); else fail=r.error||'error';
+      const part=list.slice(i,i+50), r=await mailPost({to:part, bcc:part, subject:m.subject, html:withLang(lang,()=>mailHtml(lang,m)), text:m.text||m.subject, from:trL(lang,'em.from',{name:S.me?.name||tr('teacher')})});
+      if(r.ok){ sent+=part.length; if(r.v!==2) S.mailOld=true; } else fail=r.error||'error';
     }
   }
-  toast(fail ? tr('em.fail') : tr('em.sent',{n:sent}));
+  toast(fail ? tr('em.fail') : S.mailOld ? tr('em.oldScript') : tr('em.sent',{n:sent}));
+  if(S.mailOld && S.mail.v!==1){ try{ await S.db.doc('private/mail').set({url:S.mail.url, secret:S.mail.secret, on:S.mail.on||{}, v:1}); }catch(e){} }
 }
 async function mailPost(body){
   try{
@@ -1964,6 +1967,8 @@ function mailCard(){
   return `<div class="section"><h2>${tr('em.h')}</h2>
   <div class="card em-card">
     <p class="muted">${ready?tr('em.ready',{n:nC,m:nS}):tr('em.p')}</p>
+    ${ready&&S.mailOld?`<div class="notice" style="margin-top:12px">${tr('em.oldH')} <button class="btn sm pen" data-act="em-setup">${tr('em.update')}</button></div>`:''}
+    ${ready?`<details class="em-who"><summary>${tr('em.whoH')}</summary><ul>${Object.entries(S.profiles).map(([uid,p])=>{ const c=S.contacts[uid]; return `<li><b>${esc(p.name||'?')}</b> <span class="small ${c?.email&&!c.off?'muted':'faint'}">${c?.email ? esc(c.email)+(c.off?' · '+tr('em.off'):'') : tr('em.noEmail')}</span></li>`; }).join('')}</ul></details>`:''}
     ${ready?`<div class="em-ev">${MAIL_EVENTS.map(ev=>`<label class="row" style="gap:8px"><input type="checkbox" data-act="em-ev" data-ev="${ev}" ${M.on[ev]!==false?'checked':''}> <span>${tr('em.ev.'+ev)}</span></label>`).join('')}</div>
       <div class="row" style="margin-top:14px"><button class="btn primary sm" data-act="em-test">${tr('em.test')}</button><button class="btn ghost sm" data-act="em-setup">${tr('em.change')}</button></div>`
     :`<button class="btn primary" data-act="em-setup">${tr('em.start')}</button>`}
@@ -1978,6 +1983,7 @@ function openMailSetup(){
         <li>${tr('em.s2',{link:'<a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">script.google.com</a>'})}</li>
         <li>${tr('em.s3')}</li>
         <li>${tr('em.s4')}</li>
+        ${M.url?`<li class="faint">${tr('em.s5')}</li>`:''}
       </ol>
       <label class="field"><span>${tr('em.url')}</span><input class="inp" id="em-url" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(M.url)}"></label>
       <p class="lg-err" id="em-err" role="alert"></p></div>
@@ -1990,12 +1996,12 @@ function openMailSetup(){
     const prev={...S.mail}; S.mail={...S.mail, url, secret};
     const r = S.demo ? {ok:true} : await mailPost({test:true});
     if(!r.ok){ S.mail=prev; btn.disabled=false; err.textContent = r.error==='wrong secret' ? tr('em.badSecret') : tr('em.noReach'); return; }
-    try{ await S.db.doc('private/mail').set({url, secret, on:S.mail.on||{}}); closeDlg(); toast(tr('em.saved')); refresh(); }catch(e2){ btn.disabled=false; dbErr(e2,'mail'); }
+    try{ await S.db.doc('private/mail').set({url, secret, on:S.mail.on||{}, v:r.v===2||S.demo?2:1}); closeDlg(); toast(tr('em.saved')); refresh(); }catch(e2){ btn.disabled=false; dbErr(e2,'mail'); }
   });
 }
 async function mailTest(){
   if(S.demo){ toast(tr('em.demo',{n:1})); return; }
-  const r=await mailPost({bcc:[S.me?.email].filter(Boolean), subject:tr('em.testSubj'), html:mailHtml(LANG,{subject:tr('em.testSubj'), lines:[tr('em.testBody')]}), text:tr('em.testBody'), from:'Lexora'});
+  const me=[S.me?.email].filter(Boolean), r=await mailPost({to:me, bcc:me, subject:tr('em.testSubj'), html:mailHtml(LANG,{subject:tr('em.testSubj'), lines:[tr('em.testBody')]}), text:tr('em.testBody'), from:'Lexora'});
   toast(r.ok ? tr('em.testOk',{email:S.me?.email||''}) : tr('em.fail'));
 }
 
@@ -2716,7 +2722,7 @@ document.addEventListener('click', async ev => {
     case 'install': doInstall(); break;
     case 'em-setup': openMailSetup(); break;
     case 'em-test': mailTest(); break;
-    case 'em-ev': { const on={...S.mail.on, [b.dataset.ev]:b.checked}; try{ await S.db.doc('private/mail').set({url:S.mail.url, secret:S.mail.secret, on}); }catch(e){ b.checked=!b.checked; dbErr(e,'mail'); } break; }
+    case 'em-ev': { const on={...S.mail.on, [b.dataset.ev]:b.checked}; try{ await S.db.doc('private/mail').set({url:S.mail.url, secret:S.mail.secret, on, v:S.mail.v||0}); }catch(e){ b.checked=!b.checked; dbErr(e,'mail'); } break; }
     case 'em-me': { const want={email:S.me?.email||'', lang:LANG, off:!b.checked}; try{ await S.db.doc('contacts/'+S.uid).set(want); toast(tr('bk.saved')); }catch(e){ b.checked=!b.checked; dbErr(e,'mail'); } break; }
     case 'mk-new': openMkItem(); break;
     case 'mk-edit': openMkItem(b.dataset.id); break;
