@@ -218,6 +218,7 @@ en: {
   "pay.none": "Your teacher hasn’t set up your payments yet.", "pay.history": "Payment history", "pay.updated": "Updated {ago}",
   "pay.allPaid": "All paid for {m}. Thank you!", "pay.owe": "Please pay {sum} for {m}.", "pay.ahead": "You have paid {sum} ahead.",
   "pay.card": "Course payment", "pay.open": "See details", "pay.carried": "includes {sum} from earlier months",
+  "em.nobody": "No student has an email on the list yet. Students are added when they sign in to Lexora.", "em.oldScript": "Sent, but your email script is the old version, so students were in hidden copy and you got the email. Update the script on the Noticeboard.", "em.oldH": "Your email script is the old version: you get a copy instead of each student getting their own email.", "em.update": "Update script", "em.whoH": "Who gets emails", "em.off": "turned emails off", "em.noEmail": "no email yet: needs to sign in once", "em.s5": "Updating? In script.google.com paste the new script over the old one, press Save, then Deploy → Manage deployments → pencil ✎ → Version: New version → Deploy. The URL stays the same.",
   /* ---------- app ---------- */
   "app.install": "Install app", "app.done": "Lexora is installed. Find it on your home screen.", "app.iosH": "Install on iPhone", "app.ios1": "Open this page in Safari and tap the Share button (the square with an arrow) at the bottom.", "app.ios2": "Scroll down and tap “Add to Home Screen”.", "app.ios3": "Tap “Add”. Lexora appears on your home screen like an app.", "app.ok": "Got it",
   /* ---------- email ---------- */
@@ -531,6 +532,7 @@ uz: {
   "pay.none": "O‘qituvchingiz hali to‘lovlaringizni kiritmagan.", "pay.history": "To‘lovlar tarixi", "pay.updated": "Yangilangan: {ago}",
   "pay.allPaid": "{m} uchun hammasi to‘langan. Rahmat!", "pay.owe": "{m} uchun {sum} to‘lashingiz kerak.", "pay.ahead": "Siz {sum} oldindan to‘lagansiz.",
   "pay.card": "Kurs to‘lovi", "pay.open": "Batafsil", "pay.carried": "oldingi oylardan {sum} bilan",
+  "em.nobody": "Ro‘yxatda hali emaili bor talaba yo‘q. Talabalar Lexora’ga kirganda qo‘shiladi.", "em.oldScript": "Yuborildi, lekin email skriptingiz eski versiya: talabalar yashirin nusxada, xat sizga keldi. Skriptni E’lonlar taxtasida yangilang.", "em.oldH": "Email skriptingiz eski versiya: har bir talabaga alohida xat o‘rniga nusxa sizga keladi.", "em.update": "Skriptni yangilash", "em.whoH": "Kimlar email oladi", "em.off": "emailni o‘chirgan", "em.noEmail": "emaili yo‘q: bir marta kirishi kerak", "em.s5": "Yangilayapsizmi? script.google.com’da yangi skriptni eskisining ustiga qo‘ying, Save ni bosing, keyin Deploy → Manage deployments → qalam ✎ → Version: New version → Deploy. URL o‘zgarmaydi.",
   /* ---------- app ---------- */
   "app.install": "Ilovani o‘rnatish", "app.done": "Lexora o‘rnatildi. U bosh ekraningizda.", "app.iosH": "iPhone’ga o‘rnatish", "app.ios1": "Bu sahifani Safari’da oching va pastdagi “Ulashish” tugmasini (strelkali kvadrat) bosing.", "app.ios2": "Pastga suring va “Добавить на экран «Домой»” / “Add to Home Screen” ni tanlang.", "app.ios3": "“Qo‘shish” ni bosing. Lexora bosh ekranda ilova kabi paydo bo‘ladi.", "app.ok": "Tushunarli",
   /* ---------- email ---------- */
@@ -843,6 +845,7 @@ ru: {
   "pay.none": "Учитель ещё не внёс ваши оплаты.", "pay.history": "История оплат", "pay.updated": "Обновлено {ago}",
   "pay.allPaid": "За {m} всё оплачено. Спасибо!", "pay.owe": "Пожалуйста, оплатите {sum} за {m}.", "pay.ahead": "Вы оплатили {sum} вперёд.",
   "pay.card": "Оплата курса", "pay.open": "Подробнее", "pay.carried": "включая {sum} с прошлых месяцев",
+  "em.nobody": "В списке пока нет учеников с почтой. Ученики добавляются, когда входят в Lexora.", "em.oldScript": "Отправлено, но скрипт почты старой версии: ученики были в скрытой копии, а письмо пришло вам. Обновите скрипт на Доске объявлений.", "em.oldH": "Скрипт почты старой версии: вместо отдельного письма каждому ученику копия приходит вам.", "em.update": "Обновить скрипт", "em.whoH": "Кто получает письма", "em.off": "отключил(а) письма", "em.noEmail": "почты нет: нужно один раз войти", "em.s5": "Обновляете? В script.google.com вставьте новый скрипт поверх старого, нажмите Save, затем Deploy → Manage deployments → карандаш ✎ → Version: New version → Deploy. URL не меняется.",
   /* ---------- app ---------- */
   "app.install": "Установить приложение", "app.done": "Lexora установлена. Она на главном экране.", "app.iosH": "Установка на iPhone", "app.ios1": "Откройте эту страницу в Safari и нажмите кнопку «Поделиться» (квадрат со стрелкой) внизу.", "app.ios2": "Прокрутите вниз и выберите «На экран „Домой“».", "app.ios3": "Нажмите «Добавить». Lexora появится на главном экране как приложение.", "app.ok": "Понятно",
   /* ---------- email ---------- */
