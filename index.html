@@ -659,6 +659,36 @@ main.enter .page-head h1::after{animation:wipe .9s .25s var(--ease) both}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* delete, ask, rating */
+.del-btn{color:var(--pen)} .del-btn svg{width:15px;height:15px}
+.del-btn[data-armed]{background:var(--pen);color:#fff}
+.danger-zone{border-top:1px dashed var(--line);padding-top:20px}
+.del-big{color:var(--pen);border-color:color-mix(in srgb,var(--pen) 40%,transparent)}
+.btn.danger{background:var(--pen);color:#fff;border-color:var(--pen)}
+.del-list{margin:8px 0 6px 18px;display:grid;gap:3px}
+.own-tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--blue-soft);color:var(--blue);vertical-align:1px}
+button.slot.ask{cursor:pointer;font:inherit;color:inherit;text-align:left;transition:transform .15s var(--ease),border-color .15s,box-shadow .15s}
+button.slot.ask:hover{transform:translateY(-2px);border-color:var(--pen);box-shadow:0 6px 18px -10px var(--pen)}
+.ask-go{font-size:13px;font-weight:700;color:var(--pen)}
+.switch-row{display:inline-flex;gap:8px;align-items:center;font-weight:600;cursor:pointer;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--sheet)}
+.rank-list{display:grid;gap:10px}
+.rank-row{display:grid;grid-template-columns:38px auto 1fr auto auto;gap:12px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:var(--sheet)}
+.rank-row.me{border-color:var(--pen);box-shadow:0 0 0 3px var(--pen-soft)}
+.rank-row.top{background:linear-gradient(90deg,color-mix(in srgb,var(--warn-soft) 70%,var(--sheet)),var(--sheet) 60%)}
+.rank-n{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font-weight:700;color:var(--ink-2);background:var(--paper,transparent);border:1px solid var(--line)}
+.medal{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font-weight:800;color:#3a2600;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+.medal.m1{background:linear-gradient(135deg,#FFE27A,#E8A800)} .medal.m2{background:linear-gradient(135deg,#F1F3F7,#AEB6C4)} .medal.m3{background:linear-gradient(135deg,#F7C8A0,#C27A3E)}
+.rank-pts{font-family:var(--f-num);font-size:22px;text-align:right;white-space:nowrap} .rank-pts span{font-size:13px;font-weight:600;color:var(--ink-3);margin-left:4px}
+.rank-row > b:not(.rank-pts){grid-column:3 / 5}
+.rank-parts{margin-top:2px}
+.rank-how ul{margin:6px 0 0 18px;display:grid;gap:4px}
+.rank-me{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:18px 22px;border-radius:20px;margin-bottom:16px;background:linear-gradient(120deg,var(--pen-soft),var(--blue-soft));}
+.rank-me b{font-family:var(--f-display);font-size:44px;font-weight:400;line-height:1;color:var(--pen)}
+.rank-chip{display:flex;align-items:center;gap:12px;width:100%;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--warn-soft) 80%,var(--sheet)),var(--sheet));font:inherit;color:var(--ink);cursor:pointer;text-align:left}
+.rank-chip svg{width:26px;height:26px;color:var(--warn)} .rank-chip span{flex:1;font-weight:600} .rank-chip b{font-family:var(--f-num)}
+.rank-chip:hover{border-color:var(--warn)}
+@media (max-width:640px){ .rank-row{grid-template-columns:34px auto 1fr auto;padding:10px 12px;gap:10px} .rank-bonus{grid-column:3;grid-row:2} .rank-row > b:not(.rank-pts){grid-column:3} }
 </style>
 </head>
 <body>
@@ -727,6 +757,8 @@ const I = {
   down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5V4.5M7 9l5-5 5 5M5 20h14"/></svg>',
   globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8.5 20.5h7M9.5 17.5h5v3h-5z"/></svg>',
   nib:'<svg class="nib" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M50 8l22 36-22 48-22-48z"/><circle cx="50" cy="52" r="5"/><path d="M50 57v35"/></svg>',
 };
 
@@ -914,6 +946,7 @@ function seedDemo(db){
   db.m.set('plans/ex-timur', {items:[{id:'j1', text:'Prepositions of time: in / on / at'}], done:{}});
   db.m.set('bookings/ex-timur', {name:'Timur (example)', items:[{id:'b1', serviceId:'s3', slotId:'t2', note:'Can my brother come too?', at:ts(0)}]});
   db.m.set('bookings/ex-aziza', {name:'Aziza (example)', items:[{id:'b2', serviceId:'s2', slotId:'t1', note:'', at:ts(1)}]});
+  db.m.set('bookings/ex-madina', {name:'Madina (example)', items:[{id:'b3', serviceId:'', want:'IELTS speaking practice', slotId:'t3', note:'Part 2 please', at:ts(0)}]});
   db.m.set('bookingStatus/ex-aziza', {b2:'ok'});
   db.m.set('private/mail', {url:'https://script.google.com/macros/s/example/exec', secret:'example', on:{}});
   db.m.set('contacts/ex-aziza', {email:'aziza@example.com', lang:'uz', off:false});
@@ -929,6 +962,8 @@ function seedDemo(db){
   db.m.set('board/pay', {methods:[{id:'m1', kind:'click', number:'+998 90 000 00 00', holder:'Teacher (example)', link:''},{id:'m2', kind:'card', number:'8600 0000 0000 0000', holder:'Teacher (example)', link:''}]});
   db.m.set('payClaims/ex-timur', {name:'Timur (example)', items:[{id:'c1', amount:300000, month:ym, method:'click', ref:'last digits 4821, 14:05', at:ts(0)}]});
   lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
+  const col = c => Object.fromEntries([...db.m.keys()].filter(k=>k.startsWith(c+'/') && k.split('/').length===2).map(k=>[k.split('/')[1], db.m.get(k)]));
+  db.m.set('board/rating', publicRating(buildRating({profiles:col('journals'), feedback:col('feedback'), plans:col('plans'), bookings:col('bookings'), bstat:col('bookingStatus'), slots:db.m.get('board/services').slots, bonus:{}}), true, {}));
 }
 
 /* ---------------- state ---------------- */
@@ -941,7 +976,7 @@ const S = {
 };
 const EDIT_VIEWS = new Set(['review','write','prompt','bank','setup','login']);
 function teardown(){ S.unsubs.forEach(u=>{try{u()}catch(e){}}); S.unsubs=[]; closePop(); closeDlg(); }
-function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name)) renderMain(); }
+function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name)) renderMain(); if(S.mode==='teacher') ratingScheduleSync(); }
 function go(name, extra={}){ closePop(); S.view={name,...extra}; renderNav(); renderMain(); window.scrollTo({top:0}); }
 
 /* ---------------- boot ---------------- */
@@ -1098,13 +1133,13 @@ function renderNav(){
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
     document.title = (waiting?`(${waiting}) `:'')+'Lexora · '+tr('title.teacher');
-    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()) + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()) + navBtn('rating',tr('rt.h'),'trophy') + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
     document.title = (unseen?`(${unseen}) `:'')+'Lexora · '+tr('title.student');
     const owe = S.myBalance && S.myBalance.left>0;
-    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + navBtn('market',tr('nav.shop'),'bag') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
+    n.innerHTML = navBtn('home',tr('nav.home'),'home',unseen) + navBtn('write',tr('nav.write'),'pen') + navBtn('mistakes',tr('nav.mistakes'),'flag') + navBtn('words',tr('nav.words'),'book',(S.myFeedback?.vocab||[]).length,true) + navBtn('learn',tr('nav.learn'),'bulb',(S.board?.posts||[]).length,true) + navBtn('book',tr('nav.book'),'spark') + (S.rating?.on!==false && (S.rating?.list||[]).length ? navBtn('rating',tr('rt.h'),'trophy') : '') + navBtn('market',tr('nav.shop'),'bag') + (S.myBalance? navBtn('pay',tr('nav.pay'),'coin',owe?'!':0,false) : '');
   }
 }
 
@@ -1165,7 +1200,7 @@ function renderMain0(){
   if(v==='login'){ m.innerHTML=vLogin(); setTimeout(()=>$('#login-email')?.focus(),50); return; }
   if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML=`<div class="loading">${tr('load.teacher')}</div>`; return; }
   if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML=`<div class="loading">${tr('load.student')}</div>`; return; }
-  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, market:vMarket, learn:vLearn, book:vBook,
+  const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, market:vMarket, learn:vLearn, book:vBook, rating:()=>S.mode==='teacher'?vRatingT():vRatingS(),
               home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay}[v];
   m.innerHTML = fn ? fn() : '';
   after[v] && after[v]();
@@ -1260,7 +1295,37 @@ function vStudent(){
     <div class="grid2 section"><div class="card"><h3>${tr('stu.trend')}</h3>${bandChart(st.pts)}</div><div class="card"><h3>${tr('stu.recur')}</h3>${errorBars(st.errs)}</div></div>
     ${planEditor(sid)}
     <div class="section"><h2>${tr('stu.entries')}</h2><div class="list">${entries.map(e=>entryCard(e)).join('') || `<p class="faint">${tr('stu.noEntries')}</p>`}</div></div>
-    <div class="section"><h2>${tr('stu.given',{name:esc((p.name||'').split(' ')[0])})}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:`<p class="small faint">${tr('stu.addWords')}</p>`}</div>`;
+    <div class="section"><h2>${tr('stu.given',{name:esc((p.name||'').split(' ')[0])})}</h2>${vocab.length?`<div class="vocab">${vocab.map(v=>`<div class="v"><span><b>${esc(v.w)}</b> <span class="muted small">— ${esc(v.m)}</span>${v.ex?`<br><span class="small faint">${esc(v.ex)}</span>`:''}</span></div>`).join('')}</div>`:`<p class="small faint">${tr('stu.addWords')}</p>`}</div>
+    <div class="section danger-zone"><h2>${tr('del.zoneH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('del.zoneP')}</p><button class="btn ghost del-big" data-act="stu-del" data-sid="${esc(sid)}">${I.trash} ${tr('del.stu')}</button></div>`;
+}
+
+/* ---------------- teacher: delete a student and everything of theirs ---------------- */
+function openDelStudent(sid){
+  const p=S.profiles[sid]; if(!p) return; const lgs=S.lg.students.find(x=>x.journalId===sid);
+  showDlg(`<form id="sd-form" novalidate>${dlgHead(tr('del.stu'), esc(p.name||tr('stu.unnamed')))}
+    <div class="dlg-body"><p>${tr('del.stuP')}</p>
+      <ul class="del-list small muted">${['del.l1','del.l2','del.l3','del.l4'].map(k=>`<li>${tr(k)}</li>`).join('')}</ul>
+      ${lgs?`<label class="small row" style="gap:8px;cursor:pointer;margin-top:4px"><input type="checkbox" id="sd-lg"> ${tr('del.alsoLg')}</label>`:''}
+      <p class="notice" style="margin-top:12px">${tr('del.back')}</p>
+      <p class="lg-err" id="sd-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn danger" id="sd-go">${I.trash} ${tr('del.stu')}</button></div></form>`, {type:'del', id:sid});
+  $('#sd-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const btn=$('#sd-go');
+    if(!btn.dataset.armed){ btn.dataset.armed='1'; btn.innerHTML=`${I.trash} ${tr('del.sure')}`; return; }
+    btn.disabled=true; btn.textContent=tr('del.working');
+    try{ await deleteStudent(sid, !!$('#sd-lg')?.checked && lgs); closeDlg(); toast(tr('del.done',{name:p.name||''})); go('students'); }
+    catch(e2){ $('#sd-err').textContent=lgErrText(e2); btn.disabled=false; btn.innerHTML=`${I.trash} ${tr('del.stu')}`; delete btn.dataset.armed; }
+  });
+}
+async function deleteStudent(sid, lgs){
+  const db=S.db;
+  for(const sub of [`journals/${sid}/entries`, `feedback/${sid}/reviews`]){ const q=await db.collection(sub).get(); for(const d of q.docs) await db.doc(sub+'/'+d.id).delete(); }
+  for(const col of ['plans','bookings','bookingStatus','payClaims','payClaimStatus','orders','orderStatus','contacts','balances','feedback']) await db.doc(col+'/'+sid).delete();
+  if(lgs){ for(const pay of S.lg.payments.filter(x=>x.studentId===lgs.id)) await db.doc('ledger/main/payments/'+pay.id).delete(); await db.doc('ledger/main/students/'+lgs.id).delete(); }
+  else { const l=S.lg.students.find(x=>x.journalId===sid); if(l){ const {id, ...rest}=l; await db.doc('ledger/main/students/'+id).set({...rest, journalId:''}); } }
+  // the journal itself goes last, so a half-finished delete can simply be repeated
+  await db.doc('journals/'+sid).delete();
+  const r=clone(S.rating); if(r?.bonus && sid in r.bonus){ delete r.bonus[sid]; S.rating=r; }
 }
 
 /* ---------------- teacher: insights ---------------- */
@@ -1654,7 +1719,7 @@ function claimsSection(){
       <div class="small muted">${tr('lg.forM',{m:esc(ymText(r.month))})} · ${esc(methodName(r.method))} · ${esc(ago(r.at))}</div>${r.ref?`<div class="small req-note">${tr('pf.ref2',{ref:esc(r.ref)})}</div>`:''}</div>
       <div class="req-act"><span class="pill bk-${r.st}">${tr('pf.st.'+r.st)}</span>${r.st==='wait'
         ?`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="pc-no" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">${tr('pf.decline')}</button><button class="btn sm primary" data-act="pc-ok" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">${tr('pf.confirm')}</button></span>`
-        :`<button class="btn sm ghost" data-act="pc-undo" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">↺ ${tr('pf.undo')}</button>`}</div></div>`; }).join('')}</div></div>`;
+        :`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="pc-undo" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}">↺ ${tr('pf.undo')}</button>${r.st==='no'?delBtn('pc-del',r.uid,r.id):''}</span>`}</div></div>`; }).join('')}</div></div>`;
 }
 function methodsSection(){
   const ms=S.payInfo.methods||[];
@@ -1675,6 +1740,18 @@ async function savePayInfo(mut, okMsg){
 async function setClaimStatus(uid, id, st){
   const cur={...(S.cstat[uid]||{})}; if(st) cur[id]=st; else delete cur[id];
   await S.db.doc('payClaimStatus/'+uid).set(cur);
+}
+/* delete one rejected/declined item: tap once to arm, tap again within 3 s to delete */
+const delBtn = (act, uid, id) => `<button class="btn sm ghost del-btn" data-act="${act}" data-uid="${esc(uid)}" data-id="${esc(id)}" aria-label="${tr('delete')}">${I.trash} <span>${tr('delete')}</span></button>`;
+function armDel(b){
+  if(b.dataset.armed) return true;
+  b.dataset.armed='1'; const sp=b.querySelector('span'); if(sp) sp.textContent=tr('del.sure');
+  setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; if(sp) sp.textContent=tr('delete'); } },3000); return false;
+}
+// removes the item from listCol/{uid}.items and its entry from statCol/{uid}
+async function dropItem(listCol, statCol, lists, stats, uid, id){
+  const L=clone(lists[uid]); if(L){ L.items=(L.items||[]).filter(x=>x.id!==id); await S.db.doc(listCol+'/'+uid).set(L); }
+  const st={...(stats[uid]||{})}; if(id in st){ delete st[id]; await S.db.doc(statCol+'/'+uid).set(st); }
 }
 function openClaimConfirm(uid, id){
   const c=(S.claims[uid]?.items||[]).find(x=>x.id===id); if(!c) return;
@@ -1784,7 +1861,7 @@ function orderRow(o, teacher){
   if(teacher){
     if(o.st==='wait') act=`<span class="row" style="gap:6px">${btn('ord-no',tr('pf.decline'))}${btn('ord-ok',total>0?tr('mk.confirmPaid'):tr('mk.accept'),'primary')}</span>`;
     else if(o.st==='paid') act=`<span class="row" style="gap:6px">${btn('ord-undo','↺')}${btn('ord-done',tr('mk.markDone'),'primary')}</span>`;
-    else act=btn('ord-undo','↺ '+tr('pf.undo'));
+    else act=o.st==='no' ? `<span class="row" style="gap:6px">${btn('ord-undo','↺ '+tr('pf.undo'))}${delBtn('ord-del',o.uid||'',o.id)}</span>` : btn('ord-undo','↺ '+tr('pf.undo'));
   } else if(o.st==='wait') act=btn('ord-cancel',tr('pf.cancel'));
   return `<div class="req ${o.st==='done'?'ok':o.st==='paid'?'ok':o.st}">${teacher?avatar(o.name,o.uid):`<span class="svc-ic sm">${I.bag}</span>`}<div style="min-width:0">
       ${teacher?`<b>${esc(o.name)}</b> <span class="faint">·</span> `:''}<b>${what}</b>${total>0?` <span class="faint">·</span> <b class="num">${som(total)}</b>`:''}
@@ -2023,6 +2100,8 @@ function startBoard(role){
   const perm = e => { if(e && e.code==='permission-denied'){ S.permErr=true; refreshAny(); } };
   S.unsubs.push(S.db.doc('board/main').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.board={ann:d.ann||[], posts:d.posts||[]}; refreshAny(); }, perm));
   S.unsubs.push(S.db.doc('board/pay').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.payInfo={methods:d.methods||[]}; refreshAny(); }, perm));
+  S.rating=undefined;
+  S.unsubs.push(S.db.doc('board/rating').onSnapshot(s=>{ S.rating=s.exists?s.data():null; refreshAny(); }, e=>{ S.rating=null; perm(e); }));
   S.unsubs.push(S.db.doc('board/services').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.svc={services:d.services||[], slots:d.slots||[]}; refreshAny(); }, perm));
   if(role==='teacher'){
     S.unsubs.push(S.db.collection('plans').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.plans=o; refreshAny(); }, perm));
@@ -2127,14 +2206,16 @@ async function savePlan(sid, mut){
 const taskMail = t => () => ({subject:`${tr('em.taskK')}: ${t.text}`, kicker:tr('em.taskK'), title:t.text, lines:[t.due?tr('em.taskDue',{d:dloc(parseDate(t.due),{weekday:'long',day:'numeric',month:'long'})}):'', t.write?tr('em.taskWrite'):'']});
 
 /* teacher: extra lessons, free times, requests */
+// what a request is for: one of the teacher's activities, or the student's own idea
+const reqWhat = (r, sv) => sv ? esc(sv.title) : r.want ? `<span class="own-tag">${tr('bk.own')}</span> ${esc(r.want)}` : '–';
 function vBookings(){
   const reqs=allRequests(), svcById=Object.fromEntries(S.svc.services.map(x=>[x.id,x])), slotById=Object.fromEntries(S.svc.slots.map(x=>[x.id,x]));
   const slots=[...S.svc.slots].sort((a,b)=>(a.date+a.from).localeCompare(b.date+b.from));
   const countFor = id => reqs.filter(r=>r.slotId===id && r.st!=='no').length;
   return `<div class="page-head"><div><h1>${tr('bk.h')}</h1><p>${tr('bk.p')}</p></div></div>${rulesNote()}
   <div class="section" style="margin-top:0"><h2>${tr('bk.reqH')}</h2>${reqs.length?`<div class="list">${reqs.map(r=>{ const sv=svcById[r.serviceId], sl=slotById[r.slotId];
-    return `<div class="req ${r.st}">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> <span class="faint">·</span> ${sv?esc(sv.title):'–'}<div class="small muted">${slotText(sl)}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
-      <div class="req-act"><span class="pill bk-${r.st}">${tr('bk.st.'+r.st)}</span>${r.st==='wait'?`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="no">${tr('bk.decline')}</button><button class="btn sm primary" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="ok">${tr('bk.confirm')}</button></span>`:`<button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="wait">↺</button>`}</div></div>`; }).join('')}</div>`:`<p class="faint">${tr('bk.noReq')}</p>`}</div>
+    return `<div class="req ${r.st}">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> <span class="faint">·</span> ${reqWhat(r,sv)}<div class="small muted">${slotText(sl)}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${r.st}">${tr('bk.st.'+r.st)}</span>${r.st==='wait'?`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="no">${tr('bk.decline')}</button><button class="btn sm primary" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="ok">${tr('bk.confirm')}</button></span>`:`<span class="row" style="gap:6px"><button class="btn sm ghost" data-act="bk-set" data-uid="${esc(r.uid)}" data-id="${esc(r.id)}" data-st="wait" aria-label="${tr('pf.undo')}">↺</button>${r.st==='no'?delBtn('bk-del',r.uid,r.id):''}</span>`}</div></div>`; }).join('')}</div>`:`<p class="faint">${tr('bk.noReq')}</p>`}</div>
   <div class="section"><h2>${tr('bk.svcH')}</h2>
     ${S.svc.services.length?`<div class="svc-grid">${S.svc.services.map(x=>svcCard(x,true)).join('')}</div>`:`<p class="faint" style="margin-bottom:12px">${tr('bk.noSvc')}</p>`}
     <button class="btn primary sm" style="margin-top:14px" data-act="svc-new">+ ${tr('bk.addSvc')}</button></div>
@@ -2178,10 +2259,11 @@ function vBook(){
   const up=upcoming();
   return `<div class="page-head"><div><h1>${tr('nav.book')}</h1><p>${tr('bk.stuP')}</p></div></div>
   ${S.svc.services.length?`<div class="svc-grid">${S.svc.services.map(x=>svcCard(x,false)).join('')}</div>`:`<div class="empty"><h3>${tr('bk.noFree')}</h3></div>`}
-  <div class="section"><h2>${tr('bk.slotH')}</h2>${up.length?`<div class="slots">${up.map(x=>`<div class="slot free"><span>${slotText(x)}</span></div>`).join('')}</div>`:`<p class="faint">${tr('bk.noFree')}</p>`}</div>
+  <div class="section ask-sec"><h2>${tr('bk.slotH')}</h2>${up.length?`<p class="muted small" style="margin:-6px 0 12px">${tr('ask.p')}</p><div class="slots">${up.map(x=>`<button class="slot free ask" data-act="ask-open" data-id="${esc(x.id)}"><span>${slotText(x)}</span><span class="ask-go">${tr('ask.go')} →</span></button>`).join('')}</div>
+    <button class="btn pen" style="margin-top:14px" data-act="ask-open">${I.spark} ${tr('ask.btn')}</button>`:`<p class="faint">${tr('bk.noFree')}</p>`}</div>
   ${mine.length?`<div class="section"><h2>${tr('bk.mine')}</h2><div class="list">${mine.map(r=>{ const st=S.myBStat?.[r.id]||'wait', sv=svcById[r.serviceId];
-    return `<div class="req ${st}"><span class="svc-ic sm">${I[SVC_IC[sv?.kind]||'bulb']}</span><div style="min-width:0"><b>${sv?esc(sv.title):'–'}</b><div class="small muted">${slotText(slotById[r.slotId])}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
-      <div class="req-act"><span class="pill bk-${st}">${tr('bk.st.'+st)}</span>${st==='wait'?`<button class="btn sm ghost" data-act="bk-cancel" data-id="${esc(r.id)}">${tr('bk.cancel')}</button>`:''}</div></div>`; }).join('')}</div></div>`:''}`;
+    return `<div class="req ${st}"><span class="svc-ic sm">${I[SVC_IC[sv?.kind]||'bulb']}</span><div style="min-width:0"><b>${reqWhat(r,sv)}</b><div class="small muted">${slotText(slotById[r.slotId])}${sv?` · ${priceText(sv.price)}`:''}</div>${r.note?`<div class="small req-note">“${esc(r.note)}”</div>`:''}</div>
+      <div class="req-act"><span class="pill bk-${st}">${tr('bk.st.'+st)}</span>${st==='wait'?`<button class="btn sm ghost" data-act="bk-cancel" data-id="${esc(r.id)}">${tr('bk.cancel')}</button>`:st==='no'?delBtn('bk-cancel',S.uid,r.id):''}</div></div>`; }).join('')}</div></div>`:''}`;
 }
 function openBook(serviceId){
   const sv=S.svc.services.find(x=>x.id===serviceId); if(!sv) return; const up=upcoming();
@@ -2199,6 +2281,93 @@ function openBook(serviceId){
     next.items.push({id:newId(), serviceId, slotId, note:$('#bk-note').value.trim(), at:nowTs()});
     try{ await S.db.doc('bookings/'+S.uid).set(next); closeDlg(); toast(tr('bk.sent')); }catch(err){ dbErr(err,'book'); }
   });
+}
+
+/* student: ask for an extra lesson or any other activity in one of the teacher's free times */
+function openAsk(slotId){
+  const up=upcoming(); if(!up.length){ toast(tr('bk.noFree')); return; }
+  const pick=up.some(x=>x.id===slotId)?slotId:up[0].id;
+  showDlg(`<form id="ask-form" novalidate>${dlgHead(tr('nav.book'), tr('ask.h'))}
+    <div class="dlg-body">
+      <label class="field"><span>${tr('ask.what')}</span><select class="inp" id="ask-svc">${S.svc.services.map(x=>`<option value="${esc(x.id)}">${esc(x.title)} · ${priceText(x.price)}</option>`).join('')}<option value="" selected>${tr('ask.other')}</option></select></label>
+      <label class="field" id="ask-want-f"><span>${tr('ask.want')}</span><input class="inp" id="ask-want" maxlength="120" placeholder="${tr('ask.wantPh')}"></label>
+      <div class="field"><span>${tr('bk.chooseSlot')}</span><div class="slot-pick">${up.map(x=>`<label class="slot pickable"><input type="radio" name="ask-slot" value="${esc(x.id)}" ${x.id===pick?'checked':''}><span>${slotText(x)}</span></label>`).join('')}</div></div>
+      <label class="field"><span>${tr('bk.note')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ask-note" maxlength="200"></label>
+      <p class="lg-err" id="ask-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen">${tr('bk.send')}</button></div></form>`, {type:'ask', id:pick});
+  const sel=$('#ask-svc'), wf=$('#ask-want-f'); const sync=()=>{ wf.hidden=!!sel.value; }; sel.addEventListener('change',sync); sync();
+  $('#ask-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const err=$('#ask-err'), serviceId=sel.value, want=serviceId?'':$('#ask-want').value.trim();
+    const slot=document.querySelector('input[name="ask-slot"]:checked')?.value;
+    if(!serviceId && !want){ err.textContent=tr('ask.need'); $('#ask-want').focus(); return; }
+    if(!slot){ err.textContent=tr('bk.anyTime'); return; }
+    const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).slice(-49); next.name=S.myProfile?.name||'';
+    const it={id:newId(), serviceId, slotId:slot, note:$('#ask-note').value.trim(), at:nowTs()}; if(want) it.want=want; next.items.push(it);
+    try{ await S.db.doc('bookings/'+S.uid).set(next); closeDlg(); toast(tr('bk.sent')); }catch(e2){ dbErr(e2,'book'); }
+  });
+}
+
+/* ---------------- rating ----------------
+   The teacher's page works out everyone's points and publishes only first names and points to
+   board/rating, so students can see where they are without seeing each other's work. */
+const RATE = {entry:10, word:50, task:5, band:10, lesson:15};
+function ratingPoints(d){
+  // d: {entries, words, tasks, band, lessons, bonus}
+  const parts = {entries:d.entries*RATE.entry, words:Math.floor(d.words/RATE.word), tasks:d.tasks*RATE.task, band:Math.round((d.band||0)*RATE.band), lessons:d.lessons*RATE.lesson, bonus:d.bonus||0};
+  return {...parts, total:Object.values(parts).reduce((a,b)=>a+b,0)};
+}
+const shortName = n => { const w=String(n||'').trim().split(/\s+/).filter(Boolean), L=(w.length>1?w[w.length-1]:'').match(/\p{L}/u); return w.length ? (L ? `${w[0]} ${L[0].toUpperCase()}.` : w[0]) : '?'; };
+// works on plain data so the example class can use it too
+function buildRating({profiles, feedback, plans, bookings, bstat, slots, bonus}){
+  const slotById=Object.fromEntries((slots||[]).map(x=>[x.id,x])), today=todayStr();
+  return Object.entries(profiles).map(([uid,p])=>{
+    const idx=Object.values(p.index||{}), fb=feedback[uid]||{};
+    const marked=Object.entries(fb.reviews||{}).filter(([,r])=>(r.status==='reviewed'||r.status==='revise') && r.overall!=null).sort((a,b)=>(p.index?.[a[0]]?.date||'').localeCompare(p.index?.[b[0]]?.date||''));
+    const done=plans[uid]?.done||{}, items=plans[uid]?.items||[];
+    const lessons=(bookings[uid]?.items||[]).filter(r=>bstat[uid]?.[r.id]==='ok' && slotById[r.slotId] && slotById[r.slotId].date<=today).length;
+    const d={entries:idx.length, words:idx.reduce((a,e)=>a+(e.words||0),0), tasks:items.filter(i=>done[i.id]).length, band:marked.length?marked[marked.length-1][1].overall:0, lessons, bonus:+(bonus||{})[uid]||0};
+    return {uid, name:p.name||'', ...d, pts:ratingPoints(d)};
+  }).sort((a,b)=>b.pts.total-a.pts.total || a.name.localeCompare(b.name));
+}
+const publicRating = (rows, on, bonus) => ({on, bonus:bonus||{}, list:rows.map(r=>({uid:r.uid, name:shortName(r.name), pts:r.pts.total}))});
+let ratingT=null;
+function ratingScheduleSync(){ clearTimeout(ratingT); ratingT=setTimeout(ratingSync, 900); }
+async function ratingSync(){
+  if(S.mode!=='teacher' || !S.loaded.p || !S.loaded.f || S.rating===undefined) return;
+  const cur=S.rating||{}, want=publicRating(teacherRating(), cur.on!==false, cur.bonus);
+  const strip = d => JSON.stringify({on:d.on!==false, bonus:d.bonus||{}, list:d.list||[]});
+  if(strip(cur)===strip(want)) return;
+  try{ await S.db.doc('board/rating').set({...want, at:Date.now()}); }catch(e){ /* old rules: shown on the Rating page */ }
+}
+const teacherRating = () => buildRating({profiles:S.profiles, feedback:S.feedback, plans:S.plans||{}, bookings:S.bookings||{}, bstat:S.bstat||{}, slots:S.svc?.slots||[], bonus:S.rating?.bonus});
+const medal = i => i<3 ? `<span class="medal m${i+1}">${i+1}</span>` : `<span class="rank-n num">${i+1}</span>`;
+function vRatingT(){
+  const rows=teacherRating(), on=S.rating?.on!==false;
+  return `<div class="page-head"><div><h1>${tr('rt.h')}</h1><p>${tr('rt.pT')}</p></div>
+    <label class="switch-row"><input type="checkbox" data-act="rt-on" ${on?'checked':''}> ${tr('rt.show')}</label></div>${rulesNote()}
+    ${rows.length?`<div class="rank-list">${rows.map((r,i)=>`<div class="rank-row ${i<3?'top':''}">${medal(i)}${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name||tr('stu.unnamed'))}</b>
+      <div class="small muted rank-parts">${tr('rt.parts',{e:r.entries,t:r.tasks,l:r.lessons,b:fmtBand(r.band||null)})}${r.bonus?` · <span style="color:var(--pen)">${tr('rt.bonusN',{n:(r.bonus>0?'+':'')+r.bonus})}</span>`:''}</div></div>
+      <span class="row rank-bonus" style="gap:4px"><button class="btn ghost sm" data-act="rt-bonus" data-uid="${esc(r.uid)}" data-n="-5" aria-label="−5">−5</button><button class="btn ghost sm" data-act="rt-bonus" data-uid="${esc(r.uid)}" data-n="5" aria-label="+5">+5</button></span>
+      <b class="rank-pts num">${r.pts.total}<span>${tr('rt.pts')}</span></b></div>`).join('')}</div>`:`<div class="empty"><h3>${tr('stu.emptyH')}</h3></div>`}
+    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
+}
+function myRank(){
+  const R=S.rating; if(!R || R.on===false || !(R.list||[]).length) return null;
+  const i=R.list.findIndex(x=>x.uid===S.uid); return i<0 ? null : {i, n:R.list.length, pts:R.list[i].pts};
+}
+function vRatingS(){
+  const R=S.rating, me=myRank();
+  const head=`<div class="page-head"><div><h1>${tr('rt.h')}</h1><p>${tr('rt.pS')}</p></div></div>`;
+  if(!R || R.on===false || !(R.list||[]).length) return head+`<div class="empty"><h3>${tr('rt.none')}</h3></div>`;
+  return head+`${me?`<div class="rank-me"><span class="label">${tr('rt.you')}</span><b class="num">#${me.i+1}</b><span>${tr('rt.of',{n:me.n})} · <b class="num">${me.pts}</b> ${tr('rt.pts')}</span></div>`:''}
+    <div class="rank-list">${R.list.map((r,i)=>`<div class="rank-row ${i<3?'top':''} ${r.uid===S.uid?'me':''}">${medal(i)}${avatar(r.name,r.uid)}<b style="min-width:0">${esc(r.name)}${r.uid===S.uid?` <span class="pill">${tr('rt.youTag')}</span>`:''}</b><b class="rank-pts num">${r.pts}<span>${tr('rt.pts')}</span></b></div>`).join('')}</div>
+    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
+}
+const rankCard = () => { const me=myRank(); return me ? `<button class="rank-chip section" data-act="go" data-v="rating">${I.trophy}<span>${tr('rt.chip',{i:me.i+1,n:me.n})}</span><b class="num">${me.pts} ${tr('rt.pts')}</b></button>` : ''; };
+async function saveRating(mut){
+  const next={on:S.rating?.on!==false, bonus:{...(S.rating?.bonus||{})}}; mut(next);
+  S.rating={...(S.rating||{}), ...next}; renderMain();
+  try{ await S.db.doc('board/rating').set({...publicRating(teacherRating(), next.on, next.bonus), at:Date.now()}); }catch(e){ dbErr(e,'board'); }
 }
 
 /* ---------------- teacher: review ---------------- */
@@ -2479,7 +2648,7 @@ function vHome(){
       <button class="btn" data-act="new-entry">${I.pen} ${wroteToday?tr('home.another'):tr('home.today')}</button></div>
     <div class="prompt-card"><span class="label">${tr('home.prompt')}</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">${tr('home.about')}</button>`:`<p class="muted">${tr('home.noPrompt')}</p>`}</div>
   </div>
-  ${payCard()}
+  ${payCard()}${rankCard()}
   ${homeBoard()}${mailPref()}
   ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>${tr('home.checked',{n:fresh.length})}</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||tr('untitled'))}</button>`).join('')}</div>`:''}
   <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${streak()}</b><span>${tr('k.streak')}</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>${tr('k.latest')}</span></div></div>
@@ -2709,7 +2878,7 @@ document.addEventListener('click', async ev => {
     // extra lessons
     case 'bk-set': { const uid=b.dataset.uid, st=b.dataset.st; try{ await S.db.doc('bookingStatus/'+uid).set({...(S.bstat[uid]||{}), [b.dataset.id]:st});
       const r=(S.bookings[uid]?.items||[]).find(x=>x.id===b.dataset.id), sv=r&&S.svc.services.find(x=>x.id===r.serviceId), sl=r&&S.svc.slots.find(x=>x.id===r.slotId);
-      if(r && st!=='wait') notify('book',[uid],()=>({subject:tr(st==='ok'?'em.bookOk':'em.bookNo',{what:sv?.title||tr('em.bookK')}), kicker:tr('em.bookK'), lines:[sl?tr('em.bookWhen',{when:slotText(sl).replace(/&[a-z]+;/g,' ')}):'']}));
+      if(r && st!=='wait') notify('book',[uid],()=>({subject:tr(st==='ok'?'em.bookOk':'em.bookNo',{what:sv?.title||r.want||tr('em.bookK')}), kicker:tr('em.bookK'), lines:[sl?tr('em.bookWhen',{when:slotText(sl).replace(/&[a-z]+;/g,' ')}):'']}));
     }catch(e){ dbErr(e,'svc'); } break; }
     case 'svc-new': openSvc(null); break;
     case 'svc-edit': openSvc(b.dataset.id); break;
@@ -2742,7 +2911,14 @@ document.addEventListener('click', async ev => {
     case 'pm-add': { const err=$('#pm-err'), number=$('#pm-num').value.trim(), link=$('#pm-link').value.trim();
       if(!number){ err.textContent=tr('pf.needNum'); break; } if(link && !safeLink(link)){ err.textContent=tr('pf.badLink'); break; }
       if(await savePayInfo(n=>{ n.methods.push({id:newId(), kind:$('#pm-kind').value, number, holder:$('#pm-holder').value.trim(), link}); }, tr('pf.saved'))) refresh(); break; }
-    case 'bk-cancel': { const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
+    case 'pc-del': { if(!armDel(b)) break; try{ await dropItem('payClaims','payClaimStatus',S.claims,S.cstat,b.dataset.uid,b.dataset.id); toast(tr('bd.deleted')); }catch(e){ dbErr(e,'payset'); } break; }
+    case 'bk-del': { if(!armDel(b)) break; try{ await dropItem('bookings','bookingStatus',S.bookings,S.bstat,b.dataset.uid,b.dataset.id); toast(tr('bd.deleted')); }catch(e){ dbErr(e,'svc'); } break; }
+    case 'ord-del': { if(!armDel(b)) break; try{ await dropItem('orders','orderStatus',S.orders,S.ostat,b.dataset.uid,b.dataset.id); toast(tr('bd.deleted')); }catch(e){ dbErr(e,'market'); } break; }
+    case 'stu-del': openDelStudent(b.dataset.sid); break;
+    case 'ask-open': openAsk(b.dataset.id); break;
+    case 'rt-on': saveRating(n=>{ n.on=b.checked; }); break;
+    case 'rt-bonus': { const uid=b.dataset.uid, d=+b.dataset.n; saveRating(n=>{ const v=(+n.bonus[uid]||0)+d; if(v) n.bonus[uid]=v; else delete n.bonus[uid]; }); break; }
+    case 'bk-cancel': { if(b.classList.contains('del-btn') && !armDel(b)) break; const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(b.classList.contains('del-btn')?tr('bd.deleted'):tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
   }
 });
 document.addEventListener('change', ev=>{
