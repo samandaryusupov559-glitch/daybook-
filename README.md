@@ -10,6 +10,7 @@ Har bir talaba faqat o'z kundaligini ko'radi. O'qituvchi hammasini ko'radi.
 
 - **Tillar:** yuqoridagi EN / UZ / RU tugmalari bilan sayt ingliz, o'zbek yoki rus tilida ochiladi. Tanlov har bir qurilmada eslab qolinadi. Tarjimalar `i18n.js` faylida.
 - **To'lovlar:** o'qituvchi sahifasidagi **To'lovlar** bo'limi (avvalgi Tuition Ledger): oylik to'lov, tushumlar, qarzlar va dars narxi kalkulyatori.
+- **Premium (Do'kon ichida):** **Kundalik gazeta** va **Mashq to'plami** (kartochkalar, viktorinalar, testlar). Ikkalasi ham har bir to'lagan talaba uchun alohida tayyorlanadi.
 - **Talaba balansi:** to'lovlardagi talabani uning kundalik akkauntiga bog'lasangiz, talaba kirganda **To'lovlarim** bo'limida o'z balansini ko'radi.
 
 Sayt Firebase'siz ham ochiladi, lekin unda faqat namunaviy sinf ko'rinadi va hech narsa saqlanmaydi.
@@ -72,7 +73,7 @@ Yangi bo'limlar (to'lovlar, e'lonlar, vazifalar, band qilish) ishlashi uchun Fir
 
 Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 
-**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (57 ta buzish urinishi, hammasi to'xtatiladi). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
+**Xavfsizlik:** talaba to'lovlarni, qarzini, narxlarni yoki band qilish holatini o'zgartira olmaydi, boshqa talabaning ma'lumotini ko'ra olmaydi. Buni `tests/rules.test.mjs` tekshiradi (86 ta tekshiruv, jumladan to'lamasdan gazeta yoki mashq to'plamini o'qishga urinishlar). Firebase → **Authentication → Users** ro'yxatida sizning emailingiz bilan faqat bitta (o'zingizning) akkaunt borligiga ishonch hosil qiling.
 
 ## Foydalanish
 
@@ -90,6 +91,10 @@ Qoidalar yangilanmaguncha tegishli sahifalarda shu haqda ogohlantirish chiqadi.
 12. **O'chirish:** rad etilgan to'lov xabarlari, rad etilgan band qilish so'rovlari va rad etilgan buyurtmalar yonida **O'chirish** tugmasi bor (ikki marta bosiladi). Ketib qolgan talabani o'chirish uchun **Talabalar → talaba → Talabani o'chirish** ni bosing: uning yozuvlari, vazifalari, so'rovlari, buyurtmalari va emaili o'chadi.
 13. **Bo'sh vaqtda so'rov:** talaba **Qo'shimcha darslar** sahifasida bo'sh vaqtingizni bosib, mashg'ulotlaringizdan birini yoki o'z taklifini (masalan, IELTS speaking) so'raydi. So'rov **Band qilish so'rovlari** ro'yxatiga tushadi.
 14. **Reyting:** **Reyting** sahifasida ballar avtomatik hisoblanadi (yozuvlar, so'zlar, bajarilgan vazifalar, oxirgi baho, kelgan qo'shimcha darslar) va siz +5 / −5 bonus bera olasiz. Talabalar faqat ism va ballarni ko'radi. **Talabalarga ko'rsatish** belgisini olib tashlasangiz, reyting yopiladi.
+
+15. **Kundalik gazeta (Do'kon → The Lexora Daily → Boshqarish):** narxi 30 kunga 50 000 so'm (**Sozlamalar**da o'zgartirasiz). Talaba to'laydi va **To'ladim** ni bosadi, siz **To'lov keldi** ni bosasiz: gazeta 30 kunga ochiladi (yana to'lasa, kunlar qo'shiladi). **Yoziladigan sonlar** jadvalida har qator — bitta o'quvchi, har katak — bir kun. Katakni bosing va o'sha o'quvchi uchun son yozing: maqolalar (kalit so'zlar va test bilan), kun so'zi, ibora, fakt, hazil, topishmoq, yozish mavzusi. Son o'sha kuni soat 07:00 da faqat o'sha o'quvchiga ochiladi; ob-havo o'zi qo'shiladi. **Boshqa talabalarga nusxalash** bir sonni bir nechta o'quvchiga beradi. **AI bilan yozish**: so'rovni nusxalab Claude'ga qo'ying, javobni qaytarib qo'ying — hafta to'ladi.
+16. **Mashq to'plami (Do'kon → Mashq to'plami → Boshqarish):** 30 kunga 50 000 so'm. Har bir to'lagan talaba uchun **Yangi to'plam** ni bosing: kartochkalar (`so'z = ma'no | misol`), viktorina yoki vaqtli test. To'plamni faqat o'sha talaba ko'radi. Natijalar va to'g'ri javoblar reytingga qo'shiladi.
+17. **Ertalabki email:** gazeta chiqqanda o'quvchiga xat borishi uchun email skriptini **3-versiyaga** yangilang (E'lonlar taxtasi → Email → Skriptni yangilash, keyin Deploy → Manage deployments → New version).
 
 ## Fayllar
 

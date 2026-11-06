@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Lexora">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..800&family=Onest:wght@400..800&family=Shantell+Sans:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..800&family=Playfair+Display:ital,wght@0,600..900;1,600..900&family=Onest:wght@400..800&family=Shantell+Sans:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a dotted ink-blue desk; exercise-book sheets with a red margin and punched holes; student writes in royal-blue handwriting, teacher marks in red pen and grades with a rubber stamp. */
 :root{
@@ -689,6 +689,195 @@ button.slot.ask:hover{transform:translateY(-2px);border-color:var(--pen);box-sha
 .rank-chip svg{width:26px;height:26px;color:var(--warn)} .rank-chip span{flex:1;font-weight:600} .rank-chip b{font-family:var(--f-num)}
 .rank-chip:hover{border-color:var(--warn)}
 @media (max-width:640px){ .rank-row{grid-template-columns:34px auto 1fr auto;padding:10px 12px;gap:10px} .rank-bonus{grid-column:3;grid-row:2} .rank-row > b:not(.rank-pts){grid-column:3} }
+
+/* ================= premium: newspaper + practice pack ================= */
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:14.5px;line-height:1.5}
+.pm-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:-6px 0 14px}
+.pm-back{padding-left:6px}
+.pm-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.pm-card{display:grid;grid-template-columns:150px minmax(0,1fr);background:var(--sheet);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--lift);transition:transform .25s var(--spring),box-shadow .25s}
+.pm-card:hover{transform:translateY(-3px)}
+.pm-art{display:grid;place-items:center;padding:16px;background:linear-gradient(160deg,color-mix(in srgb,var(--warn-soft) 80%,var(--sheet)),var(--sheet-2))}
+.pm-study .pm-art{background:linear-gradient(160deg,var(--blue-soft),color-mix(in srgb,var(--pen-soft) 60%,var(--sheet)))}
+.pm-art-news{width:100%;max-width:118px;aspect-ratio:3/4;background:#FBF8EF;color:#1b1b1b;border-radius:4px;box-shadow:0 10px 22px -12px rgba(0,0,0,.45),3px 3px 0 #e8e1cf;padding:9px 8px;display:flex;flex-direction:column;gap:5px;transform:rotate(-4deg)}
+.pm-art-news b{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:11.5px;line-height:1.05;text-align:center;border-bottom:2px double #1b1b1b;padding-bottom:4px}
+.pm-art-news i{display:block;height:30px;background:linear-gradient(135deg,#c9d7f2,#f0a2aa);border-radius:2px}
+.pm-art-news span{height:3px;background:#cfc8b6;border-radius:2px} .pm-art-news span.s{width:60%} .pm-art-news em{height:5px;width:80%;background:#1b1b1b;border-radius:2px}
+.pm-art-cards{position:relative;width:110px;height:120px}
+.pm-art-cards span{position:absolute;inset:10px 14px;display:grid;place-items:center;border-radius:12px;background:var(--sheet);border:1px solid var(--line);box-shadow:0 10px 20px -12px var(--shadow);font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--blue)}
+.pm-art-cards span:nth-child(1){transform:rotate(-12deg) translate(-12px,4px);color:var(--c-prep)} .pm-art-cards span:nth-child(2){transform:rotate(6deg) translate(10px,-2px);color:var(--pen)} .pm-art-cards span:nth-child(3){color:var(--ok)}
+.pm-card:hover .pm-art-cards span:nth-child(1){transform:rotate(-18deg) translate(-20px,6px)} .pm-card:hover .pm-art-cards span:nth-child(2){transform:rotate(12deg) translate(18px,-4px)}
+.pm-art-cards span{transition:transform .4s var(--spring)}
+.pm-body{padding:18px 20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pm-body h3{font-size:22px;line-height:1.15;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pm-feats{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:14.5px;color:var(--ink-2)}
+.pm-feats li{position:relative;padding-left:20px} .pm-feats li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
+.pm-feats.big{font-size:16px;gap:8px;margin-top:10px}
+.pm-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.pm-price{font-family:var(--f-num);font-size:24px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.pm-status{font-size:14px;font-weight:700;padding:7px 12px;border-radius:10px;background:var(--blue-soft);color:var(--blue)}
+.pm-status.ok{background:var(--ok-soft);color:var(--ok)}
+.pm-reqh{margin:22px 0 10px;font-size:18px}
+.pm-until{display:flex;flex-direction:column;align-items:flex-end;gap:4px} .pm-until b{font-family:var(--f-display);font-size:22px}
+.pm-cover{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,1fr);gap:24px;padding:24px;align-items:center}
+.pm-cover h2{font-size:26px;line-height:1.15}
+@media (max-width:640px){ .pm-card{grid-template-columns:minmax(0,1fr)} .pm-art{padding:14px 0 6px} .pm-cover{grid-template-columns:minmax(0,1fr)} }
+.nw-chip svg{color:var(--blue)!important}
+
+/* the paper itself */
+.nwp{--np:#FBF8EF;--np-ink:#1A1A1A;--np-2:#4A4A44;--np-line:#D9D2BF;background:var(--np);color:var(--np-ink);border-radius:6px;padding:22px clamp(16px,3vw,34px) 30px;
+  box-shadow:0 1px 0 var(--np-line),0 30px 60px -36px rgba(0,0,0,.45);background-image:radial-gradient(rgba(0,0,0,.025) 1px,transparent 1.2px);background-size:5px 5px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .nwp{--np:#1E1E1B;--np-ink:#EDE8DA;--np-2:#B8B2A2;--np-line:#3B3A33} }
+:root[data-theme="dark"] .nwp{--np:#1E1E1B;--np-ink:#EDE8DA;--np-2:#B8B2A2;--np-line:#3B3A33}
+.nw-mast{text-align:center;border-bottom:3px double var(--np-ink);padding-bottom:10px;margin-bottom:12px}
+.nw-ears{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--np-2);font-weight:700;border-bottom:1px solid var(--np-line);padding-bottom:8px}
+.nw-name{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:clamp(34px,6.4vw,74px);letter-spacing:-.02em;line-height:1;margin:12px 0 10px}
+.nw-dateline{display:flex;justify-content:center;gap:10px 22px;flex-wrap:wrap;border-top:1px solid var(--np-ink);padding-top:7px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.nw-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:18px}
+.nw-strip button{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;border:1px solid var(--np-line);border-radius:10px;background:transparent;color:var(--np-ink);font:inherit;cursor:pointer;transition:background .2s,transform .2s var(--spring)}
+.nw-strip button span{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--np-2);font-weight:700} .nw-strip button b{font-size:20px;font-family:"Playfair Display",Georgia,serif}
+.nw-strip button[aria-pressed="true"]{background:var(--np-ink);color:var(--np);border-color:var(--np-ink)} .nw-strip button[aria-pressed="true"] span{color:inherit;opacity:.75}
+.nw-strip button.soon{opacity:.6} .nw-strip button i svg{width:13px;height:13px} .nw-strip button em{position:absolute;top:3px;right:6px;font-style:normal;font-size:12px;color:var(--ok);font-weight:800}
+.nw-strip button.today:not([aria-pressed="true"]){border-color:var(--pen)}
+.nw-strip button:hover{transform:translateY(-2px)}
+.nw-grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px}
+@media (max-width:940px){ .nw-grid{grid-template-columns:minmax(0,1fr)} }
+.nw-lvlbar{display:flex;align-items:center;gap:10px;margin-bottom:12px} .nw-lvlbar .label{color:var(--np-2)}
+.nw-lvls{background:transparent;border-color:var(--np-line)}
+.nw-story{padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--np-line)}
+.nw-story:last-child{border-bottom:0;margin-bottom:0}
+.nw-sec{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--pen);border-bottom:2px solid var(--pen);padding-bottom:2px}
+.nw-story h2{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(23px,2.6vw,30px);line-height:1.12;letter-spacing:-.01em;margin:8px 0 6px}
+.nw-story.lead h2{font-size:clamp(28px,3.8vw,44px)}
+.nw-sub{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:18px;color:var(--np-2);line-height:1.4;margin-bottom:10px}
+.nw-img{margin:10px 0 14px} .nw-img img{width:100%;max-height:360px;object-fit:cover;border-radius:4px;filter:saturate(.9)}
+.nw-body{font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.62}
+.nw-body p+p{margin-top:.8em}
+.nw-story.lead .nw-body > p:first-child::first-letter{float:left;font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:3.4em;line-height:.85;padding:4px 8px 0 0}
+@media (min-width:1180px){ .nw-story.lead .nw-body{columns:2;column-gap:28px;column-rule:1px solid var(--np-line)} }
+.nw-say{color:var(--np-2)!important;font-size:13.5px}
+.gw{position:relative;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--sticky) 75%,transparent) 62%);cursor:help;border-radius:2px;outline:none}
+.gw::after{content:attr(data-m);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);width:max-content;max-width:240px;padding:7px 10px;border-radius:9px;background:var(--ink);color:var(--sheet);
+  font:600 14px/1.35 var(--f-ui);font-style:normal;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:5;white-space:normal;text-align:left;column-span:none}
+.gw:hover::after,.gw:focus::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.nw-gloss{margin-top:14px;padding:12px 14px;border:1px dashed var(--np-line);border-radius:8px}
+.nw-gloss > b{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--np-2)}
+.nw-gloss dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px 16px;margin-top:6px}
+.nw-gloss dt{font-weight:800;display:inline} .nw-gloss dd{display:inline;margin:0;color:var(--np-2)} .nw-gloss dd::before{content:" — "}
+.nw-quiz{margin-top:16px;padding:14px 16px 16px;border-radius:12px;background:color-mix(in srgb,var(--np-ink) 5%,transparent)}
+.nw-quiz-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px} .nw-quiz-h b{font-family:"Playfair Display",Georgia,serif;font-size:19px}
+.nw-score{font-weight:800;font-size:16px;padding:3px 11px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.nw-quiz ol{margin:0 0 12px 20px;display:grid;gap:12px} .nw-quiz li > p{font-weight:700;margin-bottom:6px}
+.nw-opts{display:flex;flex-wrap:wrap;gap:6px}
+.nw-opt{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);color:var(--ink);cursor:pointer;font-size:15.5px;transition:border-color .15s,background .15s}
+.nw-opt:hover{border-color:var(--blue)} .nw-opt input{accent-color:var(--blue)}
+.nw-opt:has(input:checked){border-color:var(--blue);background:var(--blue-soft)}
+.nw-opt.right{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:700} .nw-opt.wrong{border-color:var(--pen);background:var(--pen-soft);color:var(--pen);text-decoration:line-through}
+.nw-side{display:flex;flex-direction:column;gap:14px}
+.nw-box{padding:14px 15px;border:1px solid var(--np-line);border-radius:10px;font-size:15.5px;line-height:1.5}
+.nw-box p+p{margin-top:6px}
+.nw-boxh{display:block;font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:18px;margin-bottom:6px;border-bottom:2px solid var(--np-ink);padding-bottom:4px}
+.nw-big{display:block;font-family:"Playfair Display",Georgia,serif;font-size:28px;font-weight:800;line-height:1.1;margin-bottom:4px} .nw-big.sm{font-size:21px}
+.nw-ex{font-family:Georgia,serif;font-style:italic;color:var(--np-2)}
+.nw-box.word{background:color-mix(in srgb,var(--sticky) 22%,transparent)} .nw-box.joke{transform:rotate(-.6deg)} .nw-box.note .hand{font-size:22px}
+.nw-box details summary{cursor:pointer;font-weight:700;color:var(--blue);margin-top:6px}
+.nw-box.write .btn{margin-top:8px}
+.nw-city{border:1px solid var(--np-line);background:transparent;color:inherit;border-radius:8px;padding:3px 6px;font:inherit;font-size:13.5px}
+.nw-box.wx .row{margin-bottom:4px} .nw-box.wx .nw-boxh{border:0;margin:0;padding:0}
+.wx-now{display:flex;align-items:center;gap:10px;margin:2px 0 6px} .wx-ic{font-size:40px;line-height:1} .wx-now b{font-family:"Playfair Display",Georgia,serif;font-size:36px}
+.wx-days{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 8px} .wx-days > div{display:flex;flex-direction:column;align-items:center;padding:6px 2px;border:1px solid var(--np-line);border-radius:8px} .wx-days b{font-size:22px}
+.wx-words{font-size:14.5px}
+.nw-wait{text-align:center;padding:50px 16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.nw-wait svg{width:38px;height:38px;color:var(--np-2)} .nw-wait h3{font-family:"Playfair Display",Georgia,serif;font-size:28px;line-height:1.2}
+.nw-cover{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(220px,1fr);gap:28px;align-items:center}
+.nw-cov-h{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.08;margin:8px 0}
+.nw-inside{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.nw-inside li{display:flex;flex-direction:column;border-top:2px solid var(--np-ink);padding-top:6px} .nw-inside b{font-family:"Playfair Display",Georgia,serif;font-size:18px} .nw-inside span{color:var(--np-2);font-size:15px}
+.nw-buy{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;border:2px solid currentColor;border-radius:14px}
+.nwp .nw-buy{border-color:var(--np-ink)}
+@media (max-width:760px){ .nw-cover{grid-template-columns:minmax(0,1fr)} }
+.nw-weeknav{gap:6px} .nw-weeknav b{font-family:var(--f-display);font-size:16px;min-width:130px;text-align:center}
+.nw-days{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.nw-dcard{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--sheet)}
+.nw-dcard.today{border-color:var(--pen);box-shadow:0 0 0 3px var(--pen-soft)} .nw-dcard.st-empty{border-style:dashed;background:transparent}
+.nw-dcard .btn{margin-top:auto;align-self:flex-start}
+.nw-dhead{display:flex;justify-content:space-between;align-items:baseline} .nw-dhead b{font-family:var(--f-display);font-size:26px}
+.nw-dh{font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.nw-st{align-self:flex-start} .nw-st-out{background:var(--ok-soft);color:var(--ok)} .nw-st-soon{background:var(--blue-soft);color:var(--blue)} .nw-st-hidden{background:var(--warn-soft);color:var(--warn)} .nw-st-empty{background:var(--sheet-3);color:var(--ink-3)}
+.nw-mail{padding:16px 18px;display:flex;flex-direction:column;gap:10px;align-items:flex-start} .nw-mail h3{display:flex;gap:8px;align-items:center} .nw-mail h3 svg{width:20px}
+.nwe-tabs{flex-wrap:wrap;border-radius:16px}
+.nwe-body{margin-top:18px}
+.nwe-body .grid2 .card h3,.nwe-story h3{font-size:18px;margin-bottom:10px}
+.nwe-body .grid2 .card{display:flex;flex-direction:column;gap:10px}
+.nwe-story{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.nwe-help{margin-top:16px;padding:12px 16px} .nwe-help summary{cursor:pointer;font-weight:700}
+pre{background:var(--sheet-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;white-space:pre-wrap;font-size:13.5px;line-height:1.45;margin:8px 0;font-family:ui-monospace,Menlo,Consolas,monospace}
+
+/* practice pack */
+.st-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.st-grid.locked .st-card{opacity:.75}
+.st-card{--kc:var(--blue);position:relative;display:flex;flex-direction:column;gap:6px;padding:16px 16px 14px;border:1px solid var(--line);border-radius:18px;background:var(--sheet);overflow:hidden;transition:transform .25s var(--spring),box-shadow .25s}
+.st-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--kc)}
+.st-card:hover{transform:translateY(-3px);box-shadow:var(--lift)}
+.st-card.k-quiz{--kc:var(--c-prep)} .st-card.k-test{--kc:var(--pen)} .st-card.off{opacity:.55}
+.st-card h3{font-size:19px;line-height:1.2}
+.st-top{display:flex;justify-content:space-between;align-items:center}
+.st-kind{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--kc)} .st-kind svg{width:17px;height:17px}
+.st-prog{display:flex;align-items:center;gap:10px;margin-top:4px} .st-prog.wide{min-width:220px;flex-direction:column;align-items:flex-end;gap:6px} .st-prog.wide .goal{width:220px;flex:none}
+.st-foot{display:flex;gap:6px;justify-content:flex-end;margin-top:auto;padding-top:8px}
+.st-foot svg{width:18px;height:18px}
+.st-done{padding:30px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.st-big{font-size:46px;line-height:1}
+.st-ring{--p:0;width:118px;height:118px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--sheet-3) 0)}
+.st-ring b{display:grid;place-items:center;width:92px;height:92px;border-radius:50%;background:var(--sheet);font-size:28px;font-weight:800}
+.st-rev{margin-left:20px;display:grid;gap:10px} .st-rev li{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--sheet)} .st-rev li.ok{border-left:4px solid var(--ok)} .st-rev li.no{border-left:4px solid var(--pen)}
+.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.fc{width:min(460px,100%);aspect-ratio:3/2;border:0;padding:0;background:none;perspective:1200px;cursor:pointer;font:inherit;color:inherit}
+.fc-in{position:relative;display:block;width:100%;height:100%;transition:transform .6s var(--spring);transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);box-shadow:0 24px 50px -30px var(--shadow)}
+.fc-front{background:var(--grad-ink);color:#fff} .fc-front b{font-family:var(--f-display);font-size:clamp(26px,5vw,40px);font-weight:700;text-align:center;line-height:1.1} .fc-front i{opacity:.7;font-size:14px}
+.fc-back{background:var(--sheet);transform:rotateY(180deg)} .fc-back b{font-size:clamp(20px,3.6vw,26px);text-align:center;line-height:1.25} .fc-back em{font-family:var(--f-write);color:var(--blue);text-align:center}
+.fc-acts{display:flex;gap:10px;min-height:46px}
+.qz{padding:22px;max-width:720px} .qz-q{font-size:22px;font-weight:700;line-height:1.35;margin-bottom:16px} .qz-q.sm{font-size:18px;margin-bottom:10px}
+.qz-blank{display:inline-block;min-width:70px;border-bottom:2px solid var(--blue);color:transparent;line-height:1}
+.qz-opts{display:grid;gap:10px}
+.qz-opt{display:flex;gap:12px;align-items:center;text-align:left;padding:13px 16px;border:1px solid var(--line);border-radius:14px;background:var(--sheet);font:inherit;font-size:17px;color:var(--ink);cursor:pointer;transition:border-color .15s,transform .2s var(--spring)}
+.qz-opt b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sheet-3);font-size:14px;flex:none}
+.qz-opt:hover:not([disabled]){border-color:var(--blue);transform:translateX(3px)}
+.qz-opt.right{border-color:var(--ok);background:var(--ok-soft)} .qz-opt.right b{background:var(--ok);color:#fff}
+.qz-opt.wrong{border-color:var(--pen);background:var(--pen-soft)} .qz-opt.wrong b{background:var(--pen);color:#fff}
+.qz-opt[disabled]{cursor:default}
+.qz-gap{display:flex;gap:10px} .qz-gap .inp{font-size:18px}
+.qz-fb{margin:16px 0 12px;padding:12px 14px;border-radius:12px;animation:rise .3s var(--ease) both} .qz-fb.ok{background:var(--ok-soft);color:var(--ok)} .qz-fb.no{background:var(--pen-soft);color:var(--pen)} .qz-fb p{color:var(--ink-2);margin-top:4px}
+.ts-timer{display:flex;flex-direction:column;align-items:flex-end;padding:10px 16px;border-radius:14px;background:var(--sheet);border:1px solid var(--line);position:sticky;top:76px;z-index:3}
+.ts-timer b{font-size:28px;font-weight:800} .ts-timer.late{border-color:var(--pen);color:var(--pen);animation:breathe 1s ease-in-out infinite}
+.ts-list{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:q} .ts-list li{padding:16px 18px;counter-increment:q} .ts-list li .qz-q::before{content:counter(q)". ";color:var(--ink-3)}
+.ste-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+.ste-form{padding:18px 20px;display:flex;flex-direction:column;gap:14px} .ste-side{display:flex;flex-direction:column;gap:14px;position:sticky;top:80px} .ste-side .card{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+#ste-count.bad{color:var(--pen);font-weight:700}
+@media (max-width:900px){ .ste-grid{grid-template-columns:minmax(0,1fr)} .ste-side{position:static} }
+
+.nw-plan-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--sheet)}
+.nw-plan{width:100%;border-collapse:collapse;min-width:660px}
+.nw-plan th,.nw-plan td{padding:8px 4px;text-align:center;border-bottom:1px solid var(--line)}
+.nw-plan tr:last-child th,.nw-plan tr:last-child td{border-bottom:0}
+.nw-plan tbody th{text-align:left;padding-left:14px;min-width:210px;font-weight:400}
+.nw-plan thead th span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:700}
+.nw-plan thead th b{font-family:var(--f-display);font-size:20px} .nw-plan thead th.tdy,.nw-plan thead th.tdy span{color:var(--pen)}
+.nwc{position:relative;width:54px;height:44px;border-radius:12px;border:1.5px dashed var(--line);background:transparent;font:inherit;font-weight:800;font-size:18px;cursor:pointer;color:var(--ink-3);transition:transform .2s var(--spring),border-color .15s}
+.nwc:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.nwc.st-out{background:var(--ok-soft);color:var(--ok);border:1.5px solid transparent}
+.nwc.st-soon{background:var(--blue-soft);color:var(--blue);border:1.5px solid transparent;font-size:12.5px}
+.nwc.st-hidden{background:var(--warn-soft);color:var(--warn);border-style:solid}
+.nwc.tdy{box-shadow:0 0 0 2px var(--pen)}
+.nwc i{position:absolute;top:2px;right:6px;font-size:10.5px;font-style:normal;opacity:.75}
+td.nwc.off{color:var(--ink-3);font-size:18px}
+.nw-legend{margin-top:8px}
+.st-stu{margin-top:28px}
+.st-stu-h{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap} .st-stu-h > div{flex:1;min-width:180px} .st-stu-h h3{font-size:21px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ste-side h3 svg,.nw-mail h3 svg{width:20px;height:20px;flex:none} .ste-side h3{display:flex;gap:8px;align-items:center}
+.page-head > div > .label{display:flex;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -759,6 +948,9 @@ const I = {
   globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
   trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg>',
   trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8.5 20.5h7M9.5 17.5h5v3h-5z"/></svg>',
+  paper:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v13.5A1.5 1.5 0 0 0 18.5 20H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v9.5a1.5 1.5 0 0 1-3 0M7.5 8.5h6M7.5 12h6M7.5 15.5h4"/></svg>',
+  cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="7" y="3.5" width="13" height="16" rx="2.2" transform="rotate(8 13.5 11.5)"/><rect x="4" y="5" width="13" height="16" rx="2.2"/><path d="M8 11.5h5M8 14.5h3" stroke-linecap="round"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>',
   nib:'<svg class="nib" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M50 8l22 36-22 48-22-48z"/><circle cx="50" cy="52" r="5"/><path d="M50 57v35"/></svg>',
 };
 
@@ -832,9 +1024,9 @@ class MemDB{
   doc(p){ return new MemDoc(this,p); }
   collection(p){ return new MemCol(this,p); }
   snap(p){ const v=this.m.get(p); return {id:p.split('/').pop(), exists:v!==undefined, data:()=>clone(v), metadata:{}}; }
-  colSnap(p){ const docs=[]; for(const k of this.m.keys()){ if(k.slice(0,k.lastIndexOf('/'))===p) docs.push(this.snap(k)); } return {docs,size:docs.length,empty:!docs.length,docChanges:()=>[],metadata:{}}; }
-  notify(p){ const parent=p.slice(0,p.lastIndexOf('/')); for(const l of this.L){ if(l.doc && l.p===p) l.next(this.snap(p)); if(!l.doc && l.p===parent) l.next(this.colSnap(parent)); } }
-  listen(l){ this.L.add(l); setTimeout(()=>{ if(this.L.has(l)) l.next(l.doc?this.snap(l.p):this.colSnap(l.p)); },0); return ()=>this.L.delete(l); }
+  colSnap(p,f,v){ const docs=[]; for(const k of this.m.keys()){ if(k.slice(0,k.lastIndexOf('/'))===p && (!f || (this.m.get(k)||{})[f]===v)) docs.push(this.snap(k)); } return {docs,size:docs.length,empty:!docs.length,docChanges:()=>[],metadata:{}}; }
+  notify(p){ const parent=p.slice(0,p.lastIndexOf('/')); for(const l of this.L){ if(l.doc && l.p===p) l.next(this.snap(p)); if(!l.doc && l.p===parent) l.next(this.colSnap(parent,l.f,l.v)); } }
+  listen(l){ this.L.add(l); setTimeout(()=>{ if(this.L.has(l)) l.next(l.doc?this.snap(l.p):this.colSnap(l.p,l.f,l.v)); },0); return ()=>this.L.delete(l); }
 }
 function deepMerge(a,b){ const o=clone(a)||{}; for(const [k,v] of Object.entries(b)){ o[k] = (v && typeof v==='object' && !Array.isArray(v) && o[k] && typeof o[k]==='object' && !Array.isArray(o[k])) ? deepMerge(o[k],v) : clone(v); } return o; }
 class MemDoc{
@@ -851,6 +1043,7 @@ class MemCol{
   doc(id){ return new MemDoc(this.db,this.path+'/'+(id||newId())); }
   async get(){ return this.db.colSnap(this.path); }
   onSnapshot(next){ return this.db.listen({doc:false,p:this.path,next}); }
+  where(f,v){ return {get:async()=>this.db.colSnap(this.path,f,v), onSnapshot:next=>this.db.listen({doc:false,p:this.path,next,f,v})}; }
 }
 
 /* ---------------- example class ---------------- */
@@ -962,8 +1155,9 @@ function seedDemo(db){
   db.m.set('board/pay', {methods:[{id:'m1', kind:'click', number:'+998 90 000 00 00', holder:'Teacher (example)', link:''},{id:'m2', kind:'card', number:'8600 0000 0000 0000', holder:'Teacher (example)', link:''}]});
   db.m.set('payClaims/ex-timur', {name:'Timur (example)', items:[{id:'c1', amount:300000, month:ym, method:'click', ref:'last digits 4821, 14:05', at:ts(0)}]});
   lst.filter(x=>x.journalId).forEach(x=>db.m.set('balances/'+x.journalId, balanceDoc({...x,end:''}, ex.payments, ym)));
+  seedPremium(db);
   const col = c => Object.fromEntries([...db.m.keys()].filter(k=>k.startsWith(c+'/') && k.split('/').length===2).map(k=>[k.split('/')[1], db.m.get(k)]));
-  db.m.set('board/rating', publicRating(buildRating({profiles:col('journals'), feedback:col('feedback'), plans:col('plans'), bookings:col('bookings'), bstat:col('bookingStatus'), slots:db.m.get('board/services').slots, bonus:{}}), true, {}));
+  db.m.set('board/rating', publicRating(buildRating({profiles:col('journals'), feedback:col('feedback'), plans:col('plans'), bookings:col('bookings'), bstat:col('bookingStatus'), slots:db.m.get('board/services').slots, bonus:{}, scores:col('passScores')}), true, {}));
 }
 
 /* ---------------- state ---------------- */
@@ -974,9 +1168,9 @@ const S = {
   myProfile:undefined, myEntries:{}, myFeedback:null, myReviews:{}, myBalance:undefined, edit:null,
   lg:{settings:{fee:600000,lessons:12,minutes:80}, draft:null, students:[], payments:[], bal:{}, month:curYM(), filter:'all', q:'', loaded:{}, err:null},
 };
-const EDIT_VIEWS = new Set(['review','write','prompt','bank','setup','login']);
+const EDIT_VIEWS = new Set(['review','write','prompt','bank','setup','login','newsEdit','setEdit']);
 function teardown(){ S.unsubs.forEach(u=>{try{u()}catch(e){}}); S.unsubs=[]; closePop(); closeDlg(); }
-function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name)) renderMain(); if(S.mode==='teacher') ratingScheduleSync(); }
+function refresh(){ renderTop(); renderNav(); if(!EDIT_VIEWS.has(S.view.name) && !busyNow()) renderMain(); if(S.mode==='teacher') ratingScheduleSync(); }
 function go(name, extra={}){ closePop(); S.view={name,...extra}; renderNav(); renderMain(); window.scrollTo({top:0}); }
 
 /* ---------------- boot ---------------- */
@@ -998,6 +1192,7 @@ class FireCol{
   doc(id){ return new FireDoc(this.db,this.path+'/'+(id||newId())); }
   async get(){ const q=await this.db.api.getDocs(this.ref); return {docs:q.docs.map(wrapSnap)}; }
   onSnapshot(next,err){ return this.db.api.onSnapshot(this.ref, q=>next({docs:q.docs.map(wrapSnap)}), err); }
+  where(f,v){ const a=this.db.api, q=a.query(this.ref, a.where(f,'==',v)); return {get:async()=>({docs:(await a.getDocs(q)).docs.map(wrapSnap)}), onSnapshot:(next,err)=>a.onSnapshot(q, x=>next({docs:x.docs.map(wrapSnap)}), err)}; }
 }
 
 /* ---------------- boot + sign-in ---------------- */
@@ -1084,7 +1279,7 @@ function startTeacher(){
   S.unsubs.push(S.db.collection('feedback').onSnapshot(s=>{ const f={}; s.docs.forEach(d=>{ if(d.exists) f[d.id]=d.data(); }); S.feedback=f; S.loaded.f=true; checkNewEntries(); refresh(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refresh(); }, onErr));
   S.db.doc('teacher/prefs').get().then(s=>{ S.prefs = s.exists? s.data(): {bank:DEFAULT_BANK.slice()}; }).catch(()=>{ S.prefs={bank:DEFAULT_BANK.slice()}; });
-  startLedger(); startBoard('teacher'); startMarket('teacher'); startMail('teacher');
+  startLedger(); startBoard('teacher'); startMarket('teacher'); startMail('teacher'); startPremium('teacher');
   refresh(); renderMain();
 }
 function startStudent(){
@@ -1096,13 +1291,13 @@ function startStudent(){
   S.unsubs.push(S.db.doc(`feedback/${u}`).onSnapshot(s=>{ S.myFeedback = s.exists? s.data(): null; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.collection(`feedback/${u}/reviews`).onSnapshot(s=>{ const r={}; s.docs.forEach(d=>{ if(d.exists) r[d.id]=d.data(); }); S.myReviews=r; refreshStudent(); }, onErr));
   S.unsubs.push(S.db.doc('settings/prompt').onSnapshot(s=>{ S.prompt = s.exists? s.data(): null; refreshStudent(); }, onErr));
-  startBoard('student'); startMarket('student'); startMail('student');
+  startBoard('student'); startMarket('student'); startMail('student'); startPremium('student');
   refresh(); renderMain();
 }
 function refreshStudent(){
   renderTop(); renderNav();
   if(S.view.name==='setup' && S.myProfile===null && $('#setup-name')) return;
-  if(!EDIT_VIEWS.has(S.view.name) || (S.view.name==='setup')) renderMain();
+  if((!EDIT_VIEWS.has(S.view.name) && !busyNow()) || (S.view.name==='setup')) renderMain();
 }
 
 /* ---------------- top + nav ---------------- */
@@ -1124,7 +1319,8 @@ function renderTop(){
   const langs = `<div class="seg lang" role="group" aria-label="${tr('lang.label')}"><span class="lang-ic" aria-hidden="true">${I.globe}</span>${LANGS.map(l=>`<button data-act="lang" data-l="${l.k}" aria-pressed="${l.k===LANG}" title="${l.full}" lang="${l.k}">${l.n}</button>`).join('')}</div>`;
   $('#top').innerHTML = `<div class="brand"><span class="mark" aria-hidden="true">${I.pen}</span><span class="logo">Lex<i>ora</i></span><span class="sub">${S.view.name==='login'?tr('sub.login'):S.mode==='teacher'?tr('sub.teacher'):tr('sub.student')}</span></div>${installBtn()}${langs}${right}`;
 }
-function navBtn(name,label,icon,count,dim){ const cur = S.view.name===name || (name==='students' && S.view.name==='student') || (name==='inbox' && S.view.name==='review') || (name==='home' && S.view.name==='entry');
+const PM_VIEWS = new Set(['news','newsEdit','study','set','setEdit']);
+function navBtn(name,label,icon,count,dim){ const cur = S.view.name===name || (name==='students' && S.view.name==='student') || (name==='inbox' && S.view.name==='review') || (name==='home' && S.view.name==='entry') || (name==='market' && PM_VIEWS.has(S.view.name));
   return `<button data-act="go" data-v="${name}" ${cur?'aria-current="page"':''}>${I[icon]}<span>${label}</span>${count?`<span class="cnt ${dim?'dim':''}">${count}</span>`:''}</button>`; }
 function renderNav(){
   const n=$('#nav');
@@ -1133,7 +1329,7 @@ function renderNav(){
   if(S.mode==='teacher'){
     const waiting = allEntries().filter(e=>e.status==='submitted').length;
     document.title = (waiting?`(${waiting}) `:'')+'Lexora · '+tr('title.teacher');
-    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()) + navBtn('rating',tr('rt.h'),'trophy') + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
+    n.innerHTML = navBtn('inbox',tr('nav.inbox'),'inbox',waiting) + navBtn('students',tr('nav.students'),'people',Object.keys(S.profiles).length,true) + navBtn('ledger',tr('nav.ledger'),'coin',pendingClaims()||lgOwing(),!pendingClaims()) + navBtn('bookings',tr('nav.book'),'spark',pendingRequests()) + navBtn('market',tr('nav.shop'),'bag',pendingOrders()+pendingPasses()) + navBtn('rating',tr('rt.h'),'trophy') + navBtn('board',tr('nav.board'),'flag') + navBtn('insights',tr('nav.insights'),'chart') + navBtn('prompt',tr('nav.prompt'),'bulb') + navBtn('bank',tr('nav.bank'),'bank') +
       `<div class="nav-foot">${tr('nav.foot')}</div>`;
   } else {
     const unseen = studentEntries().filter(e=>e.isNew).length;
@@ -1201,11 +1397,17 @@ function renderMain0(){
   if(S.mode==='teacher' && !(S.loaded.p && S.loaded.f)){ m.innerHTML=`<div class="loading">${tr('load.teacher')}</div>`; return; }
   if(S.mode==='student' && S.myProfile===undefined){ m.innerHTML=`<div class="loading">${tr('load.student')}</div>`; return; }
   const fn = {inbox:vInbox, students:vStudents, student:vStudent, insights:vInsights, prompt:vPrompt, bank:vBank, review:vReview, ledger:vLedger, board:vBoard, bookings:vBookings, market:vMarket, learn:vLearn, book:vBook, rating:()=>S.mode==='teacher'?vRatingT():vRatingS(),
-              home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay}[v];
+              home:vHome, write:vWrite, entry:vEntry, mistakes:vMistakes, words:vWords, setup:vSetup, pay:vPay,
+              news:vNews, newsEdit:vNewsEdit, study:vStudy, set:vSet, setEdit:vSetEdit}[v];
   m.innerHTML = fn ? fn() : '';
   after[v] && after[v]();
 }
-const after = {};
+const after = {
+  news:()=>{ if($('#nw-wx')) nwFillWeather(); nwArmTimer(); },
+  newsEdit:()=>{ if($('#nw-wx')) nwFillWeather(); },
+  set:()=>{ tsTick(); setTimeout(()=>{ const i=$('#qz-in'); if(i && !i.disabled && !matchMedia('(hover:none)').matches) i.focus(); },30); },
+  setEdit:()=>steCount(),
+};
 
 /* ---------------- teacher: inbox ---------------- */
 function entryCard(e, teacher=true){
@@ -1320,7 +1522,9 @@ function openDelStudent(sid){
 async function deleteStudent(sid, lgs){
   const db=S.db;
   for(const sub of [`journals/${sid}/entries`, `feedback/${sid}/reviews`]){ const q=await db.collection(sub).get(); for(const d of q.docs) await db.doc(sub+'/'+d.id).delete(); }
-  for(const col of ['plans','bookings','bookingStatus','payClaims','payClaimStatus','orders','orderStatus','contacts','balances','feedback']) await db.doc(col+'/'+sid).delete();
+  for(const d of (await db.collection('newsDays').where('uid',sid).get()).docs) await db.doc('newsDays/'+d.id).delete();
+  for(const x of (S.stIdx?.[sid]?.sets||[])) await db.doc('study/'+x.id).delete();
+  for(const col of ['plans','bookings','bookingStatus','payClaims','payClaimStatus','orders','orderStatus','contacts','balances','feedback','passes','passOrders','passScores','studyIndex']) await db.doc(col+'/'+sid).delete();
   if(lgs){ for(const pay of S.lg.payments.filter(x=>x.studentId===lgs.id)) await db.doc('ledger/main/payments/'+pay.id).delete(); await db.doc('ledger/main/students/'+lgs.id).delete(); }
   else { const l=S.lg.students.find(x=>x.journalId===sid); if(l){ const {id, ...rest}=l; await db.doc('ledger/main/students/'+id).set({...rest, journalId:''}); } }
   // the journal itself goes last, so a half-finished delete can simply be repeated
@@ -1875,7 +2079,8 @@ function orderRow(o, teacher){
 function vMarketT(){
   const ords=allOrders().filter(o=>o.st==='wait'||o.st==='paid'||(Date.now()-(o.at||0))<60*864e5);
   return `<div class="page-head"><div><h1>${tr('mk.h')}</h1><p>${tr('mk.p')}</p></div><button class="btn primary" data-act="mk-new">+ ${tr('mk.add')}</button></div>${rulesNote()}
-  <div class="section" style="margin-top:0"><h2>${tr('mk.ordersH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('pf.claimsP')}</p>
+  ${pmShopT()}
+  <div class="section"><h2>${tr('mk.ordersH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('pf.claimsP')}</p>
     ${ords.length?`<div class="list">${ords.map(o=>orderRow(o,true)).join('')}</div>`:`<p class="faint">${tr('mk.noOrders')}</p>`}</div>
   <div class="section"><h2>${tr('mk.itemsH')}</h2>${S.market.items.length?`<div class="mk-grid">${S.market.items.map(x=>mkCard(x,true)).join('')}</div>`:`<p class="faint">${tr('mk.noItemsT')}</p>`}</div>`;
 }
@@ -1924,9 +2129,11 @@ function openOrderOk(uid, id){
 /* student */
 function vMarketS(){
   const items=S.market.items.filter(x=>x.active!==false), mine=(S.myOrders?.items||[]).slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(o=>{ const s=S.myOStat?.[o.id]; return {...o, st:ordSt(s), msg:s?.msg||''}; });
+  const pm=pmShopS(), pmMine=myPassOrders().slice(0,6);
   return `<div class="page-head"><div><h1>${tr('mk.h')}</h1><p>${tr('mk.stuP')}</p></div></div>${rulesNote()}
-  ${items.length?`<div class="mk-grid">${items.map(x=>mkCard(x,false)).join('')}</div>`:`<div class="empty"><h3>${tr('mk.noItems')}</h3></div>`}
-  ${mine.length?`<div class="section"><h2>${tr('mk.mine')}</h2><div class="list">${mine.map(o=>orderRow(o,false)).join('')}</div></div>`:''}`;
+  ${pm}
+  ${items.length?`${pm?`<div class="section"><h2>${tr('pm.more')}</h2>`:'<div>'}<div class="mk-grid">${items.map(x=>mkCard(x,false)).join('')}</div></div>`:pm?'':`<div class="empty"><h3>${tr('mk.noItems')}</h3></div>`}
+  ${mine.length||pmMine.length?`<div class="section"><h2>${tr('mk.mine')}</h2><div class="list">${pmMine.map(o=>poRow(o,false)).join('')}${mine.map(o=>orderRow(o,false)).join('')}</div></div>`:''}`;
 }
 function openBuy(itemId){
   const it=mkItem(itemId); if(!it || it.active===false) return; const price=+it.price||0, ms=S.payInfo.methods||[];
@@ -1952,12 +2159,1064 @@ function openBuy(itemId){
 }
 const vMarket = () => S.mode==='teacher' ? vMarketT() : vMarketS();
 
+/* ================= premium products sold in the Shop: the daily newspaper and the practice pack =================
+   Both are made by the teacher for each paying student personally.
+   premium/main         {news:{on,name,price,days,hour,city}, study:{on,price,days}}   prices and settings; everyone signed in reads it
+   passOrders/{uid}     {name, items:[{id, kind:'news'|'study', method, ref, price, at}]}   the student's own "I paid" requests
+   passes/{uid}         {name, news:{until,hist:[{oid,at,amount,days}]}, study:{until,hist:[...]}, no:{[oid]:at}}
+                        teacher only: who may read what, and until when. A request is "confirmed" when its oid is in hist.
+   newsDays/{uid}_{date} {uid, date, week, on, releaseAt, extras:{...}, stories:[...]}   one student's issue for one day.
+                        That student can open it from releaseAt on, while passes/{uid}.news.until is in the future.
+   study/{id}           {id, uid, kind:'cards'|'quiz'|'test', title, level, desc, mins, cards:[{f,b,ex}] | qs:[...]}
+                        one student's set; they can open it while passes/{uid}.study.until is in the future.
+   studyIndex/{uid}     {sets:[{id,kind,title,level,desc,n,mins,on}]}   the list of a student's sets (teacher writes)
+   passScores/{uid}     {name, news:{[date]:{[storyId]:{a,s,n,at}}}, study:{[id]:{best,last,n,tries,at}}, cards:{[id]:{[i]:box}}} */
+const NW_TZ = 5, NW_NEVER = 8.64e15, DAY = 864e5;   // the paper runs on Tashkent time (UTC+5, no summer time)
+const ymdU = t => { const d=new Date(t); return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()); };
+const tkToday = () => ymdU(Date.now()+NW_TZ*36e5);
+const dAdd = (s,n) => { const [y,m,d]=s.split('-').map(Number); return ymdU(Date.UTC(y,m-1,d+n)); };
+const weekOf = s => { const [y,m,d]=s.split('-').map(Number); return dAdd(s, -((new Date(Date.UTC(y,m-1,d)).getUTCDay()+6)%7)); };
+const weekDays = w => [0,1,2,3,4,5,6].map(i=>dAdd(w,i));
+const releaseMs = (date,hour) => { const [y,m,d]=date.split('-').map(Number); return Date.UTC(y,m-1,d)+((+hour||0)-NW_TZ)*36e5; };
+const isYMD = s => /^\d{4}-\d{2}-\d{2}$/.test(s||'');
+const weekLabel = w => isYMD(w) ? `${fmtDate(w,{day:'numeric',month:'short'})} – ${fmtDate(dAdd(w,6),{day:'numeric',month:'short'})}` : '–';
+const hh = h => pad(+h||0)+':00';
+const dateLong = s => cap(dloc(parseDate(s),{weekday:'long',day:'numeric',month:'long'}));
+const enDate = (s,o) => parseDate(s).toLocaleDateString('en-GB',o);
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const str = (v,n=400) => String(v??'').trim().slice(0,n);
+
+const PM_DEF = {news:{on:true, name:'The Lexora Daily', price:50000, days:30, hour:7, city:'tashkent'}, study:{on:true, price:50000, days:30}};
+function pmInfo(){ const p=S.pm||{}; return {news:{...PM_DEF.news, ...(p.news||{})}, study:{...PM_DEF.study, ...(p.study||{})}}; }
+async function savePm(mut, okMsg){
+  const next=clone(S.pm)||{}; mut(next);
+  try{ await S.db.doc('premium/main').set(next); S.pm=next; if(okMsg) toast(okMsg); return true; }catch(e){ dbErr(e,'premium'); return false; }
+}
+
+/* ---------- live data ---------- */
+function startPremium(role){
+  S.pm=null; S.pOrders={}; S.passes={}; S.pScores={}; S.stIdx={}; S.pmL={}; S.myPOrders=null; S.myPass=null; S.myScores=null; S.myIdx=null;
+  S.nwDays={}; S.nwWatch=new Set(); S.nwWeeks=new Set(); S.stSets={}; S.stWatch=new Set(); S.nwSel={}; S.fc=null; S.quiz=null; S.test=null;
+  const perm = e => { if(e && e.code==='permission-denied'){ S.permErr=true; refreshAny(); } };
+  S.unsubs.push(S.db.doc('premium/main').onSnapshot(s=>{ S.pm=s.exists?s.data():{}; pmChanged(); }, perm));
+  if(role==='teacher'){
+    for(const [c,k] of [['passOrders','pOrders'],['passes','passes'],['passScores','pScores'],['studyIndex','stIdx']])
+      S.unsubs.push(S.db.collection(c).onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S[k]=o; S.pmL[k]=true; pmChanged(); }, perm));
+    const w=weekOf(tkToday()); nwWatchWeek(w); nwWatchWeek(dAdd(w,7));
+  } else {
+    const u=S.uid;
+    for(const [c,k] of [['passOrders','myPOrders'],['passes','myPass'],['passScores','myScores'],['studyIndex','myIdx']])
+      S.unsubs.push(S.db.doc(`${c}/${u}`).onSnapshot(s=>{ S[k]=s.exists?s.data():null; pmChanged(); }, ()=>{ S[k]=null; }));
+  }
+}
+let pmT=null;
+function pmChanged(){ refreshAny(); if(S.mode==='teacher'){ clearTimeout(pmT); pmT=setTimeout(nwMailSync, 2500); } }
+const nwId = (uid,date) => uid+'_'+date;
+// student: their own issue for one day (the server refuses it until it is out, so a refusal just means "not yet")
+function nwWatchDay(date){
+  const id=nwId(S.uid,date); if(S.nwWatch.has(id)) return; const x=S.nwDays[id]; if(x && x.st==='locked' && Date.now()-x.at<60000) return;
+  S.nwWatch.add(id);
+  S.unsubs.push(S.db.doc('newsDays/'+id).onSnapshot(s=>{ S.nwDays[id]=s.exists?{st:'ok',d:s.data()}:{st:'none'}; pmChanged(); },
+    ()=>{ S.nwDays[id]={st:'locked',at:Date.now()}; S.nwWatch.delete(id); pmChanged(); }));
+}
+// teacher: every student's issues of one week
+function nwWatchWeek(w){
+  if(S.nwWeeks.has(w)) return; S.nwWeeks.add(w);
+  S.unsubs.push(S.db.collection('newsDays').where('week', w).onSnapshot(q=>{
+    for(const k of Object.keys(S.nwDays)) if(S.nwDays[k].d?.week===w) delete S.nwDays[k];
+    q.docs.forEach(d=>{ if(d.exists) S.nwDays[d.id]={st:'ok', d:d.data()}; }); S.pmL['w'+w]=true; pmChanged(); }, ()=>{ S.nwWeeks.delete(w); }));
+}
+function stWatch(id){
+  if(S.stWatch.has(id)) return; const x=S.stSets[id]; if(x && x.st==='locked' && Date.now()-x.at<60000) return;
+  S.stWatch.add(id);
+  S.unsubs.push(S.db.doc('study/'+id).onSnapshot(s=>{ S.stSets[id]=s.exists?{st:'ok',d:s.data()}:{st:'none'}; pmChanged(); },
+    ()=>{ S.stSets[id]={st:'locked',at:Date.now()}; S.stWatch.delete(id); pmChanged(); }));
+}
+// what a student may see (the security rules do the same on the server; the example class has no server)
+const passUntil = (p, k) => +(p?.[k]?.until)||0;
+const studyUntil = p => passUntil(p,'study'), newsUntil = p => passUntil(p,'news');
+const hasNews = () => S.mode==='teacher' || newsUntil(S.myPass)>Date.now();
+const hasStudy = () => S.mode==='teacher' || studyUntil(S.myPass)>Date.now();
+const pmDays = k => Math.max(1, +pmInfo()[k].days || 30);
+const pmName = k => k==='news' ? pmInfo().news.name : tr('st.name');
+const dayMonth = ms => dloc(new Date(ms),{day:'numeric',month:'long'});
+function nwDay(id){
+  const x=S.nwDays[id]; if(!x) return {st: S.mode==='teacher' && S.pmL['w'+weekOf(id.slice(-10))] ? 'none' : 'wait'};
+  if(S.mode==='student' && x.st==='ok' && !((+x.d.releaseAt||NW_NEVER)<=Date.now() && hasNews())) return {st:'locked'};
+  return x;
+}
+function stSet(id){ const x=S.stSets[id]; if(!x) return {st:'wait'}; if(S.mode==='student' && x.st==='ok' && !hasStudy()) return {st:'locked'}; return x; }
+
+const nwReady = d => !!d && d.on!==false && (d.stories||[]).length>0;
+
+async function pmSaveScores(mut){
+  if(S.mode!=='student') return;
+  const next=clone(S.myScores)||{}; next.name=S.myProfile?.name||''; next.news=next.news||{}; next.study=next.study||{}; next.cards=next.cards||{};
+  mut(next);
+  const keep=Object.keys(next.news).sort().slice(-60); next.news=Object.fromEntries(keep.map(k=>[k,next.news[k]]));
+  S.myScores=next;
+  try{ await S.db.doc('passScores/'+S.uid).set(next); }catch(e){ dbErr(e,'score'); }
+}
+
+/* ---------- requests and access ---------- */
+function poStatus(pass, it){
+  if(pass?.no?.[it.id]) return 'no';
+  return (pass?.[it.kind]?.hist||[]).some(h=>h.oid===it.id) ? 'ok' : 'wait';
+}
+function allPassOrders(){
+  const out=[];
+  for(const [uid,c] of Object.entries(S.pOrders||{})) for(const it of (c.items||[])) out.push({...it, uid, name:S.profiles[uid]?.name||c.name||'?', st:poStatus(S.passes[uid],it)});
+  return out.sort((a,b)=>(a.st==='wait'?0:1)-(b.st==='wait'?0:1) || (b.at||0)-(a.at||0));
+}
+const pendingPasses = () => S.mode==='teacher' ? allPassOrders().filter(o=>o.st==='wait').length : 0;
+const myPassOrders = () => (S.myPOrders?.items||[]).map(it=>({...it, st:poStatus(S.myPass,it)})).sort((a,b)=>(b.at||0)-(a.at||0));
+const pmPrice = k => k==='news' ? pmInfo().news.price : pmInfo().study.price;
+const pmWhat = o => `${esc(pmName(o.kind))} · ${esc(tr('st.days',{n:pmDays(o.kind)}))}`;
+function poRow(o, teacher){
+  const btn=(act,label,cls='ghost')=>`<button class="btn sm ${cls}" data-act="${act}" data-uid="${esc(o.uid||'')}" data-id="${esc(o.id)}">${label}</button>`;
+  let act='';
+  if(teacher) act = o.st==='wait' ? `<span class="row" style="gap:6px">${btn('po-no',tr('pf.decline'))}${btn('po-ok',tr('mk.confirmPaid'),'primary')}</span>` : btn('po-undo','↺ '+tr('pf.undo'));
+  else if(o.st==='wait') act=btn('po-cancel',tr('pf.cancel'));
+  return `<div class="req ${o.st}">${teacher?avatar(o.name,o.uid):`<span class="svc-ic sm">${I[o.kind==='news'?'paper':'cards']}</span>`}<div style="min-width:0">
+      ${teacher?`<b>${esc(o.name)}</b> <span class="faint">·</span> `:''}<b>${pmWhat(o)}</b> <span class="faint">·</span> <b class="num">${som(+o.price||pmPrice(o.kind))}</b>
+      <div class="small muted">${o.method?esc(methodName(o.method))+' · ':''}${esc(ago(o.at))}</div>
+      ${o.ref?`<div class="small req-note">${tr('pf.ref2',{ref:esc(o.ref)})}</div>`:''}</div>
+    <div class="req-act"><span class="pill bk-${o.st}">${tr('pm.st.'+o.st)}</span>${act}</div></div>`;
+}
+async function pmGrant(uid, it, amount){
+  const k=it.kind==='news'?'news':'study', cur=clone(S.passes[uid])||{}; cur.name=S.profiles[uid]?.name||cur.name||''; cur.no=cur.no||{}; delete cur.no[it.id];
+  // paying again adds the days on top of what is left
+  const st=cur[k]||{until:0,hist:[]}, days=pmDays(k), from=Math.max(Date.now(), +st.until||0);
+  st.until=from+days*DAY; st.hist=[...(st.hist||[]).slice(-23), {oid:it.id, at:nowTs(), amount:+amount||0, days}]; cur[k]=st;
+  await S.db.doc('passes/'+uid).set(cur);
+  notify('order',[uid],()=>({subject:tr('pm.emOk',{what:pmName(k)}), kicker:tr('em.ordK'), lines:[k==='news'?tr('pm.emNews',{d:dayMonth(st.until),h:hh(pmInfo().news.hour)}):tr('pm.emStudy',{d:dayMonth(st.until)})]}));
+}
+async function pmUndo(uid, it){
+  const cur=clone(S.passes[uid])||{}; if(cur.no) delete cur.no[it.id];
+  const k=it.kind==='news'?'news':'study', st=cur[k];
+  if(st){ const h=(st.hist||[]).find(x=>x.oid===it.id); if(h){ st.until=Math.max(0,(+st.until||0)-h.days*DAY); st.hist=st.hist.filter(x=>x!==h); } }
+  await S.db.doc('passes/'+uid).set(cur);
+}
+async function pmDecline(uid, it){
+  const cur=clone(S.passes[uid])||{}; cur.name=S.profiles[uid]?.name||cur.name||''; cur.no={...(cur.no||{}), [it.id]:nowTs()};
+  await S.db.doc('passes/'+uid).set(cur);
+  notify('order',[uid],()=>({subject:tr('em.ordNo',{item:pmName(it.kind)}), kicker:tr('em.ordK'), lines:[tr('em.payNoL')]}));
+}
+const findPo = (uid,id) => (S.pOrders[uid]?.items||[]).find(x=>x.id===id);
+
+/* student: buy */
+function openPassBuy(kind){
+  const P=pmInfo(), price=pmPrice(kind), ms=S.payInfo.methods||[], mine=myPassOrders();
+  const kinds=[...new Set([...ms.map(m=>PAY_KINDS.includes(m.kind)?m.kind:'card'), ...METHODS])];
+  if(mine.some(o=>o.kind===kind&&o.st==='wait')){ toast(tr('pm.already')); return; }
+  const until=passUntil(S.myPass,kind), days=pmDays(kind);
+  showDlg(`<form id="pb-form" novalidate>${dlgHead(tr('mk.h'), esc(pmName(kind)))}
+    <div class="dlg-body"><p class="muted">${kind==='news'?tr('nw.buyP',{h:hh(P.news.hour),n:days}):tr('st.buyP',{n:days})}</p>
+      ${until>Date.now()?`<p class="notice info small" style="margin:0">${tr('st.extend',{d:esc(dayMonth(until)),n:days})}</p>`:''}
+      <div class="field"><span>${tr('mk.total')}</span><b class="num mk-total">${som(price)}</b></div>
+      <div class="field"><span>${tr('pf.how')}</span>${ms.length?`<div class="list pm-list">${ms.map(m=>methodRow(m,false)).join('')}</div>`:`<p class="small faint">${tr('pf.noMethods')}</p>`}</div>
+      <div class="lg-2"><label class="field"><span>${tr('pf.method')}</span><select class="inp" id="pb-method">${kinds.map(k=>`<option value="${k}">${tr('lg.m.'+k)}</option>`).join('')}</select></label>
+        <label class="field"><span>${tr('pf.ref')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="pb-ref" maxlength="80" placeholder="${tr('pf.refPh')}"></label></div>
+      <p class="small faint">${tr('mk.safe')}</p><p class="lg-err" id="pb-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen" id="pb-save">${tr('mk.paidSend')}</button></div></form>`, {type:'pass', id:kind});
+  $('#pb-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const next=clone(S.myPOrders)||{items:[]}; next.items=(next.items||[]).slice(-49); next.name=S.myProfile?.name||'';
+    const it={id:newId(), kind, method:$('#pb-method').value, ref:$('#pb-ref').value.trim(), price, at:nowTs()};
+    next.items.push(it); $('#pb-save').disabled=true;
+    try{ await S.db.doc('passOrders/'+S.uid).set(next); S.myPOrders=next; closeDlg(); toast(tr('mk.sent')); refreshStudent(); }catch(e2){ $('#pb-save').disabled=false; dbErr(e2,'order'); }
+  });
+}
+/* teacher: give access by hand (paid in cash, a gift…) */
+function openPmGive(kind){
+  const P=pmInfo(), studs=Object.entries(S.profiles).sort((a,b)=>(a[1].name||'').localeCompare(b[1].name||''));
+  if(!studs.length){ toast(tr('task.noStudents')); return; }
+  showDlg(`<form id="pg-form" novalidate>${dlgHead(kind==='news'?esc(P.news.name):tr('st.name'), tr('pm.give'))}
+    <div class="dlg-body"><label class="field"><span>${tr('student')}</span><select class="inp" id="pg-who">${studs.map(([uid,p])=>`<option value="${esc(uid)}">${esc(p.name||'?')}</option>`).join('')}</select></label>
+      <p class="small muted">${tr('st.giveP',{n:pmDays(kind)})}</p>
+      <label class="field"><span>${tr('pm.amount')}</span><input class="inp num" id="pg-amt" type="number" min="0" step="1000" value="${pmPrice(kind)}"></label>
+      <p class="small faint">${tr('pm.giveP')}</p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="pg-save">${tr('pm.give')}</button></div></form>`, {type:'give'});
+  $('#pg-form').addEventListener('submit', async e=>{
+    e.preventDefault(); $('#pg-save').disabled=true;
+    try{ await pmGrant($('#pg-who').value, {id:'g'+newId(), kind}, Math.max(0,Math.round(+$('#pg-amt').value||0))); closeDlg(); toast(tr('bk.saved')); }
+    catch(e2){ $('#pg-save').disabled=false; dbErr(e2,'premium'); }
+  });
+}
+
+/* ---------- the two product cards in the Shop ---------- */
+const pmBack = () => `<button class="btn ghost sm pm-back" data-act="go" data-v="market">${I.back} ${tr('mk.h')}</button>`;
+const newsArt = () => `<div class="pm-art-news" aria-hidden="true"><b>${esc(pmInfo().news.name)}</b><i></i><span></span><span></span><span class="s"></span><em></em><span></span><span class="s"></span></div>`;
+const cardsArt = () => `<div class="pm-art-cards" aria-hidden="true"><span>Aa</span><span>?</span><span>✓</span></div>`;
+function pmCard(kind, o){
+  return `<article class="pm-card pm-${kind}"><div class="pm-art">${kind==='news'?newsArt():cardsArt()}</div><div class="pm-body">
+    <span class="label">${o.tag}</span><h3>${o.title}</h3><p class="muted">${o.pitch}</p>
+    ${o.feats?`<ul class="pm-feats">${o.feats.map(f=>`<li>${f}</li>`).join('')}</ul>`:''}
+    ${o.status?`<div class="pm-status ${o.ok?'ok':''}">${o.status}</div>`:''}
+    <div class="pm-foot"><div><b class="num pm-price">${som(o.price)}</b> <span class="small muted">/ ${o.per}</span></div><div class="row" style="gap:8px">${o.btns}</div></div></div></article>`;
+}
+function pmShopS(){
+  const P=pmInfo(), mine=myPassOrders(), out=[];
+  if(P.news.on){ const on=hasNews(), pend=mine.some(o=>o.kind==='news'&&o.st==='wait');
+    out.push(pmCard('news',{tag:tr('nw.tag'), title:esc(P.news.name), pitch:tr('nw.pitch',{h:hh(P.news.hour)}), feats:['f1','f2','f3','f4'].map(k=>tr('nw.'+k)), price:P.news.price, per:tr('st.days',{n:P.news.days}),
+      status: on?tr('st.activeTill',{d:esc(dayMonth(newsUntil(S.myPass)))}) : pend?tr('pm.pending'):'', ok:on,
+      btns: on?`<button class="btn primary" data-act="go" data-v="news">${I.paper} ${tr('nw.read')}</button>`:`<button class="btn ghost" data-act="go" data-v="news">${tr('pm.peek')}</button>${pend?'':`<button class="btn pen" data-act="pb-open" data-k="news">${tr('mk.buy')}</button>`}`})); }
+  if(P.study.on){ const on=hasStudy(), pend=mine.some(o=>o.kind==='study'&&o.st==='wait'), n=(S.myIdx?.sets||[]).filter(x=>x.on!==false).length;
+    out.push(pmCard('study',{tag:tr('st.tag'), title:tr('st.name'), pitch:tr('st.pitch'), feats:['f1','f2','f3','f4'].map(k=>tr('st.'+k,{n})), price:P.study.price, per:tr('st.days',{n:P.study.days}),
+      status: on?tr('st.activeTill',{d:esc(dloc(new Date(studyUntil(S.myPass)),{day:'numeric',month:'long'}))}) : pend?tr('pm.pending'):'', ok:on,
+      btns: on?`<button class="btn primary" data-act="go" data-v="study">${I.cards} ${tr('st.open')}</button>`:`<button class="btn ghost" data-act="go" data-v="study">${tr('pm.peek')}</button>${pend?'':`<button class="btn pen" data-act="pb-open" data-k="study">${tr('mk.buy')}</button>`}`})); }
+  return out.length ? `<div class="pm-row">${out.join('')}</div>` : '';
+}
+function pmShopT(){
+  const P=pmInfo(), now=Date.now(), t=tkToday();
+  const readers=Object.entries(S.passes).filter(([,p])=>newsUntil(p)>now), active=Object.values(S.passes).filter(p=>studyUntil(p)>now).length;
+  const todo=readers.filter(([uid])=>!nwReady(S.nwDays[nwId(uid,t)]?.d) || !nwReady(S.nwDays[nwId(uid,dAdd(t,1))]?.d)).length;
+  const reqs=allPassOrders().filter(o=>o.st==='wait' || now-(o.at||0)<14*DAY);
+  const off = on => on ? '' : `<span class="pill">${tr('mk.hidden')}</span>`;
+  return `<div class="section" style="margin-top:0"><h2>${tr('pm.h')}</h2><div class="pm-row">
+    ${pmCard('news',{tag:tr('nw.tag'), title:esc(P.news.name)+' '+off(P.news.on), pitch:tr('nw.statT',{r:readers.length}), status:todo?tr('nw.todo',{n:todo}):'', price:P.news.price, per:tr('st.days',{n:P.news.days}), btns:`<button class="btn primary" data-act="go" data-v="news">${tr('pm.manage')}</button>`})}
+    ${pmCard('study',{tag:tr('st.tag'), title:tr('st.name')+' '+off(P.study.on), pitch:tr('st.statT',{a:active,s:Object.values(S.stIdx).reduce((a,x)=>a+(x?.sets||[]).length,0)}), price:P.study.price, per:tr('st.days',{n:P.study.days}), btns:`<button class="btn primary" data-act="go" data-v="study">${tr('pm.manage')}</button>`})}
+  </div>${reqs.length?`<h3 class="pm-reqh">${tr('pm.reqH')}</h3><div class="list">${reqs.map(o=>poRow(o,true)).join('')}</div>`:''}</div>`;
+}
+function pmHome(){
+  if(S.mode!=='student') return ''; const P=pmInfo().news, t=tkToday();
+  if(!P.on || !hasNews()) return '';
+  const out=releaseMs(t,P.hour)<=Date.now();
+  return `<button class="rank-chip section nw-chip" data-act="go" data-v="news">${I.paper}<span>${out?tr('nw.homeOut',{name:esc(P.name)}):tr('nw.homeSoon',{h:hh(P.hour)})}</span><b>${tr('nw.read')} →</b></button>`;
+}
+function pmSettings(kind){
+  const P=pmInfo();
+  if(kind==='news'){ const N=P.news;
+    showDlg(`<form id="ps-form" novalidate>${dlgHead(tr('pm.settings'), esc(N.name))}<div class="dlg-body">
+      <label class="field"><span>${tr('nw.s.name')}</span><input class="inp" id="ps-name" maxlength="40" value="${esc(N.name)}"></label>
+      <div class="lg-2"><label class="field"><span>${tr('nw.s.price')}</span><input class="inp num" id="ps-price" type="number" min="0" step="1000" value="${+N.price||0}"></label>
+        <label class="field"><span>${tr('st.s.days')}</span><input class="inp num" id="ps-days" type="number" min="1" max="366" value="${+N.days||30}"></label></div>
+      <div class="lg-2">
+        <label class="field"><span>${tr('nw.s.hour')}</span><select class="inp" id="ps-hour">${[5,6,7,8,9,10,12,18].map(h=>`<option value="${h}" ${+N.hour===h?'selected':''}>${hh(h)}</option>`).join('')}</select></label></div>
+      <label class="field"><span>${tr('nw.s.city')}</span><select class="inp" id="ps-city">${Object.entries(NW_CITIES).map(([k,v])=>`<option value="${k}" ${k===N.city?'selected':''}>${v[0]}</option>`).join('')}</select></label>
+      <label class="row" style="gap:8px"><input type="checkbox" id="ps-on" ${N.on?'checked':''}> <span>${tr('pm.sell')}</span></label></div>
+      <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary">${tr('save')}</button></div></form>`, {type:'ps'});
+    $('#ps-form').addEventListener('submit', async e=>{ e.preventDefault();
+      const hour=+$('#ps-hour').value;
+      const news={on:$('#ps-on').checked, name:$('#ps-name').value.trim()||PM_DEF.news.name, price:Math.max(0,Math.round(+$('#ps-price').value||0)), days:Math.min(366,Math.max(1,Math.round(+$('#ps-days').value||30))), hour, city:$('#ps-city').value};
+      if(!await savePm(n=>{ n.news=news; }, tr('bk.saved'))) return; closeDlg();
+      // move the release time of the issues that are not out yet
+      for(const [id,x] of Object.entries(S.nwDays)) if(x.st==='ok' && x.d.on!==false && x.d.date>=tkToday() && x.d.releaseAt!==releaseMs(x.d.date,hour)){ try{ await S.db.doc('newsDays/'+id).set({...x.d, releaseAt:releaseMs(x.d.date,hour)}); }catch(e2){} }
+    });
+  } else { const T=P.study;
+    showDlg(`<form id="ps-form" novalidate>${dlgHead(tr('pm.settings'), tr('st.name'))}<div class="dlg-body">
+      <div class="lg-2"><label class="field"><span>${tr('nw.s.price')}</span><input class="inp num" id="ps-price" type="number" min="0" step="1000" value="${+T.price||0}"></label>
+        <label class="field"><span>${tr('st.s.days')}</span><input class="inp num" id="ps-days" type="number" min="1" max="366" value="${+T.days||30}"></label></div>
+      <label class="row" style="gap:8px"><input type="checkbox" id="ps-on" ${T.on?'checked':''}> <span>${tr('pm.sell')}</span></label></div>
+      <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary">${tr('save')}</button></div></form>`, {type:'ps'});
+    $('#ps-form').addEventListener('submit', async e=>{ e.preventDefault();
+      const study={on:$('#ps-on').checked, price:Math.max(0,Math.round(+$('#ps-price').value||0)), days:Math.min(366,Math.max(1,Math.round(+$('#ps-days').value||30)))};
+      if(await savePm(n=>{ n.study=study; }, tr('bk.saved'))) closeDlg();
+    });
+  }
+}
+
+/* ================= the newspaper ================= */
+const NW_SEC = {world:'World', uzbekistan:'Uzbekistan', science:'Science', sport:'Sport', culture:'Culture', tech:'Technology', life:'Life', fun:'Just for fun'};
+const NW_CITIES = {tashkent:['Tashkent',41.31,69.28], samarkand:['Samarkand',39.65,66.96], bukhara:['Bukhara',39.77,64.42], namangan:['Namangan',41.00,71.67],
+  andijan:['Andijan',40.78,72.34], fergana:['Fergana',40.39,71.79], nukus:['Nukus',42.46,59.60], qarshi:['Qarshi',38.86,65.80], termez:['Termez',37.22,67.28],
+  urgench:['Urgench',41.55,60.63], jizzakh:['Jizzakh',40.12,67.84], navoiy:['Navoiy',40.10,65.38], gulistan:['Gulistan',40.49,68.78]};
+const WX = [[[0],'clear','sunny','☀️'],[[1],'clear','mostly sunny','🌤️'],[[2],'cloud','partly cloudy','⛅'],[[3],'cloud','cloudy and grey','☁️'],[[45,48],'fog','foggy','🌫️'],
+  [[51,53,55,56,57],'rain','drizzly','🌦️'],[[61,63,66,80,81],'rain','rainy','🌧️'],[[65,67,82],'rain','very rainy','🌧️'],[[71,73,77,85],'snow','snowy','🌨️'],[[75,86],'snow','very snowy','❄️'],[[95,96,99],'storm','stormy','⛈️']];
+const WX_WORDS = {clear:[['bright','full of light'],['clear sky','a sky with no clouds']], cloud:[['overcast','covered with grey clouds'],['gloomy','dark and a little sad']],
+  fog:[['mist','a thin fog'],['visibility','how far you can see']], rain:[['drizzle','very light rain'],['downpour','a lot of rain in a short time']],
+  snow:[['flurry','a short, light fall of snow'],['slippery','easy to slide and fall on']], storm:[['thunder','the loud noise in a storm'],['lightning','the bright flash in the sky']]};
+const wxOf = c => WX.find(x=>x[0].includes(+c)) || WX[2];
+const nwCity = () => { const c=LS.get('nw-city', null) || pmInfo().news.city; return NW_CITIES[c] ? c : 'tashkent'; };
+
+const vNews = () => S.mode==='teacher' ? vNewsT() : vNewsS();
+function nwTop(w, extra=''){
+  const w0=weekOf(tkToday());
+  return `<div class="pm-top">${pmBack()}<div class="row nw-weeknav"><button class="btn ghost sm" data-act="nw-week" data-d="-7" aria-label="${tr('nw.prevWeek')}">‹</button><b>${esc(weekLabel(w))}</b><button class="btn ghost sm" data-act="nw-week" data-d="7" aria-label="${tr('nw.nextWeek')}">›</button>${w!==w0?`<button class="btn sm" data-act="nw-week" data-d="0">${tr('nw.thisWeek')}</button>`:''}</div>${extra}</div>`;
+}
+function nwMast(day, who){
+  const P=pmInfo().news;
+  return `<header class="nw-mast"><div class="nw-ears"><span>${esc(enDate(day,{weekday:'long'}))}</span><span>${who?`Edition for ${esc(who)}`:'Personal edition'}</span></div>
+    <h1 class="nw-name">${esc(P.name)}</h1>
+    <div class="nw-dateline"><span>${esc(enDate(day,{day:'numeric',month:'long',year:'numeric'}))}</span><span>Daily English for curious minds</span></div></header>`;
+}
+const nwDoneDay = d => Object.keys(S.myScores?.news?.[d]||{}).length>0;
+function nwStrip(days, cur){
+  const P=pmInfo().news, now=Date.now();
+  return `<nav class="nw-strip" aria-label="Days">${days.map(d=>{ const out=releaseMs(d,P.hour)<=now, dt=parseDate(d);
+    return `<button data-act="nw-day" data-d="${d}" aria-pressed="${d===cur}" class="${out?'':'soon'} ${d===tkToday()?'today':''}"><span>${esc(enDate(d,{weekday:'short'}))}</span><b class="num">${dt.getDate()}</b>${out?(S.mode==='student'&&nwDoneDay(d)?'<em>✓</em>':''):`<i>${I.lock}</i>`}</button>`; }).join('')}</nav>`;
+}
+function vNewsS(){
+  const P=pmInfo().news, today=tkToday(), w0=weekOf(today), w=S.view.week||w0;
+  if(!hasNews()) return nwCover(w);
+  const days=weekDays(w); days.forEach(nwWatchDay);
+  const out = d => releaseMs(d,P.hour)<=Date.now(), until=newsUntil(S.myPass);
+  const day = days.includes(S.view.day) ? S.view.day : days.includes(today) ? (out(today)||today===w ? today : dAdd(today,-1)) : (w<w0 ? days[6] : days[0]);
+  const x=nwDay(nwId(S.uid,day)), d=x.st==='ok'?x.d:null;
+  let body;
+  if(x.st==='wait') body=`<div class="loading">${tr('nw.loading')}</div>`;
+  else if(releaseMs(day,P.hour)>until) body=`<div class="nw-wait">${I.lock}<h3>${tr('nw.after',{d:esc(dayMonth(until))})}</h3><p><button class="btn pen" data-act="pb-open" data-k="news">${tr('st.extendBtn')}</button></p></div>`;
+  else if(!out(day)) body=`<div class="nw-wait">${I.lock}<h3>${tr('nw.comes',{day:esc(dateLong(day)),h:hh(P.hour)})}</h3><p class="muted">${tr('nw.comesP')}</p></div>`;
+  else if(!nwReady(d)) body=`<div class="nw-wait"><h3>${tr('nw.notYet')}</h3><p class="muted">${tr('nw.notYetP')}</p></div>`;
+  else body=nwIssue(d, day, false);
+  const first=(S.myProfile?.name||'').split(' ')[0], can=x.st==='ok' && nwReady(d) && out(day);
+  S.nwShown = can ? {d, date:day, who:first} : null;
+  return `${nwTop(w, `<span class="row" style="gap:6px">${can?nwPrintBtns():''}<span class="small muted">${tr('st.activeTill',{d:esc(dayMonth(until))})}</span></span>`)}<article class="nwp">${nwMast(day,first)}${nwStrip(days,day)}${body}</article>`;
+}
+function nwCover(w){
+  const P=pmInfo().news, mine=myPassOrders().filter(o=>o.kind==='news'), pend=mine.find(o=>o.st==='wait'), no=mine[0]?.st==='no', until=newsUntil(S.myPass);
+  return `<div class="pm-top">${pmBack()}</div><article class="nwp cover">${nwMast(tkToday())}<div class="nw-cover">
+    <div><span class="nw-sec">Inside every issue</span><h2 class="nw-cov-h">${tr('nw.coverH')}</h2><p class="nw-sub">${tr('nw.coverP',{h:hh(P.hour)})}</p>
+      <ul class="nw-inside">${['stories','quiz','weather','words','fun','write'].map(k=>`<li><b>${tr('nw.in.'+k)}</b><span>${tr('nw.in.'+k+'.d')}</span></li>`).join('')}</ul></div>
+    <div class="nw-buy"><b class="num pm-price">${som(P.price)}</b><span class="small muted">${tr('nw.perMonth',{n:P.days})}</span>
+      ${pend?`<div class="pm-status">${tr('pm.pending')}</div>`:P.on?`<button class="btn pen" data-act="pb-open" data-k="news">${tr('nw.subscribe')}</button>`:`<p class="small faint">${tr('pm.notSold')}</p>`}
+      ${no&&!pend?`<p class="small" style="color:var(--pen)">${tr('pm.declined')}</p>`:''}${until?`<p class="small faint">${tr('st.ended',{d:esc(dayMonth(until))})}</p>`:''}</div></div></article>
+    ${mine.length?`<div class="section"><h2>${tr('mk.mine')}</h2><div class="list">${mine.slice(0,6).map(o=>poRow(o,false)).join('')}</div></div>`:''}`;
+}
+function nwIssue(d, date, preview){
+  return `<div class="nw-grid"><div class="nw-main">${(d.stories||[]).map((s,i)=>nwStory(s,date,i===0,preview)).join('')}</div>
+    <aside class="nw-side">${nwWeatherBox()}${nwExtras(d.extras||{}, preview)}</aside></div>`;
+}
+function glossHTML(text, words){
+  const ws=(words||[]).map(x=>x.w).filter(Boolean).sort((a,b)=>b.length-a.length);
+  if(!ws.length) return esc(text);
+  const re=new RegExp('(?<![\\p{L}\\p{N}])('+ws.map(reEsc).join('|')+')(?![\\p{L}\\p{N}])','giu');
+  const byW=Object.fromEntries(words.map(x=>[String(x.w).toLowerCase(), x.m]));
+  return text.split(re).map((part,i)=> i%2 ? `<span class="gw" tabindex="0" data-m="${esc(byW[part.toLowerCase()]||'')}">${esc(part)}</span>` : esc(part)).join('');
+}
+function nwStory(s, date, lead, preview){
+  const key=s.id, img=safeLink(s.img), paras=String(s.body||'').split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);
+  return `<section class="nw-story ${lead?'lead':''}"><div class="row" style="justify-content:space-between"><span class="nw-sec">${esc(NW_SEC[s.sec]||'News')}</span>
+      <button class="btn ghost sm nw-say" data-act="say" data-k="${esc(key)}" data-date="${esc(date)}" aria-label="Listen">🔊 <span>Listen</span></button></div>
+    <h2>${esc(s.h||'')}</h2>${s.sub?`<p class="nw-sub">${esc(s.sub)}</p>`:''}
+    ${img?`<figure class="nw-img"><img src="${esc(img)}" alt="" loading="lazy" referrerpolicy="no-referrer"></figure>`:''}
+    <div class="nw-body">${paras.map(p=>`<p>${glossHTML(p, s.words)}</p>`).join('')}</div>
+    ${(s.words||[]).length?`<div class="nw-gloss"><b>Key words</b><dl>${s.words.map(x=>`<div><dt>${esc(x.w)}</dt><dd>${esc(x.m)}</dd></div>`).join('')}</dl></div>`:''}
+    ${(s.quiz||[]).length?nwQuiz(s.quiz, key, date, preview):''}</section>`;
+}
+function nwQuiz(qs, key, date, preview){
+  const done = !preview && S.myScores?.news?.[date]?.[key], sel = done ? (done.a||[]) : (S.nwSel[key]||[]);
+  return `<div class="nw-quiz"><div class="nw-quiz-h"><b>Check your understanding</b>${done?`<span class="nw-score num">${done.s}/${done.n}</span>`:''}</div>
+    <ol>${qs.map((q,i)=>`<li><p>${esc(q.q)}</p><div class="nw-opts">${q.o.map((o,j)=>{ const cls = done ? (j===q.a?'right':(sel[i]===j?'wrong':'')) : '';
+      return `<label class="nw-opt ${cls}"><input type="radio" name="nq-${esc(key)}-${i}" value="${j}" data-act="nw-pick" data-k="${esc(key)}" data-i="${i}" data-j="${j}" ${sel[i]===j?'checked':''} ${done?'disabled':''}><span>${esc(o)}</span></label>`; }).join('')}</div></li>`).join('')}</ol>
+    ${done?`<p class="small muted">${tr('nw.qDone')}</p>`:`<button class="btn pen sm" data-act="nw-check" data-k="${esc(key)}" data-date="${esc(date)}">${tr('nw.check')}</button>`}</div>`;
+}
+function nwExtras(ex, preview){
+  const box=(cls,label,html)=>`<div class="nw-box ${cls}"><span class="nw-boxh">${label}</span>${html}</div>`, o=[];
+  if(ex.word?.w) o.push(box('word','Word of the day',`<b class="nw-big">${esc(ex.word.w)}</b><p>${esc(ex.word.m||'')}</p>${ex.word.ex?`<p class="nw-ex">“${esc(ex.word.ex)}”</p>`:''}`));
+  if(ex.idiom?.w) o.push(box('idiom','Idiom of the day',`<b class="nw-big sm">${esc(ex.idiom.w)}</b><p>${esc(ex.idiom.m||'')}</p>${ex.idiom.ex?`<p class="nw-ex">“${esc(ex.idiom.ex)}”</p>`:''}`));
+  if(ex.fact) o.push(box('fact','Did you know?',`<p>${esc(ex.fact)}</p>`));
+  if(ex.joke) o.push(box('joke','Smile!',`<p>${esc(ex.joke)}</p>`));
+  if(ex.riddle?.q) o.push(box('riddle','Riddle',`<p>${esc(ex.riddle.q)}</p>${ex.riddle.a?`<details><summary>Show the answer</summary><p><b>${esc(ex.riddle.a)}</b></p></details>`:''}`));
+  if(ex.write) o.push(box('write','Write about it',`<p>${esc(ex.write)}</p>${preview?'':`<button class="btn sm pen" data-act="task-write" data-t="${esc(ex.write)}">${I.pen} ${tr('task.start')}</button>`}`));
+  if(ex.note) o.push(box('note','From your teacher',`<p class="hand">${esc(ex.note)}</p>`));
+  return o.join('');
+}
+function nwWeatherBox(){
+  const c=nwCity();
+  return `<div class="nw-box wx"><div class="row" style="justify-content:space-between"><span class="nw-boxh">Weather</span><select class="nw-city" id="nw-city" aria-label="City">${Object.entries(NW_CITIES).map(([k,v])=>`<option value="${k}" ${k===c?'selected':''}>${v[0]}</option>`).join('')}</select></div>
+    <div id="nw-wx" class="nw-wx">${S.wx?.[c]?nwWxHTML(c):`<p class="small faint">${tr('nw.wxLoad')}</p>`}</div></div>`;
+}
+function demoWx(){ const t=tkToday(); return {current:{temperature_2m:14, weather_code:2}, daily:{time:[0,1,2,3].map(i=>dAdd(t,i)), weather_code:[2,61,3,0], temperature_2m_max:[17,13,12,16], temperature_2m_min:[6,7,5,4], precipitation_probability_max:[10,70,30,0]}}; }
+async function nwFillWeather(){
+  const c=nwCity(), city=NW_CITIES[c]; let data=S.wx?.[c];
+  if(!data || Date.now()-data.at>30*60000){
+    try{ const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city[1]}&longitude=${city[2]}&current=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTashkent&forecast_days=4`);
+      if(!r.ok) throw new Error('wx'); data={at:Date.now(), j:await r.json()}; }
+    catch(e){ data = S.demo ? {at:Date.now(), j:demoWx()} : null; }
+    if(data) S.wx={...(S.wx||{}), [c]:data};
+  }
+  const box=$('#nw-wx'); if(!box || nwCity()!==c) return;
+  box.innerHTML = data ? nwWxHTML(c) : `<p class="small faint">${tr('nw.wxFail')}</p>`;
+}
+function nwWxHTML(c){
+  const j=S.wx[c].j, city=NW_CITIES[c], cur=j.current||{}, dl=j.daily||{}, w=wxOf(cur.weather_code ?? dl.weather_code?.[0]);
+  const hi=Math.round(dl.temperature_2m_max?.[0]), lo=Math.round(dl.temperature_2m_min?.[0]), rain=+(dl.precipitation_probability_max?.[0]||0);
+  const tip = rain>=50 ? 'Take an umbrella!' : hi<=5 ? 'Wrap up warm: a coat, a hat and gloves.' : hi>=32 ? 'Stay in the shade and drink lots of water.' : w[1]==='clear' ? 'A great day for a walk.' : 'Have a nice day!';
+  const next=(dl.time||[]).slice(1,4).map((t,i)=>{ const x=wxOf(dl.weather_code[i+1]); return `<div><span class="small">${esc(enDate(t,{weekday:'short'}))}</span><b aria-hidden="true">${x[3]}</b><span class="small num">${Math.round(dl.temperature_2m_max[i+1])}° / ${Math.round(dl.temperature_2m_min[i+1])}°</span></div>`; }).join('');
+  return `<div class="wx-now"><span class="wx-ic" aria-hidden="true">${w[3]}</span><b class="num">${Math.round(cur.temperature_2m ?? hi)}°C</b></div>
+    <p>Today in ${esc(city[0])} it will be <b>${w[2]}</b>, with a high of <b class="num">${hi}°C</b> and a low of <b class="num">${lo}°C</b>.${rain?` The chance of rain is <b class="num">${rain}%</b>.`:''} ${tip}</p>
+    ${next?`<div class="wx-days">${next}</div>`:''}
+    <div class="wx-words"><span class="small faint">Weather words:</span> ${(WX_WORDS[w[1]]||[]).map(([a,b])=>`<span class="gw" tabindex="0" data-m="${esc(b)}">${esc(a)}</span>`).join(' · ')}</div>`;
+}
+/* print / download: the issue as a clean, self-contained page (paper look, answer key at the end) */
+const nwPrintBtns = () => `<button class="btn sm" data-act="nw-print" title="${esc(tr('nw.printP'))}">🖨 ${tr('nw.print')}</button><button class="btn sm" data-act="nw-dl">${I.down} ${tr('nw.dl')}</button>`;
+function nwPrintable(){
+  const X=S.nwShown; if(!X) return ''; const {d, date, who}=X, P=pmInfo().news, ex=d.extras||{};
+  const wx=$('#nw-wx') && S.wx?.[nwCity()] ? `<div class="box"><h4>Weather</h4>${$('#nw-wx').innerHTML.replace(/<span class="gw"[^>]*>/g,'<b>').replace(/<\/span>(?=( · |<\/div>))/g,'</b>')}</div>` : '';
+  const key=[]; let qn=0;
+  const story=(s,i)=>{ const paras=String(s.body||'').split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+    const qs=(s.quiz||[]).map(q=>{ qn++; key.push(`${qn}. ${String.fromCharCode(97+q.a)}) ${esc(q.o[q.a])}`); return `<li><p>${esc(q.q)}</p><p class="opts">${q.o.map((o,j)=>`<span>${String.fromCharCode(97+j)}) ${esc(o)}</span>`).join('')}</p></li>`; }).join('');
+    return `<section class="story ${i===0?'lead':''}"><span class="sec">${esc(NW_SEC[s.sec]||'News')}</span><h2>${esc(s.h)}</h2>${s.sub?`<p class="sub">${esc(s.sub)}</p>`:''}
+      ${safeLink(s.img)?`<img src="${esc(s.img)}" alt="">`:''}<div class="body">${paras.map(x=>`<p>${glossHTML(x,s.words).replace(/<span class="gw"[^>]*>(.*?)<\/span>/g,'<u>$1</u>')}</p>`).join('')}</div>
+      ${(s.words||[]).length?`<div class="gloss"><b>Key words</b> ${s.words.map(w=>`<span><u>${esc(w.w)}</u> — ${esc(w.m)}</span>`).join(' · ')}</div>`:''}
+      ${qs?`<div class="quiz"><b>Check your understanding</b><ol start="${qn-(s.quiz||[]).length+1}">${qs}</ol></div>`:''}</section>`; };
+  const main=(d.stories||[]).map(story).join('');
+  const box=(t,h)=>`<div class="box"><h4>${t}</h4>${h}</div>`, side=[wx];
+  if(ex.word?.w) side.push(box('Word of the day',`<p class="big">${esc(ex.word.w)}</p><p>${esc(ex.word.m||'')}</p>${ex.word.ex?`<p class="i">“${esc(ex.word.ex)}”</p>`:''}`));
+  if(ex.idiom?.w) side.push(box('Idiom of the day',`<p class="big sm">${esc(ex.idiom.w)}</p><p>${esc(ex.idiom.m||'')}</p>${ex.idiom.ex?`<p class="i">“${esc(ex.idiom.ex)}”</p>`:''}`));
+  if(ex.fact) side.push(box('Did you know?',`<p>${esc(ex.fact)}</p>`));
+  if(ex.joke) side.push(box('Smile!',`<p>${esc(ex.joke)}</p>`));
+  if(ex.riddle?.q){ side.push(box('Riddle',`<p>${esc(ex.riddle.q)}</p>`)); if(ex.riddle.a) key.push(`Riddle: ${esc(ex.riddle.a)}`); }
+  if(ex.write) side.push(box('Write about it',`<p>${esc(ex.write)}</p><div class="lines"></div>`));
+  if(ex.note) side.push(box('From your teacher',`<p class="i">${esc(ex.note)}</p>`));
+  const title=`${P.name} · ${enDate(date,{day:'numeric',month:'long',year:'numeric'})}`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(title)}</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap">
+<style>
+@page{size:A4;margin:14mm 13mm}
+*{box-sizing:border-box}body{margin:0;background:#E9E5DA;color:#1A1A1A;font:15.5px/1.55 Georgia,"Times New Roman",serif}
+.page{max-width:820px;margin:24px auto;background:#FBF8EF;padding:28px 34px 34px;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+.ears{display:flex;justify-content:space-between;font:700 11px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4A4A44;border-bottom:1px solid #D9D2BF;padding-bottom:8px}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:58px;line-height:1;text-align:center;margin:12px 0 10px}
+.dateline{display:flex;justify-content:center;gap:22px;border-top:1px solid #1A1A1A;border-bottom:3px double #1A1A1A;padding:6px 0;font:700 11.5px/1 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr 225px;gap:24px}
+.sec{font:800 10.5px/1 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#B3122E;border-bottom:2px solid #B3122E;padding-bottom:2px}
+h2{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:25px;line-height:1.12;margin:7px 0 5px}.lead h2{font-size:33px}
+.sub{font-style:italic;color:#4A4A44;margin:0 0 8px}
+.story{padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid #D9D2BF;break-inside:avoid-page}
+.story img{width:100%;max-height:240px;object-fit:cover;margin:6px 0}
+.body p{margin:0 0 .6em}.lead .body{columns:2;column-gap:20px;column-rule:1px solid #D9D2BF}
+.lead .body>p:first-child::first-letter{float:left;font:900 3.2em/.85 "Playfair Display",Georgia,serif;padding:3px 6px 0 0}
+u{text-decoration:none;background:linear-gradient(transparent 62%,#FFE07A 62%)}
+.gloss{font-size:13.5px;border:1px dashed #CFC6AE;padding:7px 10px;margin:8px 0;border-radius:6px}.gloss b{font:700 10.5px Arial;letter-spacing:.12em;text-transform:uppercase;margin-right:6px}
+.quiz{font-size:14px;background:rgba(0,0,0,.04);padding:9px 12px;border-radius:8px;break-inside:avoid}.quiz b{font-family:"Playfair Display",Georgia,serif;font-size:16px}
+.quiz ol{margin:6px 0 0 18px;padding:0}.quiz li p{margin:0}.opts span{display:inline-block;margin:2px 16px 2px 0}.opts span::before{content:"○ "}
+.box{border:1px solid #D9D2BF;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px;break-inside:avoid}.box h4{font-family:"Playfair Display",Georgia,serif;font-size:16px;margin:0 0 6px;border-bottom:2px solid #1A1A1A;padding-bottom:3px}
+.box p{margin:0 0 5px}.big{font:900 24px/1.1 "Playfair Display",Georgia,serif}.big.sm{font-size:18px}.i{font-style:italic;color:#4A4A44}
+.box .wx-now{display:flex;gap:8px;align-items:center;font-size:24px}.box .wx-days{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0;font-size:12px;text-align:center}.box .wx-days>div{display:flex;flex-direction:column;border:1px solid #D9D2BF;border-radius:6px;padding:3px}
+.lines{height:90px;background:repeating-linear-gradient(transparent 0 21px,#CFC6AE 21px 22px)}
+.key{margin-top:16px;padding-top:8px;border-top:3px double #1A1A1A;font-size:12.5px;color:#4A4A44}.key b{font:700 10.5px Arial;letter-spacing:.12em;text-transform:uppercase}.key span{margin-right:14px;display:inline-block}
+.foot{text-align:center;font:11px Arial;color:#7A7468;margin-top:12px}
+@media print{body{background:none}.page{box-shadow:none;margin:0;max-width:none;padding:0;background:none}}
+@media (max-width:700px){.grid{grid-template-columns:1fr}.lead .body{columns:1}h1{font-size:40px}.page{padding:18px}}
+</style></head><body><div class="page">
+<div class="ears"><span>${esc(enDate(date,{weekday:'long'}))}</span><span>${who?`Edition for ${esc(who)}`:'Personal edition'}</span></div>
+<h1>${esc(P.name)}</h1><div class="dateline"><span>${esc(enDate(date,{day:'numeric',month:'long',year:'numeric'}))}</span><span>Daily English for curious minds</span></div>
+<div class="grid"><main>${main}</main><aside>${side.join('')}</aside></div>
+${key.length?`<div class="key"><b>Answers</b> ${key.map(k=>`<span>${k}</span>`).join('')}</div>`:''}
+<div class="foot">Lexora · ${esc(siteUrl())}</div></div></body></html>`;
+}
+function nwFileName(){ const X=S.nwShown, P=pmInfo().news; return `${(P.name||'newspaper').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}-${X?.date||tkToday()}${X?.who?'-'+X.who.toLowerCase().replace(/[^a-z0-9]+/g,''):''}.html`; }
+function nwPrint(){
+  const html=nwPrintable(); if(!html) return;
+  const f=document.createElement('iframe'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0'; document.body.appendChild(f);
+  const doc=f.contentWindow.document; doc.open(); doc.write(html); doc.close();
+  const go=()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){ nwDownload(); } setTimeout(()=>f.remove(), 60000); };
+  // wait for the masthead font and pictures, but never longer than 1.5 s
+  Promise.race([new Promise(r=>f.contentWindow.addEventListener('load',r)), new Promise(r=>setTimeout(r,1500))]).then(()=>setTimeout(go,150));
+}
+function nwDownload(){
+  const html=nwPrintable(); if(!html) return;
+  const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'})), a=document.createElement('a');
+  a.href=url; a.download=nwFileName(); document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  toast(tr('nw.dlDone'));
+}
+function nwArmTimer(){
+  clearTimeout(S.nwTimer); if(S.mode!=='student') return;
+  const P=pmInfo().news, now=Date.now(), next=weekDays(S.view.week||weekOf(tkToday())).map(d=>releaseMs(d,P.hour)).find(t=>t>now);
+  if(next && next-now<36*36e5) S.nwTimer=setTimeout(()=>{ if(S.view.name!=='news') return; for(const x of Object.values(S.nwDays)) if(x.st==='locked') x.at=0; renderMain(); }, next-now+4000);
+}
+async function nwCheck(key, date){
+  const src = S.view.name==='newsEdit' ? S.nwe?.d : S.nwDays[nwId(S.uid,date)]?.d;
+  const s=(src?.stories||[]).find(x=>x.id===key); if(!s) return;
+  const sel=S.nwSel[key]||[]; if(s.quiz.some((q,i)=>sel[i]==null)){ toast(tr('nw.answerAll')); return; }
+  const a=s.quiz.map((q,i)=>sel[i]), sc=a.filter((v,i)=>v===s.quiz[i].a).length;
+  toast(tr('nw.scored',{s:sc,n:a.length}));
+  if(S.mode!=='student') return;
+  await pmSaveScores(n=>{ (n.news[date] ||= {})[key]={a, s:sc, n:a.length, at:nowTs()}; });
+  renderMain();
+}
+function speak(t){
+  if(!('speechSynthesis' in window)){ toast(tr('st.noVoice')); return; }
+  if(speechSynthesis.speaking){ speechSynthesis.cancel(); return; }
+  const u=new SpeechSynthesisUtterance(t); u.lang='en-GB'; u.rate=.92;
+  const v=speechSynthesis.getVoices().find(x=>/^en(-|_)GB/i.test(x.lang)) || speechSynthesis.getVoices().find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
+  speechSynthesis.speak(u);
+}
+
+/* teacher: the week */
+// readers of a week: anyone whose subscription reaches into it, plus anyone waiting for their payment to be checked
+function nwReaders(w){
+  const from=releaseMs(w,0), pend=new Set(allPassOrders().filter(o=>o.kind==='news'&&o.st==='wait').map(o=>o.uid));
+  const ids=new Set([...Object.entries(S.passes).filter(([,p])=>newsUntil(p)>from).map(([u])=>u), ...pend]);
+  return [...ids].filter(u=>S.profiles[u]||S.passes[u]).map(uid=>({uid, name:S.profiles[uid]?.name||S.passes[uid]?.name||'?', level:S.profiles[uid]?.level||'', until:newsUntil(S.passes[uid]), pend:pend.has(uid)}))
+    .sort((a,b)=>a.name.localeCompare(b.name));
+}
+function vNewsT(){
+  const P=pmInfo().news, w0=weekOf(tkToday()), w=S.view.week||w0, days=weekDays(w), now=Date.now(); nwWatchWeek(w);
+  const rd=nwReaders(w), active=Object.values(S.passes).filter(p=>newsUntil(p)>now).length, ym=curYM();
+  const income=Object.values(S.passes).flatMap(p=>p?.news?.hist||[]).filter(h=>ymdU((h.at||0)+NW_TZ*36e5).startsWith(ym)).reduce((a,h)=>a+(+h.amount||0),0);
+  let ready=0, need=0, S1=0, N1=0;
+  rd.forEach(r=>days.forEach(d=>{ if(!r.pend && releaseMs(d,P.hour)>r.until) return; need++; if(nwReady(S.nwDays[nwId(r.uid,d)]?.d)) ready++; Object.values(S.pScores[r.uid]?.news?.[d]||{}).forEach(x=>{ S1+=+x.s||0; N1+=+x.n||0; }); }));
+  const reqs=allPassOrders().filter(o=>o.kind==='news' && o.st==='wait');
+  const cell=(r,d)=>{ const x=S.nwDays[nwId(r.uid,d)], doc=x?.st==='ok'?x.d:null, out=releaseMs(d,P.hour)<=now, paid=r.pend || releaseMs(d,P.hour)<=r.until;
+    const st=!nwReady(doc)?'empty':doc.on===false?'hidden':out?'out':'soon', h=doc?.stories?.[0]?.h||'';
+    if(!paid && !doc) return `<td class="nwc off" title="${esc(tr('nw.notPaid'))}">–</td>`;
+    return `<td> <button class="nwc st-${st} ${d===tkToday()?'tdy':''}" data-act="nwe-open" data-uid="${esc(r.uid)}" data-d="${d}" title="${esc(h||tr('nw.st.'+st,{h:hh(P.hour)}))}">${st==='empty'?'+':st==='out'?'✓':st==='soon'?hh(P.hour):'—'}${doc?`<i>${(doc.stories||[]).length}</i>`:''}</button></td>`; };
+  return `${nwTop(w)}<div class="page-head"><div><h1>${esc(P.name)}</h1><p>${tr('nw.pT',{p:som(P.price),n:P.days,h:hh(P.hour)})}</p></div>
+    <div class="row"><button class="btn" data-act="nw-ai">${I.spark} ${tr('nw.ai')}</button><button class="btn" data-act="pm-give" data-k="news">${tr('pm.give')}</button><button class="btn ghost" data-act="pm-set" data-k="news">${tr('pm.settings')}</button></div></div>${rulesNote()}
+    ${!P.on?`<div class="notice">${tr('pm.offNote')}</div>`:''}
+    ${reqs.length?`<div class="section" style="margin-top:0"><h2>${tr('pm.reqH')}</h2><div class="list">${reqs.map(o=>poRow(o,true)).join('')}</div></div>`:''}
+    <div class="stats section" ${reqs.length?'':'style="margin-top:0"'}><div class="stat"><b>${active}</b><span>${tr('nw.k.readers')}</span></div><div class="stat"><b>${money(income)}</b><span>${tr('nw.k.income')}</span></div>
+      <div class="stat"><b>${ready}<small>/${need}</small></b><span>${tr('nw.k.ready')}</span></div><div class="stat"><b>${N1?Math.round(S1/N1*100)+'%':'–'}</b><span>${tr('nw.k.quiz')}</span></div></div>
+    <div class="section"><h2>${tr('nw.planH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('nw.planP')}</p>
+    ${rd.length?`<div class="nw-plan-wrap"><table class="nw-plan"><thead><tr><th></th>${days.map(d=>`<th class="${d===tkToday()?'tdy':''}"><span>${esc(cap(dloc(parseDate(d),{weekday:'short'})))}</span><b class="num">${parseDate(d).getDate()}</b></th>`).join('')}</tr></thead>
+      <tbody>${rd.map(r=>`<tr><th><div class="row" style="gap:8px;flex-wrap:nowrap">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> ${r.level?`<span class="pill">${esc(r.level)}</span>`:''}<div class="small faint">${r.pend&&r.until<now?tr('pm.st.wait'):tr('st.activeTill',{d:esc(dayMonth(r.until))})}</div></div></div></th>${days.map(d=>cell(r,d)).join('')}</tr>`).join('')}</tbody></table></div>`
+      :`<div class="empty"><h3>${tr('nw.noReaders')}</h3><p>${tr('nw.noReadersP')}</p></div>`}
+    <p class="small faint nw-legend">+ ${tr('nw.st.empty')} · ${hh(P.hour)} ${tr('nw.st.soonL')} · ✓ ${tr('nw.st.out')} · — ${tr('nw.st.hidden')}</p></div>
+    ${nwMailCard()}`;
+}
+
+function nwMailCard(){
+  const M=S.mail||{}, ready=!!(M.url&&M.secret); let body;
+  if(!ready) body=`<p class="muted">${tr('nw.mailOff')}</p><button class="btn sm" data-act="go" data-v="board">${tr('nw.mailSetup')}</button>`;
+  else if((+M.v||0)<3) body=`<p class="muted">${tr('nw.mailOld')}</p><button class="btn sm pen" data-act="em-setup">${tr('em.update')}</button>`;
+  else body=`<label class="row" style="gap:8px"><input type="checkbox" data-act="em-ev" data-ev="news" ${M.on?.news!==false?'checked':''}> <span>${tr('nw.mailOn',{h:hh(pmInfo().news.hour)})}</span></label>`;
+  return `<div class="card section nw-mail"><h3>${I.inbox} ${tr('nw.mailH')}</h3>${body}</div>`;
+}
+
+/* teacher: one day's editor */
+const parseWords = t => String(t||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const m=l.match(/^(.+?)\s*(?:=|—|–|:|\s-\s)\s*(.+)$/); return m?{w:m[1].trim(),m:m[2].trim()}:null; }).filter(Boolean).slice(0,30);
+const wordsText = ws => (ws||[]).map(x=>`${x.w} = ${x.m}`).join('\n');
+function parseQs(t){
+  return String(t||'').replace(/\r/g,'').split(/\n\s*\n/).map(bl=>{
+    const L=bl.split('\n').map(x=>x.trim()).filter(Boolean); if(!L.length) return null;
+    const o=[], ans=[], q=[]; let a=-1, why='';
+    for(const l of L){
+      if(/^[*+]\s*/.test(l)){ if(a<0) a=o.length; o.push(l.replace(/^[*+]\s*/,'')); }
+      else if(/^-\s+/.test(l) || /^-(?=\S)/.test(l) && o.length) o.push(l.replace(/^-\s*/,''));
+      else if(/^=\s*/.test(l)) ans.push(...l.replace(/^=\s*/,'').split('/').map(x=>x.trim()).filter(Boolean));
+      else if(/^>\s*/.test(l)) why=(why?why+' ':'')+l.replace(/^>\s*/,'');
+      else q.push(l);
+    }
+    const text=q.join(' ').replace(/^\d+[.)]\s*/,''); if(!text) return null;
+    if(o.length>=2 && a>=0) return {q:text, o:o.slice(0,6), a:Math.min(a,5), why};
+    if(ans.length) return {q:text, ans:ans.slice(0,8), why};
+    return null;
+  }).filter(Boolean).slice(0,100);
+}
+const qsText = qs => (qs||[]).map(q=>[q.q, ...(q.o? q.o.map((o,i)=>(i===q.a?'* ':'- ')+o) : ['= '+(q.ans||[]).join(' / ')]), ...(q.why?['> '+q.why]:[])].join('\n')).join('\n\n');
+const parseCards = t => String(t||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const [fb,ex]=l.split(/\s+\|\s+/); const m=(fb||'').match(/^(.+?)\s*(?:=|—|–|\s-\s)\s*(.+)$/); return m?{f:m[1].trim(), b:m[2].trim(), ex:(ex||'').trim()}:null; }).filter(Boolean).slice(0,300);
+const cardsText = cs => (cs||[]).map(c=>`${c.f} = ${c.b}${c.ex?' | '+c.ex:''}`).join('\n');
+
+const nwBlank = (uid,d) => ({uid, date:d, week:weekOf(d), on:true, extras:{}, stories:[]});
+function openNwEdit(uid, d){
+  const x=S.nwDays[nwId(uid,d)];
+  S.nwe={uid, date:d, d:clone(x?.st==='ok'?x.d:nwBlank(uid,d)), tab:(x?.d?.stories||[]).length?'stories':'extras', existed:x?.st==='ok', dirty:false};
+  go('newsEdit');
+}
+
+function vNewsEdit(){
+  const E=S.nwe; if(!E) return `<div class="empty"><button class="btn" data-act="go" data-v="news">${tr('back')}</button></div>`;
+  const P=pmInfo().news, d=E.d, nm=S.profiles[E.uid]?.name||S.passes[E.uid]?.name||'?', lvl=S.profiles[E.uid]?.level||'';
+  const tabs=[['extras',tr('nw.e.extras')], ['stories', `${tr('nw.e.stories')} · ${(d.stories||[]).length}`], ['preview','👁 '+tr('nw.e.preview')]];
+  S.nwShown = E.tab==='preview' && nwReady({...d,on:true}) ? {d, date:E.date, who:nm.split(' ')[0]} : null;
+  const inner = E.tab==='extras' ? nweExtras(d.extras||{}) : E.tab==='preview' ? (S.nwShown?`<div class="row" style="justify-content:flex-end;margin-bottom:10px">${nwPrintBtns()}</div>`:'')+ (S.nwShown ? `<article class="nwp">${nwMast(E.date,nm.split(' ')[0])}${nwIssue(d,E.date,true)}</article>` : `<div class="empty"><h3>${tr('nw.e.nothing')}</h3></div>`) : nweStories();
+  return `<div class="pm-top"><button class="btn ghost sm" data-act="nwe-back">${I.back} ${esc(P.name)}</button>
+    <div class="row" style="gap:6px"><button class="btn ghost sm" data-act="nwe-go" data-n="-1" aria-label="${tr('nw.prevDay')}">‹ ${tr('nw.prevDay')}</button><button class="btn ghost sm" data-act="nwe-go" data-n="1">${tr('nw.nextDay')} ›</button></div></div>
+  <div class="page-head"><div><span class="label row" style="gap:8px">${avatar(nm,E.uid)} ${esc(nm)}${lvl?` · ${esc(lvl)}`:''}</span><h1>${esc(dateLong(E.date))}</h1><p>${tr('nw.e.p',{h:hh(P.hour),name:esc(nm.split(' ')[0])})}</p></div>
+    <div class="row"><label class="switch-row"><input type="checkbox" id="nwe-on" ${d.on!==false?'checked':''}> ${tr('nw.e.on',{h:hh(P.hour)})}</label><button class="btn primary" data-act="nwe-save">${tr('save')}</button></div></div>
+  <div class="seg nwe-tabs" role="tablist">${tabs.map(([k,n])=>`<button data-act="nwe-tab" data-t="${k}" aria-pressed="${E.tab===k}">${esc(n)}</button>`).join('')}</div>
+  <div class="nwe-body">${inner}</div>
+  <div class="row" style="margin-top:22px;justify-content:space-between"><span class="row">${E.existed?`<button class="btn ghost del-btn" data-act="nwe-del">${I.trash} <span>${tr('nw.e.del')}</span></button>`:''}<button class="btn ghost" data-act="nwe-copy">${I.copy} ${tr('nw.e.copyTo')}</button></span><button class="btn primary" data-act="nwe-save">${tr('save')}</button></div>`;
+}
+function nweExtras(ex){
+  const f=(id,label,v,ph='',area=false)=>`<label class="field"><span>${label}</span>${area?`<textarea class="inp" id="${id}" rows="2" placeholder="${esc(ph)}">${esc(v||'')}</textarea>`:`<input class="inp" id="${id}" value="${esc(v||'')}" placeholder="${esc(ph)}">`}</label>`;
+  return `<p class="muted small" style="margin-bottom:12px">${tr('nw.e.extrasP')}</p><div class="grid2">
+    <div class="card"><h3>Word of the day</h3>${f('nx-ww','Word',ex.word?.w,'resilient')}${f('nx-wm',tr('nw.e.meaning'),ex.word?.m,'able to recover quickly')}${f('nx-wex',tr('nw.e.example'),ex.word?.ex,'Children are often very resilient.')}</div>
+    <div class="card"><h3>Idiom of the day</h3>${f('nx-iw','Idiom',ex.idiom?.w,'a piece of cake')}${f('nx-im',tr('nw.e.meaning'),ex.idiom?.m,'very easy')}${f('nx-iex',tr('nw.e.example'),ex.idiom?.ex,'The test was a piece of cake.')}</div>
+    <div class="card"><h3>Did you know? · Smile!</h3>${f('nx-fact',tr('nw.e.fact'),ex.fact,'Octopuses have three hearts.',true)}${f('nx-joke',tr('nw.e.joke'),ex.joke,'',true)}</div>
+    <div class="card"><h3>Riddle · Write about it</h3>${f('nx-rq',tr('nw.e.riddle'),ex.riddle?.q,'What has hands but cannot clap?')}${f('nx-ra',tr('nw.e.answer'),ex.riddle?.a,'A clock')}${f('nx-write',tr('nw.e.write'),ex.write,'Write about your favourite season.',true)}</div>
+    <div class="card" style="grid-column:1/-1"><h3>From your teacher</h3>${f('nx-note',tr('nw.e.note'),ex.note,'',true)}</div></div>`;
+}
+function nweStories(){
+  const st=S.nwe.d.stories||[];
+  return `<div class="list">${st.map((s,i)=>`<div class="card nwe-story" data-i="${i}"><div class="row" style="justify-content:space-between"><h3>${tr('nw.e.story',{n:i+1})}${i===0?` <span class="pill">${tr('nw.e.lead')}</span>`:''}</h3><button class="btn ghost sm del-btn" data-act="nwe-rm" data-i="${i}">${I.trash} <span>${tr('delete')}</span></button></div>
+      <div class="lg-2"><label class="field"><span>${tr('nw.e.sec')}</span><select class="inp nes-sec">${Object.entries(NW_SEC).map(([k,v])=>`<option value="${k}" ${s.sec===k?'selected':''}>${v}</option>`).join('')}</select></label>
+        <label class="field"><span>${tr('mk.img')} <span class="faint">${tr('optional')}</span></span><input class="inp nes-img" maxlength="400" placeholder="https://" value="${esc(s.img||'')}"></label></div>
+      <label class="field"><span>${tr('nw.e.h')}</span><input class="inp nes-h" maxlength="160" value="${esc(s.h||'')}"></label>
+      <label class="field"><span>${tr('nw.e.sub')} <span class="faint">${tr('optional')}</span></span><input class="inp nes-sub" maxlength="240" value="${esc(s.sub||'')}"></label>
+      <label class="field"><span>${tr('nw.e.body')}</span><textarea class="inp nes-body" rows="8">${esc(s.body||'')}</textarea></label>
+      <div class="lg-2"><label class="field"><span>${tr('nw.e.words')}</span><textarea class="inp mono nes-words" rows="6" placeholder="climate = the usual weather in a place">${esc(wordsText(s.words))}</textarea></label>
+        <label class="field"><span>${tr('nw.e.quiz')}</span><textarea class="inp mono nes-quiz" rows="6" placeholder="Where is the city?\n* in Spain\n- in Italy\n- in Peru">${esc(qsText(s.quiz))}</textarea><span class="small faint nes-qn">${tr('nw.e.qn',{n:(s.quiz||[]).length})}</span></label></div>
+    </div>`).join('')}</div>
+    ${st.length<5?`<button class="btn" style="margin-top:14px" data-act="nwe-add">+ ${tr('nw.e.addOne')}</button>`:''}
+    <details class="card nwe-help"><summary>${tr('nw.e.howQ')}</summary><pre>Where did Ali go on Saturday?\n* to the bazaar\n- to school\n- to the cinema\n\nThe story is about a city in Asia.\n* True\n- False</pre><p class="small muted">${tr('nw.e.howQP')}</p></details>`;
+}
+function nweRead(){
+  const E=S.nwe; if(!E) return; const d=E.d, v=id=>($('#'+id)?.value??'').trim();
+  const on=$('#nwe-on'); if(on) d.on=on.checked;
+  if(E.tab==='extras' && $('#nx-ww')) d.extras={word:{w:v('nx-ww'),m:v('nx-wm'),ex:v('nx-wex')}, idiom:{w:v('nx-iw'),m:v('nx-im'),ex:v('nx-iex')}, fact:v('nx-fact'), joke:v('nx-joke'), riddle:{q:v('nx-rq'),a:v('nx-ra')}, write:v('nx-write'), note:v('nx-note')};
+  else if(E.tab==='stories'){
+    const prev=d.stories||[];
+    d.stories=[...document.querySelectorAll('.nwe-story')].map(c=>{ const q=sel=>c.querySelector(sel).value; const p=prev[+c.dataset.i]||{};
+      return {id:p.id||newId(), sec:q('.nes-sec'), h:q('.nes-h').trim(), sub:q('.nes-sub').trim(), body:q('.nes-body').trim(), img:q('.nes-img').trim(), words:parseWords(q('.nes-words')), quiz:parseQs(q('.nes-quiz')).filter(x=>x.o)}; });
+  }
+}
+function nwDoc(uid, date, d){
+  const P=pmInfo().news, on=d.on!==false;
+  return {...d, uid, date, week:weekOf(date), on, stories:(d.stories||[]).filter(x=>x.h||x.body), releaseAt:on?releaseMs(date,P.hour):NW_NEVER, at:nowTs()};
+}
+async function nweSave(){
+  nweRead(); const E=S.nwe, P=pmInfo().news;
+  if((E.d.stories||[]).some(x=>x.img && !safeLink(x.img))){ toast(tr('pf.badLink')); return false; }
+  const doc=nwDoc(E.uid, E.date, E.d);
+  try{ await S.db.doc('newsDays/'+nwId(E.uid,E.date)).set(doc); S.nwDays[nwId(E.uid,E.date)]={st:'ok',d:clone(doc)}; E.d=clone(doc); E.existed=true; E.dirty=false;
+    toast(doc.on===false?tr('nw.e.savedHidden'):releaseMs(E.date,P.hour)<=Date.now()?tr('nw.e.savedOut'):tr('nw.e.saved',{day:dateLong(E.date),h:hh(P.hour)})); renderMain(); return true; }
+  catch(e){ dbErr(e,'news'); return false; }
+}
+// the same issue for other students (they can then be changed one by one)
+function openNwCopy(){
+  nweRead(); const E=S.nwe, others=nwReaders(weekOf(E.date)).filter(r=>r.uid!==E.uid);
+  if(!others.length){ toast(tr('nw.e.noOthers')); return; }
+  showDlg(`<form id="nc-form" novalidate>${dlgHead(esc(dateLong(E.date)), tr('nw.e.copyTo'))}<div class="dlg-body"><p class="muted small">${tr('nw.e.copyToP')}</p>
+    <div class="list" style="gap:6px">${others.map(r=>{ const has=nwReady(S.nwDays[nwId(r.uid,E.date)]?.d); return `<label class="row" style="gap:8px"><input type="checkbox" class="nc-u" value="${esc(r.uid)}" ${has?'':'checked'}> <b>${esc(r.name)}</b> ${r.level?`<span class="pill">${esc(r.level)}</span>`:''}${has?` <span class="small" style="color:var(--warn)">${tr('nw.e.hasOne')}</span>`:''}</label>`; }).join('')}</div></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="nc-go">${tr('nw.e.copyGo')}</button></div></form>`, {type:'nwcopy'});
+  $('#nc-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const ids=[...document.querySelectorAll('.nc-u:checked')].map(x=>x.value); if(!ids.length){ closeDlg(); return; }
+    $('#nc-go').disabled=true; let n=0;
+    for(const uid of ids){ const doc=nwDoc(uid, E.date, {...clone(E.d), stories:clone(E.d.stories||[]).map(x=>({...x,id:newId()}))});
+      try{ await S.db.doc('newsDays/'+nwId(uid,E.date)).set(doc); S.nwDays[nwId(uid,E.date)]={st:'ok',d:doc}; n++; }catch(e2){ dbErr(e2,'news'); break; } }
+    closeDlg(); toast(tr('nw.e.copied',{n}));
+  });
+}
+function nwPrompt(dates, level, n, topic){
+  const P=pmInfo().news, len={A1:'60-90',A2:'100-140',B1:'160-220',B2:'230-300',C1:'300-380',C2:'300-380'}[level]||'160-220';
+  return `You are the editor of "${P.name}", a short personal daily newspaper for one learner of English in Uzbekistan. The learner's level is ${level} (CEFR).
+Write ${dates.length===1?'1 issue':dates.length+' issues'}, one for each of these days: ${dates.map(d=>enDate(d,{weekday:'long'})+' '+d).join(', ')}.
+Each issue has ${n} news ${n>1?'stories':'story'} of ${len} words each, with grammar and vocabulary that fit ${level}.
+${topic?`The learner is interested in: ${topic}. Choose stories about these interests.`:'Mix the topics: world, Uzbekistan, science, sport, culture, technology, everyday life and fun.'}
+Write friendly, positive, general-interest stories. Do not invent news events or quotes from real people. If you are not sure a fact is true, write an evergreen story instead (a place, an invention, an animal, a tradition, a useful tip).
+Every story has 5 key words from the story with simple English meanings, and 4 multiple-choice questions with 3 options each that check understanding of the story ("a" is the number of the right option: 0, 1 or 2).
+Every issue also has: a word of the day, an idiom with its meaning and an example, a fun fact, a short clean joke, a riddle with its answer, and a writing prompt for the learner's diary.
+Return ONLY valid JSON, with no text before or after it, in exactly this shape:
+{"days":[{"date":"${dates[0]}","extras":{"word":{"w":"","m":"","ex":""},"idiom":{"w":"","m":"","ex":""},"fact":"","joke":"","riddle":{"q":"","a":""},"write":""},"stories":[{"sec":"world","h":"Headline","sub":"One-sentence summary","body":"First paragraph.\\n\\nSecond paragraph.","words":[{"w":"word","m":"meaning"}],"quiz":[{"q":"Question?","o":["option","option","option"],"a":0}]}]}]}
+"sec" is one of: world, uzbekistan, science, sport, culture, tech, life, fun.`;
+}
+function nwNormDay(x){
+  const o = v => (v && typeof v==='object') ? v : {}, ex=o(x.extras);
+  let arr = Array.isArray(x.stories) ? x.stories : null;
+  if(!arr && x.levels) for(const v of Object.values(o(x.levels))){ arr = Array.isArray(v)?v:Array.isArray(v?.stories)?v.stories:null; if(arr) break; }
+  const stories=(arr||[]).slice(0,5).map(s=>({id:newId(), sec:NW_SEC[s?.sec]?s.sec:'world', h:str(s?.h,160), sub:str(s?.sub,240), body:str(s?.body,8000), img:'',
+      words:(Array.isArray(s?.words)?s.words:[]).slice(0,12).map(w=>({w:str(w?.w,60), m:str(w?.m,160)})).filter(w=>w.w&&w.m),
+      quiz:(Array.isArray(s?.quiz)?s.quiz:[]).slice(0,10).map(q=>({q:str(q?.q,300), o:(Array.isArray(q?.o)?q.o:[]).slice(0,5).map(v=>str(v,160)).filter(Boolean), a:Math.round(+q?.a||0), why:''})).filter(q=>q.q && q.o.length>=2 && q.a>=0 && q.a<q.o.length)
+    })).filter(s=>s.h && s.body);
+  const extras={word:{w:str(ex.word?.w,60),m:str(ex.word?.m,200),ex:str(ex.word?.ex,240)}, idiom:{w:str(ex.idiom?.w,80),m:str(ex.idiom?.m,200),ex:str(ex.idiom?.ex,240)},
+    fact:str(ex.fact,400), joke:str(ex.joke,400), riddle:{q:str(ex.riddle?.q,240),a:str(ex.riddle?.a,120)}, write:str(ex.write,300)};
+  return {stories, extras};
+}
+function openNwAi(){
+  const w=S.view.week||weekOf(tkToday()), days=weekDays(w), rd=nwReaders(w);
+  if(!rd.length){ toast(tr('nw.noReaders')); return; }
+  showDlg(`<form id="ai-form" novalidate>${dlgHead(tr('nw.ai'), tr('nw.aiH'))}<div class="dlg-body">
+    <ol class="em-steps"><li>${tr('nw.ai1')}</li><li>${tr('nw.ai2')}</li><li>${tr('nw.ai3')}</li></ol>
+    <div class="field"><span>${tr('nw.aiFor')}</span><div class="list" style="gap:6px">${rd.map((r,i)=>`<label class="row" style="gap:8px"><input type="checkbox" class="ai-u" value="${esc(r.uid)}" data-l="${esc(r.level)}" ${i===0?'checked':''}> <b>${esc(r.name)}</b> ${r.level?`<span class="pill">${esc(r.level)}</span>`:''}</label>`).join('')}</div><span class="small faint">${tr('nw.aiForP')}</span></div>
+    <div class="lg-2"><label class="field"><span>${tr('nw.aiDays')}</span><select class="inp" id="ai-day"><option value="all">${tr('nw.aiAll')}</option>${days.map(d=>`<option value="${d}">${esc(dateLong(d))}</option>`).join('')}</select></label>
+      <label class="field"><span>${tr('st.level')}</span><select class="inp" id="ai-lvl">${LEVELS.map(l=>`<option ${l===(rd[0].level||'B1')?'selected':''}>${l}</option>`).join('')}</select></label></div>
+    <div class="lg-2"><label class="field"><span>${tr('nw.aiN')}</span><select class="inp" id="ai-n"><option>1</option><option selected>2</option><option>3</option></select></label>
+      <label class="field"><span>${tr('nw.aiTopic')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ai-topic" maxlength="200" placeholder="${tr('nw.aiTopicPh')}"></label></div>
+    <button type="button" class="btn" id="ai-copy">${I.copy} ${tr('nw.aiCopy')}</button>
+    <label class="field"><span>${tr('nw.aiPaste')}</span><textarea class="inp mono" id="ai-json" rows="6" placeholder='{"days":[ … ]}'></textarea></label>
+    <p class="lg-err" id="ai-err" role="alert"></p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="ai-go">${tr('nw.aiImport')}</button></div></form>`, {type:'ai'});
+  const pick = () => $('#ai-day').value==='all' ? days : [$('#ai-day').value];
+  document.querySelectorAll('.ai-u').forEach(c=>c.addEventListener('change',()=>{ const f=document.querySelector('.ai-u:checked'); if(f && f.dataset.l) $('#ai-lvl').value=f.dataset.l; }));
+  $('#ai-copy').addEventListener('click', async ()=>{ const t=nwPrompt(pick(), $('#ai-lvl').value, +$('#ai-n').value, $('#ai-topic').value.trim()); try{ await navigator.clipboard.writeText(t); toast(tr('pf.copied')); }catch(e){ $('#ai-json').value=t; $('#ai-json').select(); toast(tr('t.selected')); } });
+  $('#ai-form').addEventListener('submit', async e=>{
+    e.preventDefault(); const err=$('#ai-err'), raw=$('#ai-json').value, i0=raw.indexOf('{'), i1=raw.lastIndexOf('}'), uids=[...document.querySelectorAll('.ai-u:checked')].map(x=>x.value);
+    if(!uids.length){ err.textContent=tr('nw.aiNoOne'); return; }
+    let j=null; try{ j=JSON.parse(raw.slice(i0,i1+1)); }catch(_){ }
+    const list = Array.isArray(j) ? j : Array.isArray(j?.days) ? j.days : j && (j.stories||j.levels||j.extras) ? [j] : null;
+    if(!list || !list.length){ err.textContent=tr('nw.aiBad'); return; }
+    const want=pick(); let n=0; $('#ai-go').disabled=true;
+    outer: for(let i=0;i<list.length && i<7;i++){
+      const date = days.includes(list[i]?.date) ? list[i].date : want[i]; if(!date) continue;
+      const {stories, extras}=nwNormDay(list[i]); if(!stories.length) continue;
+      for(const uid of uids){
+        const old=S.nwDays[nwId(uid,date)]?.st==='ok'?S.nwDays[nwId(uid,date)].d:nwBlank(uid,date);
+        const keep=Object.fromEntries(Object.entries(extras).filter(([,v])=>typeof v==='string'?v:Object.values(v).some(Boolean)));
+        const doc=nwDoc(uid, date, {...old, extras:{...(old.extras||{}), ...keep}, stories:stories.map(x=>({...clone(x), id:newId()}))});
+        try{ await S.db.doc('newsDays/'+nwId(uid,date)).set(doc); S.nwDays[nwId(uid,date)]={st:'ok',d:doc}; n++; }catch(e2){ dbErr(e2,'news'); break outer; }
+      }
+    }
+    $('#ai-go').disabled=false;
+    if(!n){ err.textContent=tr('nw.aiBad'); return; }
+    closeDlg(); toast(tr('nw.aiDone',{n})); refresh();
+  });
+}
+let nwMailHash='';
+async function nwMailSync(){
+  const M=S.mail||{};
+  if(S.mode!=='teacher' || S.demo || !M.url || !M.secret || (+M.v||0)<3 || !S.pmL?.passes || !S.contactsLoaded || !S.loaded.p) return;
+  const P=pmInfo().news, today=tkToday(), dates=[0,1,2,3].map(i=>dAdd(today,i)), items=[];
+  for(const d of dates){ const w=weekOf(d); nwWatchWeek(w); if(!S.pmL['w'+w]) return; }   // wait until those weeks have loaded
+  if(P.on && M.on?.news!==false) for(const d of dates) for(const [uid,p] of Object.entries(S.passes)){
+    const doc=S.nwDays[nwId(uid,d)]?.d; if(!nwReady(doc) || newsUntil(p)<doc.releaseAt) continue;
+    const c=S.contacts[uid]; if(!c || c.off || !c.email) continue; const lang=DICT[c.lang]?c.lang:'en';
+    const m=withLang(lang, ()=>({subject:tr('nw.emSubj',{name:P.name, day:cap(dloc(parseDate(d),{weekday:'long'}))}), kicker:P.name, title:tr('nw.emT'),
+      lines:[(doc.stories||[]).map(s=>'• '+s.h).join('\n'), tr('nw.emL')]}));
+    items.push({id:nwId(uid,d), date:d, at:doc.releaseAt, to:[c.email], subject:m.subject, html:withLang(lang,()=>mailHtml(lang,m)), text:m.subject+'\n\n'+m.lines.join('\n\n')+'\n\n'+siteUrl(), from:trL(lang,'em.from',{name:S.me?.name||tr('teacher')})});
+  }
+  const body={action:'news', from:today, items:items.slice(0,150)}, h=JSON.stringify(body); if(h===nwMailHash) return;
+  const r=await mailPost(body); if(r.ok) nwMailHash=h;
+}
+/* ================= the practice pack: flashcards, quizzes, tests ================= */
+const ST_KINDS = ['cards','quiz','test'];
+const ST_IC = {cards:'cards', quiz:'bulb', test:'flag'};
+const vStudy = () => S.mode==='teacher' ? vStudyT() : vStudyS();
+function stCard(x, teacher, uid){
+  let prog='';
+  if(!teacher && hasStudy()){
+    if(x.kind==='cards'){ const b=S.myScores?.cards?.[x.id]||{}, m=Object.values(b).filter(v=>v>=3).length, n=+x.n||0;
+      prog = n ? `<div class="st-prog"><div class="goal ${m>=n?'done':''}"><i style="width:${Math.min(100,m/n*100)}%"></i></div><span class="small muted num">${tr('st.mastered',{a:m,b:n})}</span></div>` : ''; }
+    else { const r=S.myScores?.study?.[x.id]; prog = r ? `<div class="st-prog"><div class="goal ${r.best>=r.n?'done':''}"><i style="width:${r.n?r.best/r.n*100:0}%"></i></div><span class="small muted num">${tr('st.best',{s:r.best,n:r.n})}</span></div>` : ''; }
+  }
+  const btn = teacher ? `<button class="btn ghost sm" data-act="st-open" data-id="${esc(x.id)}" data-uid="${esc(uid||'')}">👁 ${tr('st.try')}</button><button class="btn sm" data-act="st-edit" data-id="${esc(x.id)}" data-uid="${esc(uid||'')}">${tr('edit')}</button>`
+    : hasStudy() ? `<button class="btn pen sm" data-act="st-open" data-id="${esc(x.id)}">${tr(x.kind==='test'?'st.startTest':'st.start')}</button>` : `<span class="small faint">${I.lock}</span>`;
+  return `<article class="st-card k-${x.kind} ${x.on===false?'off':''}"><div class="st-top"><span class="st-kind">${I[ST_IC[x.kind]]||''} ${tr('st.k.'+x.kind)}</span>${x.level?`<span class="pill">${esc(x.level)}</span>`:''}</div>
+    <h3>${esc(x.title)}</h3>${x.desc?`<p class="small muted">${esc(x.desc)}</p>`:''}<p class="small faint">${tr('st.n.'+x.kind,{n:x.n||0,m:x.mins||0})}${x.on===false?' · '+tr('mk.hidden'):''}</p>
+    ${prog}<div class="st-foot">${btn}</div></article>`;
+}
+function stFilter(sets){
+  const f=S.view.f||'all', c={}; sets.forEach(x=>c[x.kind]=(c[x.kind]||0)+1);
+  return sets.length>2 ? `<div class="seg" style="margin-bottom:16px">${['all',...ST_KINDS].map(k=>`<button data-act="st-f" data-k="${k}" aria-pressed="${f===k}">${k==='all'?tr('learn.all'):tr('st.kp.'+k)} <span class="cnt-s num">${k==='all'?sets.length:(c[k]||0)}</span></button>`).join('')}</div>` : '';
+}
+function vStudyS(){
+  const P=pmInfo(), until=studyUntil(S.myPass), on=hasStudy(), f=S.view.f||'all';
+  const sets=(S.myIdx?.sets||[]).filter(x=>x.on!==false), shown=sets.filter(x=>f==='all'||x.kind===f);
+  const mine=myPassOrders().filter(o=>o.kind==='study'), pend=mine.find(o=>o.st==='wait');
+  const head=`<div class="pm-top">${pmBack()}</div><div class="page-head"><div><h1>${tr('st.name')}</h1><p>${tr('st.pS')}</p></div>
+    ${on?`<div class="pm-until"><span class="label">${tr('st.until')}</span><b>${esc(dayMonth(until))}</b>${pend?`<span class="small muted">${tr('pm.pending')}</span>`:`<button class="btn sm" data-act="pb-open" data-k="study">${tr('st.extendBtn')}</button>`}</div>`:''}</div>${rulesNote()}`;
+  if(on) return head + (sets.length ? stFilter(sets)+`<div class="st-grid">${shown.map(x=>stCard(x,false)).join('')}</div>` : `<div class="empty"><h3>${tr('st.making')}</h3><p>${tr('st.makingP')}</p></div>`);
+  return head+`<div class="pm-cover card"><div><h2>${tr('st.coverH')}</h2><ul class="pm-feats big">${['f1','f2','f3','f4'].map(k=>`<li>${tr('st.'+k)}</li>`).join('')}</ul></div>
+    <div class="nw-buy"><b class="num pm-price">${som(P.study.price)}</b><span class="small muted">${tr('st.days',{n:P.study.days})}</span>
+      ${pend?`<div class="pm-status">${tr('pm.pending')}</div>`:P.study.on?`<button class="btn pen" data-act="pb-open" data-k="study">${tr('mk.buy')}</button>`:`<p class="small faint">${tr('pm.notSold')}</p>`}
+      ${until && until<=Date.now()?`<p class="small faint">${tr('st.ended',{d:esc(dayMonth(until))})}</p>`:''}</div></div>
+    ${sets.length?`<div class="section"><h2>${tr('st.yours')}</h2><div class="st-grid locked">${sets.map(x=>stCard(x,false)).join('')}</div></div>`:''}
+    ${mine.length?`<div class="section"><h2>${tr('mk.mine')}</h2><div class="list">${mine.slice(0,6).map(o=>poRow(o,false)).join('')}</div></div>`:''}`;
+}
+// students to make sets for: anyone with an open pack, anyone waiting for the payment check, anyone who already has sets
+function stStudents(){
+  const now=Date.now(), pend=new Set(allPassOrders().filter(o=>o.kind==='study'&&o.st==='wait').map(o=>o.uid));
+  const ids=new Set([...Object.entries(S.passes).filter(([,p])=>studyUntil(p)>now).map(([u])=>u), ...pend, ...Object.entries(S.stIdx).filter(([,x])=>(x?.sets||[]).length).map(([u])=>u)]);
+  return [...ids].filter(u=>S.profiles[u]||S.passes[u]).map(uid=>({uid, name:S.profiles[uid]?.name||S.passes[uid]?.name||'?', level:S.profiles[uid]?.level||'', until:studyUntil(S.passes[uid]), pend:pend.has(uid), sets:S.stIdx[uid]?.sets||[]}))
+    .sort((a,b)=>(b.until>now)-(a.until>now) || a.name.localeCompare(b.name));
+}
+function vStudyT(){
+  const P=pmInfo(), now=Date.now(), ym=curYM(), list=stStudents();
+  const active=list.filter(r=>r.until>now), need=active.filter(r=>!r.sets.length).length, nSets=list.reduce((a,r)=>a+r.sets.length,0);
+  const income=Object.values(S.passes).flatMap(p=>p?.study?.hist||[]).filter(h=>ymdU((h.at||0)+NW_TZ*36e5).startsWith(ym)).reduce((a,h)=>a+(+h.amount||0),0);
+  const reqs=allPassOrders().filter(o=>o.kind==='study' && o.st==='wait');
+  let bs=0, bn=0; Object.values(S.pScores).forEach(sc=>Object.values(sc?.study||{}).forEach(r=>{ bs+=+r.best||0; bn+=+r.n||0; }));
+  return `<div class="pm-top">${pmBack()}</div><div class="page-head"><div><h1>${tr('st.name')}</h1><p>${tr('st.pT',{p:som(P.study.price),n:P.study.days})}</p></div>
+    <div class="row"><button class="btn" data-act="pm-give" data-k="study">${tr('pm.give')}</button><button class="btn ghost" data-act="pm-set" data-k="study">${tr('pm.settings')}</button></div></div>${rulesNote()}
+    ${!P.study.on?`<div class="notice">${tr('pm.offNote')}</div>`:''}
+    ${reqs.length?`<div class="section" style="margin-top:0"><h2>${tr('pm.reqH')}</h2><div class="list">${reqs.map(o=>poRow(o,true)).join('')}</div></div>`:''}
+    <div class="stats section" ${reqs.length?'':'style="margin-top:0"'}><div class="stat"><b>${active.length}</b><span>${tr('st.k.active')}</span></div><div class="stat"><b>${money(income)}</b><span>${tr('st.k.income')}</span></div>
+      <div class="stat"><b>${nSets}</b><span>${tr('st.k.sets')}</span></div><div class="stat"><b>${bn?Math.round(bs/bn*100)+'%':'–'}</b><span>${tr('st.k.score')}</span></div></div>
+    ${need?`<div class="notice info section">${tr('st.needN',{n:need})}</div>`:''}
+    ${list.length?list.map(r=>{ const sc=S.pScores[r.uid]||{}, cards=Object.values(sc.cards||{}).reduce((a,b)=>a+Object.values(b||{}).filter(v=>v>=3).length,0);
+      const state = r.until>now ? tr('st.activeTill',{d:esc(dayMonth(r.until))}) : r.pend ? tr('pm.st.wait') : r.until ? tr('st.ended',{d:esc(dayMonth(r.until))}) : '';
+      return `<div class="section st-stu"><div class="st-stu-h">${avatar(r.name,r.uid)}<div style="min-width:0"><h3>${esc(r.name)} ${r.level?`<span class="pill">${esc(r.level)}</span>`:''} ${r.until>now&&!r.sets.length?`<span class="pill nw-st-hidden">${tr('st.needOne')}</span>`:''}</h3>
+          <div class="small muted">${state}${r.sets.length?' · '+tr('st.stuLine',{t:Object.keys(sc.study||{}).length,c:cards}):''}</div></div>
+          <button class="btn primary sm" data-act="st-new" data-uid="${esc(r.uid)}">+ ${tr('st.newFor',{name:esc(r.name.split(' ')[0])})}</button></div>
+        ${r.sets.length?`<div class="st-grid">${r.sets.map(x=>stCard(x,true,r.uid)).join('')}</div>`:`<p class="faint small">${tr('st.noSetsYet')}</p>`}</div>`; }).join('')
+    :`<div class="empty section"><h3>${tr('st.noActive')}</h3><p>${tr('st.noActiveP')}</p></div>`}`;
+}
+/* open one set: flashcards / quiz / test */
+function vSet(){
+  const id=S.view.id, meta=(S.mode==='teacher'?S.stIdx[S.view.uid]?.sets:S.myIdx?.sets||[])?.find(x=>x.id===id); if(hasStudy()) stWatch(id); const x=hasStudy()?stSet(id):{st:'locked'};
+  const top=`<div class="pm-top"><button class="btn ghost sm" data-act="${S.mode==='teacher'?'go':'st-leave'}" data-v="study">${I.back} ${tr('st.name')}</button></div>`;
+  if(x.st==='wait') return top+`<div class="loading">${tr('nw.loading')}</div>`;
+  if(x.st!=='ok') return top+`<div class="empty"><h3>${hasStudy()?tr('st.gone'):tr('st.locked')}</h3>${hasStudy()?'':`<p style="margin-top:12px"><button class="btn pen" data-act="pb-open" data-k="study">${tr('mk.buy')}</button></p>`}</div>`;
+  const s={...x.d, title:x.d.title||meta?.title||''};
+  return top + (s.kind==='cards' ? vCards(s) : s.kind==='test' ? vTest(s) : vQuiz(s));
+}
+function fcStart(s, keep){ const boxes=keep || (S.mode==='student'?(S.myScores?.cards?.[s.id]||{}):{});
+  S.fc={id:s.id, order:(s.cards||[]).map((c,i)=>i).sort((a,b)=>(+boxes[a]||0)-(+boxes[b]||0) || Math.random()-.5), pos:0, flip:false, ok:0, again:0, boxes:{...boxes}}; }
+const fcActs = () => S.fc.flip ? `<button class="btn" data-act="fc-ans" data-v="0">↺ ${tr('st.again')}</button><button class="btn pen" data-act="fc-ans" data-v="1">✓ ${tr('st.gotIt')}</button>` : `<button class="btn primary" data-act="fc-flip">${tr('st.show')}</button>`;
+function vCards(s){
+  if(!S.fc || S.fc.id!==s.id) fcStart(s);
+  const F=S.fc, cards=s.cards||[], n=cards.length, mastered=cards.filter((c,i)=>(+F.boxes[i]||0)>=3).length;
+  const head=`<div class="page-head"><div><span class="label">${tr('st.k.cards')} · ${esc(s.level||'')}</span><h1>${esc(s.title)}</h1><p>${tr('st.fcP')}</p></div>
+    <div class="st-prog wide"><span class="small muted num">${tr('st.mastered',{a:mastered,b:n})}</span><div class="goal ${mastered>=n?'done':''}"><i style="width:${n?mastered/n*100:0}%"></i></div></div></div>`;
+  if(!n) return head+`<div class="empty"><h3>${tr('st.noCards')}</h3></div>`;
+  if(F.pos>=F.order.length) return head+`<div class="card st-done"><b class="st-big">🎉</b><h2>${tr('st.fcDone')}</h2><p class="muted">${tr('st.fcDoneP',{a:F.ok,b:F.again})}</p>
+    <div class="row" style="justify-content:center"><button class="btn primary" data-act="fc-restart">${tr('st.again2')}</button><button class="btn" data-act="go" data-v="study">${tr('st.name')}</button></div></div>`;
+  const c=cards[F.order[F.pos]]||{};
+  return head+`<div class="fc-wrap"><div class="small faint num">${F.pos+1} / ${F.order.length}</div>
+    <button class="fc ${F.flip?'flip':''}" data-act="fc-flip" aria-label="${tr('st.show')}"><span class="fc-in"><span class="fc-face fc-front"><b>${esc(c.f)}</b><i>${tr('st.tapFlip')}</i></span><span class="fc-face fc-back"><b>${esc(c.b)}</b>${c.ex?`<em>“${esc(c.ex)}”</em>`:''}</span></span></button>
+    <div class="fc-acts">${fcActs()}</div>
+    <button class="btn ghost sm" data-act="say-t" data-t="${esc(c.f+(c.ex?'. '+c.ex:''))}">🔊 ${tr('st.listen')}</button></div>`;
+}
+let fcSaveT=null;
+function fcAnswer(ok){
+  const F=S.fc, i=F.order[F.pos], b=+F.boxes[i]||0; F.boxes[i]=ok?Math.min(5,b+1):0; ok?F.ok++:F.again++;
+  if(!ok && F.order.length<(S.stSets[F.id]?.d?.cards||[]).length*3) F.order.push(i);
+  F.pos++; F.flip=false; renderMain();
+  if(S.mode==='student'){ clearTimeout(fcSaveT); const id=F.id, boxes={...F.boxes}; fcSaveT=setTimeout(()=>pmSaveScores(n=>{ n.cards[id]=boxes; }), 1500); }
+}
+const qHTML = t => esc(t).replace(/_{2,}/g,'<span class="qz-blank">_____</span>');
+const nz = s => String(s||'').toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ').replace(/[.!?,;:]+$/,'').trim();
+const qRight = (q,v) => q.o ? v===q.a : (q.ans||[]).some(x=>nz(x)===nz(v)&&nz(v)!=='');
+const qRightText = q => q.o ? q.o[q.a] : (q.ans||[])[0]||'';
+async function stSaveResult(s, sc, n){ await pmSaveScores(x=>{ const p=x.study[s.id]||{}; x.study[s.id]={best:Math.max(+p.best||0,sc), last:sc, n, tries:(+p.tries||0)+1, at:nowTs()}; }); }
+function vQuiz(s){
+  if(!S.quiz || S.quiz.id!==s.id) S.quiz={id:s.id, i:0, ans:[]};
+  const Q=S.quiz, qs=s.qs||[], n=qs.length;
+  const head=`<div class="page-head"><div><span class="label">${tr('st.k.quiz')} · ${esc(s.level||'')}</span><h1>${esc(s.title)}</h1>${s.desc?`<p>${esc(s.desc)}</p>`:''}</div>
+    <div class="st-prog wide"><span class="small muted num">${Math.min(Q.i+1,n)} / ${n}</span><div class="goal"><i style="width:${n?Math.min(Q.i,n)/n*100:0}%"></i></div></div></div>`;
+  if(!n) return head+`<div class="empty"><h3>${tr('st.noQs')}</h3></div>`;
+  if(Q.i>=n){ const sc=Q.ans.filter(a=>a?.ok).length; if(!Q.saved){ Q.saved=true; stSaveResult(s, sc, n); }
+    return head+stResult(sc, n, qs, Q.ans.map(a=>a?.v), 'qz-restart'); }
+  const q=qs[Q.i], a=Q.ans[Q.i];
+  return head+`<div class="card qz"><p class="qz-q">${qHTML(q.q)}</p>
+    ${q.o?`<div class="qz-opts">${q.o.map((o,j)=>`<button class="qz-opt ${a?(j===q.a?'right':(a.v===j?'wrong':'')):''}" data-act="qz-pick" data-j="${j}" ${a?'disabled':''}><b>${String.fromCharCode(65+j)}</b> ${esc(o)}</button>`).join('')}</div>`
+      :`<div class="qz-gap"><input class="inp" id="qz-in" ${a?`value="${esc(a.v)}" disabled`:''} autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${tr('st.typeAns')}">${a?'':`<button class="btn pen" data-act="qz-type">${tr('st.check')}</button>`}</div>`}
+    ${a?`<div class="qz-fb ${a.ok?'ok':'no'}"><b>${a.ok?tr('st.right'):tr('st.wrong')}</b> ${a.ok?'':tr('st.answerIs',{a:`<b>${esc(qRightText(q))}</b>`})}${q.why?`<p>${esc(q.why)}</p>`:''}</div>
+      <button class="btn primary" data-act="qz-next">${Q.i+1<n?tr('st.next'):tr('st.finish')} →</button>`:''}</div>`;
+}
+function stResult(sc, n, qs, picks, again){
+  const pct=n?Math.round(sc/n*100):0, msg=pct>=90?'st.r.great':pct>=70?'st.r.good':pct>=50?'st.r.ok':'st.r.low';
+  return `<div class="card st-done"><div class="st-ring" style="--p:${pct}"><b class="num">${pct}%</b></div><h2>${tr(msg)}</h2><p class="muted">${tr('st.score',{s:sc,n})}</p>
+    <div class="row" style="justify-content:center"><button class="btn primary" data-act="${again}">${tr('st.again2')}</button><button class="btn" data-act="${S.mode==='teacher'?'go':'st-leave'}" data-v="study">${tr('st.name')}</button></div></div>
+    <div class="section"><h2>${tr('st.review')}</h2><ol class="st-rev">${qs.map((q,i)=>{ const v=picks[i], ok=qRight(q,v), given=q.o?(v!=null?q.o[v]:''):(v||'');
+      return `<li class="${ok?'ok':'no'}"><p>${qHTML(q.q)}</p><p class="small">${ok?'✓':'✗'} ${given?esc(given):`<span class="faint">${tr('st.blank')}</span>`}${ok?'':` → <b>${esc(qRightText(q))}</b>`}</p>${q.why?`<p class="small muted">${esc(q.why)}</p>`:''}</li>`; }).join('')}</ol></div>`;
+}
+const mmss = ms => { const s=Math.max(0,Math.ceil(ms/1000)); return pad(Math.floor(s/60))+':'+pad(s%60); };
+function vTest(s){
+  if(!S.test || S.test.id!==s.id) S.test={id:s.id, start:0, ans:{}, done:false};
+  const T=S.test, qs=s.qs||[], n=qs.length, mins=Math.max(0,+s.mins||0), best=S.myScores?.study?.[s.id];
+  const head=`<div class="page-head"><div><span class="label">${tr('st.k.test')} · ${esc(s.level||'')}</span><h1>${esc(s.title)}</h1>${s.desc?`<p>${esc(s.desc)}</p>`:''}</div>
+    ${T.start&&!T.done?`<div class="ts-timer ${mins?'':'up'}"><span class="label">${mins?tr('st.left'):tr('st.time')}</span><b class="num" id="ts-left">${mins?mmss(T.end-Date.now()):mmss(Date.now()-T.start)}</b></div>`:''}</div>`;
+  if(!n) return head+`<div class="empty"><h3>${tr('st.noQs')}</h3></div>`;
+  if(!T.start) return head+`<div class="card st-done"><b class="st-big">📝</b><h2>${tr('st.tIntro',{n})}</h2><p class="muted">${mins?tr('st.tTime',{m:mins}):tr('st.tNoTime')}</p>${best?`<p class="small muted">${tr('st.best',{s:best.best,n:best.n})}</p>`:''}
+    <div class="row" style="justify-content:center"><button class="btn pen" data-act="ts-start">${tr('st.startTest')}</button></div></div>`;
+  if(T.done) return head+stResult(T.res, n, qs, qs.map((q,i)=>T.ans[i]), 'ts-restart');
+  return head+`<ol class="ts-list">${qs.map((q,i)=>`<li class="card"><p class="qz-q sm">${qHTML(q.q)}</p>${q.o?`<div class="nw-opts">${q.o.map((o,j)=>`<label class="nw-opt"><input type="radio" name="ts-${i}" data-act="ts-pick" data-i="${i}" data-j="${j}" ${T.ans[i]===j?'checked':''}><span>${esc(o)}</span></label>`).join('')}</div>`
+      :`<input class="inp ts-in" data-i="${i}" value="${esc(T.ans[i]??'')}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${tr('st.typeAns')}">`}</li>`).join('')}</ol>
+    <div class="row" style="justify-content:flex-end;margin-top:16px"><span class="small muted" id="ts-count">${tr('st.answered',{a:Object.keys(T.ans).filter(k=>T.ans[k]!==''&&T.ans[k]!=null).length,n})}</span><button class="btn pen" data-act="ts-submit" id="ts-submit">${tr('st.submit')}</button></div>`;
+}
+function tsTick(){
+  clearInterval(S.tsInt); const T=S.test; if(!T || !T.start || T.done) return;
+  S.tsInt=setInterval(()=>{ if(S.view.name!=='set' || S.test!==T || T.done){ clearInterval(S.tsInt); return; }
+    const el=$('#ts-left'); if(T.end){ const left=T.end-Date.now(); if(left<=0){ clearInterval(S.tsInt); tsSubmit(true); return; } if(el){ el.textContent=mmss(left); el.closest('.ts-timer')?.classList.toggle('late', left<60000); } }
+    else if(el) el.textContent=mmss(Date.now()-T.start); }, 1000);
+}
+function tsSubmit(auto, b){
+  const T=S.test, s=S.stSets[T?.id]?.d; if(!T || !s || T.done) return; const qs=s.qs||[];
+  const empty=qs.filter((q,i)=>T.ans[i]==null || T.ans[i]==='').length;
+  if(!auto && empty && b && !b.dataset.armed){ b.dataset.armed='1'; b.textContent=tr('st.submitSure',{n:empty}); return; }
+  T.res=qs.filter((q,i)=>qRight(q,T.ans[i])).length; T.done=true; clearInterval(S.tsInt);
+  if(auto) toast(tr('st.timeUp'));
+  stSaveResult(s, T.res, qs.length); renderMain(); window.scrollTo({top:0});
+}
+function tsCount(){ const T=S.test, s=S.stSets[T?.id]?.d, el=$('#ts-count'); if(!T||!s||!el) return; el.textContent=tr('st.answered',{a:Object.values(T.ans).filter(v=>v!==''&&v!=null).length, n:(s.qs||[]).length}); const b=$('#ts-submit'); if(b && b.dataset.armed){ delete b.dataset.armed; b.textContent=tr('st.submit'); } }
+// a student in the middle of a test or typing an answer: don't redraw the page under them
+const busyNow = () => (S.view.name==='set' && S.test && S.test.start && !S.test.done) || document.activeElement?.id==='qz-in';
+
+/* teacher: set editor */
+function openSetEdit(id, uid){
+  if(!id){ const lvl=S.profiles[uid]?.level||'B1'; S.ste={id:newId(), uid, isNew:true, meta:{kind:'cards', title:'', level:lvl, desc:'', mins:15, on:true}, text:'', copies:[]}; go('setEdit'); return; }
+  const m=(S.stIdx[uid]?.sets||[]).find(x=>x.id===id); if(!m) return;
+  const fill = d => { S.ste={id, uid, isNew:false, meta:{kind:m.kind, title:m.title, level:m.level||'B1', desc:m.desc||'', mins:+m.mins||15, on:m.on!==false}, text:m.kind==='cards'?cardsText(d?.cards):qsText(d?.qs), copies:[]}; go('setEdit'); };
+  const x=S.stSets[id]; if(x?.st==='ok') return fill(x.d);
+  S.db.doc('study/'+id).get().then(s=>fill(s.exists?s.data():{})).catch(e=>dbErr(e,'premium'));
+}
+function steRead(){ const E=S.ste; if(!E || !$('#ste-title')) return; E.meta.title=$('#ste-title').value.trim(); E.meta.level=$('#ste-level').value; E.meta.desc=$('#ste-desc').value.trim();
+  E.meta.on=$('#ste-on').checked; E.copies=[...document.querySelectorAll('.ste-cp:checked')].map(x=>x.value); const m=$('#ste-mins'); if(m) E.meta.mins=Math.max(0,Math.min(180,Math.round(+m.value||0))); E.text=$('#ste-text').value; }
+const steCount = () => { const E=S.ste, el=$('#ste-count'); if(!E||!el) return; const t=$('#ste-text')?.value??E.text, n=E.meta.kind==='cards'?parseCards(t).length:parseQs(t).length; el.textContent=tr(E.meta.kind==='cards'?'st.e.cardsN':'st.e.qsN',{n}); el.classList.toggle('bad',!n && !!t.trim()); };
+function vSetEdit(){
+  const E=S.ste; if(!E) return ''; const m=E.meta, cards=m.kind==='cards', nm=S.profiles[E.uid]?.name||S.passes[E.uid]?.name||'?', others=stStudents().filter(r=>r.uid!==E.uid && r.until>Date.now());
+  const ex = cards ? `bring up = to start talking about something | She brought up a good point.\nlook after = to take care of | I look after my little brother.\ngive up = to stop trying | Don't give up!`
+    : `She ___ to school every day.\n* goes\n- go\n- going\n> We add -s for he / she / it in the present simple.\n\nI have lived here ___ 2019.\n= since\n> Use "since" with a point in time.\n\nThe Earth goes around the Sun.\n* True\n- False`;
+  return `<div class="pm-top"><button class="btn ghost sm" data-act="ste-back">${I.back} ${tr('st.name')}</button></div>
+  <div class="page-head"><div><span class="label row" style="gap:8px">${avatar(nm,E.uid)} ${tr('st.forWho',{name:esc(nm)})}</span><h1>${E.isNew?tr('st.newSet'):esc(m.title||tr('untitled'))}</h1><p>${tr('st.eP')}</p></div><button class="btn primary" data-act="ste-save">${tr('save')}</button></div>
+  <div class="ste-grid"><div class="card ste-form">
+    <div class="field"><span>${tr('st.kind')}</span><div class="seg">${ST_KINDS.map(k=>`<button type="button" data-act="ste-kind" data-k="${k}" aria-pressed="${m.kind===k}">${tr('st.k.'+k)}</button>`).join('')}</div><span class="small faint">${tr('st.kd.'+m.kind)}</span></div>
+    <label class="field"><span>${tr('bk.title')}</span><input class="inp" id="ste-title" maxlength="80" value="${esc(m.title)}" placeholder="${tr('st.titlePh.'+m.kind)}"></label>
+    <div class="lg-2"><label class="field"><span>${tr('st.level')}</span><select class="inp" id="ste-level">${LEVELS.map(l=>`<option ${m.level===l?'selected':''}>${l}</option>`).join('')}</select></label>
+      ${m.kind==='test'?`<label class="field"><span>${tr('st.mins')}</span><input class="inp num" id="ste-mins" type="number" min="0" max="180" value="${m.mins}"></label>`:'<span></span>'}</div>
+    <label class="field"><span>${tr('mk.desc')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ste-desc" maxlength="160" value="${esc(m.desc)}"></label>
+    <label class="field"><span>${cards?tr('st.e.cards'):tr('st.e.qs')}</span><textarea class="inp mono" id="ste-text" rows="16" placeholder="${esc(ex)}">${esc(E.text)}</textarea><span class="small faint" id="ste-count"></span></label>
+    <label class="row" style="gap:8px"><input type="checkbox" id="ste-on" ${m.on?'checked':''}> <span>${tr('st.showStu',{name:esc(nm.split(' ')[0])})}</span></label>
+    ${E.isNew && others.length?`<div class="field"><span>${tr('st.alsoFor')} <span class="faint">${tr('optional')}</span></span><div class="row">${others.map(r=>`<label class="row" style="gap:6px"><input type="checkbox" class="ste-cp" value="${esc(r.uid)}" ${E.copies.includes(r.uid)?'checked':''}> ${esc(r.name)}</label>`).join('')}</div></div>`:''}
+  </div><div class="ste-side">
+    <div class="card"><h3>${tr('st.howH')}</h3><p class="small muted">${cards?tr('st.howCards'):tr('st.howQs')}</p><pre>${esc(ex)}</pre></div>
+    <div class="card"><h3>${I.spark} ${tr('st.aiH')}</h3><p class="small muted">${tr('st.aiP')}</p>
+      <label class="field"><span>${tr('nw.aiTopic')}</span><input class="inp" id="ste-topic" maxlength="160" placeholder="${tr('st.topicPh')}"></label>
+      <label class="field"><span>${tr('st.aiN')}</span><input class="inp num" id="ste-n" type="number" min="3" max="60" value="${cards?20:10}"></label>
+      <button class="btn" data-act="ste-ai">${I.copy} ${tr('nw.aiCopy')}</button></div>
+  </div></div>
+  ${E.isNew?'':`<div class="row" style="margin-top:20px"><button class="btn ghost del-btn" data-act="ste-del">${I.trash} <span>${tr('st.del')}</span></button></div>`}`;
+}
+function stPrompt(kind, level, n, topic){
+  return kind==='cards'
+    ? `Make ${n} flashcards for ${level} (CEFR) learners of English${topic?` about: ${topic}`:''}.\nWrite one card per line, exactly like this:\nword or phrase = a simple meaning in English | an example sentence\nUse words that fit the level. No numbering, no headings, no extra text.`
+    : `Make ${n} ${kind==='test'?'test':'quiz'} questions for ${level} (CEFR) learners of English${topic?` about: ${topic}`:''}.\nMix multiple-choice questions (3 or 4 options) and fill-in-the-gap questions where the learner types the answer. Leave one empty line between questions. Write them exactly like this, with no numbering, no headings and no extra text:\n\nShe ___ to school every day.\n* goes\n- go\n- going\n> We add -s for he / she / it in the present simple.\n\nI have lived here ___ 2019.\n= since\n> Use "since" with a point in time.\n\nA line starting with * is the right option, lines starting with - are wrong options. A line starting with = is the answer the learner must type (if several answers are right, separate them with /). A line starting with > is a short, friendly explanation.`;
+}
+async function stWriteSet(uid, id, m, items){
+  const cards=m.kind==='cards';
+  const doc={id, uid, kind:m.kind, title:m.title, level:m.level, desc:m.desc, mins:m.kind==='test'?m.mins:0, at:nowTs(), ...(cards?{cards:items}:{qs:items})};
+  const meta={id, kind:m.kind, title:m.title, level:m.level, desc:m.desc, n:items.length, mins:doc.mins, on:m.on};
+  await S.db.doc('study/'+id).set(doc); S.stSets[id]={st:'ok', d:doc};
+  const idx=clone(S.stIdx[uid])||{sets:[]}; idx.sets=idx.sets||[]; const i=idx.sets.findIndex(x=>x.id===id); i>=0?idx.sets[i]=meta:idx.sets.push(meta);
+  await S.db.doc('studyIndex/'+uid).set(idx); S.stIdx[uid]=idx;
+}
+async function steSave(){
+  steRead(); const E=S.ste, m=E.meta, cards=m.kind==='cards';
+  if(!m.title){ toast(tr('bk.needTitle')); return; }
+  const items=cards?parseCards(E.text):parseQs(E.text); if(!items.length){ toast(tr('st.e.none')); return; }
+  try{
+    await stWriteSet(E.uid, E.id, m, items);
+    for(const u of (E.isNew?E.copies:[])) await stWriteSet(u, newId(), m, clone(items));
+  }catch(e){ dbErr(e,'premium'); return; }
+  const isNew=E.isNew, uid=E.uid; toast(tr('st.e.saved',{n:items.length}));
+  if(isNew && hasPassNow(uid,'study')) notify('order',[uid,...E.copies],()=>({subject:tr('st.emNew',{t:m.title}), kicker:tr('st.name'), lines:[tr('st.emNewL')]}));
+  S.ste=null; go('study');
+}
+const hasPassNow = (uid,k) => passUntil(S.passes[uid],k)>Date.now();
+/* ---------- example class: a few issues and sets so the pages can be tried without Firebase ---------- */
+function seedPremium(db){
+  const t=tkToday(), y=dAdd(t,-1), tm=dAdd(t,1), now=Date.now(), ago=n=>now-n*DAY;
+  const S_ = (id,sec,h,sub,body,words,quiz) => ({id,sec,h,sub,body,img:'',words:words.map(([w,m])=>({w,m})),quiz:quiz.map(([q,o,a])=>({q,o,a,why:''}))});
+  // each example student gets their own issue, written at their level
+  const who={'ex-aziza':'B1','ex-madina':'B2','ex-timur':'A2'};
+  const put = (date, extras, levels) => { for(const [uid,l] of Object.entries(who)) if(levels[l]) db.m.set('newsDays/'+nwId(uid,date), {uid, date, week:weekOf(date), on:true, releaseAt:releaseMs(date,7), extras, stories:levels[l].stories.map(x=>({...x})), at:ago(2)}); };
+  db.m.set('premium/main', {news:{...PM_DEF.news}, study:{...PM_DEF.study}});
+  db.m.set('studyIndex/ex-aziza', {sets:[
+    {id:'ex-s1', kind:'cards', title:'Phrasal verbs for every day', level:'B1', desc:'Get up, look for, give up and more.', n:10, mins:0, on:true},
+    {id:'ex-s2', kind:'quiz', title:'Present perfect or past simple?', level:'B1', desc:'Choose the right tense and see why.', n:6, mins:0, on:true}]});
+  db.m.set('studyIndex/ex-timur', {sets:[{id:'ex-s3', kind:'test', title:'A2 grammar check', level:'A2', desc:'Eight questions, ten minutes.', n:8, mins:10, on:true}]});
+  put(y,
+    {word:{w:'curious',m:'wanting to know or learn about something',ex:'Cats are very curious animals.'}, idiom:{w:'cat nap',m:'a short sleep during the day',ex:'I had a cat nap after lunch.'},
+     fact:'A group of cats is called a clowder.', joke:'Why did the cat sit on the computer? To keep an eye on the mouse!', riddle:{q:'What has keys but can’t open locks?',a:'A piano'}, write:'Do you have a pet? Write about it, or about the pet you would like to have.'},
+    {B1:{stories:[S_('n1','science','Why do cats sleep so much?','Most cats sleep for 12 to 16 hours a day. Scientists say there is a good reason.',
+      `If you have a cat, you know that it spends most of the day asleep. Adult cats usually sleep between 12 and 16 hours a day, and kittens and old cats sleep even more.\n\nThe reason is in their history. Wild cats are hunters. Hunting needs short bursts of energy: they wait, run very fast and jump. To be ready for this, cats save their energy by resting for long periods.\n\nCats are also most active at dawn and in the evening, when their wild relatives hunt. That is why your cat may sleep all afternoon and then run around the flat at six in the morning!\n\nNot all of this sleep is deep. Cats often doze lightly, with their ears still listening for sounds.`,
+      [['hunter','an animal that catches other animals for food'],['bursts','short moments of something strong'],['dawn','the time early in the morning when the sun comes up'],['relatives','members of the same family or group'],['doze','to sleep lightly for a short time']],
+      [['How many hours a day do adult cats usually sleep?',['6 to 8','12 to 16','20 to 22'],1],['Why do cats save their energy?',['Because hunting needs short, fast bursts of energy','Because they are lazy','Because they do not eat much'],0],['When are cats most active?',['At midday','At dawn and in the evening','Only at night'],1],['What does "doze" mean in the story?',['to sleep lightly','to eat quickly','to hunt alone'],0]])]},
+     A2:{stories:[S_('a1','world','A city of bicycles','In Amsterdam, people go almost everywhere by bike.',
+      `Amsterdam is the capital of the Netherlands. It is famous for its canals, its old houses and its bicycles.\n\nThere are almost as many bicycles as people in the city. Children ride to school, workers ride to the office, and some parents carry two small children in a box at the front of the bike.\n\nThe city is flat, so riding is easy. There are special roads for bikes, and they often have their own traffic lights.`,
+      [['capital','the most important city of a country'],['canal','a long, narrow river made by people'],['flat','with no hills'],['traffic lights','red, yellow and green lights on a road']],
+      [['Amsterdam is the capital of…',['Belgium','the Netherlands','Germany'],1],['Why is riding a bike easy in Amsterdam?',['The city is flat.','Bikes are free.','There are no cars.'],0],['Bike roads often have their own…',['shops','traffic lights','bridges'],1]])]},
+     B2:{stories:[S_('b1','life','The quiet power of a ten-minute walk','You don’t need a gym to feel better. A short walk can change your whole day.',
+      `Many of us believe that exercise only counts if it is long and exhausting. Research suggests otherwise: even a brisk ten-minute walk can lift your mood, sharpen your attention and make you feel more energetic.\n\nWalking increases blood flow to the brain, and being outside, especially near trees, tends to lower stress. Some people find that their best ideas arrive while they are walking, not while they are sitting at a desk.\n\nThe hardest part is simply starting. Try leaving your phone in your pocket, choosing a route with some green space and walking a little faster than usual. It may become the most useful ten minutes of your day.`,
+      [['exhausting','making you extremely tired'],['brisk','quick and full of energy'],['lift your mood','make you feel happier'],['sharpen','make something better or more exact']],
+      [['According to the story, a useful walk must be…',['at least an hour long','only ten minutes and brisk','done in a gym'],1],['What tends to lower stress?',['being outside near trees','walking with your phone','sitting at a desk'],0],['What does the writer say is the hardest part?',['finding a route','starting','walking fast'],1]])]}});
+  put(t,
+    {word:{w:'tradition',m:'something people have done in the same way for a long time',ex:'Eating plov on Thursdays is a tradition in many families.'}, idiom:{w:'the more, the merrier',m:'more people make an event more fun',ex:'Can my cousin come too? — Of course, the more, the merrier!'},
+     fact:'The tallest tree in the world is a coast redwood in California. It is about 116 metres tall.', joke:'Teacher: “Why are you late?” Student: “Because of the sign.” Teacher: “What sign?” Student: “The one that says School ahead, go slow!”',
+     riddle:{q:'The more you take, the more you leave behind. What are they?',a:'Footsteps'}, write:'What is your favourite dish? Describe how it is made and when your family eats it.', note:'Great work this week, everyone! Try the quiz before our next lesson.'},
+    {B1:{stories:[S_('n2','uzbekistan','Plov: more than a meal','In 2016 UNESCO added Uzbek plov culture to its list of world heritage traditions.',
+      `In Uzbekistan, plov is not just food. It is a way to bring people together. Families cook it for weddings, birthdays and holidays, and friends often meet for plov on Thursdays or at the weekend.\n\nA good plov needs patience. The cook fries meat and onions in a big pot called a kazan, then adds yellow and orange carrots, rice and spices like cumin. Every region has its own recipe: Samarkand plov is cooked in layers, while in Tashkent the rice is often mixed with the meat.\n\nIn 2016, UNESCO added the culture and tradition of plov to its list of Intangible Cultural Heritage. That means the world agrees that plov is an important part of Uzbek life.`,
+      [['patience','the ability to wait calmly'],['fry','to cook in hot oil'],['spices','dried plants that give food a strong taste'],['region','a part of a country'],['layers','parts that lie one on top of another']],
+      [['What is a kazan?',['a type of rice','a big cooking pot','a spice'],1],['How is Samarkand plov cooked?',['in layers','with fish','without carrots'],0],['What happened in 2016?',['Plov was invented','UNESCO added plov culture to its list','Tashkent changed its recipe'],1],['When do friends often meet for plov?',['on Mondays','on Thursdays or at the weekend','only at weddings'],1]]),
+      S_('n3','tech','Robots in the fields','Small robots are starting to help farmers with hard and boring jobs.',
+      `On some farms in Europe and the USA, small robots now move slowly between the rows of vegetables. They use cameras to find weeds and remove them, so farmers need fewer chemicals.\n\nOther robots pick strawberries or check if fruit is ready. They can work at night and they never get tired. Farmers say the robots do not replace people, but they help with jobs that are hard to find workers for.`,
+      [['weeds','wild plants that grow where you do not want them'],['rows','lines of things next to each other'],['replace','to take the place of']],
+      [['How do the robots find weeds?',['with cameras','with their hands','by sound'],0],['Robots can work…',['only in the morning','at night','only in summer'],1]])]},
+     A2:{stories:[S_('a2','science','The tallest tree in the world','Its name is Hyperion, and it is taller than a 30-floor building.',
+      `The tallest tree in the world is a coast redwood in California, in the USA. People call it Hyperion. It is about 116 metres tall.\n\nScientists found the tree in 2006. They keep the exact place a secret, because too many visitors can damage the ground around the tree.\n\nRedwood trees can live for more than 2,000 years. They need a lot of water, and they get some of it from the fog near the sea.`,
+      [['exact','completely correct'],['secret','something that other people do not know'],['damage','to break or hurt something'],['fog','a thick, low cloud near the ground']],
+      [['Where is Hyperion?',['in Canada','in California','in Uzbekistan'],1],['Why is its place a secret?',['Visitors can damage the ground.','It is on private land.','Nobody knows.'],0],['Redwoods get some water from…',['the fog','the snow','the rivers only'],0]])]},
+     B2:{stories:[S_('b2','science','Why do we forget our dreams?','Most dreams disappear within minutes of waking up. Here is what scientists think is happening.',
+      `Almost everyone dreams every night, yet most of us remember very little in the morning. Researchers believe that during sleep, the brain releases less of the chemicals that help us store new memories, so dreams are rarely saved properly.\n\nAnother reason is attention. When we wake up, we immediately start thinking about the day ahead, and the fragile memory of the dream is pushed aside. People who wake up slowly, or who lie still for a minute with their eyes closed, often recall more.\n\nIf you would like to remember your dreams, keep a notebook next to your bed and write down anything you can — a colour, a face, a feeling — as soon as you open your eyes.`,
+      [['release','to let something go out'],['rarely','not often'],['fragile','easily broken or damaged'],['recall','to remember']],
+      [['Why are dreams rarely saved properly?',['The brain releases fewer memory chemicals during sleep.','We dream only for a few seconds.','Dreams are too boring.'],0],['Who often recalls more dreams?',['people who wake up quickly','people who lie still for a minute','people who sleep less'],1],['What does the writer suggest?',['keeping a notebook next to your bed','drinking coffee','sleeping in the afternoon'],0]])]}});
+  put(tm, {word:{w:'golden',m:'having the colour of gold',ex:'The honey was golden and sweet.'}},
+    {B1:{stories:[S_('n4','science','The food that never goes bad','Honey found in very old tombs in Egypt was still safe to eat.','Honey is one of very few foods that can last for thousands of years.',[],[])]}});
+  db.m.set('passes/ex-aziza', {name:'Aziza (example)', news:{until:now+18*DAY, hist:[{oid:'po1',at:ago(12),amount:50000,days:30}]}, study:{until:now+20*DAY, hist:[{oid:'po2',at:ago(10),amount:50000,days:30}]}});
+  db.m.set('passes/ex-madina', {name:'Madina (example)', news:{until:now+3*DAY, hist:[{oid:'g1',at:ago(27),amount:50000,days:30}]}});
+  db.m.set('passes/ex-timur', {name:'Timur (example)'});
+  db.m.set('passOrders/ex-aziza', {name:'Aziza (example)', items:[{id:'po1',kind:'news',method:'click',ref:'',price:50000,at:ago(12)},{id:'po2',kind:'study',method:'payme',ref:'',price:50000,at:ago(10)}]});
+  db.m.set('passOrders/ex-timur', {name:'Timur (example)', items:[{id:'po3',kind:'news',method:'click',ref:'last digits 4821',price:50000,at:ago(0.1)},{id:'po4',kind:'study',method:'card',ref:'',price:50000,at:ago(0.05)}]});
+  db.m.set('passScores/ex-aziza', {name:'Aziza (example)', news:{[y]:{'n1':{a:[1,0,1,1],s:3,n:4,at:ago(1)}}}, study:{'ex-s2':{best:5,last:5,n:6,tries:1,at:ago(4)}}, cards:{'ex-s1':{0:3,1:3,2:3,3:1,4:2}}});
+  db.m.set('study/ex-s1', {id:'ex-s1', uid:'ex-aziza', kind:'cards', title:'Phrasal verbs for every day', level:'B1', desc:'', mins:0, cards:parseCards(`get up = to leave your bed after sleeping | I get up at seven every day.
+look for = to try to find | I'm looking for my keys.
+give up = to stop trying | Don't give up, you can do it!
+turn on = to make a machine start working | Can you turn on the light?
+find out = to learn a fact or some news | I found out that the shop was closed.
+put on = to start wearing clothes | Put on your coat, it's cold.
+pick up = to lift something, or to collect someone | I'll pick you up at the station.
+run out of = to have no more of something | We've run out of milk.
+look after = to take care of | She looks after her little brother.
+come back = to return | When will you come back from Samarkand?`)});
+  db.m.set('study/ex-s2', {id:'ex-s2', uid:'ex-aziza', kind:'quiz', title:'Present perfect or past simple?', level:'B1', desc:'Choose the right tense and see why.', mins:0, qs:parseQs(`I ___ to Samarkand last summer.
+* went
+- have gone
+- have been going
+> "Last summer" is a finished time, so we use the past simple.
+
+She ___ her homework yet.
+- didn't finish
+* hasn't finished
+- doesn't finish
+> "Yet" usually goes with the present perfect.
+
+We ___ each other since 2019.
+* have known
+- knew
+- know
+> "Since 2019" means from then until now: present perfect.
+
+Have you ever ___ plov?
+= cooked / made
+> After "have you ever" we use the past participle.
+
+When ___ you arrive?
+* did
+- have
+- has
+> Questions with "when" ask about a finished time: past simple.
+
+I've lost my phone. I can't find it ___.
+= anywhere
+> "Anywhere" in negative sentences.`)});
+  db.m.set('study/ex-s3', {id:'ex-s3', uid:'ex-timur', kind:'test', title:'A2 grammar check', level:'A2', desc:'Eight questions, ten minutes.', mins:10, qs:parseQs(`My brother ___ football every Sunday.
+* plays
+- play
+- playing
+
+There ___ two books on the table.
+- is
+* are
+- be
+
+I'm ___ than my sister.
+* taller
+- more tall
+- tallest
+
+She can ___ three languages.
+= speak
+
+We didn't ___ to the party.
+* go
+- went
+- going
+
+How ___ apples do you want?
+* many
+- much
+- lot
+
+The opposite of "cheap" is ___.
+= expensive
+
+They ___ TV when I called.
+* were watching
+- watched
+- are watching`)});
+}
+
+
 /* ---------------- email to students (sent from the teacher's own Gmail) ----------------
    contacts/{uid}: {email, lang, off} written by the student (email must be their sign-in email).
    private/mail:   {url, secret, on:{...}} teacher only. url = the teacher's Google Apps Script web app,
                    which checks the secret and sends with GmailApp, BCC to the students. */
-const MAIL_EVENTS = ['ann','post','task','prompt','review','pay','book','order'];
-const SCRIPT_SRC = secret => `// Lexora email script, version 2: each student gets their own email from your Gmail.
+const MAIL_EVENTS = ['ann','post','task','prompt','review','pay','book','order','news'];
+const SCRIPT_SRC = secret => `// Lexora email script, version 3: each student gets their own email from your Gmail,
+// and readers of the daily newspaper get a note every morning when their paper comes out.
 // 1) Paste all of this into a new project at https://script.google.com
 // 2) Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone.
 // 3) Copy the Web app URL into Lexora > Noticeboard > Email.
@@ -1967,29 +3226,67 @@ function doPost(e) {
   try {
     const d = JSON.parse(e.postData.contents);
     if (d.secret !== SECRET) return out({ ok: false, error: 'wrong secret' });
-    if (d.test && !(d.to || d.bcc || []).length) return out({ ok: true, v: 2, left: MailApp.getRemainingDailyQuota() });
+    if (d.action === 'news') return out(saveNews(d));
+    if (d.test && !(d.to || d.bcc || []).length) { ensureTrigger(); return out({ ok: true, v: 3, left: MailApp.getRemainingDailyQuota() }); }
     const ok = x => /^[^@\\s,;<>]+@[^@\\s,;<>]+\\.[^@\\s,;<>]+$/.test(x);
     const list = (d.to || d.bcc || []).filter(ok).slice(0, 50);
-    if (!list.length) return out({ ok: false, v: 2, error: 'no recipients' });
+    if (!list.length) return out({ ok: false, v: 3, error: 'no recipients' });
     const subject = String(d.subject || '').slice(0, 200), text = String(d.text || '').slice(0, 10000);
     const opts = { htmlBody: String(d.html || '').slice(0, 30000), name: String(d.from || 'Lexora').slice(0, 60) };
     let sent = 0;
     list.forEach(to => { GmailApp.sendEmail(to, subject, text, opts); sent++; });  // each student gets their own email
-    return out({ ok: true, v: 2, sent: sent, left: MailApp.getRemainingDailyQuota() });
+    return out({ ok: true, v: 3, sent: sent, left: MailApp.getRemainingDailyQuota() });
   } catch (err) {
     return out({ ok: false, error: String(err) });
   }
 }
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+function okMail(x) { return /^[^@\\s,;<>]+@[^@\\s,;<>]+\\.[^@\\s,;<>]+$/.test(x); }
+
+// Daily newspaper: Lexora sends the plan for the next days; sendNews() runs every 15 minutes
+// and emails each reader once, when their issue comes out.
+function saveNews(d) {
+  const P = PropertiesService.getScriptProperties(), all = P.getProperties(), keep = {}, from = String(d.from || '');
+  (d.items || []).slice(0, 150).forEach(function (it) {
+    const key = 'news:' + String(it.id).slice(0, 60), old = all[key] ? JSON.parse(all[key]) : null;
+    keep[key] = JSON.stringify({ date: String(it.date || ''), at: +it.at || 0, to: (it.to || []).filter(okMail).slice(0, 25),
+      subject: String(it.subject || '').slice(0, 200), html: String(it.html || '').slice(0, 5000), text: String(it.text || '').slice(0, 1500),
+      from: String(it.from || 'Lexora').slice(0, 60), sent: old ? (old.sent || []) : [] });
+  });
+  Object.keys(all).forEach(function (k) {
+    if (k.indexOf('news:') !== 0 || k in keep) return;
+    try { if (JSON.parse(all[k]).date >= from) P.deleteProperty(k); } catch (e) { P.deleteProperty(k); }
+  });
+  if (Object.keys(keep).length) P.setProperties(keep, false);
+  ensureTrigger();
+  return { ok: true, v: 3, saved: Object.keys(keep).length };
+}
+function ensureTrigger() {
+  const has = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'sendNews'; });
+  if (!has) ScriptApp.newTrigger('sendNews').timeBased().everyMinutes(15).create();
+}
+function sendNews() {
+  const P = PropertiesService.getScriptProperties(), all = P.getProperties(), now = Date.now();
+  Object.keys(all).forEach(function (k) {
+    if (k.indexOf('news:') !== 0) return;
+    let r; try { r = JSON.parse(all[k]); } catch (e) { P.deleteProperty(k); return; }
+    if (now - r.at > 8 * 864e5) { P.deleteProperty(k); return; }
+    if (r.at > now || now - r.at > 2 * 864e5) return;
+    const todo = r.to.filter(function (x) { return r.sent.indexOf(x) < 0; });
+    if (!todo.length) return;
+    todo.forEach(function (to) { try { GmailApp.sendEmail(to, r.subject, r.text, { htmlBody: r.html, name: r.from }); r.sent.push(to); } catch (e) {} });
+    P.setProperty(k, JSON.stringify(r));
+  });
+}
 `;
 function withLang(lang, fn){ const o=LANG; LANG = DICT[lang] ? lang : 'en'; try{ return fn(); } finally{ LANG=o; } }
 const trL = (lang, k, v) => withLang(lang, ()=>tr(k,v));
 const siteUrl = () => location.origin + location.pathname;
 function startMail(role){
-  S.mail={url:'', secret:'', on:{}}; S.contacts={}; S.myContact=undefined;
+  S.mail={url:'', secret:'', on:{}}; S.contacts={}; S.contactsLoaded=false; S.myContact=undefined;
   if(role==='teacher'){
-    S.unsubs.push(S.db.doc('private/mail').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.mail={url:d.url||'', secret:d.secret||'', on:d.on||{}, v:d.v||0}; S.mailOld = d.v===1; if(S.view.name==='board') refresh(); }, ()=>{}));
-    S.unsubs.push(S.db.collection('contacts').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.contacts=o; }, ()=>{}));
+    S.unsubs.push(S.db.doc('private/mail').onSnapshot(s=>{ const d=s.exists?s.data():{}; S.mail={url:d.url||'', secret:d.secret||'', on:d.on||{}, v:d.v||0}; S.mailOld = d.v===1; if(S.view.name==='board'||S.view.name==='news') refresh(); clearTimeout(pmT); pmT=setTimeout(nwMailSync,2500); }, ()=>{}));
+    S.unsubs.push(S.db.collection('contacts').onSnapshot(q=>{ const o={}; q.docs.forEach(d=>{ if(d.exists) o[d.id]=d.data(); }); S.contacts=o; S.contactsLoaded=true; }, ()=>{}));
   } else {
     S.unsubs.push(S.db.doc('contacts/'+S.uid).onSnapshot(s=>{ const first=S.myContact===undefined; S.myContact=s.exists?s.data():null; syncContact(); if(first) refreshStudent(); }, ()=>{ S.myContact=null; }));
   }
@@ -2015,7 +3312,7 @@ async function notify(ev, who, build){
     const m=withLang(lang, ()=>build(lang)), list=byLang[lang];
     for(let i=0;i<list.length;i+=50){
       const part=list.slice(i,i+50), r=await mailPost({to:part, bcc:part, subject:m.subject, html:withLang(lang,()=>mailHtml(lang,m)), text:m.text||m.subject, from:trL(lang,'em.from',{name:S.me?.name||tr('teacher')})});
-      if(r.ok){ sent+=part.length; if(r.v!==2) S.mailOld=true; } else fail=r.error||'error';
+      if(r.ok){ sent+=part.length; if(!(r.v>=2)) S.mailOld=true; } else fail=r.error||'error';
     }
   }
   toast(fail ? tr('em.fail') : S.mailOld ? tr('em.oldScript') : tr('em.sent',{n:sent}));
@@ -2073,7 +3370,7 @@ function openMailSetup(){
     const prev={...S.mail}; S.mail={...S.mail, url, secret};
     const r = S.demo ? {ok:true} : await mailPost({test:true});
     if(!r.ok){ S.mail=prev; btn.disabled=false; err.textContent = r.error==='wrong secret' ? tr('em.badSecret') : tr('em.noReach'); return; }
-    try{ await S.db.doc('private/mail').set({url, secret, on:S.mail.on||{}, v:r.v===2||S.demo?2:1}); closeDlg(); toast(tr('em.saved')); refresh(); }catch(e2){ btn.disabled=false; dbErr(e2,'mail'); }
+    try{ await S.db.doc('private/mail').set({url, secret, on:S.mail.on||{}, v:S.demo?3:(r.v>=2?r.v:1)}); closeDlg(); toast(tr('em.saved')); refresh(); }catch(e2){ btn.disabled=false; dbErr(e2,'mail'); }
   });
 }
 async function mailTest(){
@@ -2310,22 +3607,23 @@ function openAsk(slotId){
 /* ---------------- rating ----------------
    The teacher's page works out everyone's points and publishes only first names and points to
    board/rating, so students can see where they are without seeing each other's work. */
-const RATE = {entry:10, word:50, task:5, band:10, lesson:15};
+const RATE = {entry:10, word:50, task:5, band:10, lesson:15, quiz:1};
 function ratingPoints(d){
   // d: {entries, words, tasks, band, lessons, bonus}
-  const parts = {entries:d.entries*RATE.entry, words:Math.floor(d.words/RATE.word), tasks:d.tasks*RATE.task, band:Math.round((d.band||0)*RATE.band), lessons:d.lessons*RATE.lesson, bonus:d.bonus||0};
+  const parts = {entries:d.entries*RATE.entry, words:Math.floor(d.words/RATE.word), tasks:d.tasks*RATE.task, band:Math.round((d.band||0)*RATE.band), lessons:d.lessons*RATE.lesson, quiz:(d.quiz||0)*RATE.quiz, bonus:d.bonus||0};
   return {...parts, total:Object.values(parts).reduce((a,b)=>a+b,0)};
 }
 const shortName = n => { const w=String(n||'').trim().split(/\s+/).filter(Boolean), L=(w.length>1?w[w.length-1]:'').match(/\p{L}/u); return w.length ? (L ? `${w[0]} ${L[0].toUpperCase()}.` : w[0]) : '?'; };
 // works on plain data so the example class can use it too
-function buildRating({profiles, feedback, plans, bookings, bstat, slots, bonus}){
+function buildRating({profiles, feedback, plans, bookings, bstat, slots, bonus, scores}){
   const slotById=Object.fromEntries((slots||[]).map(x=>[x.id,x])), today=todayStr();
   return Object.entries(profiles).map(([uid,p])=>{
     const idx=Object.values(p.index||{}), fb=feedback[uid]||{};
     const marked=Object.entries(fb.reviews||{}).filter(([,r])=>(r.status==='reviewed'||r.status==='revise') && r.overall!=null).sort((a,b)=>(p.index?.[a[0]]?.date||'').localeCompare(p.index?.[b[0]]?.date||''));
     const done=plans[uid]?.done||{}, items=plans[uid]?.items||[];
     const lessons=(bookings[uid]?.items||[]).filter(r=>bstat[uid]?.[r.id]==='ok' && slotById[r.slotId] && slotById[r.slotId].date<=today).length;
-    const d={entries:idx.length, words:idx.reduce((a,e)=>a+(e.words||0),0), tasks:items.filter(i=>done[i.id]).length, band:marked.length?marked[marked.length-1][1].overall:0, lessons, bonus:+(bonus||{})[uid]||0};
+    const sc=(scores||{})[uid]||{}, quiz=Object.values(sc.news||{}).reduce((a,day)=>a+Object.values(day||{}).reduce((x,r)=>x+(+r?.s||0),0),0)+Object.values(sc.study||{}).reduce((a,r)=>a+(+r?.best||0),0);
+    const d={quiz, entries:idx.length, words:idx.reduce((a,e)=>a+(e.words||0),0), tasks:items.filter(i=>done[i.id]).length, band:marked.length?marked[marked.length-1][1].overall:0, lessons, bonus:+(bonus||{})[uid]||0};
     return {uid, name:p.name||'', ...d, pts:ratingPoints(d)};
   }).sort((a,b)=>b.pts.total-a.pts.total || a.name.localeCompare(b.name));
 }
@@ -2339,17 +3637,17 @@ async function ratingSync(){
   if(strip(cur)===strip(want)) return;
   try{ await S.db.doc('board/rating').set({...want, at:Date.now()}); }catch(e){ /* old rules: shown on the Rating page */ }
 }
-const teacherRating = () => buildRating({profiles:S.profiles, feedback:S.feedback, plans:S.plans||{}, bookings:S.bookings||{}, bstat:S.bstat||{}, slots:S.svc?.slots||[], bonus:S.rating?.bonus});
+const teacherRating = () => buildRating({profiles:S.profiles, feedback:S.feedback, plans:S.plans||{}, bookings:S.bookings||{}, bstat:S.bstat||{}, slots:S.svc?.slots||[], bonus:S.rating?.bonus, scores:S.pScores||{}});
 const medal = i => i<3 ? `<span class="medal m${i+1}">${i+1}</span>` : `<span class="rank-n num">${i+1}</span>`;
 function vRatingT(){
   const rows=teacherRating(), on=S.rating?.on!==false;
   return `<div class="page-head"><div><h1>${tr('rt.h')}</h1><p>${tr('rt.pT')}</p></div>
     <label class="switch-row"><input type="checkbox" data-act="rt-on" ${on?'checked':''}> ${tr('rt.show')}</label></div>${rulesNote()}
     ${rows.length?`<div class="rank-list">${rows.map((r,i)=>`<div class="rank-row ${i<3?'top':''}">${medal(i)}${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name||tr('stu.unnamed'))}</b>
-      <div class="small muted rank-parts">${tr('rt.parts',{e:r.entries,t:r.tasks,l:r.lessons,b:fmtBand(r.band||null)})}${r.bonus?` · <span style="color:var(--pen)">${tr('rt.bonusN',{n:(r.bonus>0?'+':'')+r.bonus})}</span>`:''}</div></div>
+      <div class="small muted rank-parts">${tr('rt.parts',{e:r.entries,t:r.tasks,l:r.lessons,b:fmtBand(r.band||null)})}${r.quiz?` · ${tr('rt.quizN',{n:r.quiz})}`:''}${r.bonus?` · <span style="color:var(--pen)">${tr('rt.bonusN',{n:(r.bonus>0?'+':'')+r.bonus})}</span>`:''}</div></div>
       <span class="row rank-bonus" style="gap:4px"><button class="btn ghost sm" data-act="rt-bonus" data-uid="${esc(r.uid)}" data-n="-5" aria-label="−5">−5</button><button class="btn ghost sm" data-act="rt-bonus" data-uid="${esc(r.uid)}" data-n="5" aria-label="+5">+5</button></span>
       <b class="rank-pts num">${r.pts.total}<span>${tr('rt.pts')}</span></b></div>`).join('')}</div>`:`<div class="empty"><h3>${tr('stu.emptyH')}</h3></div>`}
-    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
+    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson','quiz'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
 }
 function myRank(){
   const R=S.rating; if(!R || R.on===false || !(R.list||[]).length) return null;
@@ -2361,7 +3659,7 @@ function vRatingS(){
   if(!R || R.on===false || !(R.list||[]).length) return head+`<div class="empty"><h3>${tr('rt.none')}</h3></div>`;
   return head+`${me?`<div class="rank-me"><span class="label">${tr('rt.you')}</span><b class="num">#${me.i+1}</b><span>${tr('rt.of',{n:me.n})} · <b class="num">${me.pts}</b> ${tr('rt.pts')}</span></div>`:''}
     <div class="rank-list">${R.list.map((r,i)=>`<div class="rank-row ${i<3?'top':''} ${r.uid===S.uid?'me':''}">${medal(i)}${avatar(r.name,r.uid)}<b style="min-width:0">${esc(r.name)}${r.uid===S.uid?` <span class="pill">${tr('rt.youTag')}</span>`:''}</b><b class="rank-pts num">${r.pts}<span>${tr('rt.pts')}</span></b></div>`).join('')}</div>
-    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
+    <div class="card section rank-how"><h3>${tr('rt.howH')}</h3><ul class="small muted">${['entry','word','task','band','lesson','quiz'].map(k=>`<li>${tr('rt.how.'+k,{n:RATE[k]})}</li>`).join('')}<li>${tr('rt.how.bonus')}</li></ul></div>`;
 }
 const rankCard = () => { const me=myRank(); return me ? `<button class="rank-chip section" data-act="go" data-v="rating">${I.trophy}<span>${tr('rt.chip',{i:me.i+1,n:me.n})}</span><b class="num">${me.pts} ${tr('rt.pts')}</b></button>` : ''; };
 async function saveRating(mut){
@@ -2648,7 +3946,7 @@ function vHome(){
       <button class="btn" data-act="new-entry">${I.pen} ${wroteToday?tr('home.another'):tr('home.today')}</button></div>
     <div class="prompt-card"><span class="label">${tr('home.prompt')}</span>${S.prompt?.text?`<q>${esc(S.prompt.text)}</q><button class="btn sm" style="align-self:flex-start;margin-top:auto" data-act="new-entry" data-prompt="1">${tr('home.about')}</button>`:`<p class="muted">${tr('home.noPrompt')}</p>`}</div>
   </div>
-  ${payCard()}${rankCard()}
+  ${payCard()}${pmHome()}${rankCard()}
   ${homeBoard()}${mailPref()}
   ${fresh.length?`<div class="notice info" style="margin-top:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>${tr('home.checked',{n:fresh.length})}</span>${fresh.map(e=>`<button class="btn sm" data-act="open-entry" data-eid="${esc(e.eid)}">${esc(e.title||tr('untitled'))}</button>`).join('')}</div>`:''}
   <div class="stats section" style="margin-top:20px"><div class="stat"><b>${ents.length}</b><span>${tr('k.entries')}</span></div><div class="stat"><b>${words.toLocaleString()}</b><span>${tr('k.words')}</span></div><div class="stat"><b>${streak()}</b><span>${tr('k.streak')}</span></div><div class="stat"><b>${fmtBand(pts.length?pts[pts.length-1].v:null)}</b><span>${tr('k.latest')}</span></div></div>
@@ -2918,11 +4216,68 @@ document.addEventListener('click', async ev => {
     case 'ask-open': openAsk(b.dataset.id); break;
     case 'rt-on': saveRating(n=>{ n.on=b.checked; }); break;
     case 'rt-bonus': { const uid=b.dataset.uid, d=+b.dataset.n; saveRating(n=>{ const v=(+n.bonus[uid]||0)+d; if(v) n.bonus[uid]=v; else delete n.bonus[uid]; }); break; }
+    // premium: the daily newspaper and the practice pack
+    case 'pb-open': openPassBuy(b.dataset.k); break;
+    case 'po-cancel': { const next=clone(S.myPOrders)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('passOrders/'+S.uid).set(next); toast(tr('pf.cancelled')); }catch(e){ dbErr(e,'order'); } break; }
+    case 'po-ok': case 'po-no': case 'po-undo': { const {uid,id}=b.dataset, it=findPo(uid,id); if(!it) break; b.disabled=true;
+      try{ if(act==='po-ok'){ await pmGrant(uid,it,+it.price||pmPrice(it.kind)); toast(tr('bk.saved')); } else if(act==='po-no') await pmDecline(uid,it); else await pmUndo(uid,it); }catch(e){ b.disabled=false; dbErr(e,'premium'); } break; }
+    case 'pm-give': openPmGive(b.dataset.k); break;
+    case 'pm-set': pmSettings(b.dataset.k); break;
+    case 'nw-week': { const d=+b.dataset.d, base=S.view.week||weekOf(tkToday()); go('news',{week: d===0?undefined:dAdd(base,d)}); break; }
+    case 'nw-day': S.view.day=b.dataset.d; renderMain(); break;
+    case 'nw-pick': (S.nwSel[b.dataset.k] ||= [])[+b.dataset.i]=+b.dataset.j; break;
+    case 'nw-check': nwCheck(b.dataset.k, b.dataset.date); break;
+    case 'nw-print': nwPrint(); break;
+    case 'nw-dl': nwDownload(); break;
+    case 'say': { const src=S.view.name==='newsEdit'?S.nwe?.d:S.nwDays[nwId(S.uid,b.dataset.date)]?.d, st=(src?.stories||[]).find(x=>x.id===b.dataset.k); if(st) speak([st.h, st.sub, st.body].filter(Boolean).join('.\n')); break; }
+    case 'say-t': speak(b.dataset.t); break;
+    case 'nw-ai': openNwAi(); break;
+    case 'nwe-open': openNwEdit(b.dataset.uid, b.dataset.d); break;
+    case 'nwe-tab': nweRead(); S.nwe.tab=b.dataset.t; renderMain(); break;
+    case 'nwe-add': { nweRead(); const d=S.nwe.d; (d.stories ||= []).push({id:newId(), sec:'world', h:'', sub:'', body:'', img:'', words:[], quiz:[]}); S.nwe.dirty=true; renderMain();
+      setTimeout(()=>{ const all=document.querySelectorAll('.nes-h'); all[all.length-1]?.focus(); },60); break; }
+    case 'nwe-rm': { if(!armDel(b)) break; nweRead(); (S.nwe.d.stories||[]).splice(+b.dataset.i,1); S.nwe.dirty=true; renderMain(); break; }
+    case 'nwe-copy': openNwCopy(); break;
+    case 'nwe-go': { if(S.nwe?.dirty && !b.dataset.armed){ b.dataset.armed='1'; b.textContent=tr('nw.e.leave'); break; } const E=S.nwe; openNwEdit(E.uid, dAdd(E.date, +b.dataset.n)); nwWatchWeek(weekOf(S.nwe.date)); break; }
+    case 'nwe-save': b.disabled=true; if(!await nweSave()) b.disabled=false; break;
+    case 'nwe-back': { if(S.nwe?.dirty && !b.dataset.armed){ b.dataset.armed='1'; b.innerHTML=`${I.back} ${tr('nw.e.leave')}`; break; } const w=S.nwe?weekOf(S.nwe.date):undefined; S.nwe=null; go('news',{week:w}); break; }
+    case 'nwe-del': { if(!armDel(b)) break; const d=S.nwe.date, id=nwId(S.nwe.uid,d); try{ await S.db.doc('newsDays/'+id).delete(); delete S.nwDays[id]; S.nwe=null; toast(tr('bd.deleted')); go('news',{week:weekOf(d)}); }catch(e){ dbErr(e,'news'); } break; }
+    case 'st-new': openSetEdit(null, b.dataset.uid); break;
+    case 'st-edit': openSetEdit(b.dataset.id, b.dataset.uid); break;
+    case 'st-open': S.fc=null; S.quiz=null; S.test=null; go('set',{id:b.dataset.id, uid:b.dataset.uid}); break;
+    case 'st-f': S.view.f=b.dataset.k; renderMain(); break;
+    case 'st-leave': { if(S.test?.start && !S.test.done && !b.dataset.armed){ b.dataset.armed='1'; b.innerHTML=`${I.back} ${tr('st.leaveSure')}`; break; } clearInterval(S.tsInt); S.test=null; S.quiz=null; go('study'); break; }
+    case 'fc-flip': { const F=S.fc; if(!F) break; F.flip=!F.flip; const el=$('.fc'); if(el){ el.classList.toggle('flip',F.flip); $('.fc-acts').innerHTML=fcActs(); } else renderMain(); break; }
+    case 'fc-ans': fcAnswer(b.dataset.v==='1'); break;
+    case 'fc-restart': { const s2=S.stSets[S.fc?.id]?.d, keep=S.fc?.boxes; S.fc=null; if(s2) fcStart(s2, keep); renderMain(); break; }
+    case 'qz-pick': { const Q=S.quiz, s2=S.stSets[Q?.id]?.d; if(!s2 || Q.ans[Q.i]) break; const v=+b.dataset.j; Q.ans[Q.i]={v, ok:qRight(s2.qs[Q.i],v)}; renderMain(); break; }
+    case 'qz-type': { const Q=S.quiz, s2=S.stSets[Q?.id]?.d, inp=$('#qz-in'); if(!s2 || !inp) break; const v=inp.value.trim(); if(!v){ inp.focus(); break; } inp.blur(); Q.ans[Q.i]={v, ok:qRight(s2.qs[Q.i],v)}; renderMain(); break; }
+    case 'qz-next': if(S.quiz){ S.quiz.i++; renderMain(); after.set(); } break;
+    case 'qz-restart': S.quiz=null; renderMain(); break;
+    case 'ts-start': { const T=S.test, s2=S.stSets[T?.id]?.d; if(!s2) break; T.start=Date.now(); T.end=(+s2.mins||0)>0?T.start+s2.mins*60000:0; renderMain(); tsTick(); break; }
+    case 'ts-pick': if(S.test){ S.test.ans[+b.dataset.i]=+b.dataset.j; tsCount(); } break;
+    case 'ts-submit': tsSubmit(false, b); break;
+    case 'ts-restart': S.test=null; renderMain(); break;
+    case 'ste-kind': steRead(); S.ste.meta.kind=b.dataset.k; S.ste.dirty=true; renderMain(); break;
+    case 'ste-save': b.disabled=true; await steSave(); if(b.isConnected) b.disabled=false; break;
+    case 'ste-back': { if(S.ste?.dirty && !b.dataset.armed){ b.dataset.armed='1'; b.innerHTML=`${I.back} ${tr('nw.e.leave')}`; break; } S.ste=null; go('study'); break; }
+    case 'ste-ai': { steRead(); const m=S.ste.meta, t=stPrompt(m.kind, m.level, Math.max(3,Math.min(60,+$('#ste-n').value||10)), $('#ste-topic').value.trim()); try{ await navigator.clipboard.writeText(t); toast(tr('st.aiCopied')); }catch(e){ toast(tr('em.copyFail')); } break; }
+    case 'ste-del': { if(!armDel(b)) break; const {id,uid}=S.ste, idx=clone(S.stIdx[uid])||{sets:[]}; idx.sets=(idx.sets||[]).filter(x=>x.id!==id);
+      try{ await S.db.doc('study/'+id).delete(); await S.db.doc('studyIndex/'+uid).set(idx); S.stIdx[uid]=idx; toast(tr('bd.deleted')); S.ste=null; go('study'); }catch(e){ dbErr(e,'premium'); } break; }
     case 'bk-cancel': { if(b.classList.contains('del-btn') && !armDel(b)) break; const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(b.classList.contains('del-btn')?tr('bd.deleted'):tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
   }
 });
+document.addEventListener('input', ev=>{
+  const t=ev.target; if(!t || !t.classList) return;
+  if(t.classList.contains('ts-in') && S.test){ S.test.ans[+t.dataset.i]=t.value; tsCount(); }
+  if(t.classList.contains('nes-quiz')){ const el=t.parentElement.querySelector('.nes-qn'); if(el) el.textContent=tr('nw.e.qn',{n:parseQs(t.value).filter(x=>x.o).length}); }
+  if(t.id==='ste-text') steCount();
+  if(S.nwe && t.closest('.nwe-body, .switch-row') && S.view.name==='newsEdit') S.nwe.dirty=true;
+  if(S.ste && t.closest('.ste-form')) S.ste.dirty=true;
+});
 document.addEventListener('change', ev=>{
-  const t=ev.target; if(t.dataset && t.dataset.act==='learn'){ const s=new Set(LS.get('learned:'+S.uid,[])); t.checked? s.add(t.dataset.w): s.delete(t.dataset.w); LS.set('learned:'+S.uid,[...s]); renderMain(); }
+  const t=ev.target; if(t.id==='nw-city'){ LS.set('nw-city',t.value); nwFillWeather(); }
+  if(S.nwe && t.id==='nwe-on') S.nwe.dirty=true; if(t.dataset && t.dataset.act==='learn'){ const s=new Set(LS.get('learned:'+S.uid,[])); t.checked? s.add(t.dataset.w): s.delete(t.dataset.w); LS.set('learned:'+S.uid,[...s]); renderMain(); }
 });
 document.addEventListener('keydown', ev=>{
   if(S.pop && S.pop.a){
@@ -2933,6 +4288,8 @@ document.addEventListener('keydown', ev=>{
   if(ev.key==='Enter' && (ev.target.id==='login-email'||ev.target.id==='login-pass')){ $('#main .paper .btn.primary')?.click(); }
   if(ev.key==='Enter' && ev.target.id==='bank-new'){ $('[data-act="bank-add"]').click(); }
   if(ev.key==='Enter' && ev.target.id==='plan-new'){ $('[data-act="plan-add"]')?.click(); }
+  if(ev.key==='Enter' && ev.target.id==='qz-in'){ ev.preventDefault(); $('[data-act="qz-type"]')?.click(); }
+  if(ev.key==='Enter' && ev.target.classList?.contains('ts-in')){ ev.preventDefault(); const all=[...document.querySelectorAll('.ts-in')], i=all.indexOf(ev.target); all[i+1]?.focus(); }
   if((ev.key==='Enter'||ev.key===' ') && ev.target.classList?.contains('mk')){ ev.preventDefault(); ev.target.click(); }
 });
 window.addEventListener('resize', ()=>{ if(S.pop) closePop(); });
