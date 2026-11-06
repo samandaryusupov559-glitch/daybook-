@@ -878,6 +878,8 @@ td.nwc.off{color:var(--ink-3);font-size:18px}
 .st-stu-h{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap} .st-stu-h > div{flex:1;min-width:180px} .st-stu-h h3{font-size:21px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .ste-side h3 svg,.nw-mail h3 svg{width:20px;height:20px;flex:none} .ste-side h3{display:flex;gap:8px;align-items:center}
 .page-head > div > .label{display:flex;margin-bottom:8px}
+.wp-frame{width:100%;min-height:520px;border:0;display:block;background:transparent}
+.nw-plan tbody th .row{justify-content:flex-start} .nw-rm{margin-left:auto;padding:6px 8px} .nw-rm span{display:none} .rm-list li::before{content:"•";color:var(--pen)}
 </style>
 </head>
 <body>
@@ -1011,7 +1013,7 @@ const wc = t => (t.match(WORD_RE)||[]).length;
 function overallBand(b){ const v=CRIT.map(c=>b?.[c.k]).filter(x=>typeof x==='number'); if(v.length<CRIT.length) return null; return Math.round(v.reduce((a,c)=>a+c,0)/v.length*2)/2; }
 const fmtBand = v => v==null ? '–' : (Number.isInteger(v)? v.toFixed(1) : String(v));
 function countErrors(anns){ const c={}; for(const a of anns||[]) c[a.type]=(c[a.type]||0)+1; return c; }
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,3200); }
+function toast(msg, ms){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true, ms||3200); }
 function dbErr(e, what){
   const c = e && e.code;
   const k = c==='permission-denied'?'err.perm' : c==='invalid_argument'?'err.arg' : (c==='quota_exceeded'||c==='quota-exceeded')?'err.quota' : (c==='resource_exhausted'||c==='resource-exhausted')?'err.busy' : 'err.generic';
@@ -2661,7 +2663,7 @@ function vNewsT(){
       <div class="stat"><b>${ready}<small>/${need}</small></b><span>${tr('nw.k.ready')}</span></div><div class="stat"><b>${N1?Math.round(S1/N1*100)+'%':'–'}</b><span>${tr('nw.k.quiz')}</span></div></div>
     <div class="section"><h2>${tr('nw.planH')}</h2><p class="muted small" style="margin:-6px 0 12px">${tr('nw.planP')}</p>
     ${rd.length?`<div class="nw-plan-wrap"><table class="nw-plan"><thead><tr><th></th>${days.map(d=>`<th class="${d===tkToday()?'tdy':''}"><span>${esc(cap(dloc(parseDate(d),{weekday:'short'})))}</span><b class="num">${parseDate(d).getDate()}</b></th>`).join('')}</tr></thead>
-      <tbody>${rd.map(r=>`<tr><th><div class="row" style="gap:8px;flex-wrap:nowrap">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> ${r.level?`<span class="pill">${esc(r.level)}</span>`:''}<div class="small faint">${r.pend&&r.until<now?tr('pm.st.wait'):tr('st.activeTill',{d:esc(dayMonth(r.until))})}</div></div></div></th>${days.map(d=>cell(r,d)).join('')}</tr>`).join('')}</tbody></table></div>`
+      <tbody>${rd.map(r=>`<tr><th><div class="row" style="gap:8px;flex-wrap:nowrap">${avatar(r.name,r.uid)}<div style="min-width:0"><b>${esc(r.name)}</b> ${r.level?`<span class="pill">${esc(r.level)}</span>`:''}<div class="small faint">${r.pend&&r.until<now?tr('pm.st.wait'):tr('st.activeTill',{d:esc(dayMonth(r.until))})}</div></div><button class="btn ghost sm del-btn nw-rm" data-act="pr-del" data-k="news" data-uid="${esc(r.uid)}" title="${esc(tr('pm.removeP'))}">${I.trash} <span>${tr('pm.remove')}</span></button></div></th>${days.map(d=>cell(r,d)).join('')}</tr>`).join('')}</tbody></table></div>`
       :`<div class="empty"><h3>${tr('nw.noReaders')}</h3><p>${tr('nw.noReadersP')}</p></div>`}
     <p class="small faint nw-legend">+ ${tr('nw.st.empty')} · ${hh(P.hour)} ${tr('nw.st.soonL')} · ✓ ${tr('nw.st.out')} · — ${tr('nw.st.hidden')}</p></div>
     ${nwMailCard()}`;
@@ -2753,6 +2755,15 @@ function nweRead(){
       return {id:p.id||newId(), sec:q('.nes-sec'), h:q('.nes-h').trim(), sub:q('.nes-sub').trim(), body:q('.nes-body').trim(), img:q('.nes-img').trim(), words:parseWords(q('.nes-words')), quiz:parseQs(q('.nes-quiz')).filter(x=>x.o)}; });
   }
 }
+// every story a student has already had (all their issues, not only this week), so nothing is given twice
+const nwKey = h => String(h||'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+async function nwPast(uid, exceptDate){
+  const out=new Map();
+  for(const d of (await S.db.collection('newsDays').where('uid',uid).get()).docs){ const x=d.data()||{}; if(x.date===exceptDate) continue;
+    for(const st of (x.stories||[])) if(st.h) out.set(nwKey(st.h), {date:x.date, h:st.h}); }
+  return out;
+}
+const nwDupMsg = (list) => list.map(x=>`“${x.h}” (${dayMonth(releaseMs(x.date,12))})`).join(', ');
 function nwDoc(uid, date, d){
   const P=pmInfo().news, on=d.on!==false;
   return {...d, uid, date, week:weekOf(date), on, stories:(d.stories||[]).filter(x=>x.h||x.body), releaseAt:on?releaseMs(date,P.hour):NW_NEVER, at:nowTs()};
@@ -2760,6 +2771,9 @@ function nwDoc(uid, date, d){
 async function nweSave(){
   nweRead(); const E=S.nwe, P=pmInfo().news;
   if((E.d.stories||[]).some(x=>x.img && !safeLink(x.img))){ toast(tr('pf.badLink')); return false; }
+  let past; try{ past=await nwPast(E.uid, E.date); }catch(e){ dbErr(e,'news'); return false; }
+  const dup=(E.d.stories||[]).filter(x=>x.h && past.has(nwKey(x.h))).map(x=>past.get(nwKey(x.h)));
+  if(dup.length){ toast(tr('nw.dup',{name:(S.profiles[E.uid]?.name||'').split(' ')[0], list:nwDupMsg(dup)}), 7000); return false; }
   const doc=nwDoc(E.uid, E.date, E.d);
   try{ await S.db.doc('newsDays/'+nwId(E.uid,E.date)).set(doc); S.nwDays[nwId(E.uid,E.date)]={st:'ok',d:clone(doc)}; E.d=clone(doc); E.existed=true; E.dirty=false;
     toast(doc.on===false?tr('nw.e.savedHidden'):releaseMs(E.date,P.hour)<=Date.now()?tr('nw.e.savedOut'):tr('nw.e.saved',{day:dateLong(E.date),h:hh(P.hour)})); renderMain(); return true; }
@@ -2775,18 +2789,23 @@ function openNwCopy(){
   $('#nc-form').addEventListener('submit', async e=>{
     e.preventDefault(); const ids=[...document.querySelectorAll('.nc-u:checked')].map(x=>x.value); if(!ids.length){ closeDlg(); return; }
     $('#nc-go').disabled=true; let n=0;
-    for(const uid of ids){ const doc=nwDoc(uid, E.date, {...clone(E.d), stories:clone(E.d.stories||[]).map(x=>({...x,id:newId()}))});
-      try{ await S.db.doc('newsDays/'+nwId(uid,E.date)).set(doc); S.nwDays[nwId(uid,E.date)]={st:'ok',d:doc}; n++; }catch(e2){ dbErr(e2,'news'); break; } }
-    closeDlg(); toast(tr('nw.e.copied',{n}));
+    const skipped=[];
+    for(const uid of ids){ try{
+        const past=await nwPast(uid, E.date), keys=new Set();
+        const stories=clone(E.d.stories||[]).filter(x=>{ const k=nwKey(x.h); if(!x.h || keys.has(k)) return false; keys.add(k); if(past.has(k)){ skipped.push((S.profiles[uid]?.name||'?').split(' ')[0]+': '+x.h); return false; } return true; }).map(x=>({...x,id:newId()}));
+        if(!stories.length) continue;
+        const doc=nwDoc(uid, E.date, {...clone(E.d), stories});
+        await S.db.doc('newsDays/'+nwId(uid,E.date)).set(doc); S.nwDays[nwId(uid,E.date)]={st:'ok',d:doc}; n++; }catch(e2){ dbErr(e2,'news'); break; } }
+    closeDlg(); toast(tr('nw.e.copied',{n})+(skipped.length?' '+tr('nw.skipped',{list:skipped.join('; ')}):''), skipped.length?8000:undefined);
   });
 }
-function nwPrompt(dates, level, n, topic){
+function nwPrompt(dates, level, n, topic, avoid){
   const P=pmInfo().news, len={A1:'60-90',A2:'100-140',B1:'160-220',B2:'230-300',C1:'300-380',C2:'300-380'}[level]||'160-220';
   return `You are the editor of "${P.name}", a short personal daily newspaper for one learner of English in Uzbekistan. The learner's level is ${level} (CEFR).
 Write ${dates.length===1?'1 issue':dates.length+' issues'}, one for each of these days: ${dates.map(d=>enDate(d,{weekday:'long'})+' '+d).join(', ')}.
 Each issue has ${n} news ${n>1?'stories':'story'} of ${len} words each, with grammar and vocabulary that fit ${level}.
 ${topic?`The learner is interested in: ${topic}. Choose stories about these interests.`:'Mix the topics: world, Uzbekistan, science, sport, culture, technology, everyday life and fun.'}
-Write friendly, positive, general-interest stories. Do not invent news events or quotes from real people. If you are not sure a fact is true, write an evergreen story instead (a place, an invention, an animal, a tradition, a useful tip).
+${avoid&&avoid.length?`This learner has ALREADY read stories with these headlines. Do not write about these topics again; every story must be about something new:\n${avoid.slice(-150).map(h=>'- '+h).join('\n')}\n`:''}Write friendly, positive, general-interest stories. Do not invent news events or quotes from real people. If you are not sure a fact is true, write an evergreen story instead (a place, an invention, an animal, a tradition, a useful tip).
 Every story has 5 key words from the story with simple English meanings, and 4 multiple-choice questions with 3 options each that check understanding of the story ("a" is the number of the right option: 0, 1 or 2).
 Every issue also has: a word of the day, an idiom with its meaning and an example, a fun fact, a short clean joke, a riddle with its answer, and a writing prompt for the learner's diary.
 Return ONLY valid JSON, with no text before or after it, in exactly this shape:
@@ -2821,27 +2840,33 @@ function openNwAi(){
     <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn primary" id="ai-go">${tr('nw.aiImport')}</button></div></form>`, {type:'ai'});
   const pick = () => $('#ai-day').value==='all' ? days : [$('#ai-day').value];
   document.querySelectorAll('.ai-u').forEach(c=>c.addEventListener('change',()=>{ const f=document.querySelector('.ai-u:checked'); if(f && f.dataset.l) $('#ai-lvl').value=f.dataset.l; }));
-  $('#ai-copy').addEventListener('click', async ()=>{ const t=nwPrompt(pick(), $('#ai-lvl').value, +$('#ai-n').value, $('#ai-topic').value.trim()); try{ await navigator.clipboard.writeText(t); toast(tr('pf.copied')); }catch(e){ $('#ai-json').value=t; $('#ai-json').select(); toast(tr('t.selected')); } });
+  $('#ai-copy').addEventListener('click', async ()=>{ const uids=[...document.querySelectorAll('.ai-u:checked')].map(x=>x.value), avoid=new Set();
+    try{ for(const u of uids) for(const v of (await nwPast(u)).values()) avoid.add(v.h); }catch(e){}
+    const t=nwPrompt(pick(), $('#ai-lvl').value, +$('#ai-n').value, $('#ai-topic').value.trim(), [...avoid]); try{ await navigator.clipboard.writeText(t); toast(tr('pf.copied')); }catch(e){ $('#ai-json').value=t; $('#ai-json').select(); toast(tr('t.selected')); } });
   $('#ai-form').addEventListener('submit', async e=>{
     e.preventDefault(); const err=$('#ai-err'), raw=$('#ai-json').value, i0=raw.indexOf('{'), i1=raw.lastIndexOf('}'), uids=[...document.querySelectorAll('.ai-u:checked')].map(x=>x.value);
     if(!uids.length){ err.textContent=tr('nw.aiNoOne'); return; }
     let j=null; try{ j=JSON.parse(raw.slice(i0,i1+1)); }catch(_){ }
     const list = Array.isArray(j) ? j : Array.isArray(j?.days) ? j.days : j && (j.stories||j.levels||j.extras) ? [j] : null;
     if(!list || !list.length){ err.textContent=tr('nw.aiBad'); return; }
-    const want=pick(); let n=0; $('#ai-go').disabled=true;
+    const want=pick(); let n=0; $('#ai-go').disabled=true; const past={}, skipped=[];
+    try{ for(const u of uids) past[u]=await nwPast(u); }catch(e2){ dbErr(e2,'news'); $('#ai-go').disabled=false; return; }
     outer: for(let i=0;i<list.length && i<7;i++){
       const date = days.includes(list[i]?.date) ? list[i].date : want[i]; if(!date) continue;
       const {stories, extras}=nwNormDay(list[i]); if(!stories.length) continue;
       for(const uid of uids){
+        const P0=past[uid], mine=stories.filter(x=>{ const k=nwKey(x.h), seen=P0.get(k); if(seen && seen.date!==date){ skipped.push((S.profiles[uid]?.name||'?').split(' ')[0]+': '+x.h); return false; } return true; });
+        if(!mine.length) continue;
+        mine.forEach(x=>P0.set(nwKey(x.h),{date,h:x.h}));
         const old=S.nwDays[nwId(uid,date)]?.st==='ok'?S.nwDays[nwId(uid,date)].d:nwBlank(uid,date);
         const keep=Object.fromEntries(Object.entries(extras).filter(([,v])=>typeof v==='string'?v:Object.values(v).some(Boolean)));
-        const doc=nwDoc(uid, date, {...old, extras:{...(old.extras||{}), ...keep}, stories:stories.map(x=>({...clone(x), id:newId()}))});
+        const doc=nwDoc(uid, date, {...old, extras:{...(old.extras||{}), ...keep}, stories:mine.map(x=>({...clone(x), id:newId()}))});
         try{ await S.db.doc('newsDays/'+nwId(uid,date)).set(doc); S.nwDays[nwId(uid,date)]={st:'ok',d:doc}; n++; }catch(e2){ dbErr(e2,'news'); break outer; }
       }
     }
     $('#ai-go').disabled=false;
     if(!n){ err.textContent=tr('nw.aiBad'); return; }
-    closeDlg(); toast(tr('nw.aiDone',{n})); refresh();
+    closeDlg(); toast(tr('nw.aiDone',{n})+(skipped.length?' '+tr('nw.skipped',{list:skipped.join('; ')}):''), skipped.length?9000:undefined); refresh();
   });
 }
 let nwMailHash='';
@@ -2861,24 +2886,195 @@ async function nwMailSync(){
   const r=await mailPost(body); if(r.ok) nwMailHash=h;
 }
 /* ================= the practice pack: flashcards, quizzes, tests ================= */
+/* ---------- word sets: the teacher's own lesson words → one standard practice page ----------
+   The page is self-contained HTML (flashcards, quiz, test, two games). Inside Lexora it runs in a sandboxed
+   frame and reports scores back with postMessage; the same page can be downloaded and used offline. */
+const parseWordLines = t => String(t||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+  const [a,ex='',uz=''] = l.split(/\s+\|\s+/).map(x=>x.trim());
+  const m=(a||'').match(/^(.+?)\s*(?:=|—|–|\s-\s)\s*(.+)$/);
+  return m ? {w:m[1].trim().slice(0,80), m:m[2].trim().slice(0,200), ex:ex.slice(0,240), uz:uz.slice(0,120)} : {w:(a||'').slice(0,80), m:'', ex:ex.slice(0,240), uz:uz.slice(0,120)};
+}).filter(x=>x.w).slice(0,120);
+const wordLinesText = ws => (ws||[]).map(x=>[x.m?`${x.w} = ${x.m}`:x.w, ...(x.ex||x.uz?[x.ex||'']:[]), ...(x.uz?[x.uz]:[])].join(' | ')).join('\n');
+const wNorm = s => String(s||'').toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim();
+
+function wordsPrompt(words, level){
+  return `I am an English teacher. During today's lesson I collected words my student (level ${level}) did not know. Here is my list:
+
+${words.map(w=>'- '+w).join('\n')}
+
+Use ONLY these words, exactly as written, in the same order. Do not add, remove or change any word.
+For each word write:
+- "m": a short, simple English meaning that a ${level} learner understands (if the word has several meanings, use the most common one)
+- "ex": one natural example sentence that contains the word exactly as written
+- "uz": the Uzbek translation (one or two words)
+
+Return ONLY valid JSON, with no text before or after it, in exactly this shape:
+{"words":[{"w":"${(words[0]||'word').replace(/"/g,'')}","m":"meaning","ex":"Example sentence.","uz":"tarjima"}]}`;
+}
+// take the AI's answer, but keep only the teacher's own words
+function wordsFromAi(raw, mine){
+  const i0=raw.indexOf('{'), i1=raw.lastIndexOf('}'); let j=null; try{ j=JSON.parse(raw.slice(i0,i1+1)); }catch(_){ return null; }
+  const arr=Array.isArray(j)?j:Array.isArray(j?.words)?j.words:null; if(!arr) return null;
+  const by=new Map(arr.filter(x=>x&&x.w).map(x=>[wNorm(x.w), x]));
+  return mine.map(w=>{ const x=by.get(wNorm(w)); return {w, m:str(x?.m,200), ex:str(x?.ex,240), uz:str(x?.uz,120)}; });
+}
+
+function wordsPage(set, embedded){
+  const words=(set.words||[]).filter(x=>x.w&&x.m), data=JSON.stringify({id:set.id, title:set.title, level:set.level||'', words, embedded:!!embedded}).replace(/</g,'\\u003c');
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(set.title||'Words')}</title>
+<style>
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#121A33;background:${embedded?'transparent':'#E7ECF5'}}
+.wrap{max-width:760px;margin:0 auto;padding:${embedded?'0':'24px 16px 40px'}}
+h1{font-size:28px;line-height:1.15;margin:0 0 4px}.sub{color:#5A6585;margin:0 0 16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{border:1px solid #D8DEEB;background:#FFFDF7;border-radius:999px;padding:9px 15px;font:600 15px/1 inherit;font-family:inherit;color:#121A33;cursor:pointer}
+.tabs button[aria-pressed=true]{background:#16245F;color:#fff;border-color:#16245F}
+.card{background:#FFFDF7;border:1px solid #D8DEEB;border-radius:18px;padding:20px;box-shadow:0 10px 30px -22px rgba(22,36,95,.5)}
+.btn{border:0;border-radius:12px;padding:11px 18px;font:700 15.5px/1 inherit;font-family:inherit;cursor:pointer;background:#E7ECF5;color:#121A33}
+.btn.p{background:#16245F;color:#fff}.btn.r{background:#D11F3B;color:#fff}.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.c{justify-content:center}.mut{color:#5A6585;font-size:14px}
+.bar{height:7px;background:#E7ECF5;border-radius:9px;overflow:hidden;margin:6px 0 14px}.bar i{display:block;height:100%;background:#2140C8;border-radius:9px;transition:width .3s}
+.fc{width:100%;max-width:460px;aspect-ratio:3/2;margin:0 auto 14px;perspective:1100px;cursor:pointer;display:block;border:0;padding:0;background:none;font:inherit;color:inherit}
+.fi{position:relative;display:block;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,1.4,.5,1);transform-style:preserve-3d}.fc.on .fi{transform:rotateY(180deg)}
+.ff{position:absolute;inset:0;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center}
+.f1{background:linear-gradient(140deg,#16245F,#2E43A8);color:#fff}.f1 b{font-size:clamp(26px,6vw,40px);line-height:1.1}.f1 small{opacity:.7}
+.f2{background:#FFFDF7;border:1px solid #D8DEEB;transform:rotateY(180deg)}.f2 b{font-size:21px;line-height:1.3}.f2 em{color:#2140C8}.f2 .uz{color:#D11F3B;font-weight:700}
+.q{font-size:21px;font-weight:700;margin:0 0 14px;line-height:1.35}
+.opt{display:block;width:100%;text-align:left;margin:0 0 9px;padding:13px 15px;border:1px solid #D8DEEB;border-radius:13px;background:#fff;font:16.5px/1.35 inherit;font-family:inherit;color:#121A33;cursor:pointer}
+.opt:hover:not(:disabled){border-color:#2140C8}.opt.ok{background:#E2F5EA;border-color:#1E8A4C;color:#1E6B3C;font-weight:700}.opt.no{background:#FCE4E8;border-color:#D11F3B;color:#A3132B;text-decoration:line-through}
+.fb{margin:10px 0;padding:11px 13px;border-radius:12px}.fb.ok{background:#E2F5EA;color:#1E6B3C}.fb.no{background:#FCE4E8;color:#A3132B}
+input.t{width:100%;padding:12px 14px;border:1px solid #D8DEEB;border-radius:12px;font:17px inherit;font-family:inherit;background:#fff;color:#121A33}
+.gap{display:inline-block;min-width:70px;border-bottom:2px solid #2140C8;color:transparent}
+.res{text-align:center}.ring{width:120px;height:120px;border-radius:50%;margin:4px auto 10px;display:grid;place-items:center;background:conic-gradient(#1E8A4C calc(var(--p)*1%),#E7ECF5 0)}.ring b{width:94px;height:94px;border-radius:50%;background:#FFFDF7;display:grid;place-items:center;font-size:27px}
+ol.rev{text-align:left;padding-left:22px}ol.rev li{margin:7px 0}.g{color:#1E6B3C}.x{color:#A3132B}
+.tl{list-style:none;padding:0;margin:0;display:grid;gap:10px;counter-reset:q}.tl li{counter-increment:q}.tl li .q::before{content:counter(q)". ";color:#7882A2}
+.timer{font:800 22px/1 ui-monospace,Menlo,monospace}.timer.late{color:#D11F3B}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:9px}.tile{padding:13px 10px;border:1px solid #D8DEEB;border-radius:13px;background:#fff;font:600 15.5px/1.3 inherit;font-family:inherit;color:#121A33;cursor:pointer;min-height:58px}
+.tile.sel{border-color:#2140C8;background:#E5EBFF}.tile.done{visibility:hidden}.tile.bad{animation:sh .3s}@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.ans{min-height:52px;border:2px dashed #C9D1E6;border-radius:13px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.lt{width:42px;height:46px;border-radius:10px;border:1px solid #D8DEEB;background:#fff;font:800 20px/1 inherit;font-family:inherit;color:#121A33;cursor:pointer;text-transform:lowercase}.lt.sp{width:26px}
+.list{display:grid;gap:8px}.list div{padding:10px 13px;border:1px solid #D8DEEB;border-radius:12px;background:#fff}.list b{font-size:17px}.list .uz{color:#D11F3B}
+.foot{text-align:center;color:#7882A2;font-size:12.5px;margin-top:18px}
+</style></head><body><div class="wrap"><div id="app"></div>${embedded?'':'<div class="foot">Lexora · practice page</div>'}</div>
+<script>
+const D=${data}, W=D.words;
+const $=s=>document.querySelector(s), app=$('#app');
+const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const nz=s=>String(s||'').toLowerCase().replace(/[’‘\`]/g,"'").replace(/[.!?,;:]+$/,'').replace(/\\s+/g,' ').trim();
+const say=t=>{try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u);}catch(e){}};
+const send=(act,s,n)=>{ if(D.embedded) try{ parent.postMessage({lexora:'score',id:D.id,act,s,n},'*'); }catch(e){} };
+const fit=()=>{ if(D.embedded) try{ parent.postMessage({lexora:'h',id:D.id,h:document.documentElement.scrollHeight},'*'); }catch(e){} };
+new ResizeObserver(fit).observe(document.body);
+// a sentence with the word hidden, if the example really contains it
+const hide=x=>{ if(!x.ex) return null; const re=new RegExp('(^|[^A-Za-z])('+x.w.replace(/[.*+?^\${}()|[\\]\\\\]/g,'\\\\$&')+')(?![A-Za-z])','i'); const m=x.ex.match(re); if(!m) return null;
+  return E(x.ex.slice(0,m.index+m[1].length))+'<span class="gap">____</span>'+E(x.ex.slice(m.index+m[1].length+m[2].length)); };
+const others=(x,k,n)=>sh(W.filter(y=>y!==x&&nz(y[k])!==nz(x[k]))).slice(0,n).map(y=>y[k]);
+const TABS=[['learn','📖 Words'],['cards','🃏 Flashcards'],['quiz','✅ Quiz'],['test','📝 Test'],['match','🧩 Match'],['spell','🔤 Spelling']];
+let tab='cards', st={};
+function shell(inner){ app.innerHTML=\`<h1>\${E(D.title)}</h1><p class="sub">\${W.length} words\${D.level?' · '+E(D.level):''}</p>
+  <div class="tabs">\${TABS.map(([k,n])=>\`<button data-t="\${k}" aria-pressed="\${k===tab}">\${n}</button>\`).join('')}</div>\${inner}\`; fit(); }
+app.addEventListener('click',e=>{ const b=e.target.closest('[data-t]'); if(b){ tab=b.dataset.t; st={}; go(); } });
+function go(){ if(W.length<1){ shell('<div class="card">No words yet.</div>'); return; } ({learn,cards,quiz,test,match,spell})[tab](); }
+function result(act,s,n,rev,again){ const p=n?Math.round(s/n*100):0; send(act,s,n);
+  shell(\`<div class="card res"><div class="ring" style="--p:\${p}"><b>\${p}%</b></div><h2 style="margin:0 0 4px">\${p>=90?'Excellent!':p>=70?'Good job!':p>=50?'Not bad, keep going!':'Keep practising!'}</h2><p class="mut">\${s} of \${n} right</p>
+    <div class="row c"><button class="btn p" id="again">Try again</button></div>\${rev?'<ol class="rev">'+rev+'</ol>':''}</div>\`); $('#again').onclick=again; }
+/* list */
+function learn(){ shell(\`<div class="list">\${W.map((x,i)=>\`<div><div class="row" style="justify-content:space-between"><b>\${E(x.w)}</b><button class="btn" data-say="\${i}" style="padding:6px 10px">🔊</button></div><div>\${E(x.m)}\${x.uz?' · <span class="uz">'+E(x.uz)+'</span>':''}</div>\${x.ex?'<div class="mut"><i>'+E(x.ex)+'</i></div>':''}</div>\`).join('')}</div>\`);
+  app.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{const x=W[+b.dataset.say];say(x.w+(x.ex?'. '+x.ex:''));}); }
+/* flashcards: cards you miss come back */
+function cards(){ if(!st.q){ st={q:sh(W.map((x,i)=>i)),ok:0,again:0,fl:false}; }
+  if(!st.q.length){ shell(\`<div class="card res"><h2>🎉 You went through every card!</h2><p class="mut">Knew: \${st.ok} · Again: \${st.again}</p><button class="btn p" id="again">Start again</button></div>\`); $('#again').onclick=()=>{st={};cards();}; return; }
+  const x=W[st.q[0]], done=W.length-new Set(st.q).size;
+  shell(\`<div class="bar"><i style="width:\${done/W.length*100}%"></i></div><button class="fc \${st.fl?'on':''}" id="fc"><span class="fi"><span class="ff f1"><b>\${E(x.w)}</b><small>tap to turn</small></span><span class="ff f2"><b>\${E(x.m)}</b>\${x.uz?'<span class="uz">'+E(x.uz)+'</span>':''}\${x.ex?'<em>“'+E(x.ex)+'”</em>':''}</span></span></button>
+    <div class="row c">\${st.fl?'<button class="btn" id="no">↺ Again</button><button class="btn r" id="yes">✓ I knew it</button>':'<button class="btn p" id="flip">Show the answer</button>'}<button class="btn" id="say">🔊</button></div>\`);
+  const flip=()=>{st.fl=!st.fl;cards();}; $('#fc').onclick=flip; if($('#flip'))$('#flip').onclick=flip; $('#say').onclick=()=>say(x.w);
+  if($('#yes')) $('#yes').onclick=()=>{st.q.shift();st.ok++;st.fl=false;cards();};
+  if($('#no')) $('#no').onclick=()=>{const i=st.q.shift();st.q.splice(Math.min(st.q.length,3),0,i);st.again++;st.fl=false;cards();}; }
+/* quiz: one question at a time, answer straight away */
+function mkQuiz(){ const qs=sh(W).map((x,i)=>{ const t=i%3, g=hide(x), o2=others(x,'w',3);
+  if(t===1 && o2.length>=1) return {q:'Which word means: <i>'+E(x.m)+'</i>?', o:sh([x.w,...o2]), a:x.w};
+  if(t===2 && g && o2.length>=1) return {q:g, o:sh([x.w,...o2]), a:x.w};
+  const o1=others(x,'m',3); return o1.length ? {q:'What does <b>'+E(x.w)+'</b> mean?', o:sh([x.m,...o1]), a:x.m} : {q:'Which word means: <i>'+E(x.m)+'</i>?', o:[x.w], a:x.w}; });
+  return qs.slice(0,Math.min(qs.length,15)); }
+function quiz(){ if(!st.qs){ st={qs:mkQuiz(),i:0,ok:0,picks:[]}; } const Q=st, n=Q.qs.length;
+  if(Q.i>=n){ return result('quiz',Q.ok,n,Q.qs.map((q,i)=>\`<li class="\${Q.picks[i]===q.a?'g':'x'}">\${q.q} → <b>\${E(q.a)}</b></li>\`).join(''),()=>{st={};quiz();}); }
+  const q=Q.qs[Q.i], p=Q.picks[Q.i];
+  shell(\`<p class="mut">Question \${Q.i+1} of \${n}</p><div class="bar"><i style="width:\${Q.i/n*100}%"></i></div><div class="card"><p class="q">\${q.q}</p>
+    \${q.o.map(o=>\`<button class="opt \${p!=null?(o===q.a?'ok':(o===p?'no':'')):''}" data-o="\${E(o)}" \${p!=null?'disabled':''}>\${E(o)}</button>\`).join('')}
+    \${p!=null?\`<div class="fb \${p===q.a?'ok':'no'}">\${p===q.a?'Right!':'Not quite. The answer is <b>'+E(q.a)+'</b>.'}</div><button class="btn p" id="nx">\${Q.i+1<n?'Next →':'See my score'}</button>\`:''}</div>\`);
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ const v=b.textContent; Q.picks[Q.i]=v; if(v===q.a)Q.ok++; quiz(); });
+  if($('#nx')) $('#nx').onclick=()=>{Q.i++;quiz();}; }
+/* test: everything at once, typed answers, with a timer */
+function test(){ if(!st.qs){ const qs=sh(W).slice(0,20).map(x=>{ const g=hide(x); return g?{q:g, hint:x.m, a:x.w}:{q:'Write the word that means: <i>'+E(x.m)+'</i>', hint:'', a:x.w}; });
+    st={qs, ans:{}, start:0, mins:Math.max(3,Math.ceil(qs.length*0.6))}; }
+  const T=st, n=T.qs.length;
+  if(!T.start){ shell(\`<div class="card res"><h2 style="margin-top:0">📝 \${n} questions</h2><p class="mut">Type the missing word. You have \${T.mins} minutes.</p><button class="btn r" id="go">Start the test</button></div>\`); $('#go').onclick=()=>{T.start=Date.now();T.end=T.start+T.mins*60000;test();}; return; }
+  if(T.done){ const ok=T.qs.filter((q,i)=>nz(T.ans[i])===nz(q.a)).length;
+    return result('test',ok,n,T.qs.map((q,i)=>{const r=nz(T.ans[i])===nz(q.a);return \`<li class="\${r?'g':'x'}">\${q.q}<br>\${r?'✓':'✗'} \${E(T.ans[i]||'—')}\${r?'':' → <b>'+E(q.a)+'</b>'}</li>\`;}).join(''),()=>{st={};test();}); }
+  shell(\`<div class="row" style="justify-content:space-between;margin-bottom:10px"><span class="mut">Type the missing word</span><span class="timer" id="tm"></span></div>
+    <ol class="tl">\${T.qs.map((q,i)=>\`<li class="card"><p class="q" style="font-size:18px">\${q.q}</p>\${q.hint?'<p class="mut" style="margin:-8px 0 8px">Meaning: '+E(q.hint)+'</p>':''}<input class="t" data-i="\${i}" value="\${E(T.ans[i]||'')}" autocomplete="off" autocapitalize="off" spellcheck="false"></li>\`).join('')}</ol>
+    <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn r" id="fin">Finish the test</button></div>\`);
+  app.querySelectorAll('input.t').forEach(inp=>{ inp.oninput=()=>{T.ans[+inp.dataset.i]=inp.value;}; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); const nx=app.querySelector('input.t[data-i="'+(+inp.dataset.i+1)+'"]'); if(nx) nx.focus(); } }; });
+  const fin=()=>{ clearInterval(T.iv); T.done=true; test(); window.scrollTo(0,0); };
+  $('#fin').onclick=()=>{ const left=T.qs.filter((q,i)=>!nz(T.ans[i])).length; if(left && !T.sure){ T.sure=1; $('#fin').textContent=left+' without an answer. Finish anyway?'; return; } fin(); };
+  clearInterval(T.iv); const tick=()=>{ const l=T.end-Date.now(), el=$('#tm'); if(!el) return clearInterval(T.iv); if(l<=0) return fin(); const s=Math.ceil(l/1000); el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); el.classList.toggle('late',l<60000); };
+  tick(); T.iv=setInterval(tick,1000); }
+/* game 1: match words and meanings, six at a time */
+function match(){ if(!st.all){ st={all:sh(W), r:0, ok:0, miss:0, t0:Date.now()}; }
+  const M=st, round=M.all.slice(M.r*6, M.r*6+6);
+  if(!round.length){ const s=Math.round((Date.now()-M.t0)/1000); return result('match',Math.max(0,W.length-M.miss),W.length,'<li>Time: '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' · mistakes: '+M.miss+'</li>',()=>{st={};match();}); }
+  if(!M.tiles){ M.tiles=sh([...round.map((x,i)=>({k:i,t:x.w,s:'w'})),...round.map((x,i)=>({k:i,t:x.m,s:'m'}))]); M.left=round.length; M.sel=null; }
+  shell(\`<p class="mut">Tap a word, then its meaning. Round \${M.r+1} of \${Math.ceil(W.length/6)} · mistakes: \${M.miss}</p><div class="mg">\${M.tiles.map((x,i)=>\`<button class="tile \${x.done?'done':''} \${M.sel===i?'sel':''}" data-i="\${i}">\${E(x.t)}</button>\`).join('')}</div>\`);
+  app.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i, x=M.tiles[i]; if(x.done) return;
+    if(M.sel==null || M.tiles[M.sel].s===x.s){ M.sel=i; return match(); }
+    const y=M.tiles[M.sel]; if(y.k===x.k){ x.done=y.done=true; M.sel=null; M.left--; if(!M.left){ M.r++; M.tiles=null; } match(); }
+    else { M.miss++; M.sel=null; match(); const t=app.querySelector('.tile[data-i="'+i+'"]'); if(t) t.classList.add('bad'); } }); }
+/* game 2: spell the word from its letters */
+function spell(){ if(!st.q){ st={q:sh(W).slice(0,15), i:0, ok:0, pick:[], wrong:false}; } const P=st, n=P.q.length;
+  if(P.i>=n) return result('spell',P.ok,n,'',()=>{st={};spell();});
+  const x=P.q[P.i], letters=P.letters||(P.letters=sh([...x.w].map((c,j)=>({c,j}))));
+  const built=P.pick.map(j=>letters[j].c).join('');
+  shell(\`<p class="mut">Word \${P.i+1} of \${n}</p><div class="bar"><i style="width:\${P.i/n*100}%"></i></div><div class="card"><p class="q">\${E(x.m)}</p>\${x.uz?'<p class="mut" style="margin-top:-8px">'+E(x.uz)+'</p>':''}
+    <div class="ans">\${P.pick.map((j,k)=>\`<button class="lt \${letters[j].c===' '?'sp':''}" data-u="\${k}">\${E(letters[j].c)}</button>\`).join('')}</div>
+    <div class="row">\${letters.map((l,j)=>P.pick.includes(j)?'':\`<button class="lt \${l.c===' '?'sp':''}" data-j="\${j}">\${E(l.c===' '?'␣':l.c)}</button>\`).join('')}</div>
+    \${P.wrong?'<div class="fb no">Not quite. It is <b>'+E(x.w)+'</b>.</div>':''}
+    <div class="row" style="margin-top:12px">\${P.wrong?'<button class="btn p" id="nx">Next →</button>':'<button class="btn" id="hint">Hint</button><button class="btn" id="say">🔊</button><button class="btn" id="skip">Skip</button>'}</div></div>\`);
+  const next=()=>{P.i++;P.pick=[];P.letters=null;P.wrong=false;P.hinted=false;spell();};
+  app.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{ P.pick.push(+b.dataset.j); const w=P.pick.map(j=>letters[j].c).join('');
+    if(w.length===x.w.length){ if(nz(w)===nz(x.w)){ if(!P.hinted)P.ok++; say(x.w); return next(); } P.wrong=true; } spell(); });
+  app.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{ P.pick.splice(+b.dataset.u); spell(); });
+  if($('#nx')) $('#nx').onclick=next;
+  if($('#skip')) $('#skip').onclick=()=>{P.wrong=true;spell();};
+  if($('#say')) $('#say').onclick=()=>say(x.w);
+  if($('#hint')) $('#hint').onclick=()=>{ P.hinted=true; const k=P.pick.length; if(k>=x.w.length) return; const j=letters.findIndex((l,jj)=>!P.pick.includes(jj)&&l.c.toLowerCase()===x.w[k].toLowerCase()); if(j>=0)P.pick.push(j); spell(); }; }
+go();
+<\/script></body></html>`;
+}
+
 const ST_KINDS = ['cards','quiz','test'];
-const ST_IC = {cards:'cards', quiz:'bulb', test:'flag'};
+const ST_IC = {cards:'cards', quiz:'bulb', test:'flag', words:'cards'};
 const vStudy = () => S.mode==='teacher' ? vStudyT() : vStudyS();
 function stCard(x, teacher, uid){
   let prog='';
   if(!teacher && hasStudy()){
-    if(x.kind==='cards'){ const b=S.myScores?.cards?.[x.id]||{}, m=Object.values(b).filter(v=>v>=3).length, n=+x.n||0;
+    if(x.kind==='words'){ const sc=S.myScores?.study||{}, done=['quiz','test','match','spell'].map(a=>sc[x.id+':'+a]).filter(Boolean);
+      const b=done.reduce((a,r)=>a+(+r.best||0),0), t=done.reduce((a,r)=>a+(+r.n||0),0);
+      prog = done.length ? `<div class="st-prog"><div class="goal ${b>=t?'done':''}"><i style="width:${t?b/t*100:0}%"></i></div><span class="small muted num">${tr('st.wDone',{a:done.length})}</span></div>` : ''; }
+    else if(x.kind==='cards'){ const b=S.myScores?.cards?.[x.id]||{}, m=Object.values(b).filter(v=>v>=3).length, n=+x.n||0;
       prog = n ? `<div class="st-prog"><div class="goal ${m>=n?'done':''}"><i style="width:${Math.min(100,m/n*100)}%"></i></div><span class="small muted num">${tr('st.mastered',{a:m,b:n})}</span></div>` : ''; }
     else { const r=S.myScores?.study?.[x.id]; prog = r ? `<div class="st-prog"><div class="goal ${r.best>=r.n?'done':''}"><i style="width:${r.n?r.best/r.n*100:0}%"></i></div><span class="small muted num">${tr('st.best',{s:r.best,n:r.n})}</span></div>` : ''; }
   }
   const btn = teacher ? `<button class="btn ghost sm" data-act="st-open" data-id="${esc(x.id)}" data-uid="${esc(uid||'')}">👁 ${tr('st.try')}</button><button class="btn sm" data-act="st-edit" data-id="${esc(x.id)}" data-uid="${esc(uid||'')}">${tr('edit')}</button>`
-    : hasStudy() ? `<button class="btn pen sm" data-act="st-open" data-id="${esc(x.id)}">${tr(x.kind==='test'?'st.startTest':'st.start')}</button>` : `<span class="small faint">${I.lock}</span>`;
+    : hasStudy() ? `<button class="btn pen sm" data-act="st-open" data-id="${esc(x.id)}">${tr(x.kind==='test'?'st.startTest':x.kind==='words'?'st.practise':'st.start')}</button>` : `<span class="small faint">${I.lock}</span>`;
   return `<article class="st-card k-${x.kind} ${x.on===false?'off':''}"><div class="st-top"><span class="st-kind">${I[ST_IC[x.kind]]||''} ${tr('st.k.'+x.kind)}</span>${x.level?`<span class="pill">${esc(x.level)}</span>`:''}</div>
     <h3>${esc(x.title)}</h3>${x.desc?`<p class="small muted">${esc(x.desc)}</p>`:''}<p class="small faint">${tr('st.n.'+x.kind,{n:x.n||0,m:x.mins||0})}${x.on===false?' · '+tr('mk.hidden'):''}</p>
     ${prog}<div class="st-foot">${btn}</div></article>`;
 }
 function stFilter(sets){
   const f=S.view.f||'all', c={}; sets.forEach(x=>c[x.kind]=(c[x.kind]||0)+1);
+  if(sets.every(x=>x.kind==='words')) return '';
   return sets.length>2 ? `<div class="seg" style="margin-bottom:16px">${['all',...ST_KINDS].map(k=>`<button data-act="st-f" data-k="${k}" aria-pressed="${f===k}">${k==='all'?tr('learn.all'):tr('st.kp.'+k)} <span class="cnt-s num">${k==='all'?sets.length:(c[k]||0)}</span></button>`).join('')}</div>` : '';
 }
 function vStudyS(){
@@ -2919,7 +3115,8 @@ function vStudyT(){
       const state = r.until>now ? tr('st.activeTill',{d:esc(dayMonth(r.until))}) : r.pend ? tr('pm.st.wait') : r.until ? tr('st.ended',{d:esc(dayMonth(r.until))}) : '';
       return `<div class="section st-stu"><div class="st-stu-h">${avatar(r.name,r.uid)}<div style="min-width:0"><h3>${esc(r.name)} ${r.level?`<span class="pill">${esc(r.level)}</span>`:''} ${r.until>now&&!r.sets.length?`<span class="pill nw-st-hidden">${tr('st.needOne')}</span>`:''}</h3>
           <div class="small muted">${state}${r.sets.length?' · '+tr('st.stuLine',{t:Object.keys(sc.study||{}).length,c:cards}):''}</div></div>
-          <button class="btn primary sm" data-act="st-new" data-uid="${esc(r.uid)}">+ ${tr('st.newFor',{name:esc(r.name.split(' ')[0])})}</button></div>
+          <button class="btn primary sm" data-act="st-new" data-uid="${esc(r.uid)}">+ ${tr('st.newFor',{name:esc(r.name.split(' ')[0])})}</button>
+          <button class="btn ghost sm del-btn" data-act="pr-del" data-k="study" data-uid="${esc(r.uid)}" title="${esc(tr('pm.removeP'))}">${I.trash} <span>${tr('pm.remove')}</span></button></div>
         ${r.sets.length?`<div class="st-grid">${r.sets.map(x=>stCard(x,true,r.uid)).join('')}</div>`:`<p class="faint small">${tr('st.noSetsYet')}</p>`}</div>`; }).join('')
     :`<div class="empty section"><h3>${tr('st.noActive')}</h3><p>${tr('st.noActiveP')}</p></div>`}`;
 }
@@ -2930,7 +3127,29 @@ function vSet(){
   if(x.st==='wait') return top+`<div class="loading">${tr('nw.loading')}</div>`;
   if(x.st!=='ok') return top+`<div class="empty"><h3>${hasStudy()?tr('st.gone'):tr('st.locked')}</h3>${hasStudy()?'':`<p style="margin-top:12px"><button class="btn pen" data-act="pb-open" data-k="study">${tr('mk.buy')}</button></p>`}</div>`;
   const s={...x.d, title:x.d.title||meta?.title||''};
+  if(s.kind==="words") return top + vWordSet(s);
   return top + (s.kind==='cards' ? vCards(s) : s.kind==='test' ? vTest(s) : vQuiz(s));
+}
+// the word set runs in a sandboxed frame: it can't touch Lexora, it can only send back its height and scores
+function vWordSet(s){
+  const n=(s.words||[]).length;
+  return `<div class="page-head"><div><span class="label">${tr('st.k.words')}${s.level?' · '+esc(s.level):''}</span><h1>${esc(s.title)}</h1><p>${tr('st.wP',{n})}</p></div>
+    <button class="btn" data-act="st-dl" data-id="${esc(s.id)}">${I.down} ${tr('st.dlHtml')}</button></div>
+    <iframe class="wp-frame" id="wp-frame" data-id="${esc(s.id)}" sandbox="allow-scripts" title="${esc(s.title)}" srcdoc="${esc(wordsPage(s,true))}"></iframe>`;
+}
+window.addEventListener('message', e=>{
+  const f=$('#wp-frame'), m=e.data; if(!f || e.source!==f.contentWindow || !m || m.lexora==null || m.id!==f.dataset.id) return;
+  if(m.lexora==='h') f.style.height=Math.min(6000,Math.max(420,+m.h||0)+8)+'px';
+  if(m.lexora==='score' && ['quiz','test','match','spell'].includes(m.act) && S.mode==='student'){
+    const k=m.id+':'+m.act, sc=Math.max(0,Math.round(+m.s||0)), n=Math.max(1,Math.round(+m.n||1));
+    pmSaveScores(x=>{ const p=x.study[k]||{}; x.study[k]={best:Math.max(+p.best||0,Math.min(sc,n)), last:Math.min(sc,n), n, tries:(+p.tries||0)+1, at:nowTs()}; });
+  }
+});
+function downloadSet(id){
+  const s=S.stSets[id]?.d; if(!s) return;
+  const url=URL.createObjectURL(new Blob([wordsPage(s,false)],{type:'text/html;charset=utf-8'})), a=document.createElement('a');
+  a.href=url; a.download=(s.title||'words').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000);
+  toast(tr('nw.dlDone'));
 }
 function fcStart(s, keep){ const boxes=keep || (S.mode==='student'?(S.myScores?.cards?.[s.id]||{}):{});
   S.fc={id:s.id, order:(s.cards||[]).map((c,i)=>i).sort((a,b)=>(+boxes[a]||0)-(+boxes[b]||0) || Math.random()-.5), pos:0, flip:false, ok:0, again:0, boxes:{...boxes}}; }
@@ -3017,63 +3236,75 @@ const busyNow = () => (S.view.name==='set' && S.test && S.test.start && !S.test.
 
 /* teacher: set editor */
 function openSetEdit(id, uid){
-  if(!id){ const lvl=S.profiles[uid]?.level||'B1'; S.ste={id:newId(), uid, isNew:true, meta:{kind:'cards', title:'', level:lvl, desc:'', mins:15, on:true}, text:'', copies:[]}; go('setEdit'); return; }
+  if(!id){ const lvl=S.profiles[uid]?.level||'B1'; S.ste={id:newId(), uid, isNew:true, meta:{kind:'words', title:'', level:lvl, desc:'', on:true}, text:'', copies:[]}; go('setEdit'); return; }
   const m=(S.stIdx[uid]?.sets||[]).find(x=>x.id===id); if(!m) return;
-  const fill = d => { S.ste={id, uid, isNew:false, meta:{kind:m.kind, title:m.title, level:m.level||'B1', desc:m.desc||'', mins:+m.mins||15, on:m.on!==false}, text:m.kind==='cards'?cardsText(d?.cards):qsText(d?.qs), copies:[]}; go('setEdit'); };
+  const fill = d => { S.ste={id, uid, isNew:false, meta:{kind:m.kind, title:m.title, level:m.level||'B1', desc:m.desc||'', mins:+m.mins||15, on:m.on!==false},
+    text: m.kind==='words'?wordLinesText(d?.words):m.kind==='cards'?cardsText(d?.cards):qsText(d?.qs), copies:[]}; go('setEdit'); };
   const x=S.stSets[id]; if(x?.st==='ok') return fill(x.d);
   S.db.doc('study/'+id).get().then(s=>fill(s.exists?s.data():{})).catch(e=>dbErr(e,'premium'));
 }
-function steRead(){ const E=S.ste; if(!E || !$('#ste-title')) return; E.meta.title=$('#ste-title').value.trim(); E.meta.level=$('#ste-level').value; E.meta.desc=$('#ste-desc').value.trim();
-  E.meta.on=$('#ste-on').checked; E.copies=[...document.querySelectorAll('.ste-cp:checked')].map(x=>x.value); const m=$('#ste-mins'); if(m) E.meta.mins=Math.max(0,Math.min(180,Math.round(+m.value||0))); E.text=$('#ste-text').value; }
-const steCount = () => { const E=S.ste, el=$('#ste-count'); if(!E||!el) return; const t=$('#ste-text')?.value??E.text, n=E.meta.kind==='cards'?parseCards(t).length:parseQs(t).length; el.textContent=tr(E.meta.kind==='cards'?'st.e.cardsN':'st.e.qsN',{n}); el.classList.toggle('bad',!n && !!t.trim()); };
+function steRead(){ const E=S.ste; if(!E || !$('#ste-title')) return; E.meta.title=$('#ste-title').value.trim(); E.meta.level=$('#ste-level').value;
+  E.meta.on=$('#ste-on').checked; E.copies=[...document.querySelectorAll('.ste-cp:checked')].map(x=>x.value); E.text=$('#ste-text').value; }
+const steCount = () => { const E=S.ste, el=$('#ste-count'); if(!E||!el) return; const ws=parseWordLines($('#ste-text')?.value??E.text), miss=ws.filter(x=>!x.m).length;
+  el.textContent=tr('st.e.wordsN',{n:ws.length})+(miss?' · '+tr('st.e.noMeaning',{n:miss}):''); el.classList.toggle('bad',miss>0); };
 function vSetEdit(){
-  const E=S.ste; if(!E) return ''; const m=E.meta, cards=m.kind==='cards', nm=S.profiles[E.uid]?.name||S.passes[E.uid]?.name||'?', others=stStudents().filter(r=>r.uid!==E.uid && r.until>Date.now());
-  const ex = cards ? `bring up = to start talking about something | She brought up a good point.\nlook after = to take care of | I look after my little brother.\ngive up = to stop trying | Don't give up!`
-    : `She ___ to school every day.\n* goes\n- go\n- going\n> We add -s for he / she / it in the present simple.\n\nI have lived here ___ 2019.\n= since\n> Use "since" with a point in time.\n\nThe Earth goes around the Sun.\n* True\n- False`;
+  const E=S.ste; if(!E) return ''; const m=E.meta, nm=S.profiles[E.uid]?.name||S.passes[E.uid]?.name||'?', others=stStudents().filter(r=>r.uid!==E.uid && r.until>Date.now());
+  const ex=`look after = to take care of | She looks after her little brother. | g'amxo'rlik qilmoq\nreliable = that you can trust | My old phone is slow but reliable. | ishonchli\nborrow = to take something and give it back later | Can I borrow your pen? | qarzga olmoq`;
   return `<div class="pm-top"><button class="btn ghost sm" data-act="ste-back">${I.back} ${tr('st.name')}</button></div>
-  <div class="page-head"><div><span class="label row" style="gap:8px">${avatar(nm,E.uid)} ${tr('st.forWho',{name:esc(nm)})}</span><h1>${E.isNew?tr('st.newSet'):esc(m.title||tr('untitled'))}</h1><p>${tr('st.eP')}</p></div><button class="btn primary" data-act="ste-save">${tr('save')}</button></div>
+  <div class="page-head"><div><span class="label row" style="gap:8px">${avatar(nm,E.uid)} ${tr('st.forWho',{name:esc(nm)})}</span><h1>${E.isNew?tr('st.newSet'):esc(m.title||tr('untitled'))}</h1><p>${tr('st.weP')}</p></div><button class="btn primary" data-act="ste-save">${tr('save')}</button></div>
   <div class="ste-grid"><div class="card ste-form">
-    <div class="field"><span>${tr('st.kind')}</span><div class="seg">${ST_KINDS.map(k=>`<button type="button" data-act="ste-kind" data-k="${k}" aria-pressed="${m.kind===k}">${tr('st.k.'+k)}</button>`).join('')}</div><span class="small faint">${tr('st.kd.'+m.kind)}</span></div>
-    <label class="field"><span>${tr('bk.title')}</span><input class="inp" id="ste-title" maxlength="80" value="${esc(m.title)}" placeholder="${tr('st.titlePh.'+m.kind)}"></label>
-    <div class="lg-2"><label class="field"><span>${tr('st.level')}</span><select class="inp" id="ste-level">${LEVELS.map(l=>`<option ${m.level===l?'selected':''}>${l}</option>`).join('')}</select></label>
-      ${m.kind==='test'?`<label class="field"><span>${tr('st.mins')}</span><input class="inp num" id="ste-mins" type="number" min="0" max="180" value="${m.mins}"></label>`:'<span></span>'}</div>
-    <label class="field"><span>${tr('mk.desc')} <span class="faint">${tr('optional')}</span></span><input class="inp" id="ste-desc" maxlength="160" value="${esc(m.desc)}"></label>
-    <label class="field"><span>${cards?tr('st.e.cards'):tr('st.e.qs')}</span><textarea class="inp mono" id="ste-text" rows="16" placeholder="${esc(ex)}">${esc(E.text)}</textarea><span class="small faint" id="ste-count"></span></label>
-    <label class="row" style="gap:8px"><input type="checkbox" id="ste-on" ${m.on?'checked':''}> <span>${tr('st.showStu',{name:esc(nm.split(' ')[0])})}</span></label>
+    <div class="lg-2"><label class="field"><span>${tr('bk.title')}</span><input class="inp" id="ste-title" maxlength="80" value="${esc(m.title)}" placeholder="${tr('st.wTitlePh')}"></label>
+      <label class="field"><span>${tr('st.level')}</span><select class="inp" id="ste-level">${LEVELS.map(l=>`<option ${m.level===l?'selected':''}>${l}</option>`).join('')}</select></label></div>
+    <label class="field"><span>${tr('st.e.words')}</span><textarea class="inp mono" id="ste-text" rows="14" placeholder="${esc(ex)}">${esc(E.text)}</textarea><span class="small faint" id="ste-count"></span></label>
+    <label class="row" style="gap:8px"><input type="checkbox" id="ste-on" ${m.on!==false?'checked':''}> <span>${tr('st.showStu',{name:esc(nm.split(' ')[0])})}</span></label>
     ${E.isNew && others.length?`<div class="field"><span>${tr('st.alsoFor')} <span class="faint">${tr('optional')}</span></span><div class="row">${others.map(r=>`<label class="row" style="gap:6px"><input type="checkbox" class="ste-cp" value="${esc(r.uid)}" ${E.copies.includes(r.uid)?'checked':''}> ${esc(r.name)}</label>`).join('')}</div></div>`:''}
   </div><div class="ste-side">
-    <div class="card"><h3>${tr('st.howH')}</h3><p class="small muted">${cards?tr('st.howCards'):tr('st.howQs')}</p><pre>${esc(ex)}</pre></div>
-    <div class="card"><h3>${I.spark} ${tr('st.aiH')}</h3><p class="small muted">${tr('st.aiP')}</p>
-      <label class="field"><span>${tr('nw.aiTopic')}</span><input class="inp" id="ste-topic" maxlength="160" placeholder="${tr('st.topicPh')}"></label>
-      <label class="field"><span>${tr('st.aiN')}</span><input class="inp num" id="ste-n" type="number" min="3" max="60" value="${cards?20:10}"></label>
-      <button class="btn" data-act="ste-ai">${I.copy} ${tr('nw.aiCopy')}</button></div>
+    <div class="card"><h3>${I.spark} ${tr('st.wAiH')}</h3><ol class="em-steps small"><li>${tr('st.wAi1')}</li><li>${tr('st.wAi2')}</li><li>${tr('st.wAi3')}</li></ol>
+      <button class="btn" data-act="ste-ai">${I.copy} ${tr('nw.aiCopy')}</button>
+      <label class="field"><span>${tr('nw.aiPaste')}</span><textarea class="inp mono" id="ste-ai-in" rows="4" placeholder='{"words":[ … ]}'></textarea></label>
+      <button class="btn pen" data-act="ste-ai-in">${tr('st.wAiFill')}</button></div>
+    <div class="card"><h3>${tr('st.howH')}</h3><p class="small muted">${tr('st.wHow')}</p><pre>${esc(ex)}</pre></div>
+    <div class="card"><h3>${tr('st.wGets')}</h3><p class="small muted">${tr('st.wGetsP')}</p></div>
   </div></div>
   ${E.isNew?'':`<div class="row" style="margin-top:20px"><button class="btn ghost del-btn" data-act="ste-del">${I.trash} <span>${tr('st.del')}</span></button></div>`}`;
 }
-function stPrompt(kind, level, n, topic){
-  return kind==='cards'
-    ? `Make ${n} flashcards for ${level} (CEFR) learners of English${topic?` about: ${topic}`:''}.\nWrite one card per line, exactly like this:\nword or phrase = a simple meaning in English | an example sentence\nUse words that fit the level. No numbering, no headings, no extra text.`
-    : `Make ${n} ${kind==='test'?'test':'quiz'} questions for ${level} (CEFR) learners of English${topic?` about: ${topic}`:''}.\nMix multiple-choice questions (3 or 4 options) and fill-in-the-gap questions where the learner types the answer. Leave one empty line between questions. Write them exactly like this, with no numbering, no headings and no extra text:\n\nShe ___ to school every day.\n* goes\n- go\n- going\n> We add -s for he / she / it in the present simple.\n\nI have lived here ___ 2019.\n= since\n> Use "since" with a point in time.\n\nA line starting with * is the right option, lines starting with - are wrong options. A line starting with = is the answer the learner must type (if several answers are right, separate them with /). A line starting with > is a short, friendly explanation.`;
-}
-async function stWriteSet(uid, id, m, items){
-  const cards=m.kind==='cards';
-  const doc={id, uid, kind:m.kind, title:m.title, level:m.level, desc:m.desc, mins:m.kind==='test'?m.mins:0, at:nowTs(), ...(cards?{cards:items}:{qs:items})};
-  const meta={id, kind:m.kind, title:m.title, level:m.level, desc:m.desc, n:items.length, mins:doc.mins, on:m.on};
+
+async function stWriteSet(uid, id, m, words){
+  const doc={id, uid, kind:'words', title:m.title, level:m.level, at:nowTs(), words};
+  const meta={id, kind:'words', title:m.title, level:m.level, desc:'', n:words.length, mins:0, on:m.on!==false};
   await S.db.doc('study/'+id).set(doc); S.stSets[id]={st:'ok', d:doc};
-  const idx=clone(S.stIdx[uid])||{sets:[]}; idx.sets=idx.sets||[]; const i=idx.sets.findIndex(x=>x.id===id); i>=0?idx.sets[i]=meta:idx.sets.push(meta);
+  const idx=clone(S.stIdx[uid])||{sets:[]}; idx.sets=(idx.sets||[]); const i=idx.sets.findIndex(x=>x.id===id); i>=0?idx.sets[i]=meta:idx.sets.push(meta);
   await S.db.doc('studyIndex/'+uid).set(idx); S.stIdx[uid]=idx;
 }
 async function steSave(){
-  steRead(); const E=S.ste, m=E.meta, cards=m.kind==='cards';
+  steRead(); const E=S.ste, m=E.meta;
   if(!m.title){ toast(tr('bk.needTitle')); return; }
-  const items=cards?parseCards(E.text):parseQs(E.text); if(!items.length){ toast(tr('st.e.none')); return; }
+  const words=parseWordLines(E.text); if(!words.length){ toast(tr('st.e.none')); return; }
+  if(words.some(x=>!x.m)){ toast(tr('st.e.needM')); return; }
   try{
-    await stWriteSet(E.uid, E.id, m, items);
-    for(const u of (E.isNew?E.copies:[])) await stWriteSet(u, newId(), m, clone(items));
+    await stWriteSet(E.uid, E.id, m, words);
+    for(const u of (E.isNew?E.copies:[])) await stWriteSet(u, newId(), m, clone(words));
   }catch(e){ dbErr(e,'premium'); return; }
-  const isNew=E.isNew, uid=E.uid; toast(tr('st.e.saved',{n:items.length}));
+  const isNew=E.isNew, uid=E.uid; toast(tr('st.e.saved',{n:words.length}));
   if(isNew && hasPassNow(uid,'study')) notify('order',[uid,...E.copies],()=>({subject:tr('st.emNew',{t:m.title}), kicker:tr('st.name'), lines:[tr('st.emNewL')]}));
   S.ste=null; go('study');
+}
+function openPmRemove(uid, k){
+  const nm=S.profiles[uid]?.name||S.passes[uid]?.name||'?', what=pmName(k);
+  showDlg(`<form id="rm-form" novalidate>${dlgHead(tr('pm.removeH',{name:esc(nm)}), esc(what))}<div class="dlg-body">
+    <ul class="pm-feats rm-list">${['rm1','rm2',k==='news'?'rm3n':'rm3s','rm4'].map(x=>`<li>${tr('pm.'+x)}</li>`).join('')}</ul><p class="small muted">${tr('pm.rmKeep')}</p></div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-act="dlg-close">${tr('cancel')}</button><button class="btn pen" id="rm-go">${I.trash} ${tr('pm.remove')}</button></div></form>`, {type:'rm'});
+  $('#rm-form').addEventListener('submit', async e=>{ e.preventDefault(); $('#rm-go').disabled=true;
+    try{ await pmRemove(uid,k); closeDlg(); toast(tr('pm.removed')); refresh(); }catch(e2){ $('#rm-go').disabled=false; dbErr(e2,'premium'); } });
+}
+// remove a student from the newspaper or the pack: access ends now, their content and requests go too
+async function pmRemove(uid, k){
+  const db=S.db, pass=clone(S.passes[uid])||{}, ords=clone(S.pOrders[uid])||null;
+  delete pass[k]; if(pass.no && ords) for(const it of (ords.items||[])) if(it.kind===k) delete pass.no[it.id];
+  await db.doc('passes/'+uid).set(pass); S.passes[uid]=pass;
+  if(ords){ ords.items=(ords.items||[]).filter(it=>it.kind!==k); await db.doc('passOrders/'+uid).set(ords); S.pOrders[uid]=ords; }
+  if(k==='news'){ for(const d of (await db.collection('newsDays').where('uid',uid).get()).docs){ await db.doc('newsDays/'+d.id).delete(); delete S.nwDays[d.id]; } }
+  else { for(const x of (S.stIdx[uid]?.sets||[])) await db.doc('study/'+x.id).delete(); await db.doc('studyIndex/'+uid).delete(); delete S.stIdx[uid]; }
 }
 const hasPassNow = (uid,k) => passUntil(S.passes[uid],k)>Date.now();
 /* ---------- example class: a few issues and sets so the pages can be tried without Firebase ---------- */
@@ -3084,10 +3315,8 @@ function seedPremium(db){
   const who={'ex-aziza':'B1','ex-madina':'B2','ex-timur':'A2'};
   const put = (date, extras, levels) => { for(const [uid,l] of Object.entries(who)) if(levels[l]) db.m.set('newsDays/'+nwId(uid,date), {uid, date, week:weekOf(date), on:true, releaseAt:releaseMs(date,7), extras, stories:levels[l].stories.map(x=>({...x})), at:ago(2)}); };
   db.m.set('premium/main', {news:{...PM_DEF.news}, study:{...PM_DEF.study}});
-  db.m.set('studyIndex/ex-aziza', {sets:[
-    {id:'ex-s1', kind:'cards', title:'Phrasal verbs for every day', level:'B1', desc:'Get up, look for, give up and more.', n:10, mins:0, on:true},
-    {id:'ex-s2', kind:'quiz', title:'Present perfect or past simple?', level:'B1', desc:'Choose the right tense and see why.', n:6, mins:0, on:true}]});
-  db.m.set('studyIndex/ex-timur', {sets:[{id:'ex-s3', kind:'test', title:'A2 grammar check', level:'A2', desc:'Eight questions, ten minutes.', n:8, mins:10, on:true}]});
+  db.m.set('studyIndex/ex-aziza', {sets:[{id:'ex-s1', kind:'words', title:'Lesson 12: everyday phrasal verbs', level:'B1', desc:'', n:10, mins:0, on:true}]});
+  db.m.set('studyIndex/ex-timur', {sets:[{id:'ex-s3', kind:'words', title:'Lesson 8: at the market', level:'A2', desc:'', n:6, mins:0, on:true}]});
   put(y,
     {word:{w:'curious',m:'wanting to know or learn about something',ex:'Cats are very curious animals.'}, idiom:{w:'cat nap',m:'a short sleep during the day',ex:'I had a cat nap after lunch.'},
      fact:'A group of cats is called a clowder.', joke:'Why did the cat sit on the computer? To keep an eye on the mouse!', riddle:{q:'What has keys but can’t open locks?',a:'A piano'}, write:'Do you have a pet? Write about it, or about the pet you would like to have.'},
@@ -3130,83 +3359,23 @@ function seedPremium(db){
   db.m.set('passes/ex-timur', {name:'Timur (example)'});
   db.m.set('passOrders/ex-aziza', {name:'Aziza (example)', items:[{id:'po1',kind:'news',method:'click',ref:'',price:50000,at:ago(12)},{id:'po2',kind:'study',method:'payme',ref:'',price:50000,at:ago(10)}]});
   db.m.set('passOrders/ex-timur', {name:'Timur (example)', items:[{id:'po3',kind:'news',method:'click',ref:'last digits 4821',price:50000,at:ago(0.1)},{id:'po4',kind:'study',method:'card',ref:'',price:50000,at:ago(0.05)}]});
-  db.m.set('passScores/ex-aziza', {name:'Aziza (example)', news:{[y]:{'n1':{a:[1,0,1,1],s:3,n:4,at:ago(1)}}}, study:{'ex-s2':{best:5,last:5,n:6,tries:1,at:ago(4)}}, cards:{'ex-s1':{0:3,1:3,2:3,3:1,4:2}}});
-  db.m.set('study/ex-s1', {id:'ex-s1', uid:'ex-aziza', kind:'cards', title:'Phrasal verbs for every day', level:'B1', desc:'', mins:0, cards:parseCards(`get up = to leave your bed after sleeping | I get up at seven every day.
-look for = to try to find | I'm looking for my keys.
-give up = to stop trying | Don't give up, you can do it!
-turn on = to make a machine start working | Can you turn on the light?
-find out = to learn a fact or some news | I found out that the shop was closed.
-put on = to start wearing clothes | Put on your coat, it's cold.
-pick up = to lift something, or to collect someone | I'll pick you up at the station.
-run out of = to have no more of something | We've run out of milk.
-look after = to take care of | She looks after her little brother.
-come back = to return | When will you come back from Samarkand?`)});
-  db.m.set('study/ex-s2', {id:'ex-s2', uid:'ex-aziza', kind:'quiz', title:'Present perfect or past simple?', level:'B1', desc:'Choose the right tense and see why.', mins:0, qs:parseQs(`I ___ to Samarkand last summer.
-* went
-- have gone
-- have been going
-> "Last summer" is a finished time, so we use the past simple.
-
-She ___ her homework yet.
-- didn't finish
-* hasn't finished
-- doesn't finish
-> "Yet" usually goes with the present perfect.
-
-We ___ each other since 2019.
-* have known
-- knew
-- know
-> "Since 2019" means from then until now: present perfect.
-
-Have you ever ___ plov?
-= cooked / made
-> After "have you ever" we use the past participle.
-
-When ___ you arrive?
-* did
-- have
-- has
-> Questions with "when" ask about a finished time: past simple.
-
-I've lost my phone. I can't find it ___.
-= anywhere
-> "Anywhere" in negative sentences.`)});
-  db.m.set('study/ex-s3', {id:'ex-s3', uid:'ex-timur', kind:'test', title:'A2 grammar check', level:'A2', desc:'Eight questions, ten minutes.', mins:10, qs:parseQs(`My brother ___ football every Sunday.
-* plays
-- play
-- playing
-
-There ___ two books on the table.
-- is
-* are
-- be
-
-I'm ___ than my sister.
-* taller
-- more tall
-- tallest
-
-She can ___ three languages.
-= speak
-
-We didn't ___ to the party.
-* go
-- went
-- going
-
-How ___ apples do you want?
-* many
-- much
-- lot
-
-The opposite of "cheap" is ___.
-= expensive
-
-They ___ TV when I called.
-* were watching
-- watched
-- are watching`)});
+  db.m.set('passScores/ex-aziza', {name:'Aziza (example)', news:{[y]:{'n1':{a:[1,0,1,1],s:3,n:4,at:ago(1)}}}, study:{'ex-s1:quiz':{best:8,last:8,n:10,tries:2,at:ago(4)}}, cards:{}});
+  db.m.set('study/ex-s1', {id:'ex-s1', uid:'ex-aziza', kind:'words', title:'Lesson 12: everyday phrasal verbs', level:'B1', words:parseWordLines(`get up = to leave your bed after sleeping | I get up at seven every day. | turmoq
+look for = to try to find | I'm looking for my keys. | qidirmoq
+give up = to stop trying | Don't give up, you can do it! | taslim bo'lmoq
+turn on = to make a machine start working | Can you turn on the light? | yoqmoq
+find out = to learn a fact or some news | I found out that the shop was closed. | bilib olmoq
+put on = to start wearing clothes | Put on your coat, it's cold. | kiymoq
+pick up = to collect someone | I'll pick up my sister from school. | olib ketmoq
+run out of = to have no more of something | We've run out of milk. | tugab qolmoq
+look after = to take care of | She looks after her little brother. | g'amxo'rlik qilmoq
+come back = to return | When will you come back from Samarkand? | qaytib kelmoq`)});
+  db.m.set('study/ex-s3', {id:'ex-s3', uid:'ex-timur', kind:'words', title:'Lesson 8: at the market', level:'A2', words:parseWordLines(`cheap = not costing much money | Apples are cheap in autumn. | arzon
+expensive = costing a lot of money | This phone is very expensive. | qimmat
+kilo = a kilogram, 1000 grams | Can I have a kilo of tomatoes? | kilo
+change = the money you get back when you pay too much | Here is your change. | qaytim
+fresh = recently made or picked | The bread is still fresh. | yangi
+seller = a person who sells things | The seller gave me a free melon. | sotuvchi`)});
 }
 
 
@@ -4261,7 +4430,13 @@ document.addEventListener('click', async ev => {
     case 'ste-kind': steRead(); S.ste.meta.kind=b.dataset.k; S.ste.dirty=true; renderMain(); break;
     case 'ste-save': b.disabled=true; await steSave(); if(b.isConnected) b.disabled=false; break;
     case 'ste-back': { if(S.ste?.dirty && !b.dataset.armed){ b.dataset.armed='1'; b.innerHTML=`${I.back} ${tr('nw.e.leave')}`; break; } S.ste=null; go('study'); break; }
-    case 'ste-ai': { steRead(); const m=S.ste.meta, t=stPrompt(m.kind, m.level, Math.max(3,Math.min(60,+$('#ste-n').value||10)), $('#ste-topic').value.trim()); try{ await navigator.clipboard.writeText(t); toast(tr('st.aiCopied')); }catch(e){ toast(tr('em.copyFail')); } break; }
+    case 'pr-del': openPmRemove(b.dataset.uid, b.dataset.k); break;
+    case 'st-dl': downloadSet(b.dataset.id); break;
+    case 'ste-ai-in': { steRead(); const mine=parseWordLines(S.ste.text).map(x=>x.w); if(!mine.length){ toast(tr('st.wFirst')); break; }
+      const res=wordsFromAi($('#ste-ai-in').value, mine); if(!res){ toast(tr('nw.aiBad')); break; }
+      const old=new Map(parseWordLines(S.ste.text).map(x=>[wNorm(x.w),x])), merged=res.map(x=>{ const o=old.get(wNorm(x.w))||{}; return {w:x.w, m:o.m||x.m, ex:o.ex||x.ex, uz:o.uz||x.uz}; });
+      S.ste.text=wordLinesText(merged); S.ste.dirty=true; renderMain(); after.setEdit(); const miss=merged.filter(x=>!x.m).length; toast(miss?tr('st.e.noMeaning',{n:miss}):tr('st.wFilled',{n:merged.length})); break; }
+    case 'ste-ai': { steRead(); const ws=parseWordLines(S.ste.text).map(x=>x.w); if(!ws.length){ toast(tr('st.wFirst')); break; } const t=wordsPrompt(ws, S.ste.meta.level); try{ await navigator.clipboard.writeText(t); toast(tr('st.aiCopied')); }catch(e){ const i=$('#ste-ai-in'); i.value=t; i.select(); toast(tr('t.selected')); } break; }
     case 'ste-del': { if(!armDel(b)) break; const {id,uid}=S.ste, idx=clone(S.stIdx[uid])||{sets:[]}; idx.sets=(idx.sets||[]).filter(x=>x.id!==id);
       try{ await S.db.doc('study/'+id).delete(); await S.db.doc('studyIndex/'+uid).set(idx); S.stIdx[uid]=idx; toast(tr('bd.deleted')); S.ste=null; go('study'); }catch(e){ dbErr(e,'premium'); } break; }
     case 'bk-cancel': { if(b.classList.contains('del-btn') && !armDel(b)) break; const next=clone(S.myBook)||{items:[]}; next.items=(next.items||[]).filter(x=>x.id!==b.dataset.id); try{ await S.db.doc('bookings/'+S.uid).set(next); toast(b.classList.contains('del-btn')?tr('bd.deleted'):tr('bk.cancelled')); }catch(e){ dbErr(e,'book'); } break; }
