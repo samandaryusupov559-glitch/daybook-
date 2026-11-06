@@ -3227,7 +3227,7 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents);
     if (d.secret !== SECRET) return out({ ok: false, error: 'wrong secret' });
     if (d.action === 'news') return out(saveNews(d));
-    if (d.test && !(d.to || d.bcc || []).length) { ensureTrigger(); return out({ ok: true, v: 3, left: MailApp.getRemainingDailyQuota() }); }
+    if (d.test && !(d.to || d.bcc || []).length) { let timer = true; try { ensureTrigger(); } catch (err) { timer = false; } return out({ ok: true, v: 3, timer: timer, left: MailApp.getRemainingDailyQuota() }); }
     const ok = x => /^[^@\\s,;<>]+@[^@\\s,;<>]+\\.[^@\\s,;<>]+$/.test(x);
     const list = (d.to || d.bcc || []).filter(ok).slice(0, 50);
     if (!list.length) return out({ ok: false, v: 3, error: 'no recipients' });
@@ -3258,7 +3258,7 @@ function saveNews(d) {
     try { if (JSON.parse(all[k]).date >= from) P.deleteProperty(k); } catch (e) { P.deleteProperty(k); }
   });
   if (Object.keys(keep).length) P.setProperties(keep, false);
-  ensureTrigger();
+  try { ensureTrigger(); } catch (err) { return { ok: true, v: 3, saved: Object.keys(keep).length, timer: false }; }
   return { ok: true, v: 3, saved: Object.keys(keep).length };
 }
 function ensureTrigger() {
