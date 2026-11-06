@@ -139,5 +139,58 @@ service cloud.firestore {
       allow read: if isMe(uid) || isTeacher();
       allow write: if isTeacher();
     }
+
+    // ---------- Premium products in the Shop: the daily newspaper and the practice pack ----------
+    // Both are written by the teacher for each paying student personally.
+    // Prices and settings: everyone signed in reads them.
+    match /premium/{doc} {
+      allow read: if signedIn();
+      allow write: if isTeacher();
+    }
+    // Who may read what, and until when. Only the teacher writes it, after checking the money arrived.
+    match /passes/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+    }
+    function paidUntil(kind) {
+      return exists(/databases/$(database)/documents/passes/$(request.auth.uid))
+        && get(/databases/$(database)/documents/passes/$(request.auth.uid)).data.get(kind, {}).get('until', 0) > request.time.toMillis();
+    }
+    // One student's newspaper issue for one day (id: uid_date). Only that student, only once it is out,
+    // only while their subscription runs.
+    match /newsDays/{id} {
+      allow read: if isTeacher()
+        || (signedIn()
+            && resource.data.uid == request.auth.uid
+            && request.time.toMillis() >= resource.data.releaseAt
+            && paidUntil('news'));
+      allow write: if isTeacher();
+    }
+    // One student's practice set: only that student, while their pack is open.
+    match /study/{id} {
+      allow read: if isTeacher()
+        || (signedIn() && resource.data.uid == request.auth.uid && paidUntil('study'));
+      allow write: if isTeacher();
+    }
+    // The list of a student's sets (titles only).
+    match /studyIndex/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher();
+    }
+    // "I paid" requests for the newspaper / the pack. Changes nothing by itself.
+    match /passOrders/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher()
+        || (isMe(uid)
+            && request.resource.data.keys().hasOnly(['name', 'items'])
+            && request.resource.data.items is list
+            && request.resource.data.items.size() <= 50);
+    }
+    // A student's own quiz answers and flashcard progress.
+    match /passScores/{uid} {
+      allow read: if isMe(uid) || isTeacher();
+      allow write: if isTeacher()
+        || (isMe(uid) && request.resource.data.keys().hasOnly(['name', 'news', 'study', 'cards']));
+    }
   }
 }
